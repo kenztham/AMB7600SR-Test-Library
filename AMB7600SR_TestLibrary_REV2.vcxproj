@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0A56226A-D517-4686-930B-AA156591C778}</ProjectGuid>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>AMB7600SR_TestLibrary_REV2</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+    </Link>
+    <PostBuildEvent>
+      <Command>mkdir "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2"
+copy "$(TargetPath)" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2\$(TargetFileName)"
+copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2"</Command>
+    </PostBuildEvent>
+    <Xdcmake>
+      <OutputFile>..\..\..\..\TestPrograms\SampleProfile\$(TargetName)\$(TargetName).xml</OutputFile>
+    </Xdcmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+    </Link>
+    <PostBuildEvent>
+      <Command>mkdir "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2"
+copy "$(TargetPath)" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2\$(TargetFileName)"
+copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="Aemulus.Hardware.ACM">
+      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.ACM.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Hardware.CM">
+      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.CM.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Hardware.DIO">
+      <HintPath>..\..\..\..\..\bin\x64\Aemulus.Hardware.DIO.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Hardware.DM">
+      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.DM.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Hardware.ResourceManager">
+      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.ResourceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Hardware.SMU">
+      <HintPath>..\..\..\..\..\bin\x64\Aemulus.Hardware.SMU.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Tech.Controls">
+      <HintPath>..\..\..\..\..\bin\Aemulus.Tech.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Tech.Flow.AssemblyMap">
+      <HintPath>..\..\..\..\..\bin\Aemulus.Tech.Flow.AssemblyMap.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.TestLib.Utility">
+      <HintPath>..\..\..\..\..\bin\x64\Aemulus.TestLib.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="libSync">
+      <HintPath>..\..\..\..\..\bin\libSync.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="Aemulus.Tech.Flow.Core">
+      <HintPath>..\..\..\..\..\bin\Aemulus.Tech.Flow.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AMB7600SR\AMB7600SR.h" />
+    <ClInclude Include="Test Function\Aemulus.Hardware.ACM.h" />
+    <ClInclude Include="Test Function\Aemulus.Hardware.AMSRF.h" />
+    <ClInclude Include="Test Function\Aemulus.Hardware.CM.h" />
+    <ClInclude Include="Test Function\Aemulus.Hardware.DIO.h" />
+    <ClInclude Include="Test Function\Aemulus.Hardware.DM.h" />
+    <ClInclude Include="Test Function\Aemulus.Hardware.SMU.h" />
+    <ClInclude Include="Test Function\Aemulus.Hardware.TMU.h" />
+    <ClInclude Include="Test Function\Defines.h" />
+    <ClInclude Include="Test Function\Enum.h" />
+    <ClInclude Include="Test Function\Globals.h" />
+    <ClInclude Include="Test Function\AppLevelException.h" />
+    <ClInclude Include="Test Function\TestFunction.h" />
+    <ClInclude Include="Test Function\TF-Macro.h" />
+    <ClInclude Include="Test Method\TestTimeProfiling.h" />
+    <ClInclude Include="TestProgram.h" />
+    <ClInclude Include="UserDefines.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AMB7600SR\AM400eUtility.cpp" />
+    <ClCompile Include="AMB7600SR\AMB7600SR.cpp" />
+    <ClCompile Include="AMB7600SR\AMSRFUtility.cpp" />
+    <ClCompile Include="AMB7600SR\CM400eUtility.cpp" />
+    <ClCompile Include="AMB7600SR\DM400eUtility.cpp" />
+    <ClCompile Include="AMB7600SR\IOM421eUtility.cpp" />
+    <ClCompile Include="AMB7600SR\RFSiteConfig.cpp" />
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Test Function\Files.cpp" />
+    <ClCompile Include="Test Function\Globals.cpp" />
+    <ClCompile Include="Test Function\techFlow.cpp" />
+    <ClCompile Include="Test Function\TestFunction.cpp" />
+    <ClCompile Include="Test Function\Threads.cpp" />
+    <ClCompile Include="Test Method\AMB7600SR_DC.cpp" />
+    <ClCompile Include="Test Method\AMB7600SR_Digital.cpp" />
+    <ClCompile Include="Test Method\AMB7600SR_RF_CW.cpp" />
+    <ClCompile Include="Test Method\Methods.cpp" />
+    <ClCompile Include="Test Method\TestMethod.cpp" />
+    <ClCompile Include="Test Method\TestTimeProfiling.cpp" />
+    <ClCompile Include="TestProgram.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RTPlotter\gnuplot\gnuplot.exe" />
+    <None Include="RTPlotter\gnuplot\libcaca-0.dll" />
+    <None Include="RTPlotter\gnuplot\libcairo-2.dll" />
+    <None Include="RTPlotter\gnuplot\libexpat-1.dll" />
+    <None Include="RTPlotter\gnuplot\libffi-6.dll" />
+    <None Include="RTPlotter\gnuplot\libfontconfig-1.dll" />
+    <None Include="RTPlotter\gnuplot\libfreetype-6.dll" />
+    <None Include="RTPlotter\gnuplot\libgcc_s_dw2-1.dll" />
+    <None Include="RTPlotter\gnuplot\libgd-3.dll" />
+    <None Include="RTPlotter\gnuplot\libglib-2.0-0.dll" />
+    <None Include="RTPlotter\gnuplot\libgobject-2.0-0.dll" />
+    <None Include="RTPlotter\gnuplot\libiconv-2.dll" />
+    <None Include="RTPlotter\gnuplot\libintl-8.dll" />
+    <None Include="RTPlotter\gnuplot\libjpeg-9.dll" />
+    <None Include="RTPlotter\gnuplot\libpango-1.0-0.dll" />
+    <None Include="RTPlotter\gnuplot\libpangocairo-1.0-0.dll" />
+    <None Include="RTPlotter\gnuplot\libpangowin32-1.0-0.dll" />
+    <None Include="RTPlotter\gnuplot\libpixman-1-0.dll" />
+    <None Include="RTPlotter\gnuplot\libpng16-16.dll" />
+    <None Include="RTPlotter\gnuplot\libstdc++-6.dll" />
+    <None Include="RTPlotter\gnuplot\lua53.dll" />
+    <None Include="RTPlotter\gnuplot\Qt5Core.dll" />
+    <None Include="RTPlotter\gnuplot\Qt5Gui.dll" />
+    <None Include="RTPlotter\gnuplot\Qt5Network.dll" />
+    <None Include="RTPlotter\gnuplot\Qt5PrintSupport.dll" />
+    <None Include="RTPlotter\gnuplot\Qt5Svg.dll" />
+    <None Include="RTPlotter\gnuplot\Qt5Widgets.dll" />
+    <None Include="RTPlotter\gnuplot\wxbase30u_gcc_custom.dll" />
+    <None Include="RTPlotter\gnuplot\wxmsw30u_core_gcc_custom.dll" />
+    <None Include="RTPlotter\gnuplot\zlib1.dll" />
+    <None Include="RTPlotter\IDDS_EX_SCCB_STRS_DOVDD.dat" />
+    <None Include="RTPlotter\RTPlot.exe" />
+    <None Include="RTPlotter\RTPlotterSetup.bat" />
+    <None Include="RTPlotter\RTPlot_setting.ini" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
