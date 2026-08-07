@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 14 for Windows Desktop
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AMB7600SR_TestLibrary_REV2P1", "AMB7600SR_TestLibrary_REV2P1.vcxproj", "{68E6CD1E-48B0-46D2-9783-06D586449081}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AMB7600SR_TestLibrary_REV2", "AMB7600SR_TestLibrary_REV2.vcxproj", "{832D08D7-A92F-4FBE-95B5-C93F7B45EDAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68E6CD1E-48B0-46D2-9783-06D586449081}.Debug|x64.ActiveCfg = Debug|x64
-		{68E6CD1E-48B0-46D2-9783-06D586449081}.Debug|x64.Build.0 = Debug|x64
-		{68E6CD1E-48B0-46D2-9783-06D586449081}.Release|x64.ActiveCfg = Release|x64
-		{68E6CD1E-48B0-46D2-9783-06D586449081}.Release|x64.Build.0 = Release|x64
+		{832D08D7-A92F-4FBE-95B5-C93F7B45EDAD}.Debug|x64.ActiveCfg = Debug|x64
+		{832D08D7-A92F-4FBE-95B5-C93F7B45EDAD}.Debug|x64.Build.0 = Debug|x64
+		{832D08D7-A92F-4FBE-95B5-C93F7B45EDAD}.Release|x64.ActiveCfg = Release|x64
+		{832D08D7-A92F-4FBE-95B5-C93F7B45EDAD}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

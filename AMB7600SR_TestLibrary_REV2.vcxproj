@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{68E6CD1E-48B0-46D2-9783-06D586449081}</ProjectGuid>
+    <ProjectGuid>{832D08D7-A92F-4FBE-95B5-C93F7B45EDAD}</ProjectGuid>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>AMB7600SR_TestLibrary_REV2P1</RootNamespace>
+    <RootNamespace>AMB7600SR_TestLibrary_REV2</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -62,9 +62,9 @@
       <AdditionalDependencies />
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2P1"
-copy "$(TargetPath)" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2P1\$(TargetFileName)"
-copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2P1"</Command>
+      <Command>mkdir "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2"
+copy "$(TargetPath)" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2\$(TargetFileName)"
+copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2"</Command>
     </PostBuildEvent>
     <Xdcmake>
       <OutputFile>..\..\..\..\TestPrograms\SampleProfile\$(TargetName)\$(TargetName).xml</OutputFile>
@@ -80,9 +80,9 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
       <AdditionalDependencies />
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2P1"
-copy "$(TargetPath)" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2P1\$(TargetFileName)"
-copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2P1"</Command>
+      <Command>mkdir "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2"
+copy "$(TargetPath)" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2\$(TargetFileName)"
+copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

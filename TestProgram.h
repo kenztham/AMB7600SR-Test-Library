@@ -38,7 +38,7 @@ using namespace Aemulus::Tech::Flow;
 using namespace Aemulus::TestLib::Utility;
 using namespace Aemulus::TestLib::RF::Utility;
 
-namespace AMB7600SR_TestLibrary_REV2P1
+namespace AMB7600SR_TestLibrary_REV2
 {
 	public ref class TestProgram : ITestProgram
 	{

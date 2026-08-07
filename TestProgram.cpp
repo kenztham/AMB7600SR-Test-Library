@@ -1,6 +1,6 @@
 ﻿#include "TestProgram.h"
 
-namespace AMB7600SR_TestLibrary_REV2P1
+namespace AMB7600SR_TestLibrary_REV2
 {
 	// TestProgram Constructor
 	TestProgram::TestProgram(void)
