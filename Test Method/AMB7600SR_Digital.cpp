@@ -2,203 +2,11 @@
 
 namespace Functions
 {
-	//DM_Test Methods
-	void AMB7600SRTestLibrary::TM_MIPIReadVector(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
-	{
-		/*****************************************************************************************************
-		** TM_MIPIReadVector
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method DMCase_MIPIReadVector");
-
-			testParameterCount = 1;
-
-			//Test Method Compulsory Variable
-			String^ vectorFileName = nullptr;
-			String^ moduleAlias = nullptr;
-			String^ dataPinAlias = nullptr;
-			double channelInputDelay = 0;
-
-			//Test Method Option Variable
-			bool operationSweepChannelInputDelay = false;
-			double startChannelInputDelay = 0;
-			double stopChannelInputDelay = 0;
-			double intervalChannelInputDelay = 0;
-
-			//Operation Variable
-			int Result = 0.0;
-			int VectorFailCount = 999;
-			int VectorFirstFail = 0.0;
-			int DPinSet = 999;
-			int PEAttSet = 999;
-			String ^ StrToFileSweep = nullptr;
-			String ^ FileSweepName = tl->glob->TestProperty[testSite].TestItemName + "_" + testParameterName + "_SweepChannelInputDelay_S" + tl->glob->tf.TestSite.ToString() + "UUT" + testSite.ToString() + ".csv";
-			array<int>^ ReadHistoryRam_Data = gcnew array<int>(1);
-			String ^ TM = "MIPIReadVector_";
-			String^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
-			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
-
-			if ((bool)testConditionCollection->ContainsKey("VectorFileName"))
-			{
-				vectorFileName = (String^)tf_TestParameter_ConditionCast(testParameterName, "VectorFileName");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + "VectorFileName" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
-			{
-				moduleAlias = (String^)tf_TestParameter_ConditionCast(testParameterName, "ModuleAlias");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + "ModuleAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("DataPinAlias"))
-			{
-				dataPinAlias = (String^)tf_TestParameter_ConditionCast(testParameterName, "DataPinAlias");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + "DataPinAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("ChannelInputDelay"))
-			{
-				channelInputDelay = (double)tf_TestParameter_ConditionCast(testParameterName, "ChannelInputDelay");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + "ChannelInputDelay" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-			if (tl->glob->AWV.Debug == 1)
-			{
-				if ((bool)testConditionCollection->ContainsKey("SweepOperation"))
-				{
-					operationSweepChannelInputDelay = (bool)tf_TestParameter_ConditionCast(testParameterName, "SweepOperation");
-				}
-
-				if (operationSweepChannelInputDelay == true)
-				{
-					if ((bool)testConditionCollection->ContainsKey("StartChannelInputDelay"))
-					{
-						startChannelInputDelay = (double)tf_TestParameter_ConditionCast(testParameterName, "StartChannelInputDelay");
-					}
-					else
-					{
-						ErrorMessage = "Test Condition [" + TM + "StartChannelInputDelay" + "] is not found.";
-						throw gcnew Exception(ErrorMessage);
-					}
-
-					if ((bool)testConditionCollection->ContainsKey("StopChannelInputDelay"))
-					{
-						stopChannelInputDelay = (double)tf_TestParameter_ConditionCast(testParameterName, "StopChannelInputDelay");
-					}
-					else
-					{
-						ErrorMessage = "Test Condition [" + TM + "StopChannelInputDelay" + "] is not found.";
-						throw gcnew Exception(ErrorMessage);
-					}
-
-					if ((bool)testConditionCollection->ContainsKey("IncrementChannelInputDelay"))
-					{
-						intervalChannelInputDelay = (double)tf_TestParameter_ConditionCast(testParameterName, "IncrementChannelInputDelay");
-					}
-					else
-					{
-						ErrorMessage = "Test Condition [" + TM + "IncrementChannelInputDelay" + "] is not found.";
-						throw gcnew Exception(ErrorMessage);
-					}
-				}
-
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			//ReadVector
-			API_MIPI_Vector_Read(site, testSite, dataPinAlias, moduleAlias, channelInputDelay, vectorFileName, operationSweepChannelInputDelay, ReadHistoryRam_Data, VectorFailCount, VectorFirstFail);
-
-			if (tl->glob->AWV.Debug == 1)
-			{
-				if (operationSweepChannelInputDelay == true)
-				{
-					double channelInputDelay_Operation = 0;
-					array<int>^ ReadHistoryRam_Data_Operation = gcnew array<int>(1);
-					int VectorFailCount_Operation = 0;
-					int VectorFirstFail_Operation = 0;
-
-					FileLogger^ fileLogger = gcnew FileLogger(FILE_CONST_AEM_DEBUG);
-					StrToFileSweep = "ChannelInputDelay,Result,VectorFailCount,VectorFirstFail";
-					fileLogger->WriteToFile(FileSweepName, StrToFileSweep, LOGGER_CONST_OVERWRITE);
-
-					for (channelInputDelay_Operation = startChannelInputDelay; channelInputDelay_Operation <= stopChannelInputDelay; channelInputDelay_Operation = channelInputDelay_Operation + intervalChannelInputDelay)
-					{
-						API_MIPI_Vector_Read(site, testSite, dataPinAlias, moduleAlias, channelInputDelay_Operation, vectorFileName, operationSweepChannelInputDelay, ReadHistoryRam_Data_Operation, VectorFailCount_Operation, VectorFirstFail_Operation);
-						StrToFileSweep = channelInputDelay_Operation.ToString() + "," + (ReadHistoryRam_Data_Operation[0]).ToString() + "," + (VectorFailCount_Operation).ToString() + "," + (VectorFirstFail_Operation).ToString();
-						fileLogger->WriteToFile(FileSweepName, StrToFileSweep, LOGGER_CONST_APPEND);
-
-					}
-
-				}
-			}
-#pragma endregion "Test"
-
-#pragma region "Update Test Result"
-			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
-			if (tl->glob->AWV.Debug == 0)
-			{
-				Result = ReadHistoryRam_Data[0];
-			}
-			else
-			{
-				Result = VectorFailCount;
-			}
-
-			tl->glob->TestResults[testSite][testParameterNumber] = Result;
-
-			tl->WriteToLogger(testSite, "Done Executing Test Method DMCase_MIPIReadVector");
-
-#pragma endregion "Update Test Result"
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "TM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName),tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-
 	//DM-Control Methods
 	void AMB7600SRTestLibrary::CM_DMInit(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
-		** CM_DIODrivePin
+		** CM_DMInit
 		** Arguments:
 		**
 		**
@@ -276,7 +84,7 @@ namespace Functions
 	{
 		{
 			/*****************************************************************************************************
-			** CM_MIPIWriteVector
+			** CM_WriteVector
 			** Arguments:
 			**
 			**
@@ -348,10 +156,100 @@ namespace Functions
 			}
 		}
 	}
+	void AMB7600SRTestLibrary::CM_DMConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** CM_DMConfigureInputTriggerSelect
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMConfigureInputTriggerSelect");
+			//Control Method Compulsory Variable
+			int trigOutput0 = 0;
+			int trigOutput1 = 0;
+			String^ moduleAlias = nullptr;
+
+			//Operation Variable
+			String ^ ErrorMessage = nullptr;
+			String ^ CM = "DMConfigureInputTriggerSelect";
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				moduleAlias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("TriggerInput"))
+			{
+				ConditionInfo = testConditionCollection["TriggerInput"][site];
+				trigOutput0 = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TriggerInput" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("TriggerDelay"))
+			{
+				ConditionInfo = testConditionCollection["TriggerDelay"][site];
+				trigOutput1 = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TriggerDelay" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			//tl->CheckError(testSite, cm[testSite]->MapTriggerInToTriggerOut("CM400e", CM_CONST_TRIGGER_TRISTATE, 1));
+
+			DM_ConfigureInputTriggerSelect(testSite, moduleAlias, trigOutput0, trigOutput1);
+			//tl->CheckError(testSite, cm[testSite]->MapTriggerInToTriggerOut("CM400e", 1, 23));
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMConfigureInputTriggerSelect");
+
+
+#pragma endregion "Test"
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
 	void AMB7600SRTestLibrary::CM_DMConfigureOutputTriggerSelect(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
-		** CM_MIPIWriteVector
+		** CM_DMConfigureOutputTriggerSelect
 		** Arguments:
 		**
 		**
@@ -580,11 +478,23 @@ namespace Functions
 				{
 					for (int i = 0; i < TotalPMUCondition; i++)
 					{
-						if (controlCondition->Name == ( PMUCondition[i] + "_" + PMUPinset.ToString()))
+						if (PMUPinset == 0)
 						{
-							PMUConditionExist[i] = true;
-							Count++;
-							break;
+							if (controlCondition->Name == (PMUCondition[i]))
+							{
+								PMUConditionExist[i] = true;
+								Count++;
+								break;
+							}
+						}
+						else
+						{
+							if (controlCondition->Name == (PMUCondition[i] + "_" + PMUPinset.ToString()))
+							{
+								PMUConditionExist[i] = true;
+								Count++;
+								break;
+							}
 						}
 					}
 
@@ -645,23 +555,46 @@ namespace Functions
 			{
 				Count = 0;
 
-				ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
-				pinAlias[i] = (String^)ConditionInfo->Value;
+				if (i == 0)
+				{
+					ConditionInfo = testConditionCollection[PMUCondition[Count++]][site];
+					pinAlias[i] = (String^)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
-				measureMode[i] = (int)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[PMUCondition[Count++]][site];
+					measureMode[i] = (int)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
-				senseMode[i] = (int)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[PMUCondition[Count++]][site];
+					senseMode[i] = (int)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
-				compliance[i] = (double)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[PMUCondition[Count++]][site];
+					compliance[i] = (double)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
-				driveValue[i] = (double)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[PMUCondition[Count++]][site];
+					driveValue[i] = (double)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
-				nplc[i] = (double)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[PMUCondition[Count++]][site];
+					nplc[i] = (double)ConditionInfo->Value;
+				}
+				else
+				{
+					ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
+					pinAlias[i] = (String^)ConditionInfo->Value;
+
+					ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
+					measureMode[i] = (int)ConditionInfo->Value;
+
+					ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
+					senseMode[i] = (int)ConditionInfo->Value;
+
+					ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
+					compliance[i] = (double)ConditionInfo->Value;
+
+					ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
+					driveValue[i] = (double)ConditionInfo->Value;
+
+					ConditionInfo = testConditionCollection[PMUCondition[Count++] + "_" + i.ToString()][site];
+					nplc[i] = (double)ConditionInfo->Value;
+				}
 			}
 
 #pragma endregion "Control Condition Casting"
@@ -745,11 +678,23 @@ namespace Functions
 				{
 					for (int i=0;i<TotalVectorCondition;i++)
 					{
-						if (controlCondition->Name == ( VectorCondition[i] + "_" + VectorPinset.ToString()))
+						if (VectorPinset == 0)
 						{
-							VectorConditionExist[i] = true;
-							Count++;
-							break;
+							if (controlCondition->Name == (VectorCondition[i]))
+							{
+								VectorConditionExist[i] = true;
+								Count++;
+								break;
+							}
+						}
+						else
+						{
+							if (controlCondition->Name == (VectorCondition[i] + "_" + VectorPinset.ToString()))
+							{
+								VectorConditionExist[i] = true;
+								Count++;
+								break;
+							}
 						}
 
 					}
@@ -808,15 +753,28 @@ namespace Functions
 			for (int i = 0; i < VectorPinset; i++)
 			{
 				Count = 0;
+				if (i == 0)
+				{
+					ConditionInfo = testConditionCollection[VectorCondition[Count++]][site];
+					pinAlias[i] = (String^)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[VectorCondition[Count++] + "_"+ i.ToString()][site];
-				pinAlias[i] = (String^)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[VectorCondition[Count++]][site];
+					dPinLevelSet[i] = (int)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[VectorCondition[Count++] + "_" + i.ToString()][site];
-				dPinLevelSet[i] = (int)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[VectorCondition[Count++]][site];
+					pEAttSet[i] = (int)ConditionInfo->Value;
+				}
+				else
+				{
+					ConditionInfo = testConditionCollection[VectorCondition[Count++] + "_" + i.ToString()][site];
+					pinAlias[i] = (String^)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[VectorCondition[Count++] + "_" + i.ToString()][site];
-				pEAttSet[i] = (int)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[VectorCondition[Count++] + "_" + i.ToString()][site];
+					dPinLevelSet[i] = (int)ConditionInfo->Value;
+
+					ConditionInfo = testConditionCollection[VectorCondition[Count++] + "_" + i.ToString()][site];
+					pEAttSet[i] = (int)ConditionInfo->Value;
+				}
 			}
 
 #pragma endregion "Control Condition Casting"
@@ -903,11 +861,23 @@ namespace Functions
 				{
 					for (int i = 0; i < TotalDIOCondition; i++)
 					{
-						if (controlCondition->Name == ( DIOCondition[i] + "_" + DIOPinset.ToString()))
+						if (DIOPinset == 0)
 						{
-							DIOConditionExist[i] = true;
-							Count++;
-							break;
+							if (controlCondition->Name == (DIOCondition[i]))
+							{
+								DIOConditionExist[i] = true;
+								Count++;
+								break;
+							}
+						}
+						else
+						{
+							if (controlCondition->Name == (DIOCondition[i] + "_" + DIOPinset.ToString()))
+							{
+								DIOConditionExist[i] = true;
+								Count++;
+								break;
+							}
 						}
 					}
 
@@ -965,14 +935,28 @@ namespace Functions
 			{
 				Count = 0;
 
-				ConditionInfo = testConditionCollection[DIOCondition[Count++] + "_" + i.ToString()][site];
-				pinAlias[i] = (String^)ConditionInfo->Value;
+				if (i == 0)
+				{
+					ConditionInfo = testConditionCollection[DIOCondition[Count++]][site];
+					pinAlias[i] = (String^)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[DIOCondition[Count++] + "_" + i.ToString()][site];
-				dPinLevelSet[i] = (int)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[DIOCondition[Count++]][site];
+					dPinLevelSet[i] = (int)ConditionInfo->Value;
 
-				ConditionInfo = testConditionCollection[DIOCondition[Count++] + "_" + i.ToString()][site];
-				pinDirection[i] = (int)ConditionInfo->Value;
+					ConditionInfo = testConditionCollection[DIOCondition[Count++]][site];
+					pinDirection[i] = (int)ConditionInfo->Value;
+				}
+				else
+				{
+					ConditionInfo = testConditionCollection[DIOCondition[Count++] + "_" + i.ToString()][site];
+					pinAlias[i] = (String^)ConditionInfo->Value;
+
+					ConditionInfo = testConditionCollection[DIOCondition[Count++] + "_" + i.ToString()][site];
+					dPinLevelSet[i] = (int)ConditionInfo->Value;
+
+					ConditionInfo = testConditionCollection[DIOCondition[Count++] + "_" + i.ToString()][site];
+					pinDirection[i] = (int)ConditionInfo->Value;
+				}
 			}
 
 #pragma endregion "Control Condition Casting"
@@ -1028,46 +1012,50 @@ namespace Functions
 			String ^ ErrorMessage = nullptr;
 			String ^ CM = "DMDioModeDrivePin_";
 
-
 #pragma region "Control Condition Casting"	
 
 			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
 
-
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (testcond->Name->StartsWith(CM))
-				{
+				if (testcond->Name->Contains("PinAlias"))
 					PinCount++;
-				}
 			}
 		
 			pinAlias = gcnew array<String^>(PinCount);
 			pinState = gcnew array<int>(PinCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (int i = 0; i < PinCount; i++)
 			{
-				if (testcond->Name->StartsWith(CM))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					CondNametemp = testcond->Name->Split(Separators, System::StringSplitOptions::None);
-					pinAlias[Count] = CondNametemp[1];
-					Count++;
+					if (testcond->Name == "PinAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pinAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PinAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pinAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < PinCount; i++)
 			{
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(pinAlias[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("Logic"))
 				{
-					ConditionInfo = testConditionCollection[pinAlias[i]][site];
-					pinState[i] = (int)ConditionInfo->Value;
-
-					if (pinState[i] != 0 && pinState[i] != 1)
-					{
-						ErrorMessage = "Test Condition [" + CM + pinAlias[i] + " value "+ pinState[i].ToString()+"] is not supported as only value can only be 0 (Drive Low) or 1 (Drive High).";
-						throw gcnew Exception(ErrorMessage);
-					}
+					ConditionInfo = testConditionCollection["Logic"][site];
+					pinState[i] = (double)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("Logic_" + i))
+				{
+					ConditionInfo = testConditionCollection["Logic_" + i][site];
+					pinState[i] = (double)ConditionInfo->Value;
 				}
 				else
 				{
@@ -1138,11 +1126,23 @@ namespace Functions
 				{
 					for (int i = 0; i < TotalDPinCondition; i++)
 					{
-						if (controlCondition->Name == ( DPinCondition[i] + "_" + DPinset.ToString()))
+						if (DPinset == 0)
+						{ 
+							if (controlCondition->Name == (DPinCondition[i]))
+							{
+								DPinConditionExist[i] = true;
+								Count++;
+								break;
+							}
+						}
+						else
 						{
-							DPinConditionExist[i] = true;
-							Count++;
-							break;
+							if (controlCondition->Name == (DPinCondition[i] + "_" + DPinset.ToString()))
+							{
+								DPinConditionExist[i] = true;
+								Count++;
+								break;
+							}
 						}
 					}
 
@@ -1189,11 +1189,20 @@ namespace Functions
 			{
 				for (int j = 0; j < TotalDPinCondition; j++)
 				{
-					DPinConditionVal[i]->Add(DPinCondition[j], 999);
-					ConditionInfo=testConditionCollection[DPinCondition[j] + "_" + i.ToString()][site];
-					DPinConditionVal[i][DPinCondition[j]] = (double)ConditionInfo->Value;
-					//DPinConditionVal[i][DPinCondition[j]] = (double)tf_ControlItem_ConditionCast(CM + DPinCondition[j] + "_" + i.ToString());
-
+					if (i == 0)
+					{
+						DPinConditionVal[i]->Add(DPinCondition[j], 999);
+						ConditionInfo = testConditionCollection[DPinCondition[j]][site];
+						DPinConditionVal[i][DPinCondition[j]] = (double)ConditionInfo->Value;
+						//DPinConditionVal[i][DPinCondition[j]] = (double)tf_ControlItem_ConditionCast(CM + DPinCondition[j] + "_" + i.ToString());
+					}
+					else
+					{
+						DPinConditionVal[i]->Add(DPinCondition[j], 999);
+						ConditionInfo = testConditionCollection[DPinCondition[j] + "_" + i.ToString()][site];
+						DPinConditionVal[i][DPinCondition[j]] = (double)ConditionInfo->Value;
+						//DPinConditionVal[i][DPinCondition[j]] = (double)tf_ControlItem_ConditionCast(CM + DPinCondition[j] + "_" + i.ToString());
+					}
 				}
 
 				tl->glob->DPinLevelSet[testSite]->Add(DPinConditionVal[i]);
@@ -1247,7 +1256,7 @@ namespace Functions
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control Method <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			for each(Condition ^ controlCondition in testConditionCollection)
 			{
-				if (controlCondition->Name->StartsWith( CM + count.ToString()))
+				if (controlCondition->Name->Contains("TimingSetPeriod"))
 				{
 					count++;
 				}
@@ -1258,18 +1267,31 @@ namespace Functions
 
 			for each(Condition ^ controlCondition in testConditionCollection)
 			{
-				if (controlCondition->Name->StartsWith(CM + count.ToString()))
+				if (count == 0 && controlCondition->Name->Contains("TimingSetPeriod"))
 				{
 					ConditionInfo = testConditionCollection[controlCondition->Name][site];
 					tl->glob->TimingSetPeriod[testSite][count] = (double)ConditionInfo->Value;
 					//tl->glob->TimingSetPeriod[siteIndex][count] = (double)tf_ControlItem_ConditionCast(controlCondition->Name);
 					count++;
 				}
+				if (count != 0 && controlCondition->Name->Contains("TimingSetPeriod_" + count.ToString()))
+				{
+					ConditionInfo = testConditionCollection[controlCondition->Name][site];
+					tl->glob->TimingSetPeriod[testSite][count] = (double)ConditionInfo->Value;
+					//tl->glob->TimingSetPeriod[siteIndex][count] = (double)tf_ControlItem_ConditionCast(controlCondition->Name);
+					count++;
+				}
+				else
+				{
+					ConditionInfo = testConditionCollection[controlCondition->Name][site];
+					ErrorMessage = "Test Condition[" + controlCondition->Name + "] is not valid";
+					throw gcnew Exception(ErrorMessage);
+				}
 			}
 
 			if (tl->glob->TimingSetPeriod[testSite]->Length == 0)
 			{
-				ErrorMessage = "Test Condition["+ CM +" 0 ] is not found";
+				ErrorMessage = "Test Condition["+ CM +"TimingSetPeriod ] is not found";
 				throw gcnew Exception(ErrorMessage);
 			}
 #pragma endregion "Control Condition Casting"
@@ -1328,11 +1350,23 @@ namespace Functions
 				{
 					for (int i = 0; i < TotalPEAttCondition; i++)
 					{
-						if (controlCondition->Name == (PEAttCondition[i] + "_" + PEAttset.ToString()))
+						if (PEAttset == 0)
 						{
-							PEAttConditionExist[i] = true;
-							Count++;
-							break;
+							if (controlCondition->Name == (PEAttCondition[i]))
+							{
+								PEAttConditionExist[i] = true;
+								Count++;
+								break;
+							}
+						}
+						else
+						{
+							if (controlCondition->Name == (PEAttCondition[i] + "_" + PEAttset.ToString()))
+							{
+								PEAttConditionExist[i] = true;
+								Count++;
+								break;
+							}
 						}
 					}
 					if (Count == TotalPEAttCondition)
@@ -1393,10 +1427,20 @@ namespace Functions
 			{
 				for (int j = 0; j < TotalPEAttCondition; j++)
 				{
-					PEAttConditionVal[i]->Add(PEAttCondition[j], 999);
-					ConditionInfo = testConditionCollection[PEAttCondition[j] + "_" + i.ToString()][site];
-					PEAttConditionVal[i][PEAttCondition[j]] = (bool)ConditionInfo->Value;
-					//PEAttConditionVal[i][PEAttCondition[j]] = (bool)tf_ControlItem_ConditionCast(PEAttCondition[j] + "_" + i.ToString());
+					if (i == 0)
+					{
+						PEAttConditionVal[i]->Add(PEAttCondition[j], 999);
+						ConditionInfo = testConditionCollection[PEAttCondition[j]][site];
+						PEAttConditionVal[i][PEAttCondition[j]] = (bool)ConditionInfo->Value;
+						//PEAttConditionVal[i][PEAttCondition[j]] = (bool)tf_ControlItem_ConditionCast(PEAttCondition[j] + "_" + i.ToString());
+					}
+					else
+					{
+						PEAttConditionVal[i]->Add(PEAttCondition[j], 999);
+						ConditionInfo = testConditionCollection[PEAttCondition[j] + "_" + i.ToString()][site];
+						PEAttConditionVal[i][PEAttCondition[j]] = (bool)ConditionInfo->Value;
+						//PEAttConditionVal[i][PEAttCondition[j]] = (bool)tf_ControlItem_ConditionCast(PEAttCondition[j] + "_" + i.ToString());
+					}
 				}
 				tl->glob->PEAttributeSet[testSite]->Add(PEAttConditionVal[i]);
 			}
@@ -1534,7 +1578,7 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (testcond->Name->StartsWith(CM))
+				if (testcond->Name->Contains("PinAlias"))
 				{
 					PinCount++;
 				}
@@ -1543,22 +1587,36 @@ namespace Functions
 			pinAlias = gcnew array<String^>(PinCount);
 			dioPinState = gcnew array<int>(PinCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < PinCount; Count++)
 			{
-				if (testcond->Name->StartsWith(CM))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					CondNametemp = testcond->Name->Split(Separators, System::StringSplitOptions::None);
-					pinAlias[Count] = CondNametemp[1];
-					Count++;
+					if (testcond->Name == "PinAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pinAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PinAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pinAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < PinCount; i++)
 			{
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(pinAlias[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("PinLogic"))
 				{
-					ConditionInfo = testConditionCollection[pinAlias[i]][site];
+					ConditionInfo = testConditionCollection["PinLogic"][site];
+					dioPinState[i] = (int)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("PinLogic_" + i))
+				{
+					ConditionInfo = testConditionCollection["PinLogic_" + i][site];
 					dioPinState[i] = (int)ConditionInfo->Value;
 				}
 				else
@@ -1628,7 +1686,7 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (testcond->Name->StartsWith(CM))
+				if (testcond->Name->Contains("PortAlias"))
 				{
 					PortCount++;
 				}
@@ -1637,22 +1695,36 @@ namespace Functions
 			portAlias = gcnew array<String^>(PortCount);
 			dioPortVal = gcnew array<int>(PortCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < PortCount; Count++)
 			{
-				if (testcond->Name->StartsWith(CM))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					CondNametemp = testcond->Name->Split(Separators, System::StringSplitOptions::None);
-					portAlias[Count] = CondNametemp[1];
-					Count++;
+					if (testcond->Name == "PortAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						portAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PortAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						portAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < PortCount; i++)
 			{
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(CM  + portAlias[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("PortLogic"))
 				{
-					ConditionInfo = testConditionCollection[portAlias[i]][site];
+					ConditionInfo = testConditionCollection["PortLogic"][site];
+					dioPortVal[i] = (int)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("PortLogic_" + i))
+				{
+					ConditionInfo = testConditionCollection["PortLogic_" + i][site];
 					dioPortVal[i] = (int)ConditionInfo->Value;
 				}
 				else
@@ -1721,7 +1793,7 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (testcond->Name->StartsWith(CM))
+				if (testcond->Name->Contains("ModuleAlias"))
 				{
 					ModuleCount++;
 				}
@@ -1730,22 +1802,31 @@ namespace Functions
 			ModuleAlias = gcnew array<String^>(ModuleCount);
 			dioVioVal = gcnew array<int>(ModuleCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < ModuleCount; Count++)
 			{
-				if (testcond->Name->StartsWith(CM))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					CondNametemp = testcond->Name->Split(Separators, System::StringSplitOptions::None);
-					ModuleAlias[Count] = CondNametemp[1];
-					Count++;
+					if (testcond->Name == "ModuleAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						ModuleAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "ModuleAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						ModuleAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < ModuleCount; i++)
 			{
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(ModuleAlias[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("ModuleVioMode"))
 				{
-					ConditionInfo = testConditionCollection[ModuleAlias[i]][site];
+					ConditionInfo = testConditionCollection["ModuleVioMode"][site];
 					dioVioVal[i] = (int)ConditionInfo->Value;
 
 					if (dioVioVal[i] != 0 && dioVioVal[i] != 1)
@@ -1753,7 +1834,17 @@ namespace Functions
 						ErrorMessage = "Test Condition [" + CM + ModuleAlias[i] + " value :" + dioVioVal[i].ToString() + "]is invalid as only 0 (OFF) or 1 (ON) is valid";
 						throw gcnew Exception(ErrorMessage);
 					}
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("ModuleVioMode_" + i))
+				{
+					ConditionInfo = testConditionCollection["ModuleVioMode_" + i][site];
+					dioVioVal[i] = (int)ConditionInfo->Value;
 
+					if (dioVioVal[i] != 0 && dioVioVal[i] != 1)
+					{
+						ErrorMessage = "Test Condition [" + CM + ModuleAlias[i] + " value :" + dioVioVal[i].ToString() + "]is invalid as only 0 (OFF) or 1 (ON) is valid";
+						throw gcnew Exception(ErrorMessage);
+					}
 				}
 				else
 				{
@@ -1821,7 +1912,7 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (testcond->Name->StartsWith(CM))
+				if (testcond->Name->Contains("PortAlias"))
 				{
 					PortCount++;
 				}
@@ -1830,21 +1921,35 @@ namespace Functions
 			portAlias = gcnew array<String^>(PortCount);
 	        dioPortDirectionVal = gcnew array<int>(PortCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < PortCount; Count++)
 			{
-				if (testcond->Name->StartsWith(CM))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					CondNametemp = testcond->Name->Split(Separators, System::StringSplitOptions::None);
-					portAlias[Count] = CondNametemp[1];
-					Count++;
+					if (testcond->Name == "PortAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						portAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PortAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						portAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < Count; i++)
 			{
-				if ((bool)testConditionCollection->ContainsKey(portAlias[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("PortDirection"))
 				{
-					ConditionInfo = testConditionCollection[CM  + portAlias[i]][site];
+					ConditionInfo = testConditionCollection["PortDirection"][site];
+					dioPortDirectionVal[i] = (int)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("PortDirection_" + i))
+				{
+					ConditionInfo = testConditionCollection["PortDirection_" + i][site];
 					dioPortDirectionVal[i] = (int)ConditionInfo->Value;
 				}
 				else
@@ -1934,11 +2039,23 @@ namespace Functions
 				{
 					for (int i = 0; i < TotalDrivePinCondition; i++)
 					{
-						if (controlCondition->Name == ( DrivePinCondition[i] + "_" + DrivePinSet.ToString()))
+						if (DrivePinSet == 0)
 						{
-							DrivePinConditionExist[i] = true;
-							Count++;
-							break;
+							if (controlCondition->Name == (DrivePinCondition[i]))
+							{
+								DrivePinConditionExist[i] = true;
+								Count++;
+								break;
+							}
+						}
+						else
+						{
+							if (controlCondition->Name == (DrivePinCondition[i] + "_" + DrivePinSet.ToString()))
+							{
+								DrivePinConditionExist[i] = true;
+								Count++;
+								break;
+							}
 						}
 					}
 					if (Count == TotalDrivePinCondition)
@@ -1995,7 +2112,14 @@ namespace Functions
 			{
 				for (int j = 0; j < TotalDrivePinCondition; j++)
 				{
-					ConditionInfo = testConditionCollection[DrivePinCondition[j] + "_" + i.ToString()][site];
+					if (i == 0)
+					{
+						ConditionInfo = testConditionCollection[DrivePinCondition[j]][site];
+					}
+					else
+					{
+						ConditionInfo = testConditionCollection[DrivePinCondition[j] + "_" + i.ToString()][site];
+					}
 
 					switch (j)
 					{
@@ -2075,7 +2199,7 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (testcond->Name->StartsWith(CM))
+				if (testcond->Name->Contains("ModuleAlias"))
 				{
 					ModuleAliasCount++;
 				}
@@ -2084,22 +2208,36 @@ namespace Functions
 			moduleAlias = gcnew array<String^>(ModuleAliasCount);
 			portVal = gcnew array<int>(ModuleAliasCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < ModuleAliasCount; Count++)
 			{
-				if (testcond->Name->StartsWith(CM))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					CondNametemp = testcond->Name->Split(Separators, System::StringSplitOptions::None);
-					moduleAlias[Count] = CondNametemp[1];
-					Count++;
+					if (testcond->Name == "ModuleAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						moduleAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "ModuleAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						moduleAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < ModuleAliasCount; i++)
 			{
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(moduleAlias[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("PortLogic"))
 				{
-					ConditionInfo = testConditionCollection[moduleAlias[i]][site];
+					ConditionInfo = testConditionCollection["PortLogic"][site];
+					portVal[i] = (int)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("PortLogic_" + i))
+				{
+					ConditionInfo = testConditionCollection["PortLogic_" + i][site];
 					portVal[i] = (int)ConditionInfo->Value;
 				}
 				else
@@ -2167,7 +2305,7 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (testcond->Name->StartsWith(CM))
+				if (testcond->Name->Contains("ModuleAlias"))
 				{
 					ModuleAliasCount++;
 				}
@@ -2176,22 +2314,36 @@ namespace Functions
 			moduleAlias = gcnew array<String^>(ModuleAliasCount);
 			portDir = gcnew array<int>(ModuleAliasCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < ModuleAliasCount; Count++)
 			{
-				if (testcond->Name->StartsWith(CM))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					CondNametemp = testcond->Name->Split(Separators, System::StringSplitOptions::None);
-					moduleAlias[Count] = CondNametemp[1];
-					Count++;
+					if (testcond->Name == "ModuleAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						moduleAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "ModuleAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						moduleAlias[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < ModuleAliasCount; i++)
 			{
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(moduleAlias[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("PortDirection"))
 				{
-					ConditionInfo = testConditionCollection[moduleAlias[i]][site];
+					ConditionInfo = testConditionCollection["PortDirection"][site];
+					portDir[i] = (int)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("PortDirection_" + i))
+				{
+					ConditionInfo = testConditionCollection["PortDirection_" + i][site];
 					portDir[i] = (int)ConditionInfo->Value;
 				}
 				else
@@ -2282,11 +2434,23 @@ namespace Functions
 				{
 					for (int i = 0; i < TotalTriggerBusCondition; i++)
 					{
-						if (controlCondition->Name == ( TriggerBusCondition[i] + "_" + TriggerBusSet.ToString()))
+						if (TriggerBusSet == 0)
 						{
-							TriggerBusConditionExist[i] = true;
-							Count++;
-							break;
+							if (controlCondition->Name == (TriggerBusCondition[i]))
+							{
+								TriggerBusConditionExist[i] = true;
+								Count++;
+								break;
+							}
+						}
+						else
+						{
+							if (controlCondition->Name == (TriggerBusCondition[i] + "_" + TriggerBusSet.ToString()))
+							{
+								TriggerBusConditionExist[i] = true;
+								Count++;
+								break;
+							}
 						}
 					}
 					if (Count == TotalTriggerBusCondition)
@@ -2344,8 +2508,14 @@ namespace Functions
 			{
 				for (int j = 0; j < TotalTriggerBusCondition; j++)
 				{
-					ConditionInfo = testConditionCollection[TriggerBusCondition[j] + "_" + i.ToString()][site];
-
+					if (i == 0)
+					{
+						ConditionInfo = testConditionCollection[TriggerBusCondition[j]][site];
+					}
+					else
+					{
+						ConditionInfo = testConditionCollection[TriggerBusCondition[j] + "_" + i.ToString()][site];
+					}
 					switch (j)
 					{
 					case 0:
@@ -2405,6 +2575,196 @@ namespace Functions
 		}
 	}
 
+	//DM_Test Methods
+	void AMB7600SRTestLibrary::TM_MIPIReadVector(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	{
+		/*****************************************************************************************************
+		** TM_MIPIReadVector
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
 
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Test Method DMCase_MIPIReadVector");
+
+			testParameterCount = 1;
+
+			//Test Method Compulsory Variable
+			String^ vectorFileName = nullptr;
+			String^ moduleAlias = nullptr;
+			String^ dataPinAlias = nullptr;
+			double channelInputDelay = 0;
+
+			//Test Method Option Variable
+			bool operationSweepChannelInputDelay = false;
+			double startChannelInputDelay = 0;
+			double stopChannelInputDelay = 0;
+			double intervalChannelInputDelay = 0;
+
+			//Operation Variable
+			int Result = 0.0;
+			int VectorFailCount = 999;
+			int VectorFirstFail = 0.0;
+			int DPinSet = 999;
+			int PEAttSet = 999;
+			String ^ StrToFileSweep = nullptr;
+			String ^ FileSweepName = tl->glob->TestProperty[testSite].TestItemName + "_" + testParameterName + "_SweepChannelInputDelay_S" + tl->glob->tf.TestSite.ToString() + "UUT" + testSite.ToString() + ".csv";
+			array<int>^ ReadHistoryRam_Data = gcnew array<int>(1);
+			String ^ TM = "MIPIReadVector_";
+			String^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
+			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
+
+			if ((bool)testConditionCollection->ContainsKey("VectorFileName"))
+			{
+				vectorFileName = (String^)tf_TestParameter_ConditionCast(testParameterName, "VectorFileName");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + "VectorFileName" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				moduleAlias = (String^)tf_TestParameter_ConditionCast(testParameterName, "ModuleAlias");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("DataPinAlias"))
+			{
+				dataPinAlias = (String^)tf_TestParameter_ConditionCast(testParameterName, "DataPinAlias");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + "DataPinAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("ChannelInputDelay"))
+			{
+				channelInputDelay = (double)tf_TestParameter_ConditionCast(testParameterName, "ChannelInputDelay");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + "ChannelInputDelay" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+			if (tl->glob->AWV.Debug == 1)
+			{
+				if ((bool)testConditionCollection->ContainsKey("SweepOperation"))
+				{
+					operationSweepChannelInputDelay = (bool)tf_TestParameter_ConditionCast(testParameterName, "SweepOperation");
+				}
+
+				if (operationSweepChannelInputDelay == true)
+				{
+					if ((bool)testConditionCollection->ContainsKey("StartChannelInputDelay"))
+					{
+						startChannelInputDelay = (double)tf_TestParameter_ConditionCast(testParameterName, "StartChannelInputDelay");
+					}
+					else
+					{
+						ErrorMessage = "Test Condition [" + TM + "StartChannelInputDelay" + "] is not found.";
+						throw gcnew Exception(ErrorMessage);
+					}
+
+					if ((bool)testConditionCollection->ContainsKey("StopChannelInputDelay"))
+					{
+						stopChannelInputDelay = (double)tf_TestParameter_ConditionCast(testParameterName, "StopChannelInputDelay");
+					}
+					else
+					{
+						ErrorMessage = "Test Condition [" + TM + "StopChannelInputDelay" + "] is not found.";
+						throw gcnew Exception(ErrorMessage);
+					}
+
+					if ((bool)testConditionCollection->ContainsKey("IncrementChannelInputDelay"))
+					{
+						intervalChannelInputDelay = (double)tf_TestParameter_ConditionCast(testParameterName, "IncrementChannelInputDelay");
+					}
+					else
+					{
+						ErrorMessage = "Test Condition [" + TM + "IncrementChannelInputDelay" + "] is not found.";
+						throw gcnew Exception(ErrorMessage);
+					}
+				}
+
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			//ReadVector
+			API_MIPI_Vector_Read(site, testSite, dataPinAlias, moduleAlias, channelInputDelay, vectorFileName, operationSweepChannelInputDelay, ReadHistoryRam_Data, VectorFailCount, VectorFirstFail);
+
+			if (tl->glob->AWV.Debug == 1)
+			{
+				if (operationSweepChannelInputDelay == true)
+				{
+					double channelInputDelay_Operation = 0;
+					array<int>^ ReadHistoryRam_Data_Operation = gcnew array<int>(1);
+					int VectorFailCount_Operation = 0;
+					int VectorFirstFail_Operation = 0;
+
+					FileLogger^ fileLogger = gcnew FileLogger(FILE_CONST_AEM_DEBUG);
+					StrToFileSweep = "ChannelInputDelay,Result,VectorFailCount,VectorFirstFail";
+					fileLogger->WriteToFile(FileSweepName, StrToFileSweep, LOGGER_CONST_OVERWRITE);
+
+					for (channelInputDelay_Operation = startChannelInputDelay; channelInputDelay_Operation <= stopChannelInputDelay; channelInputDelay_Operation = channelInputDelay_Operation + intervalChannelInputDelay)
+					{
+						API_MIPI_Vector_Read(site, testSite, dataPinAlias, moduleAlias, channelInputDelay_Operation, vectorFileName, operationSweepChannelInputDelay, ReadHistoryRam_Data_Operation, VectorFailCount_Operation, VectorFirstFail_Operation);
+						StrToFileSweep = channelInputDelay_Operation.ToString() + "," + (ReadHistoryRam_Data_Operation[0]).ToString() + "," + (VectorFailCount_Operation).ToString() + "," + (VectorFirstFail_Operation).ToString();
+						fileLogger->WriteToFile(FileSweepName, StrToFileSweep, LOGGER_CONST_APPEND);
+
+					}
+
+				}
+			}
+#pragma endregion "Test"
+
+#pragma region "Update Test Result"
+			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
+			if (tl->glob->AWV.Debug == 0)
+			{
+				Result = ReadHistoryRam_Data[0];
+			}
+			else
+			{
+				Result = VectorFailCount;
+			}
+
+			tl->glob->TestResults[testSite][testParameterNumber] = Result;
+
+			tl->WriteToLogger(testSite, "Done Executing Test Method DMCase_MIPIReadVector");
+
+#pragma endregion "Update Test Result"
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "TM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
 
 }

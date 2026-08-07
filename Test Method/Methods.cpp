@@ -2,45 +2,7 @@
 
 namespace Functions
 {
-	void AMB7600SRTestLibrary::InitializeTMDicionary(int totalSite)
-	{
-		Dictionary_TM = gcnew ConcurrentDictionary<String^, int>();
-		//DC_TestMethods
-		Dictionary_TM->TryAdd("DCCase_OS", DCCase_OS);
-		Dictionary_TM->TryAdd("DCCase_MeasureCurrent", DCCase_MeasureCurrent);
-		Dictionary_TM->TryAdd("DCCase_MeasureVoltage", DCCase_MeasureVoltage);
-		Dictionary_TM->TryAdd("DCCase_MeasureBurstCurrent", DCCase_MeasureBurstCurrent);
-		Dictionary_TM->TryAdd("DCCase_MeasureBurstVoltage", DCCase_MeasureBurstVoltage);
-		Dictionary_TM->TryAdd("DCCase_DifferentialResult", DCCase_DifferentialResult);
-		//DM_TestMethods
-		Dictionary_TM->TryAdd("DMCase_MIPIReadVector", DMCase_MIPIReadVector);
-		//RF_CW_TestMethods
-		Dictionary_TM->TryAdd("RFCase_MeasureChannel", RFCase_MeasureChannel);
-		Dictionary_TM->TryAdd("RFCase_MeasureChannelFast", RFCase_MeasureChannelFast);
-		Dictionary_TM->TryAdd("RFCase_MeasureChannelIQ", RFCase_MeasureChannelIQ);
-		Dictionary_TM->TryAdd("RFCase_MeasureBurstPower", RFCase_MeasureBurstPower);
-		Dictionary_TM->TryAdd("RFCase_MeasureSwitchingTime", RFCase_MeasureSwitchingTime);
-		Dictionary_TM->TryAdd("RFCase_MeasureSParam", RFCase_MeasureSParam);
-		Dictionary_TM->TryAdd("RFCase_MeasureSParamIQ", RFCase_MeasureSParamIQ);
-		Dictionary_TM->TryAdd("RFCase_P1dB_BinarySearch", RFCase_P1dB_BinarySearch);
-		Dictionary_TM->TryAdd("RFCase_PowerServo", RFCase_PowerServo);
-		Dictionary_TM->TryAdd("RFCase_PowerServo_BinarySearch", RFCase_PowerServo_BinarySearch);
-		Dictionary_TM->TryAdd("RFCase_PowerServo_LinearSearch", RFCase_PowerServo_LinearSearch);
-		Dictionary_TM->TryAdd("RFCase_P1dB_DirectSearch", RFCase_P1dB_DirectSearch);
-		Dictionary_TM->TryAdd("RFCase_MeasureIIP3", RFCase_MeasureIIP3);
-		Dictionary_TM->TryAdd("RFCase_ReadEvm", RFCase_ReadEvm);
-		Dictionary_TM->TryAdd("RFCase_ReadSem", RFCase_ReadSem);
-		Dictionary_TM->TryAdd("RFCase_ReadSemAsync", RFCase_ReadSemAsync);
-		Dictionary_TM->TryAdd("RFCase_ReadEvmAsync", RFCase_ReadEvmAsync);
-		Dictionary_TM->TryAdd("RFCase_WlanPowerServo", RFCase_WlanPowerServo);
-		Dictionary_TM->TryAdd("RFCase_WlanResidualEVM", RFCase_WlanResidualEVM);
-		Dictionary_TM->TryAdd("RFCase_WolferMeasureChannel", RFCase_WolferMeasureChannel);
 
-		for (int siteIndex = 0; siteIndex < totalSite; siteIndex++) 
-		{
-			tl->WriteToLogger(siteIndex, "Initialized Test Methods...");
-		}
-	}
 	void AMB7600SRTestLibrary::InitializeCMDictionary(int totalSite)
 	{
 		Dictionary_CM = gcnew ConcurrentDictionary<String^, int>();
@@ -49,31 +11,31 @@ namespace Functions
 		Dictionary_CM->TryAdd("DCCase_DriveCurrent", DCCase_DriveCurrent);
 		Dictionary_CM->TryAdd("DCCase_ClampVoltage", DCCase_ClampVoltage);
 		Dictionary_CM->TryAdd("DCCase_ClampCurrent", DCCase_ClampCurrent);
+		Dictionary_CM->TryAdd("DCCase_SetNPLC", DCCase_SetNPLC);
+		Dictionary_CM->TryAdd("DCCase_SetPinOnOff", DCCase_SetPinOnOff);
 		Dictionary_CM->TryAdd("DCCase_ConfigureTriggerEdgeLevel", DCCase_ConfigureTriggerEdgeLevel);
 		Dictionary_CM->TryAdd("DCCase_MapTriggerIntToTriggerOut", DCCase_MapTriggerIntToTriggerOut);
 		Dictionary_CM->TryAdd("DCCase_DriveSoftwareTrigger", DCCase_DriveSoftwareTrigger);
-		Dictionary_CM->TryAdd("DCCase_ConfigureInputTriggerSelect", DCCase_ConfigureInputTriggerSelect);
-		Dictionary_CM->TryAdd("DCCase_AMConfigureSMUOutputTriggerMode", DCCase_AMConfigureSMUOutputTriggerMode);
+		Dictionary_CM->TryAdd("DCCase_AMConfigureInputTriggerSelect", DCCase_AMConfigureInputTriggerSelect);
 		Dictionary_CM->TryAdd("DCCase_AMConfigureSMUOutputTriggerPulseWidth", DCCase_AMConfigureSMUOutputTriggerPulseWidth);
 		Dictionary_CM->TryAdd("DCCase_AMConfigureSMUOutputTriggerDuringSource", DCCase_AMConfigureSMUOutputTriggerDuringSource);
+		Dictionary_CM->TryAdd("DCCase_AMConfigureSMUOutputTriggerMode", DCCase_AMConfigureSMUOutputTriggerMode);
 		Dictionary_CM->TryAdd("DCCase_AMConfigureOutputTriggerSelect", DCCase_AMConfigureOutputTriggerSelect);
-		Dictionary_CM->TryAdd("DCCase_SetNPLC", DCCase_SetNPLC);
-		Dictionary_CM->TryAdd("DCCase_SetPinOnOff", DCCase_SetPinOnOff);
 		Dictionary_CM->TryAdd("DCCase_WaitSecond", DCCase_WaitSecond);
 
 		//DM_ControlMethods
 		Dictionary_CM->TryAdd("DMCase_DMInit", DMCase_DMInit);
-		Dictionary_CM->TryAdd("DMCase_WriteVector", DMCase_WriteVector);
-		Dictionary_CM->TryAdd("DMCase_DMConfigureOutputTriggerSelect", DMCase_DMConfigureOutputTriggerSelect);
-	    Dictionary_CM->TryAdd("DMCase_DMConfigureReadPin_TriggerOutput", DMCase_DMConfigureReadPin_TriggerOutput);
-		Dictionary_CM->TryAdd("DMCase_DMConfigurePinToPMU", DMCase_DMConfigurePinToPMU);
 		Dictionary_CM->TryAdd("DMCase_DMConfigurePinToVector", DMCase_DMConfigurePinToVector);
+		Dictionary_CM->TryAdd("DMCase_DMConfigurePinToPMU", DMCase_DMConfigurePinToPMU);
 		Dictionary_CM->TryAdd("DMCase_DMConfigurePinToDIO", DMCase_DMConfigurePinToDIO);
+		Dictionary_CM->TryAdd("DMCase_DMLoadVectorFile", DMCase_DMLoadVectorFile);
+		Dictionary_CM->TryAdd("DMCase_WriteVector", DMCase_WriteVector);
 		Dictionary_CM->TryAdd("DMCase_DMDioModeDrivePin", DMCase_DMDioModeDrivePin);
-		Dictionary_CM->TryAdd("DMCase_DMCastDPinLevelCondition", DMCase_DMCastDPinLevelCondition);
+		Dictionary_CM->TryAdd("DMCase_DMConfigureOutputTriggerSelect", DMCase_DMConfigureOutputTriggerSelect);
+		Dictionary_CM->TryAdd("DMCase_DMConfigureReadPin_TriggerOutput", DMCase_DMConfigureReadPin_TriggerOutput);
+		Dictionary_CM->TryAdd("DMCase_DMCastDPinLevel", DMCase_DMCastDPinLevel);
 		Dictionary_CM->TryAdd("DMCase_DMCastTimingSetPeriod", DMCase_DMCastTimingSetPeriod);
 		Dictionary_CM->TryAdd("DMCase_DMCastPEAttribute", DMCase_DMCastPEAttribute);
-		Dictionary_CM->TryAdd("DMCase_DMLoadVectorFile", DMCase_DMLoadVectorFile);
 
 		//DIO_ControlMethods
 		Dictionary_CM->TryAdd("IOMCase_DIODrivePin", IOMCase_DIODrivePin);
@@ -91,8 +53,8 @@ namespace Functions
 		Dictionary_CM->TryAdd("RFCase_SourcePower", RFCase_SourcePower);
 		Dictionary_CM->TryAdd("RFCase_SourcePowerFast", RFCase_SourcePowerFast);
 		Dictionary_CM->TryAdd("RFCase_SourcePowerLow", RFCase_SourcePowerLow);
-		Dictionary_CM->TryAdd("RFCase_IsolateChannel", RFCase_IsolateChannel);
 		Dictionary_CM->TryAdd("RFCase_SourceTwoTone", RFCase_SourceTwoTone);
+		Dictionary_CM->TryAdd("RFCase_IsolateChannel", RFCase_IsolateChannel);
 		Dictionary_CM->TryAdd("RFCase_StartModulation", RFCase_StartModulation);
 		Dictionary_CM->TryAdd("RFCase_StopModulation", RFCase_StopModulation);
 		Dictionary_CM->TryAdd("RFCase_SetSourceTriggerRouting", RFCase_SetSourceTriggerRouting);
@@ -103,11 +65,10 @@ namespace Functions
 		Dictionary_CM->TryAdd("RFCase_RunSourceAlignment", RFCase_RunSourceAlignment);
 		Dictionary_CM->TryAdd("RFCase_LoadModulation", RFCase_LoadModulation);
 		Dictionary_CM->TryAdd("RFCase_WlanInit", RFCase_WlanInit);
-
 		Dictionary_CM->TryAdd("RFCase_EvmMeasurementSetup", RFCase_EvmMeasurementSetup);
+		Dictionary_CM->TryAdd("RFCase_SemMeasurementSetup", RFCase_SemMeasurementSetup);
 		Dictionary_CM->TryAdd("RFCase_MeasureSetup", RFCase_MeasureSetup);
 		Dictionary_CM->TryAdd("RFCase_MeasureSetupIQ", RFCase_MeasureSetupIQ);
-		Dictionary_CM->TryAdd("RFCase_SemMeasurementSetup", RFCase_SemMeasurementSetup);
 		Dictionary_CM->TryAdd("RFCase_TriggerSigenStartModulation", RFCase_TriggerSigenStartModulation);
 		Dictionary_CM->TryAdd("RFCase_WolferInit", RFCase_WolferInit);
 		Dictionary_CM->TryAdd("RFCase_WolferSelectPath", RFCase_WolferSelectPath);
@@ -116,6 +77,45 @@ namespace Functions
 		for (int siteIndex = 0; siteIndex < totalSite; siteIndex++)
 		{
 			tl->WriteToLogger(siteIndex, "Initialized Control Methods...");
+		}
+	}
+	void AMB7600SRTestLibrary::InitializeTMDicionary(int totalSite)
+	{
+		Dictionary_TM = gcnew ConcurrentDictionary<String^, int>();
+		//DC_TestMethods
+		Dictionary_TM->TryAdd("DCCase_OS", DCCase_OS);
+		Dictionary_TM->TryAdd("DCCase_MeasureCurrent", DCCase_MeasureCurrent);
+		Dictionary_TM->TryAdd("DCCase_MeasureVoltage", DCCase_MeasureVoltage);
+		Dictionary_TM->TryAdd("DCCase_AMMeasureBurstCurrent", DCCase_AMMeasureBurstCurrent);
+		Dictionary_TM->TryAdd("DCCase_AMMeasureBurstVoltage", DCCase_AMMeasureBurstVoltage);
+		Dictionary_TM->TryAdd("DCCase_DifferentialResult", DCCase_DifferentialResult);
+		//DM_TestMethods
+		Dictionary_TM->TryAdd("DMCase_MIPIReadVector", DMCase_MIPIReadVector);
+		//RF_CW_TestMethods
+		Dictionary_TM->TryAdd("RFCase_MeasureChannel", RFCase_MeasureChannel);
+		Dictionary_TM->TryAdd("RFCase_MeasureChannelFast", RFCase_MeasureChannelFast);
+		Dictionary_TM->TryAdd("RFCase_MeasureChannelIQ", RFCase_MeasureChannelIQ);
+		Dictionary_TM->TryAdd("RFCase_MeasureIIP3", RFCase_MeasureIIP3);
+		Dictionary_TM->TryAdd("RFCase_MeasureBurstPower", RFCase_MeasureBurstPower);
+		Dictionary_TM->TryAdd("RFCase_MeasureSwitchingTime", RFCase_MeasureSwitchingTime);
+		Dictionary_TM->TryAdd("RFCase_MeasureSParam", RFCase_MeasureSParam);
+		Dictionary_TM->TryAdd("RFCase_MeasureSParamIQ", RFCase_MeasureSParamIQ);
+		Dictionary_TM->TryAdd("RFCase_P1dB_DirectSearch", RFCase_P1dB_DirectSearch);
+		Dictionary_TM->TryAdd("RFCase_P1dB_BinarySearch", RFCase_P1dB_BinarySearch);
+		Dictionary_TM->TryAdd("RFCase_PowerServo", RFCase_PowerServo);
+		Dictionary_TM->TryAdd("RFCase_PowerServo_BinarySearch", RFCase_PowerServo_BinarySearch);
+		Dictionary_TM->TryAdd("RFCase_PowerServo_LinearSearch", RFCase_PowerServo_LinearSearch);
+		Dictionary_TM->TryAdd("RFCase_ReadEvm", RFCase_ReadEvm);
+		Dictionary_TM->TryAdd("RFCase_ReadEvmAsync", RFCase_ReadEvmAsync);
+		Dictionary_TM->TryAdd("RFCase_ReadSem", RFCase_ReadSem);
+		Dictionary_TM->TryAdd("RFCase_ReadSemAsync", RFCase_ReadSemAsync);
+		Dictionary_TM->TryAdd("RFCase_WlanPowerServo", RFCase_WlanPowerServo);
+		Dictionary_TM->TryAdd("RFCase_WlanResidualEVM", RFCase_WlanResidualEVM);
+		Dictionary_TM->TryAdd("RFCase_WolferMeasureChannel", RFCase_WolferMeasureChannel);
+
+		for (int siteIndex = 0; siteIndex < totalSite; siteIndex++) 
+		{
+			tl->WriteToLogger(siteIndex, "Initialized Test Methods...");
 		}
 	}
 
@@ -137,20 +137,23 @@ namespace Functions
 			case DCCase_ClampCurrent:
 				CM_ClampCurrent(site, testSite, testConditionCollection);
 				break;
+			case DCCase_SetNPLC:
+				CM_SetNPLC(site, testSite, testConditionCollection);
+				break;
+			case DCCase_SetPinOnOff:
+				CM_SetPinOnOff(site, testSite, testConditionCollection);
+				break;
+			case DCCase_ConfigureTriggerEdgeLevel:
+				CM_ConfigureTriggerEdgeLevel(site, testSite, testConditionCollection);
+				break;
 			case DCCase_MapTriggerIntToTriggerOut:
 				CM_MapTriggerIntToTriggerOut(site, testSite, testConditionCollection);
 				break;
 			case DCCase_DriveSoftwareTrigger:
 				CM_DriveSoftwareTrigger(site, testSite, testConditionCollection);
 				break;
-			case DCCase_ConfigureTriggerEdgeLevel:
-				CM_ConfigureTriggerEdgeLevel(site, testSite, testConditionCollection);
-				break;
-			case DCCase_ConfigureInputTriggerSelect:
-				CM_ConfigureInputTriggerSelect(site, testSite, testConditionCollection);
-				break;
-			case DCCase_AMConfigureSMUOutputTriggerMode:
-				CM_AMConfigureSMUOutputTriggerMode(site, testSite, testConditionCollection);
+			case DCCase_AMConfigureInputTriggerSelect:
+				CM_AMConfigureInputTriggerSelect(site, testSite, testConditionCollection);
 				break;
 			case DCCase_AMConfigureSMUOutputTriggerPulseWidth:
 				CM_AMConfigureSMUOutputTriggerPulseWidth(site, testSite, testConditionCollection);
@@ -158,61 +161,48 @@ namespace Functions
 			case DCCase_AMConfigureSMUOutputTriggerDuringSource:
 				CM_AMConfigureSMUOutputTriggerDuringSource(site, testSite, testConditionCollection);
 				break;
+			case DCCase_AMConfigureSMUOutputTriggerMode:
+				CM_AMConfigureSMUOutputTriggerMode(site, testSite, testConditionCollection);
+				break;
 			case DCCase_AMConfigureOutputTriggerSelect:
 				CM_AMConfigureOutputTriggerSelect(site, testSite, testConditionCollection);
-				break;
-			case DCCase_SetNPLC:
-				CM_SetNPLC(site, testSite, testConditionCollection);
-				break;
-			case DCCase_SetPinOnOff:
-				CM_SetPinOnOff(site, testSite, testConditionCollection);
 				break;
 			case DCCase_WaitSecond:
 				CM_WaitSecond(site, testSite, testConditionCollection);
 				break;
 #pragma endregion
 
-#pragma region CM Case
-			case CMCase_CMDrivePin:
-				CM_CMDrivePin(site, testSite, testConditionCollection);
-				break;
-			case CMCase_CMDrivePort:
-				CM_CMDrivePort(site, testSite, testConditionCollection);
-				break;
-			case CMCase_CMConfigurePXES2780_TriggerBus:
-				CM_CMConfigurePXES2780_TriggerBus(site, testSite, testConditionCollection);
-				break;
-			case CMCase_CMSetPortDirection:
-				CM_CMSetPortDirection(site, testSite, testConditionCollection);
-				break;
-#pragma endregion
-
 #pragma region DM Case
+			case DMCase_DMInit:
+				CM_DMInit(site, testSite, testConditionCollection);
+				break;
+			case DMCase_DMConfigurePinToVector:
+				CM_DMConfigurePinToVector(site, testSite, testConditionCollection);
+				break;
+			case DMCase_DMConfigurePinToPMU:
+				CM_DMConfigurePinToPMU(site, testSite, testConditionCollection);
+				break;
+			case DMCase_DMConfigurePinToDIO:
+				CM_DMConfigurePinToDIO(site, testSite, testConditionCollection);
+				break;
+			case DMCase_DMLoadVectorFile:
+				CM_DMLoadVectorFile(site, testSite, testConditionCollection);
+				break;
+			case DMCase_WriteVector:
+				CM_WriteVector(site, testSite, testConditionCollection);
+				break;
+			case DMCase_DMDioModeDrivePin:
+				CM_DMDioModeDrivePin(site, testSite, testConditionCollection);
+				break;
+			case DMCase_DMConfigureInputTriggerSelect:
+				CM_DMConfigureInputTriggerSelect(site, testSite, testConditionCollection);
 			case DMCase_DMConfigureOutputTriggerSelect:
 				CM_DMConfigureOutputTriggerSelect(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMConfigureReadPin_TriggerOutput:
 				CM_DMConfigureReadPin_TriggerOutput(site, testSite, testConditionCollection);
 				break;
-			case DMCase_WriteVector:
-				CM_WriteVector(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMConfigurePinToPMU:
-				CM_DMConfigurePinToPMU(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMConfigurePinToVector:
-				CM_DMConfigurePinToVector(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMConfigurePinToDIO:
-				CM_DMConfigurePinToDIO(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMDioModeDrivePin:
-				CM_DMDioModeDrivePin(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMInit:
-				CM_DMInit(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMCastDPinLevelCondition:
+			case DMCase_DMCastDPinLevel:
 				CM_DMCastDPinLevel(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMCastTimingSetPeriod:
@@ -220,9 +210,6 @@ namespace Functions
 				break;
 			case DMCase_DMCastPEAttribute:
 				CM_DMCastPEAttribute(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMLoadVectorFile:
-				CM_DMLoadVectorFile(site, testSite, testConditionCollection);
 				break;
 #pragma endregion
 
@@ -241,9 +228,33 @@ namespace Functions
 				break;
 #pragma endregion
 
+#pragma region CM Case
+			case CMCase_CMDrivePin:
+				CM_CMDrivePin(site, testSite, testConditionCollection);
+				break;
+			case CMCase_CMDrivePort:
+				CM_CMDrivePort(site, testSite, testConditionCollection);
+				break;
+			case CMCase_CMConfigurePXES2780_TriggerBus:
+				CM_CMConfigurePXES2780_TriggerBus(site, testSite, testConditionCollection);
+				break;
+			case CMCase_CMSetPortDirection:
+				CM_CMSetPortDirection(site, testSite, testConditionCollection);
+				break;
+#pragma endregion
+
 #pragma region RF Case
 			case RFCase_SourcePower:
 				CM_RF_SourcePower(site, testSite, testConditionCollection);
+				break;
+			case RFCase_SourcePowerFast:
+				CM_RF_SourcePowerFast(site, testSite, testConditionCollection);
+				break;
+			case RFCase_SourcePowerLow:
+				CM_RF_SourcePowerLow(site, testSite, testConditionCollection);
+				break;
+			case RFCase_SourceTwoTone:
+				CM_RF_SourceTwoTone(site, testSite, testConditionCollection);
 				break;
 			case RFCase_IsolateChannel:
 				CM_RF_IsolateChannel(site, testSite, testConditionCollection);
@@ -272,15 +283,6 @@ namespace Functions
 			case RFCase_RunSourceAlignment:
 				CM_RF_RunSourceAlignment(site, testSite, testConditionCollection);
 				break;
-			case RFCase_SourcePowerFast:
-				CM_RF_SourcePowerFast(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SourcePowerLow:
-				CM_RF_SourcePowerLow(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SourceTwoTone:
-				CM_RF_SourceTwoTone(site, testSite, testConditionCollection);
-				break;
 			case RFCase_LoadModulation:
 				CM_RF_LoadModulation(site, testSite, testConditionCollection);
 				break;
@@ -290,14 +292,14 @@ namespace Functions
 			case RFCase_EvmMeasurementSetup:
 				CM_RF_EvmMeasurementSetup(site, testSite, testConditionCollection);
 				break;
+			case RFCase_SemMeasurementSetup:
+				CM_RF_SemMeasurementSetup(site, testSite, testConditionCollection);
+				break;
 			case RFCase_MeasureSetup:
 				CM_RF_MeasureSetup(site, testSite, testConditionCollection);
 				break;
 			case RFCase_MeasureSetupIQ:
 				CM_RF_MeasureSetupIQ(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SemMeasurementSetup:
-				CM_RF_SemMeasurementSetup(site, testSite, testConditionCollection);
 				break;
 			case RFCase_TriggerSigenStartModulation:
 				CM_RF_TriggerSigenStartModulation(site, testSite, testConditionCollection);
@@ -337,10 +339,10 @@ namespace Functions
 		case DCCase_MeasureVoltage:
 			TM_MeasureVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
-		case DCCase_MeasureBurstCurrent:
+		case DCCase_AMMeasureBurstCurrent:
 			TM_MeasureBurstCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
-		case DCCase_MeasureBurstVoltage:
+		case DCCase_AMMeasureBurstVoltage:
 			TM_MeasureBurstVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
 		case DCCase_DifferentialResult:
@@ -358,14 +360,26 @@ namespace Functions
 		case RFCase_MeasureChannel:
 			TM_RF_MeasureChannel(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
+		case RFCase_MeasureChannelFast:
+			TM_RF_MeasureChannelFast(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+			break;
 		case RFCase_MeasureChannelIQ:
 			TM_RF_MeasureChannelIQ(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+			break;
+		case RFCase_MeasureIIP3:
+			TM_RF_MeasureIIP3(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
 		case RFCase_MeasureBurstPower:
 			TM_RF_MeasureBurstPower(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
+		case RFCase_MeasureSwitchingTime:
+			TM_RF_MeasureSwitchingTime(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+			break;
 		case RFCase_MeasureSParam:
 			TM_RF_MeasureSParam(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+			break;
+		case RFCase_MeasureSParamIQ:
+			TM_RF_MeasureSParamIQ(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
 		case RFCase_P1dB_BinarySearch:
 			TM_RF_P1dB_BinarySearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
@@ -379,24 +393,6 @@ namespace Functions
 		case RFCase_PowerServo_LinearSearch:
 			TM_RF_PowerServo_LinearSearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
-		case RFCase_MeasureChannelFast:
-			TM_RF_MeasureChannelFast(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureSwitchingTime:
-			TM_RF_MeasureSwitchingTime(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureIIP3:
-			TM_RF_MeasureIIP3(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureSParamIQ:
-			TM_RF_MeasureSParamIQ(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_P1dB_DirectSearch:
-			TM_RF_P1dB_DirectSearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_WlanPowerServo:
-			TM_RF_WlanPowerServo(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
 		case RFCase_ReadEvm:
 			TM_RF_ReadEvm(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
@@ -408,6 +404,9 @@ namespace Functions
 			break;
 		case RFCase_ReadSemAsync:
 			TM_RF_ReadSemAsync(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+			break;
+		case RFCase_WlanPowerServo:
+			TM_RF_WlanPowerServo(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 			break;
 		case RFCase_WlanResidualEVM:
 			TM_RF_WlanResidualEVM(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);

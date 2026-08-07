@@ -553,6 +553,7 @@ namespace Functions
 		void CM_DriveCurrent(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection);
 		void CM_ClampVoltage(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
 		void CM_ClampCurrent(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
+		void CM_AMConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection);
 		void CM_AMConfigureSMUOutputTriggerMode(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
 		void CM_AMConfigureSMUOutputTriggerPulseWidth(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
 		void CM_AMConfigureSMUOutputTriggerDuringSource(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
@@ -563,11 +564,11 @@ namespace Functions
 		void CM_MapTriggerIntToTriggerOut(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
 		void CM_DriveSoftwareTrigger(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection);
 		void CM_ConfigureTriggerEdgeLevel(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection);
-		void CM_ConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection);
 
 		//Digital - Control Methods
 		void CM_DMInit(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
 		void CM_WriteVector(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
+		void CM_DMConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
 		void CM_DMConfigureOutputTriggerSelect(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
 		void CM_DMConfigureReadPin_TriggerOutput(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
 		void CM_DMConfigurePinToPMU(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection);

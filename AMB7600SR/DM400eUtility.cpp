@@ -1288,7 +1288,7 @@ namespace Functions
 						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
 						Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 
-						if (intControlMethod == DMCase_DMCastDPinLevelCondition || intControlMethod == DMCase_DMCastTimingSetPeriod || intControlMethod == DMCase_DMCastPEAttribute || intControlMethod == DMCase_DMLoadVectorFile)
+						if (intControlMethod == DMCase_DMCastDPinLevel || intControlMethod == DMCase_DMCastTimingSetPeriod || intControlMethod == DMCase_DMCastPEAttribute || intControlMethod == DMCase_DMLoadVectorFile)
 						{
 							tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
 							ControlMethod_Selection(site, siteIndex, intControlMethod, testConditionCollection);

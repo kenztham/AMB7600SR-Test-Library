@@ -3,518 +3,6 @@ using namespace Aemulus::TestLib::Utility;
 
 namespace Functions
 {
-	//Test Method
-#pragma region "Test Method"
-
-#pragma region "AM400 DM400"
-
-	void AMB7600SRTestLibrary::TM_OS(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_OS");
-
-			testParameterCount		= 1;
-
-			//Test Method Compulsory Variable
-			String^ pinMeasure		= nullptr;
-			double driveCurrent		= 0.0;
-			double clampVoltage		= 0.0;
-			double delay			= 0.0;
-
-			//Operation Variable
-			double Result			= 0.0;
-			String ^ ErrorMessage	= nullptr;
-			String ^ TM				= (String ^)tf_TestItem_Name();
-
-			#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-
-			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
-			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
-
-
-			if ((bool)testConditionCollection->ContainsKey("PinMeasure")) {
-				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
-			}
-			else {
-				ErrorMessage = "Test Condition [" + TM + " -> PinMeasure" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("DriveCurrent")) {
-				driveCurrent = (double)tf_TestParameter_ConditionCast(testParameterName, "DriveCurrent");
-			}
-			else {
-				ErrorMessage = "Test Condition [" + TM + " -> DriveCurrent" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("ClampVoltage")) {
-				clampVoltage = (double)tf_TestParameter_ConditionCast(testParameterName, "ClampVoltage");
-			}
-			else {
-				ErrorMessage = "Test Condition [" + TM + " -> ClampVoltage" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("Delay")) {
-				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "Delay");
-			}
-			else {
-				ErrorMessage = "Test Condition [" + TM + "-> Delay" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-			#pragma endregion "Test Condition Casting"
-
-			#pragma region "Test"
-			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
-			tl->WriteToLogger(testSite, "PinMeasure:" + HardwareRsrc->Alias);
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
-			{
-				DM_MeasureOS(testSite, pinMeasure, driveCurrent, clampVoltage, delay, Result);
-			}
-			else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
-			{
-				SMU_MeasureOS(testSite, pinMeasure, driveCurrent, clampVoltage, delay, Result);
-			}
-			else
-			{
-				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			#pragma endregion "Test"
-
-			#pragma region "Update Test Result"
-
-			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
-
-			tl->glob->TestResults[testSite][testParameterNumber] = Result;
-
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_OS");
-
-			#pragma endregion "Update Test Result"
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "TM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::TM_MeasureCurrent(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
-	{
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureCurrent");
-
-			testParameterCount		= 1;
-
-			//Test Method Compulsory Variable
-			String^ pinMeasure		= nullptr;
-			double delay			= 0.0;
-
-			//Operation Variable
-			String ^ ErrorMessage	= nullptr;
-			String ^ TM				= (String ^)tf_TestItem_Name();
-			double Result			= 0.0;
-
-			#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
-			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
-
-			if ((bool)testConditionCollection->ContainsKey("PinMeasure")) {
-				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
-			}
-			else {
-				ErrorMessage = "Test Condition [" + TM + " -> PinMeasure" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("Delay")) {
-				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "Delay");
-			}
-			else {
-				ErrorMessage = "Test Condition [" + TM + " -> Delay" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			#pragma endregion "Test Condition Casting"
-
-			#pragma region "Test"
-
-			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
-			{
-				DM_MeasureCurrent(testSite, pinMeasure, delay, Result);
-			}
-			else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
-			{
-				SMU_MeasureCurrent(testSite, pinMeasure, delay, Result);
-			}
-			else
-			{
-				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-
-			#pragma endregion "Test"
-
-			#pragma region "Update Test Result"
-
-			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
-
-			tl->glob->TestResults[testSite][testParameterNumber] = Result;
-
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureCurrent");
-
-			#pragma endregion "Update Test Result"
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "TM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-
-	}
-	void AMB7600SRTestLibrary::TM_MeasureVoltage(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
-	{
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureVoltage");
-
-			testParameterCount = 1;
-
-			//Test Method Compulsory Variable
-			String^ pinMeasure		= nullptr;
-			double delay			= 0.0;
-			double nplc				= 0.0;
-
-			//Operation Variable
-			String ^ ErrorMessage	= nullptr;
-			String ^ TM				= (String ^)tf_TestItem_Name();
-			double Result			= 0.0;
-
-			#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
-			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
-
-
-			if ((bool)testConditionCollection->ContainsKey("PinMeasure"))
-			{
-				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + " -> PinMeasure" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("Delay"))
-			{
-				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "Delay");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + " -> Delay" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			#pragma endregion "Test Condition Casting"
-
-			#pragma region "Test"
-
-			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
-			{
-				DM_MeasureVoltage(testSite, pinMeasure, delay, Result);
-			}
-			else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
-			{
-				SMU_MeasureVoltage(testSite, pinMeasure, delay, Result);
-			}
-			else
-			{
-				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			#pragma endregion "Test"
-
-			#pragma region "Update Test Result"
-
-			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
-
-			tl->glob->TestResults[testSite][testParameterNumber] = Result;
-
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureVoltage");
-
-			#pragma endregion "Update Test Result"
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "TM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-
-	}
-#pragma endregion
-
-#pragma region "AM400"
-	void AMB7600SRTestLibrary::TM_MeasureBurstCurrent(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureBurstCurrent");
-
-			testParameterCount		= 1;
-
-			//Test Method Compulsory Variable
-			String^ pinMeasure		= nullptr;
-			double duration			= 0;
-			double peakPercentage	= 0;
-
-			//Operation Variable
-			String ^ ErrorMessage	= nullptr;
-			String ^ TM				= (String ^)tf_TestItem_Name();
-			double Result			= 0.0;
-
-			#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
-			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
-
-
-			if ((bool)testConditionCollection->ContainsKey("PinMeasure")) {
-				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
-			}
-			else {
-				ErrorMessage = "Test Condition [" + TM + "PinMeasure" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("Duration"))
-			{
-				duration = (double)tf_TestParameter_ConditionCast(testParameterName, "Duration");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + "Duration" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("PeakPercentage"))
-			{
-				peakPercentage = (double)tf_TestParameter_ConditionCast(testParameterName, "PeakPercentage");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + "PeakPercentage" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			#pragma endregion "Test Condition Casting"
-
-			#pragma region "Test"
-			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
-			{
-				SMU_MeasureBurstCurrent(testSite, pinMeasure, duration, peakPercentage, Result);
-			}
-			else
-			{
-				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			#pragma endregion "Test"
-
-			#pragma region "Update Test Result"
-
-			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
-
-			tl->glob->TestResults[testSite][testParameterNumber] = Result;
-
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureBurstCurrent");
-
-			#pragma endregion "Update Test Result"
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "TM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::TM_MeasureBurstVoltage(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureBurstVoltage");
-
-			testParameterCount = 1;
-
-			//Test Method Compulsory Variable
-			String^ pinMeasure		= nullptr;
-			double duration			= 0;
-			double peakPercentage	= 0;
-			double delay			= 0;
-
-			//Operation Variable
-			String ^ ErrorMessage	= nullptr;
-			double Result			= 0.0;
-			String ^ TM				= (String ^)tf_TestItem_Name();
-
-			#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
-			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
-
-			if ((bool)testConditionCollection->ContainsKey("PinMeasure"))
-			{
-				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + "PinMeasure" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("Duration"))
-			{
-				duration = (double)tf_TestParameter_ConditionCast(testParameterName, "Duration");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + "Duration" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("PeakPercentage"))
-			{
-				peakPercentage = (double)tf_TestParameter_ConditionCast(testParameterName, "PeakPercentage");
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + TM + "PeakPercentage" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			#pragma endregion "Test Condition Casting"
-
-			#pragma region "Test"
-
-			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
-			{
-				SMU_MeasureBurstVoltage(testSite, pinMeasure, duration, peakPercentage, Result);
-			}
-			else
-			{
-				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
-				throw gcnew Exception(ErrorMessage);
-			}
-			#pragma endregion "Test"
-
-			#pragma region "Update Test Result"
-
-			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
-
-			tl->glob->TestResults[testSite][testParameterNumber] = Result;
-
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureBurstVoltage");
-
-			#pragma endregion "Update Test Result"
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "TM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-#pragma endregion
-
-#pragma endregion
-
 	//Control Method
 #pragma region "Control Method"
 
@@ -859,122 +347,6 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_ConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** CM_MIPIWriteVector
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_ConfigureInputTriggerSelect");
-
-			//Control Method Compulsory Variabl
-			int trigSource			= 0;
-			double delayAfterTrig	= 0;
-			String^ alias			= nullptr;
-
-			//Operation Variable
-			String ^ ErrorMessage	= nullptr;
-			String ^ CM				= "ConfigureInputTriggerSelect_";
-
-			#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("PinAlias"))
-			{
-				ConditionInfo = testConditionCollection["PinAlias"][site];
-				alias = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "PinAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigSource"))
-			{
-				ConditionInfo = testConditionCollection["TrigSource"][site];
-				trigSource = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigSource" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("DelayAfterTrig"))
-			{
-				ConditionInfo = testConditionCollection["DelayAfterTrig"][site];
-				delayAfterTrig = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "DelayAfterTrig" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			#pragma endregion "Test Condition Casting"
-
-			#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(alias)[0];
-
-			if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
-			{
-				if (HardwareRsrc->Hierarchy->Length == 1)//Module Alias
-				{
-					DM_ConfigureInputTriggerSelect(testSite, alias, trigSource, delayAfterTrig);
-				}
-				else
-				{
-					ErrorMessage = "Pin Alias is not supported";
-					throw gcnew Exception(ErrorMessage);
-				}
-			}
-			else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
-			{
-				if (HardwareRsrc->Hierarchy[1]->StartsWith("Pin") == true)//Pin Alias
-				{
-					SMU_ConfigureInputTriggerSelect(testSite, alias, trigSource, delayAfterTrig);
-				}
-				else
-				{
-					ErrorMessage = "Module Alias is not supported";
-					throw gcnew Exception(ErrorMessage);
-				}
-			}
-			else
-			{
-				ErrorMessage = "Alias: " + alias + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_ConfigureInputTriggerSelect");
-
-			#pragma endregion "Test"
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
 	void AMB7600SRTestLibrary::CM_DriveVoltage(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
@@ -1016,22 +388,32 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				if (testcond->Name->Contains("PinAlias"))
 					PinCount++;				
 			}
 
 			pin	= gcnew array<String^>(PinCount);		
 			driveVoltage = gcnew array<double>(PinCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < PinCount; Count++)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					pin[Count] = testcond->Name;
-					Count++;
+					if (testcond->Name == "PinAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PinAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
-			
+
 			for (int i = 0; i < PinCount; i++)
 			{
 				#pragma region Check PinAlias exists in PinGroupPinMaps
@@ -1067,9 +449,14 @@ namespace Functions
 				#pragma endregion
 				
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(pin[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("Force"))
 				{
-					ConditionInfo = testConditionCollection[pin[i]][site];
+					ConditionInfo = testConditionCollection["Force"][site];
+					driveVoltage[i] = (double)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("Force_" + i))
+				{
+					ConditionInfo = testConditionCollection["Force_" + i][site];
 					driveVoltage[i] = (double)ConditionInfo->Value;
 				}
 				else
@@ -1159,31 +546,41 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				if (testcond->Name->Contains("PinAlias"))
 					PinCount++;
 			}
 
-			pin = gcnew array<String^>(PinCount);	
+			pin = gcnew array<String^>(PinCount);
 			driveCurrent = gcnew array<double>(PinCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < PinCount; Count++)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					pin[Count] = testcond->Name;
-					Count++;
+					if (testcond->Name == "PinAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PinAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < PinCount; i++)
 			{
-
-				#pragma region Check PinAlias exists in PinGroupPinMaps
+#pragma region Check PinAlias exists in PinGroupPinMaps
 				if (ResourceManagerSett[testSite].PinGroupPinMaps != nullptr) {
 					bool aliasFound = false;
 
 					// Iterate over all key-value pairs in PinGroupPinMaps
-					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps) {
+					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps)
+					{
 						array<String^>^ pinAliases = entry->Value;
 
 						// Check if the pinAliasToCheck exists in the array of pin aliases
@@ -1207,12 +604,17 @@ namespace Functions
 					ErrorMessage = "PinGroupPinMaps is not initialized.";
 					throw gcnew Exception(ErrorMessage);
 				}
-				#pragma endregion
+#pragma endregion
 
-				//Getting all Pins and Conditions				
-				if ((bool)testConditionCollection->ContainsKey(pin[i]))
+				//Getting all Pins and Conditions
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("Force"))
 				{
-					ConditionInfo = testConditionCollection[pin[i]][site];
+					ConditionInfo = testConditionCollection["Force"][site];
+					driveCurrent[i] = (double)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("Force_" + i))
+				{
+					ConditionInfo = testConditionCollection["Force_" + i][site];
 					driveCurrent[i] = (double)ConditionInfo->Value;
 				}
 				else
@@ -1301,30 +703,41 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				if (testcond->Name->Contains("PinAlias"))
 					PinCount++;
 			}
 
-			pin = gcnew array<String^>(PinCount);		
+			pin = gcnew array<String^>(PinCount);
 			clampVoltage = gcnew array<double>(PinCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < PinCount; Count++)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					pin[Count] = testcond->Name;
-					Count++;
+					if (testcond->Name == "PinAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PinAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < PinCount; i++)
 			{
-				#pragma region Check PinAlias exists in PinGroupPinMaps
+#pragma region Check PinAlias exists in PinGroupPinMaps
 				if (ResourceManagerSett[testSite].PinGroupPinMaps != nullptr) {
 					bool aliasFound = false;
 
 					// Iterate over all key-value pairs in PinGroupPinMaps
-					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps) {
+					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps)
+					{
 						array<String^>^ pinAliases = entry->Value;
 
 						// Check if the pinAliasToCheck exists in the array of pin aliases
@@ -1348,12 +761,17 @@ namespace Functions
 					ErrorMessage = "PinGroupPinMaps is not initialized.";
 					throw gcnew Exception(ErrorMessage);
 				}
-				#pragma endregion		
+#pragma endregion
 
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(pin[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("Clamp"))
 				{
-					ConditionInfo = testConditionCollection[pin[i]][site];
+					ConditionInfo = testConditionCollection["Clamp"][site];
+					clampVoltage[i] = (double)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("Clamp_" + i))
+				{
+					ConditionInfo = testConditionCollection["Clamp_" + i][site];
 					clampVoltage[i] = (double)ConditionInfo->Value;
 				}
 				else
@@ -1362,7 +780,6 @@ namespace Functions
 					throw gcnew Exception(ErrorMessage);
 				}
 			}
-
 
 			#pragma endregion "Control Condition Casting"
 
@@ -1445,32 +862,43 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				if (testcond->Name->Contains("PinAlias"))
 					PinCount++;
 			}
 
 			pin = gcnew array<String^>(PinCount);
 			clampCurrent = gcnew array<double>(PinCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < PinCount; Count++)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					pin[Count] = testcond->Name;
-					Count++;
+					if (testcond->Name == "PinAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PinAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < PinCount; i++)
 			{
-				#pragma region Check PinAlias exists in PinGroupPinMaps
+#pragma region Check PinAlias exists in PinGroupPinMaps
 				if (ResourceManagerSett[testSite].PinGroupPinMaps != nullptr) {
 					bool aliasFound = false;
-				
+
 					// Iterate over all key-value pairs in PinGroupPinMaps
-					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps) {
+					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps)
+					{
 						array<String^>^ pinAliases = entry->Value;
-				
+
 						// Check if the pinAliasToCheck exists in the array of pin aliases
 						for each (String^ alias in pinAliases) {
 							if (alias == pin[i]) {
@@ -1482,7 +910,7 @@ namespace Functions
 							break;  // No need to continue if the alias is found
 						}
 					}
-				
+
 					if (!aliasFound) {
 						ErrorMessage = "Pin alias does not exist in Pin Groups.";
 						throw gcnew Exception(ErrorMessage);
@@ -1492,12 +920,17 @@ namespace Functions
 					ErrorMessage = "PinGroupPinMaps is not initialized.";
 					throw gcnew Exception(ErrorMessage);
 				}
-				#pragma endregion		
+#pragma endregion
 
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(pin[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("Clamp"))
 				{
-					ConditionInfo = testConditionCollection[pin[i]][site];
+					ConditionInfo = testConditionCollection["Clamp"][site];
+					clampCurrent[i] = (double)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("Clamp_" + i))
+				{
+					ConditionInfo = testConditionCollection["Clamp_" + i][site];
 					clampCurrent[i] = (double)ConditionInfo->Value;
 				}
 				else
@@ -1586,30 +1019,41 @@ namespace Functions
 			
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				if (testcond->Name->Contains("PinAlias"))
 					PinCount++;
 			}
 
 			pin = gcnew array<String^>(PinCount);
 			nplc = gcnew array<double>(PinCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < PinCount; Count++)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					pin[Count] = testcond->Name;
-					Count++;
+					if (testcond->Name == "PinAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PinAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < PinCount; i++)
 			{
-				#pragma region Check PinAlias exists in PinGroupPinMaps
+#pragma region Check PinAlias exists in PinGroupPinMaps
 				if (ResourceManagerSett[testSite].PinGroupPinMaps != nullptr) {
 					bool aliasFound = false;
-					Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pin[i])[0];  //Get Pin Resource Name
+
 					// Iterate over all key-value pairs in PinGroupPinMaps
-					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps) {
+					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps)
+					{
 						array<String^>^ pinAliases = entry->Value;
 
 						// Check if the pinAliasToCheck exists in the array of pin aliases
@@ -1633,12 +1077,17 @@ namespace Functions
 					ErrorMessage = "PinGroupPinMaps is not initialized.";
 					throw gcnew Exception(ErrorMessage);
 				}
-				#pragma endregion	
+#pragma endregion
 
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(pin[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("NPLC"))
 				{
-					ConditionInfo = testConditionCollection[pin[i]][site];
+					ConditionInfo = testConditionCollection["NPLC"][site];
+					nplc[i] = (double)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("NPLC_" + i))
+				{
+					ConditionInfo = testConditionCollection["NPLC_" + i][site];
 					nplc[i] = (double)ConditionInfo->Value;
 				}
 				else
@@ -1725,30 +1174,41 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				if (testcond->Name->Contains("PinAlias"))
 					PinCount++;
 			}
 
-			pin			= gcnew array<String^>(PinCount);
-			pinState	= gcnew array<int>(PinCount);
+			pin = gcnew array<String^>(PinCount);
+			pinState = gcnew array<int>(PinCount);
 
-			for each(Condition ^ testcond in testConditionCollection)
+			for (Count = 0; Count < PinCount; Count++)
 			{
-				if (!testcond->Name->Contains("ControlMethod"))
+				for each(Condition ^ testcond in testConditionCollection)
 				{
-					pin[Count] = testcond->Name;
-					Count++;
+					if (testcond->Name == "PinAlias" && Count == 0) //First condition as "PinAlias"
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
+					else if (testcond->Name == "PinAlias_" + Count) //Following condition as "PinAlias_1", "PinAlias_2" ...
+					{
+						ConditionInfo = testConditionCollection[testcond->Name][site];
+						pin[Count] = (String^)ConditionInfo->Value;
+						break;
+					}
 				}
 			}
 
 			for (int i = 0; i < PinCount; i++)
 			{
-				#pragma region Check PinAlias exists in PinGroupPinMaps
+#pragma region Check PinAlias exists in PinGroupPinMaps
 				if (ResourceManagerSett[testSite].PinGroupPinMaps != nullptr) {
 					bool aliasFound = false;
-					Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pin[i])[0];  //Get Pin Resource Name
-																																// Iterate over all key-value pairs in PinGroupPinMaps
-					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps) {
+
+					// Iterate over all key-value pairs in PinGroupPinMaps
+					for each (KeyValuePair<String^, array<String^>^>^ entry in ResourceManagerSett[testSite].PinGroupPinMaps)
+					{
 						array<String^>^ pinAliases = entry->Value;
 
 						// Check if the pinAliasToCheck exists in the array of pin aliases
@@ -1772,13 +1232,17 @@ namespace Functions
 					ErrorMessage = "PinGroupPinMaps is not initialized.";
 					throw gcnew Exception(ErrorMessage);
 				}
-
-				#pragma endregion
+#pragma endregion
 
 				//Getting all Pins and Conditions
-				if ((bool)testConditionCollection->ContainsKey(pin[i]))
+				if (i == 0 && (bool)testConditionCollection->ContainsKey("PinOn"))
 				{
-					ConditionInfo = testConditionCollection[pin[i]][site];
+					ConditionInfo = testConditionCollection["PinOn"][site];
+					pinState[i] = (int)ConditionInfo->Value;
+				}
+				else if (i != 0 && (bool)testConditionCollection->ContainsKey("PinOn_" + i))
+				{
+					ConditionInfo = testConditionCollection["PinOn_" + i][site];
 					pinState[i] = (int)ConditionInfo->Value;
 				}
 				else
@@ -1787,6 +1251,7 @@ namespace Functions
 					throw gcnew Exception(ErrorMessage);
 				}
 			}
+
 			#pragma endregion "Control Condition Casting"
 
 			#pragma region "Test"
@@ -1852,6 +1317,92 @@ namespace Functions
 
 #pragma region "AM400"
 
+	void AMB7600SRTestLibrary::CM_AMConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** CM_MIPIWriteVector
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+
+			tl->WriteToLogger(testSite, "Executing Control Method DCCase_ConfigureInputTriggerSelect");
+
+			//Control Method Compulsory Variabl
+			int trigSource = 0;
+			double delayAfterTrig = 0;
+			String^ alias = nullptr;
+
+			//Operation Variable
+			String ^ ErrorMessage = nullptr;
+			String ^ CM = "ConfigureInputTriggerSelect_";
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("PinAlias"))
+			{
+				ConditionInfo = testConditionCollection["PinAlias"][site];
+				alias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "PinAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigSource"))
+			{
+				ConditionInfo = testConditionCollection["TrigSource"][site];
+				trigSource = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigSource" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("MeasureDelayAfterTrig"))
+			{
+				ConditionInfo = testConditionCollection["MeasureDelayAfterTrig"][site];
+				delayAfterTrig = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "MeasureDelayAfterTrig" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			SMU_ConfigureInputTriggerSelect(testSite, alias, trigSource, delayAfterTrig);
+				
+			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_ConfigureInputTriggerSelect");
+
+#pragma endregion "Test"
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
 	void AMB7600SRTestLibrary::CM_AMConfigureSMUOutputTriggerMode(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
@@ -2265,7 +1816,7 @@ namespace Functions
 			{
 				if (testcond->Name->StartsWith(TM + "ResultKey_"))
 				{
-					SplitString = testcond->Name->Split(Separators, System::StringSplitOptions::None);;
+					SplitString = testcond->Name->Split(Separators, System::StringSplitOptions::None);
 					Variable[Count] = SplitString[2];
 					Count++;
 				}
@@ -2447,6 +1998,518 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
+
+#pragma endregion
+
+	//Test Method
+#pragma region "Test Method"
+
+#pragma region "AM400 DM400"
+
+	void AMB7600SRTestLibrary::TM_OS(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+
+			tl->WriteToLogger(testSite, "Executing Test Method DCCase_OS");
+
+			testParameterCount = 1;
+
+			//Test Method Compulsory Variable
+			String^ pinMeasure = nullptr;
+			double driveCurrent = 0.0;
+			double clampVoltage = 0.0;
+			double delay = 0.0;
+
+			//Operation Variable
+			double Result = 0.0;
+			String ^ ErrorMessage = nullptr;
+			String ^ TM = (String ^)tf_TestItem_Name();
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+
+			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
+			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
+
+
+			if ((bool)testConditionCollection->ContainsKey("PinMeasure")) {
+				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
+			}
+			else {
+				ErrorMessage = "Test Condition [" + TM + " -> PinMeasure" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("DriveCurrent")) {
+				driveCurrent = (double)tf_TestParameter_ConditionCast(testParameterName, "DriveCurrent");
+			}
+			else {
+				ErrorMessage = "Test Condition [" + TM + " -> DriveCurrent" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("ClampVoltage")) {
+				clampVoltage = (double)tf_TestParameter_ConditionCast(testParameterName, "ClampVoltage");
+			}
+			else {
+				ErrorMessage = "Test Condition [" + TM + " -> ClampVoltage" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("Delay")) {
+				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "Delay");
+			}
+			else {
+				ErrorMessage = "Test Condition [" + TM + "-> Delay" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
+			tl->WriteToLogger(testSite, "PinMeasure:" + HardwareRsrc->Alias);
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
+			{
+				DM_MeasureOS(testSite, pinMeasure, driveCurrent, clampVoltage, delay, Result);
+			}
+			else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
+			{
+				SMU_MeasureOS(testSite, pinMeasure, driveCurrent, clampVoltage, delay, Result);
+			}
+			else
+			{
+				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test"
+
+#pragma region "Update Test Result"
+
+			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
+
+			tl->glob->TestResults[testSite][testParameterNumber] = Result;
+
+			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_OS");
+
+#pragma endregion "Update Test Result"
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "TM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::TM_MeasureCurrent(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	{
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+
+			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureCurrent");
+
+			testParameterCount = 1;
+
+			//Test Method Compulsory Variable
+			String^ pinMeasure = nullptr;
+			double delay = 0.0;
+
+			//Operation Variable
+			String ^ ErrorMessage = nullptr;
+			String ^ TM = (String ^)tf_TestItem_Name();
+			double Result = 0.0;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
+			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
+
+			if ((bool)testConditionCollection->ContainsKey("PinMeasure")) {
+				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
+			}
+			else {
+				ErrorMessage = "Test Condition [" + TM + " -> PinMeasure" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("Delay")) {
+				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "Delay");
+			}
+			else {
+				ErrorMessage = "Test Condition [" + TM + " -> Delay" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
+			{
+				DM_MeasureCurrent(testSite, pinMeasure, delay, Result);
+			}
+			else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
+			{
+				SMU_MeasureCurrent(testSite, pinMeasure, delay, Result);
+			}
+			else
+			{
+				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+
+#pragma endregion "Test"
+
+#pragma region "Update Test Result"
+
+			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
+
+			tl->glob->TestResults[testSite][testParameterNumber] = Result;
+
+			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureCurrent");
+
+#pragma endregion "Update Test Result"
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "TM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+
+	}
+	void AMB7600SRTestLibrary::TM_MeasureVoltage(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	{
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+
+			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureVoltage");
+
+			testParameterCount = 1;
+
+			//Test Method Compulsory Variable
+			String^ pinMeasure = nullptr;
+			double delay = 0.0;
+			double nplc = 0.0;
+
+			//Operation Variable
+			String ^ ErrorMessage = nullptr;
+			String ^ TM = (String ^)tf_TestItem_Name();
+			double Result = 0.0;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
+			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
+
+
+			if ((bool)testConditionCollection->ContainsKey("PinMeasure"))
+			{
+				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + " -> PinMeasure" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("Delay"))
+			{
+				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "Delay");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + " -> Delay" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
+			{
+				DM_MeasureVoltage(testSite, pinMeasure, delay, Result);
+			}
+			else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
+			{
+				SMU_MeasureVoltage(testSite, pinMeasure, delay, Result);
+			}
+			else
+			{
+				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test"
+
+#pragma region "Update Test Result"
+
+			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
+
+			tl->glob->TestResults[testSite][testParameterNumber] = Result;
+
+			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureVoltage");
+
+#pragma endregion "Update Test Result"
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "TM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+
+	}
+#pragma endregion
+
+#pragma region "AM400"
+	void AMB7600SRTestLibrary::TM_MeasureBurstCurrent(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+
+			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureBurstCurrent");
+
+			testParameterCount = 1;
+
+			//Test Method Compulsory Variable
+			String^ pinMeasure = nullptr;
+			double duration = 0;
+			double peakPercentage = 0;
+
+			//Operation Variable
+			String ^ ErrorMessage = nullptr;
+			String ^ TM = (String ^)tf_TestItem_Name();
+			double Result = 0.0;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
+			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
+
+
+			if ((bool)testConditionCollection->ContainsKey("PinMeasure")) {
+				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
+			}
+			else {
+				ErrorMessage = "Test Condition [" + TM + "PinMeasure" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("Duration"))
+			{
+				duration = (double)tf_TestParameter_ConditionCast(testParameterName, "Duration");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + "Duration" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("PeakPercentage"))
+			{
+				peakPercentage = (double)tf_TestParameter_ConditionCast(testParameterName, "PeakPercentage");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + "PeakPercentage" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
+			{
+				SMU_MeasureBurstCurrent(testSite, pinMeasure, duration, peakPercentage, Result);
+			}
+			else
+			{
+				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test"
+
+#pragma region "Update Test Result"
+
+			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
+
+			tl->glob->TestResults[testSite][testParameterNumber] = Result;
+
+			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureBurstCurrent");
+
+#pragma endregion "Update Test Result"
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "TM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::TM_MeasureBurstVoltage(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+
+			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureBurstVoltage");
+
+			testParameterCount = 1;
+
+			//Test Method Compulsory Variable
+			String^ pinMeasure = nullptr;
+			double duration = 0;
+			double peakPercentage = 0;
+			double delay = 0;
+
+			//Operation Variable
+			String ^ ErrorMessage = nullptr;
+			double Result = 0.0;
+			String ^ TM = (String ^)tf_TestItem_Name();
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
+			testConditionCollection = tf_TestParameter_ConditionList(testParameterName);
+
+			if ((bool)testConditionCollection->ContainsKey("PinMeasure"))
+			{
+				pinMeasure = (String^)tf_TestParameter_ConditionCast(testParameterName, "PinMeasure");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + "PinMeasure" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("Duration"))
+			{
+				duration = (double)tf_TestParameter_ConditionCast(testParameterName, "Duration");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + "Duration" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("PeakPercentage"))
+			{
+				peakPercentage = (double)tf_TestParameter_ConditionCast(testParameterName, "PeakPercentage");
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + TM + "PeakPercentage" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
+			{
+				SMU_MeasureBurstVoltage(testSite, pinMeasure, duration, peakPercentage, Result);
+			}
+			else
+			{
+				ErrorMessage = "Pin Alias: " + pinMeasure + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
+				throw gcnew Exception(ErrorMessage);
+			}
+#pragma endregion "Test"
+
+#pragma region "Update Test Result"
+
+			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
+
+			tl->glob->TestResults[testSite][testParameterNumber] = Result;
+
+			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureBurstVoltage");
+
+#pragma endregion "Update Test Result"
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "TM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+#pragma endregion
 
 #pragma endregion
 

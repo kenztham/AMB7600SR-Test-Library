@@ -699,112 +699,115 @@ UUTOffset:		Supported.
 #define Action_Tristate_D0_D3	"Z"
 #pragma endregion "DM500x_Action"
 
-#pragma region "DC_TestMethods"
-#define DCCase_OS							1001
-#define DCCase_MeasureCurrent				1002
-#define DCCase_MeasureVoltage				1003
-#define DCCase_MeasureBurstCurrent			1004
-#define DCCase_MeasureBurstVoltage			1005
-#define DCCase_DifferentialResult			1006
-#pragma endregion "DC_TestMethods"
-
 #pragma region "DC_ControlMethods"
-#define DCCase_DriveVoltage								1101
-#define DCCase_DriveCurrent								1102
-#define DCCase_ClampVoltage								1103
-#define DCCase_ClampCurrent								1104
-#define DCCase_MapTriggerIntToTriggerOut                1105
-#define DCCase_DriveSoftwareTrigger                     1106
-#define DCCase_ConfigureTriggerEdgeLevel                1107
-#define DCCase_ConfigureInputTriggerSelect			    1108
-#define DCCase_AMConfigureSMUOutputTriggerMode			1109
-#define DCCase_AMConfigureSMUOutputTriggerPulseWidth	1110
-#define DCCase_AMConfigureSMUOutputTriggerDuringSource	1111
-#define DCCase_AMConfigureOutputTriggerSelect			1112
-#define DCCase_SetNPLC									1113
-#define DCCase_SetPinOnOff								1114
-#define DCCase_WaitSecond								1115
-#define CMCase_CMDrivePin								1116
-#define CMCase_CMDrivePort								1117
-#define CMCase_CMConfigurePXES2780_TriggerBus			1118
-#define CMCase_CMSetPortDirection						1119
+#define DCCase_DriveVoltage								1001
+#define DCCase_DriveCurrent								1002
+#define DCCase_ClampVoltage								1003
+#define DCCase_ClampCurrent								1004
+#define DCCase_SetNPLC									1005
+#define DCCase_SetPinOnOff								1006
+#define DCCase_ConfigureTriggerEdgeLevel                1007
+#define DCCase_MapTriggerIntToTriggerOut                1008
+#define DCCase_DriveSoftwareTrigger                     1009
+#define DCCase_AMConfigureInputTriggerSelect			    1010
+#define DCCase_AMConfigureSMUOutputTriggerPulseWidth	1011
+#define DCCase_AMConfigureSMUOutputTriggerDuringSource	1012
+#define DCCase_AMConfigureSMUOutputTriggerMode			1013
+#define DCCase_AMConfigureOutputTriggerSelect			1014
+#define DCCase_WaitSecond								1015
 #pragma endregion "DC_ControlMethods"
 
-#pragma region "RF_CW_TestMethods"
-#define RFCase_MeasureChannel				2001
-#define RFCase_MeasureChannelIQ				2002
-#define RFCase_MeasureBurstPower			2003
-#define RFCase_MeasureSParam				2004
-#define RFCase_P1dB_BinarySearch			2005
-#define RFCase_PowerServo					2006
-#define RFCase_PowerServo_BinarySearch		2007
-#define RFCase_PowerServo_LinearSearch		2008
-#define RFCase_MeasureChannelFast		    2009
-#define RFCase_MeasureSwitchingTime         2010
-#define RFCase_MeasureIIP3                  2011
-#define RFCase_MeasureSParamIQ				2012
-#define RFCase_P1dB_DirectSearch            2013
-#define RFCase_WlanPowerServo               2014
-#define RFCase_ReadEvm                      2015
-#define RFCase_ReadEvmAsync                 2016
-#define RFCase_ReadSem                      2017
-#define RFCase_ReadSemAsync                 2018
-#define RFCase_WlanResidualEVM              2019
-#define RFCase_WolferMeasureChannel         2020
+#pragma region "DC_TestMethods"
+#define DCCase_OS							1101
+#define DCCase_MeasureCurrent				1102
+#define DCCase_MeasureVoltage				1103
+#define DCCase_AMMeasureBurstCurrent		1104
+#define DCCase_AMMeasureBurstVoltage		1105
+#define DCCase_DifferentialResult			1106
+#pragma endregion "DC_TestMethods"
 
-#pragma endregion "RF_CW_TestMethods"
-
-#pragma region "RF_CW_ControlMethods"
-#define RFCase_SourcePower					2101
-#define RFCase_IsolateChannel				2102
-#define RFCase_StartModulation				2103
-#define RFCase_StopModulation				2104
-#define RFCase_SetSourceTriggerRouting		2105
-#define RFCase_SetSourceTriggerIn			2106
-#define RFCase_SetSourceTriggerOut			2107
-#define RFCase_SetMeasureTriggerRouting		2108
-#define RFCase_SetMeasureTriggerIn			2109
-#define RFCase_RunSourceAlignment			2110
-#define RFCase_SourcePowerFast              2111
-#define RFCase_SourcePowerLow               2112
-#define RFCase_SourceTwoTone                2113
-#define RFCase_LoadModulation               2114
-#define RFCase_WlanInit                     2115
-#define RFCase_EvmMeasurementSetup          2116
-#define RFCase_MeasureSetup                 2117
-#define RFCase_MeasureSetupIQ               2118
-#define RFCase_SemMeasurementSetup          2119
-#define RFCase_TriggerSigenStartModulation  2120
-#define RFCase_WolferInit	                2121
-#define RFCase_WolferSelectPath             2122
-#define RFCase_WolferSourcePower            2123
-#pragma endregion "RF_CW_ControlMethods"
+#pragma region "DM_ControlMethods"
+#define DMCase_DMInit									3001
+#define DMCase_DMConfigurePinToPMU						3002
+#define DMCase_DMConfigurePinToVector					3003
+#define DMCase_DMConfigurePinToDIO						3004
+#define DMCase_DMLoadVectorFile							3005
+#define DMCase_WriteVector								3006
+#define DMCase_DMDioModeDrivePin						3007
+#define DMCase_DMConfigureInputTriggerSelect			3008
+#define DMCase_DMConfigureOutputTriggerSelect			3009
+#define DMCase_DMConfigureReadPin_TriggerOutput			3010
+#define DMCase_DMCastDPinLevel							3011
+#define DMCase_DMCastTimingSetPeriod					3012
+#define DMCase_DMCastPEAttribute						3013
+#pragma endregion "DM_ControlMethods"
 
 #pragma region "DM_TestMethods"
 #define DMCase_MIPIReadVector				3001
 #pragma endregion "DM_TestMethods"
 
-#pragma region "DM_ControlMethods"
-#define DMCase_DMConfigureOutputTriggerSelect		3100
-#define DMCase_DMConfigureReadPin_TriggerOutput		3101
-#define DMCase_WriteVector							3102
-#define DMCase_DMConfigurePinToPMU					3103
-#define DMCase_DMConfigurePinToVector				3104
-#define DMCase_DMConfigurePinToDIO					3105
-#define DMCase_DMDioModeDrivePin                    3106
-#define DMCase_DMInit                               3107
-#define DMCase_DMCastDPinLevelCondition				3108
-#define DMCase_DMCastTimingSetPeriod				3109
-#define DMCase_DMCastPEAttribute                    3110
-#define DMCase_DMLoadVectorFile                     3111
-#pragma endregion "DM_ControlMethods"
-
 #pragma region "DIO_ControlMethods"
-#define IOMCase_DIODrivePin						    4001
-#define IOMCase_DIODrivePort						4002
-#define IOMCase_DIOSetModuleVIO						4003
-#define IOMCase_DIOSetPortDirection					4004
+#define IOMCase_DIODrivePin								4001
+#define IOMCase_DIODrivePort							4002
+#define IOMCase_DIOSetModuleVIO							4003
+#define IOMCase_DIOSetPortDirection						4004
 #pragma endregion "DIO_ControlMethods"
+
+#pragma region "CM_ControlMethods"
+#define CMCase_CMDrivePin								5001
+#define CMCase_CMDrivePort								5002
+#define CMCase_CMConfigurePXES2780_TriggerBus			5003
+#define CMCase_CMSetPortDirection						5004
+#pragma endregion "CM_ControlMethods"
+
+#pragma region "RF_CW_ControlMethods"
+#define RFCase_SourcePower								2001
+#define RFCase_SourcePowerFast							2002
+#define RFCase_SourcePowerLow							2003
+#define RFCase_SourceTwoTone							2004
+#define RFCase_IsolateChannel							2005
+#define RFCase_StartModulation							2006
+#define RFCase_StopModulation							2007
+#define RFCase_SetSourceTriggerRouting					2008
+#define RFCase_SetSourceTriggerIn						2009
+#define RFCase_SetSourceTriggerOut						2010
+#define RFCase_SetMeasureTriggerRouting					2011
+#define RFCase_SetMeasureTriggerIn						2012
+#define RFCase_RunSourceAlignment						2013
+#define RFCase_LoadModulation							2014
+#define RFCase_WlanInit									2015
+#define RFCase_EvmMeasurementSetup						2016
+#define RFCase_SemMeasurementSetup						2017
+#define RFCase_MeasureSetup								2018
+#define RFCase_MeasureSetupIQ							2019
+#define RFCase_TriggerSigenStartModulation				2020
+#define RFCase_WolferInit								2021
+#define RFCase_WolferSelectPath							2022
+#define RFCase_WolferSourcePower						2023
+#pragma endregion "RF_CW_ControlMethods"
+
+#pragma region "RF_CW_TestMethods"
+#define RFCase_MeasureChannel				2101
+#define RFCase_MeasureChannelFast			2102
+#define RFCase_MeasureChannelIQ				2103
+#define RFCase_MeasureIIP3					2104
+#define RFCase_MeasureBurstPower			2105
+#define RFCase_MeasureSwitchingTime			2106
+#define RFCase_MeasureSParam				2107
+#define RFCase_MeasureSParamIQ				2108
+#define RFCase_P1dB_DirectSearch			2109
+#define RFCase_P1dB_BinarySearch			2110
+#define RFCase_PowerServo					2111
+#define RFCase_PowerServo_BinarySearch		2112
+#define RFCase_PowerServo_LinearSearch		2113
+#define RFCase_ReadEvm						2114
+#define RFCase_ReadEvmAsync					2115
+#define RFCase_ReadSem						2116
+#define RFCase_ReadSemAsync					2117
+#define RFCase_WlanPowerServo				2118
+#define RFCase_WlanResidualEVM				2119
+#define RFCase_WolferMeasureChannel			2120
+#pragma endregion "RF_CW_TestMethods"
 
 #pragma region "DC_ErrorCode"
 #define DC_TestConditionNotFound			11001
@@ -819,11 +822,15 @@ UUTOffset:		Supported.
 * Revision Log
 * $Log: Defines.h.rca$
 
-
-* v1.0.0.0 (20 March 2020), LKL
-* Initial release version.
+*** Version	: v1.0.0.2
+*** Date	: 29 July 2026
+*** PIC		: Tham Zhi Kean
+* Reorganise TestMethod and ControlMethod constants to follow document sequence
 
 * V1.0.0.1 (14 Nov 2020), LKL
 * Included DM500x Opcode defination.
 * Included kHz unit prefix under User_Defined_Unit region.
+
+* v1.0.0.0 (20 March 2020), LKL
+* Initial release version.
 ----------------------------------------------------------------------*/

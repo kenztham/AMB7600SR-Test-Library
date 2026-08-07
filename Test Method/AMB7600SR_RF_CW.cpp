@@ -2,6 +2,2689 @@
 
 namespace Functions
 {
+	//Control Methods
+	void AMB7600SRTestLibrary::CM_RF_SourcePower(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourcePower");
+
+			//Control Method Compulsory Variable
+			String^ sourceChannel = nullptr;
+			double sourceFreq = 0.0;
+			double sourcePin = 0.0;
+
+			//Control Method Option Variable
+			double sourceAttenuation = 999.99;
+			String ^ inputBoardLossItem = nullptr;
+			double inputBoardLoss = 0.0;
+			double inputExtAtt = 0.0;
+
+			//Operation Variable
+			double ActualSourcePower = 0;
+			String^ ErrorMessage = nullptr;
+			String ^ CM = "SourcePower_";
+			bool UserInputSourceAttenuation = false;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
+			{
+				ConditionInfo = testConditionCollection["SourceChannel"][site];
+				sourceChannel = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
+			{
+				ConditionInfo = testConditionCollection["SourceFreq"][site];
+				sourceFreq = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourcePin"))
+			{
+				ConditionInfo = testConditionCollection["SourcePin"][site];
+				sourcePin = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourcePin" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+			if ((bool)testConditionCollection->ContainsKey("SourceAttenuation"))
+			{
+				ConditionInfo = testConditionCollection["SourceAttenuation"][site];
+				sourceAttenuation = (double)ConditionInfo->Value;
+				UserInputSourceAttenuation = true;
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("InputBoardLossItem"))
+			{
+				ConditionInfo = testConditionCollection["InputBoardLossItem"][site];
+				inputBoardLossItem = (String^)ConditionInfo->Value;
+
+				if (tl->glob->boardLoss[testSite]->ContainsKey(inputBoardLossItem))
+				{
+					inputBoardLoss = tl->glob->boardLoss[testSite][inputBoardLossItem];
+				}
+				else
+				{
+					ErrorMessage = "Test Condition [" + CM + "InputBoardLossItem: " + inputBoardLossItem + "] is not exist in the BoardLoss.csv";
+					throw gcnew Exception(ErrorMessage);
+				}
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("InputExtAtt"))
+			{
+				ConditionInfo = testConditionCollection["InputExtAtt"][site];
+				inputExtAtt = (double)ConditionInfo->Value;
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+
+			tl->glob->SourcePower_Status[testSite].SourcePowerPreStatus = sourcePin;
+			tl->glob->SourcePower_Status[testSite].SourceFreqPreStatus = sourceFreq;
+
+			ActualSourcePower = sourcePin + inputBoardLoss + inputExtAtt;
+
+			if (UserInputSourceAttenuation == false)
+			{
+				RF_SourcePower(testSite, sourceChannel, ActualSourcePower, sourceFreq);
+			}
+			else
+			{
+				RF_SourcePower(testSite, sourceChannel, ActualSourcePower, sourceFreq, sourceAttenuation);
+			}
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourcePower");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_SourcePowerFast(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourcePowerFast");
+
+			//Control Method Compulsory Variable
+			String^ sourceChannel = nullptr;
+			double sourceFreq = 0.0;
+			double sourcePin = 0.0;
+
+			//Test Method Option Variable
+			double inputBoardLoss = 0.0;
+			String ^ inputBoardLossItem = nullptr;
+			double inputExtAtt = 0.0;
+			double sourceAttenuation = 999.99;
+
+			//Source Power Operation Variable		
+			double ActualSourcePower = 0;
+			String^ ErrorMessage = nullptr;
+			String ^ CM = "SourcePowerFast_";
+			bool UserInputSourceAttenuation = false;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
+			{
+				ConditionInfo = testConditionCollection["SourceChannel"][site];
+				sourceChannel = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
+			{
+				ConditionInfo = testConditionCollection["SourceFreq"][site];
+				sourceFreq = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourcePin"))
+			{
+				ConditionInfo = testConditionCollection["SourcePin"][site];
+				sourcePin = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourcePin" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+			if ((bool)testConditionCollection->ContainsKey("InputBoardLossItem"))
+			{
+				ConditionInfo = testConditionCollection["InputBoardLossItem"][site];
+				inputBoardLossItem = (String^)ConditionInfo->Value;
+
+				if (tl->glob->boardLoss[testSite]->ContainsKey(inputBoardLossItem))
+				{
+					inputBoardLoss = tl->glob->boardLoss[testSite][inputBoardLossItem];
+				}
+				else
+				{
+					ErrorMessage = "Test Condition [" + CM + "InputBoardLossItem: " + inputBoardLossItem + "] is not exist in the BoardLoss.csv";
+					throw gcnew Exception(ErrorMessage);
+				}
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("InputExtAtt"))
+			{
+				ConditionInfo = testConditionCollection["InputExtAtt"][site];
+				inputExtAtt = (double)ConditionInfo->Value;
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("SourceAttenuation"))
+			{
+				ConditionInfo = testConditionCollection["SourceAttenuation"][site];
+				sourceAttenuation = (double)ConditionInfo->Value;
+				UserInputSourceAttenuation = true;
+			}
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+
+			tl->glob->SourcePower_Status[testSite].SourcePowerPreStatus = sourcePin;
+			tl->glob->SourcePower_Status[testSite].SourceFreqPreStatus = sourceFreq;
+
+			ActualSourcePower = sourcePin + inputBoardLoss + inputExtAtt;
+
+			RF_SourcePowerFast(testSite, sourceChannel, ActualSourcePower, sourceFreq, UserInputSourceAttenuation, sourceAttenuation);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourcePowerFast");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_SourceTwoTone(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourceTwoTone");
+
+			//Control Method Compulsory Variable
+			String^ sourceChannel = nullptr;
+			double sourceFreq0 = 0.0;
+			double sourcePin0 = 0.0;
+			double sourceFreq1 = 0.0;
+			double sourcePin1 = 0.0;
+			double sourceAttenuation = 0.0;
+
+			//Source Two Tone Operation Variable
+			String ^ inputBoardLossItem = nullptr;
+			array<double >^ inputBoardLoss = gcnew array <double>(2);
+			double InputExtAtt = 0.0;
+			String ^ CM = "SourceTwoTone_";
+			String ^ ErrorMessage = nullptr;
+			bool UserInputSourceAttenuation = false;
+			double inputExtAtt = 0.0;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
+			{
+				ConditionInfo = testConditionCollection["SourceChannel"][site];
+				sourceChannel = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourceFreq0"))
+			{
+				ConditionInfo = testConditionCollection["SourceFreq0"][site];
+				sourceFreq0 = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceFreq0" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourcePin0"))
+			{
+				ConditionInfo = testConditionCollection["SourcePin0"][site];
+				sourcePin0 = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourcePin0" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourceFreq1"))
+			{
+				ConditionInfo = testConditionCollection["SourceFreq1"][site];
+				sourceFreq1 = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceFreq1" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourcePin1"))
+			{
+				ConditionInfo = testConditionCollection["SourcePin1"][site];
+				sourcePin1 = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourcePin1" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+			if ((bool)testConditionCollection->ContainsKey("SourceAttenuation"))
+			{
+				ConditionInfo = testConditionCollection["SourceAttenuation"][site];
+				sourceAttenuation = (double)ConditionInfo->Value;
+				UserInputSourceAttenuation = true;
+			}
+
+			for (int i = 0; i < 2; i++)
+			{
+				inputBoardLoss[i] = 0;
+
+				if ((bool)testConditionCollection->ContainsKey("InputBoardLossItem_" + i.ToString()))
+				{
+					ConditionInfo = testConditionCollection["InputBoardLossItem_" + i.ToString()][site];
+					inputBoardLossItem = (String^)ConditionInfo->Value;
+
+					if (tl->glob->boardLoss[testSite]->ContainsKey(inputBoardLossItem))
+					{
+						inputBoardLoss[i] = tl->glob->boardLoss[testSite][inputBoardLossItem];
+					}
+					else
+					{
+						ErrorMessage = "Test Condition [" + CM + "InputBoardLossItem_" + i.ToString() + ": " + inputBoardLossItem + "] is not exist in the BoardLoss.csv";
+						throw gcnew Exception(ErrorMessage);
+					}
+				}
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("InputExtAtt"))
+			{
+				ConditionInfo = testConditionCollection["InputExtAtt"][site];
+				inputExtAtt = (double)ConditionInfo->Value;
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			ResetAmsrfPreviousState(testSite, true);
+
+			tl->glob->SourcePower_Status[testSite].SourcePowerPreStatus = sourcePin1;
+
+			RF_LoadHardwareProfile(testSite);
+
+			if (tl->glob->TwoToneMode == 1)
+			{
+				if (UserInputSourceAttenuation == true)
+				{
+					RF_SourceTwoTone(testSite, sourceChannel, sourcePin0 + inputBoardLoss[0] + inputExtAtt, sourceFreq0, sourcePin1 + inputBoardLoss[1] + inputExtAtt, sourceFreq1, sourceAttenuation);
+				}
+				else
+				{
+					RF_SourceTwoTone(testSite, sourceChannel, sourcePin0 + inputBoardLoss[0] + inputExtAtt, sourceFreq0, sourcePin1 + inputBoardLoss[1] + inputExtAtt, sourceFreq1);
+				}
+			}
+			else if (tl->glob->TwoToneMode == 2)
+			{
+				RF_SourcePowerExternalSignalGenerator(testSite, sourcePin0 + inputBoardLoss[0] + inputExtAtt);
+				RF_SourceFreqExternalSignalGenerator(testSite, sourceFreq0);
+				RF_OutputEnableExternalSignalGenerator(testSite, true);
+
+				if (UserInputSourceAttenuation == true)
+				{
+					RF_SourcePower(testSite, sourceChannel, sourcePin1 + inputBoardLoss[1] + inputExtAtt, sourceFreq1, sourceAttenuation);
+				}
+				else
+				{
+					RF_SourcePower(testSite, sourceChannel, sourcePin1 + inputBoardLoss[1] + inputExtAtt, sourceFreq1);
+				}
+
+				RF_RFDM621_SetInputSource(testSite, 2, 0);
+				RF_RFDM621_SetMode(testSite, 2);
+			}
+
+			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"] = 2;
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourceTwoTone");
+
+#pragma endregion "Test"
+
+		}
+
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_SourcePowerLow(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourcePowerLow");
+
+			//Test Method Compulsory Variable
+			String^ sourceChannel = nullptr;
+			double sourceFreq = 0.0;
+
+			//Source Power Low Operation Variable
+			String ^ CM = "SourcePowerLow_";
+			double SourcePin = -120.0 dbm;
+			String ^ ErrorMessage = nullptr;
+			int sourceMode = (int)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"];
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
+			{
+				ConditionInfo = testConditionCollection["SourceChannel"][site];
+				sourceChannel = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
+			{
+				ConditionInfo = testConditionCollection["SourceFreq"][site];
+				sourceFreq = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+
+			if (sourceMode == 0 ||
+				sourceMode == 1 ||
+				sourceMode == 2)
+			{
+				RF_SourcePower(testSite, sourceChannel, SourcePin, sourceFreq);
+			}
+			else if (sourceMode == 3)
+			{
+				if (tl->glob->TwoToneMode == 1)
+				{
+					RF_SourceTwoTone(testSite, sourceChannel, SourcePin, sourceFreq, SourcePin, sourceFreq);
+				}
+				else if (tl->glob->TwoToneMode == 2)
+				{
+					RF_SourcePower(testSite, sourceChannel, SourcePin, sourceFreq);
+					RF_OutputEnableExternalSignalGenerator(testSite, false);
+				}
+			}
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourcePowerLow");
+
+#pragma endregion "Test"
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_RunSourceAlignment(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_RunSourceAlignment");
+
+			//Test Method Compulsory Variable
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			if (tl->glob->TestSiteAmsrfType[testSite] == "AMSRF0")
+			{
+				if (tl->glob->SourceAlignment_Status.AMSRF0 == false)
+				{
+					RF_RunSourceAlignment(testSite);
+					tl->glob->SourceAlignment_Status.AMSRF0 = true;
+				}
+			}
+			else if (tl->glob->TestSiteAmsrfType[testSite] == "AMSRF1")
+			{
+				if (tl->glob->SourceAlignment_Status.AMSRF1 == false)
+				{
+					RF_RunSourceAlignment(testSite);
+					tl->glob->SourceAlignment_Status.AMSRF1 = false;
+				}
+			}
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_RunSourceAlignment");
+
+#pragma endregion "Test"
+
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_StartModulation(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_StartModulation");
+
+			//Control Method Compulsory Variable
+			String^ moduleAlias = nullptr;
+			String^ modulationFile = nullptr;
+			int playBackMode = 0;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "StartModulation_";
+			String ^ PathModulationFile = nullptr;
+
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				moduleAlias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("ModulationFile"))
+			{
+				ConditionInfo = testConditionCollection["ModulationFile"][site];
+				modulationFile = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModulationFile" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("PlayBackMode"))
+			{
+				ConditionInfo = testConditionCollection["PlayBackMode"][site];
+				playBackMode = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "PlayBackMode" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			PathModulationFile = tl->glob->ModulationFile[testSite][modulationFile];
+			RF_StartModulation(testSite, moduleAlias, PathModulationFile, playBackMode);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_StartModulation");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_IsolateChannel(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_IsolateChannel");
+
+			//Control Method Compulsory Variable
+			String^ channel = nullptr;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "IsolateChannel_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("Channel"))
+			{
+				ConditionInfo = testConditionCollection["Channel"][site];
+				channel = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "Channel" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+
+			if (channel == "AllChannel")
+			{
+				RF_IsolateAllChannel(testSite);
+			}
+			else
+			{
+				RF_IsolateChannel(testSite, channel);
+			}
+
+			ResetAmsrfPreviousState(testSite, true);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_IsolateChannel");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_StopModulation(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_StopModulation");
+
+			//Control Method Compulsory Variable
+			String^ moduleAlias = nullptr;
+
+
+			//Start Modulation Operation Variable
+			String ^ CM = "StopModulation_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				moduleAlias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_StopModulation(testSite, moduleAlias);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_StopModulation");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_SetSourceTriggerOut(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetSourceTriggerOut");
+
+			//Control Method Compulsory Variable
+			String^ moduleAlias = nullptr;
+			bool enable = false;
+			int trigDestination = 999;
+			int trigOption = 999;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "SetSourceTriggerOut_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				moduleAlias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("Enable"))
+			{
+				ConditionInfo = testConditionCollection["Enable"][site];
+				enable = (bool)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigDestination"))
+			{
+				ConditionInfo = testConditionCollection["TrigDestination"][site];
+				trigDestination = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigDestination" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigOption"))
+			{
+				ConditionInfo = testConditionCollection["TrigOption"][site];
+				trigOption = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigOption" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_SetSourceTriggerOut(testSite, moduleAlias, enable, trigDestination, trigOption);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetSourceTriggerOut");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_SetSourceTriggerRouting(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetSourceTriggerRouting");
+
+			//Control Method Compulsory Variable
+			String^ moduleAlias = nullptr;
+			bool enable = false;
+			int trigIn = 999;
+			int trigOut = 999;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "SetSourceTriggerRouting_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				moduleAlias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("Enable"))
+			{
+				ConditionInfo = testConditionCollection["Enable"][site];
+				enable = (bool)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigIn"))
+			{
+				ConditionInfo = testConditionCollection["TrigIn"][site];
+				trigIn = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigIn" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigOut"))
+			{
+				ConditionInfo = testConditionCollection["TrigOut"][site];
+				trigOut = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigOut" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_SetSourceTriggerRouting(testSite, moduleAlias, enable, trigIn, trigOut);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetSourceTriggerRouting");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_SetMeasureTriggerRouting(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetMeasureTriggerRouting");
+
+			//Control Method Compulsory Variable
+			String^ moduleAlias = nullptr;
+			bool enable = false;
+			int trigIn = 999;
+			int trigOut = 999;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "SetMeasureTriggerRouting_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				moduleAlias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("Enable"))
+			{
+				ConditionInfo = testConditionCollection["Enable"][site];
+				enable = (bool)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigIn"))
+			{
+				ConditionInfo = testConditionCollection["TrigIn"][site];
+				trigIn = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigIn" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigOut"))
+			{
+				ConditionInfo = testConditionCollection["TrigOut"][site];
+				trigOut = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigOut" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_SetMeasureTriggerRouting(testSite, moduleAlias, enable, trigIn, trigOut);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetMeasureTriggerRouting");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_SetSourceTriggerIn(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetSourceTriggerIn");
+
+			//Control Method Compulsory Variable
+			String^ moduleAlias = nullptr;
+			bool enable = false;
+			int trigSource = 999;
+			int trigPolarity = 999;
+			double trigDelay = 0.0;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "SetSourceTriggerIn_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				moduleAlias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("Enable"))
+			{
+				ConditionInfo = testConditionCollection["Enable"][site];
+				enable = (bool)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigSource"))
+			{
+				ConditionInfo = testConditionCollection["TrigSource"][site];
+				trigSource = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigSource" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigPolarity"))
+			{
+				ConditionInfo = testConditionCollection["TrigPolarity"][site];
+				trigPolarity = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigPolarity" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigDelay"))
+			{
+				ConditionInfo = testConditionCollection["TrigDelay"][site];
+				trigDelay = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigDelay" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_SetSourceTriggerIn(testSite, moduleAlias, enable, trigSource, trigPolarity, trigDelay);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetSourceTriggerIn");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_SetMeasureTriggerIn(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetMeasureTriggerIn");
+
+			//Control Method Compulsory Variable
+			String^ moduleAlias = nullptr;
+			bool enable = false;
+			int trigSource = 999;
+			int trigPolarity = 999;
+			double trigDelay = 0.0;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "SetMeasureTriggerIn_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				moduleAlias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("Enable"))
+			{
+				ConditionInfo = testConditionCollection["Enable"][site];
+				enable = (bool)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigSource"))
+			{
+				ConditionInfo = testConditionCollection["TrigSource"][site];
+				trigSource = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigSource" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigPolarity"))
+			{
+				ConditionInfo = testConditionCollection["TrigPolarity"][site];
+				trigPolarity = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigPolarity" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("TrigDelay"))
+			{
+				ConditionInfo = testConditionCollection["TrigDelay"][site];
+				trigDelay = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "TrigDelay" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_SetMeasureTriggerIn(testSite, moduleAlias, enable, trigSource, trigPolarity, trigDelay);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetMeasureTriggerIn");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_LoadModulation(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_LoadModulation");
+
+			//Control Method Compulsory Variable
+			String^ moduleAlias = nullptr;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "LoadModulation_";
+			int StationNo = 0;
+			String^ waveformFileDirectory = System::IO::Path::GetDirectoryName(site->Recipe->FlowFilePath) + "\\ModulationWaveform";
+			int totalWaveformFiles_awf = Directory::GetFiles(waveformFileDirectory, "*.awf")->Length;
+			int totalWaveformFiles_wfm = Directory::GetFiles(waveformFileDirectory, "*.wfm")->Length;
+			int totalWaveformFiles = totalWaveformFiles_awf + totalWaveformFiles_wfm;
+			array<String^> ^ waveformFiles_awf = gcnew array<String^>(totalWaveformFiles_awf);
+			array<String^> ^ waveformFiles_wfm = gcnew array<String^>(totalWaveformFiles_wfm);
+			String ^ fileName = nullptr;
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				moduleAlias = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			waveformFiles_awf = Directory::GetFiles(waveformFileDirectory, "*.awf");
+			waveformFiles_wfm = Directory::GetFiles(waveformFileDirectory, "*.wfm");
+
+			for (int i = 0; i < totalWaveformFiles_awf; i++)
+			{
+				fileName = nullptr;
+				fileName = waveformFiles_awf[i]->Replace(waveformFileDirectory + "\\", "");
+				tl->glob->ModulationFile[testSite]->Add(fileName, waveformFiles_awf[i]);
+
+				RF_LoadModulation(testSite, moduleAlias, waveformFiles_awf[i], StationNo);
+			}
+
+			for (int i = 0; i < totalWaveformFiles_wfm; i++)
+			{
+				fileName = nullptr;
+				fileName = waveformFiles_wfm[i]->Replace(waveformFileDirectory + "\\", "");
+				tl->glob->ModulationFile[testSite]->Add(fileName, waveformFiles_wfm[i]);
+
+				RF_LoadModulation(testSite, moduleAlias, waveformFiles_wfm[i], StationNo);
+			}
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_LoadModulation");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+			//tl->WarningMessageBox(tl->glob->TcrLgr.GlobalErrorMessage, "Fail");
+			throw;
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_WlanInit(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WlanInit");
+
+			//Control Method Compulsory Variable
+			String^ moduleAliasVSG = nullptr;
+			String^ moduleAliasVSA = nullptr;
+			int standardSelection = 999;
+			int measureOption_ACAX = WLAN_ACAX;
+			int measureOption_ABGN = WLAN_ABGN;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "WlanInit_";
+			String ^ ErrorMessage = nullptr;
+			bool Init_ACAX = false;
+			bool Init_ABGN = false;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSG"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAliasVSG"][site];
+				moduleAliasVSG = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSG" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSA"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAliasVSA"][site];
+				moduleAliasVSA = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSA" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("StandardSelection"))
+			{
+				ConditionInfo = testConditionCollection["StandardSelection"][site];
+				standardSelection = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "StandardSelection" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("measureOption_ACAX"))
+			{
+				ConditionInfo = testConditionCollection["measureOption_ACAX"][site];
+				Init_ACAX = (bool)ConditionInfo->Value;
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("measureOption_ABGN"))
+			{
+				ConditionInfo = testConditionCollection["measureOption_ABGN"][site];
+				Init_ABGN = (bool)ConditionInfo->Value;
+			}
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			//	RF_LoadHardwareProfile(testSite);
+
+			if (Init_ACAX == true)
+			{
+				RF_WlanInitSetup(testSite, moduleAliasVSG, moduleAliasVSA, standardSelection, measureOption_ACAX);
+			}
+
+			if (Init_ABGN == true)
+			{
+				RF_WlanInitSetup(testSite, moduleAliasVSG, moduleAliasVSA, standardSelection, measureOption_ABGN);
+			}
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_WlanInit");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+			throw;
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_EvmMeasurementSetup(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_EvmMeasurementSetup");
+
+			//Control Method Compulsory Variable
+			int wlanModulationStandard = 999;
+			WlanModulationStandardEnum standard;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "EvmMeasurementSetup_";
+			String ^ ErrorMessage = nullptr;
+			Dictionary<int, Object^>^ WlanSettings = gcnew Dictionary<int, Object^>();
+			List<int>^ Setting = gcnew List<int>();
+			array<String^>^ splitStr = nullptr;
+			array<String^>^ separators = { CM + "Setting_" };
+			DataType Var;
+			bool SetWlanSetting = false;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			for each(Condition ^ testcond in testConditionCollection)
+			{
+				if (testcond->Name->Contains("Setting_"))
+				{
+					splitStr = nullptr;
+					splitStr = testcond->Name->Split(separators, StringSplitOptions::RemoveEmptyEntries);
+					Setting->Add(Convert::ToInt32(splitStr[0]));
+				}
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("WlanModulationStandard"))
+			{
+				ConditionInfo = testConditionCollection["WlanModulationStandard"][site];
+				tl->TestCondCheckingDataType(CM + "WlanModulationStandard", DataType::Int32, ConditionInfo->Condition->DataType);
+				wlanModulationStandard = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "WlanModulationStandard" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+
+			}
+
+			for (int i = 0; i<Setting->Count; i++)
+			{
+				ConditionInfo = testConditionCollection["Setting_" + Setting[i]][site];
+
+				RF_WlanEvmSettingVariable(CM, Setting[i], Var);
+				tl->TestCondCheckingDataType(CM + "Setting_" + Setting[i], Var, ConditionInfo->Condition->DataType);
+
+				switch (Var)
+				{
+				case DataType::Double:
+					WlanSettings->Add(Setting[i], (double)ConditionInfo->Value);
+					break;
+
+				case DataType::Int32:
+					WlanSettings->Add(Setting[i], (int)ConditionInfo->Value);
+					break;
+
+				case DataType::String:
+					WlanSettings->Add(Setting[i], (String^)ConditionInfo->Value);
+					break;
+
+				case DataType::Boolean:
+					WlanSettings->Add(Setting[i], (bool)ConditionInfo->Value);
+					break;
+				}
+
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_WlanStandardSelection(testSite, wlanModulationStandard, standard);
+
+			if (WlanSettings->Count > 0)
+			{
+				SetWlanSetting = true;
+			}
+			else
+			{
+				SetWlanSetting = false;
+			}
+
+			RF_WlanEvmMeasurementSetup(testSite, standard, SetWlanSetting, WlanSettings);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_EvmMeasurementSetup");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_SemMeasurementSetup(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SemMeasurementSetup");
+
+			//Control Method Compulsory Variable
+			int wlanModulationStandard = 999;
+			WlanModulationStandardEnum standard;
+			int semAvg = 999;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "SemMeasurementSetup_";
+			String ^ ErrorMessage = nullptr;
+			Dictionary<int, Object^>^ WlanSettings = gcnew Dictionary<int, Object^>();
+			List<int>^ Setting = gcnew List<int>();
+			array<String^>^ splitStr = nullptr;
+			array<String^>^ separators = { CM + "Setting_" };
+			DataType Var;
+			bool SetWlanSetting = false;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			for each(Condition ^ testcond in testConditionCollection)
+			{
+				if (testcond->Name->Contains("Setting_"))
+				{
+					splitStr = nullptr;
+					splitStr = testcond->Name->Split(separators, StringSplitOptions::RemoveEmptyEntries);
+					Setting->Add(Convert::ToInt32(splitStr[0]));
+				}
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("WlanModulationStandard"))
+			{
+				ConditionInfo = testConditionCollection["WlanModulationStandard"][site];
+				wlanModulationStandard = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "WlanModulationStandard" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("SemAvg"))
+			{
+				ConditionInfo = testConditionCollection["SemAvg"][site];
+				semAvg = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SemAvg" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			for (int i = 0; i<Setting->Count; i++)
+			{
+				ConditionInfo = testConditionCollection["Setting_" + Setting[i]][site];
+
+				RF_WlanSemSettingVariable(CM, Setting[i], Var);
+
+				switch (Var)
+				{
+				case DataType::Double:
+					if (ConditionInfo->Condition->DataType == DataType::Double)
+					{
+						WlanSettings->Add(Setting[i], (double)ConditionInfo->Value);
+					}
+					else
+					{
+						ErrorMessage = "Test Condition [" + CM + "Setting_" + Setting[i] + " DataType] is not double.";
+						throw gcnew Exception(ErrorMessage);
+					}
+					break;
+				case DataType::Int32:
+					if (ConditionInfo->Condition->DataType == DataType::Int32)
+					{
+						WlanSettings->Add(Setting[i], (int)ConditionInfo->Value);
+					}
+					else
+					{
+						ErrorMessage = "Test Condition [" + CM + "Setting_" + Setting[i] + " DataType] must be set to int32.";
+						throw gcnew Exception(ErrorMessage);
+					}
+					break;
+
+				case DataType::String:
+					if (ConditionInfo->Condition->DataType == DataType::String)
+					{
+						WlanSettings->Add(Setting[i], (String^)ConditionInfo->Value);
+					}
+					else
+					{
+						ErrorMessage = "Test Condition [" + CM + "Setting_" + Setting[i] + " DataType] must be set to String.";
+						throw gcnew Exception(ErrorMessage);
+					}
+					break;
+
+				case DataType::Boolean:
+					if (ConditionInfo->Condition->DataType == DataType::Boolean)
+					{
+						WlanSettings->Add(Setting[i], (bool)ConditionInfo->Value);
+					}
+					else
+					{
+						ErrorMessage = "Test Condition [" + CM + "Setting_" + Setting[i] + " DataType] must be set to boolean.";
+						throw gcnew Exception(ErrorMessage);
+					}
+					break;
+				}
+
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_WlanStandardSelection(testSite, wlanModulationStandard, standard);
+
+			if (WlanSettings->Count > 0)
+			{
+				SetWlanSetting = true;
+			}
+			else
+			{
+				SetWlanSetting = false;
+			}
+
+			RF_WlanSemMeasurementSetup(testSite, standard, SetWlanSetting, semAvg, WlanSettings);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SemMeasurementSetup");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_MeasureSetup(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_MeasureSetup");
+
+			//Control Method Compulsory Variable
+			String^ measureChannel = nullptr;
+			double measurePower = 0.0;
+			double measureFreq = 0.0;
+			int filterOption = AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS;
+			double measureDelay = 1.0 mS;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "MeasureSetup_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("MeasureChannel"))
+			{
+				ConditionInfo = testConditionCollection["MeasureChannel"][site];
+				measureChannel = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "MeasureChannel" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("MeasurePower"))
+			{
+				ConditionInfo = testConditionCollection["MeasurePower"][site];
+				measurePower = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "MeasurePower" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("MeasureFreq"))
+			{
+				ConditionInfo = testConditionCollection["MeasureFreq"][site];
+				measureFreq = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "MeasureFreq" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+			if ((bool)testConditionCollection->ContainsKey("MeasureDelay"))
+			{
+				ConditionInfo = testConditionCollection["MeasureDelay"][site];
+				measureDelay = (double)ConditionInfo->Value;
+			}
+			if ((bool)testConditionCollection->ContainsKey("FilterOption"))
+			{
+				ConditionInfo = testConditionCollection["FilterOption"][site];
+				filterOption = (int)ConditionInfo->Value;
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_MeasureSetup(testSite, measureChannel, measurePower, measureFreq, filterOption);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_MeasureSetup");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_MeasureSetupIQ(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_MeasureSetupIQ");
+
+			//Control Method Compulsory Variable
+			String^ measureChannel = nullptr;
+			double measurePower = 0.0;
+			double measureFreq = 0.0;
+			int filterOption = AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS;
+			double measureDelay = 1.0 mS;
+			double sampleRate = 0.0;
+			int sampleSize = 0.0;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "MeasureSetupIQ_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("MeasureChannel"))
+			{
+				ConditionInfo = testConditionCollection["MeasureChannel"][site];
+				measureChannel = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "MeasureChannel" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("MeasurePower"))
+			{
+				ConditionInfo = testConditionCollection["MeasurePower"][site];
+				measurePower = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "MeasurePower" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			if ((bool)testConditionCollection->ContainsKey("MeasureFreq"))
+			{
+				ConditionInfo = testConditionCollection["MeasureFreq"][site];
+				measureFreq = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "MeasureFreq" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SampleRate"))
+			{
+				ConditionInfo = testConditionCollection["SampleRate"][site];
+				sampleRate = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SampleRate" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SampleSize"))
+			{
+				ConditionInfo = testConditionCollection["SampleSize"][site];
+				sampleSize = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SampleSize" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+			if ((bool)testConditionCollection->ContainsKey("MeasureDelay"))
+			{
+				ConditionInfo = testConditionCollection["MeasureDelay"][site];
+				measureDelay = (double)ConditionInfo->Value;
+			}
+			if ((bool)testConditionCollection->ContainsKey("FilterOption"))
+			{
+				ConditionInfo = testConditionCollection["FilterOption"][site];
+				filterOption = (int)ConditionInfo->Value;
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+			RF_MeasureSetupIQ(testSite, measureChannel, measurePower, measureFreq, sampleRate, sampleSize, filterOption);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_MeasureSetupIQ.\n");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_TriggerSigenStartModulation(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** TM_OS_Test
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_TriggerSigenStartModulation");
+
+			//Control Method Compulsory Variable
+			String^ moduleAliasSigen = nullptr;
+			String^ moduleAliasDM = nullptr;
+			String^ modulationFile = nullptr;
+			String^ vectorFileName = nullptr;
+			int playBackMode = 0;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "TriggerSigenStartModulation_";
+			String ^ ErrorMessage = nullptr;
+			String ^ PathModulationFile = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasSigen"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAliasSigen"][site];
+				moduleAliasSigen = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasSigen" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("ModulationFile"))
+			{
+				ConditionInfo = testConditionCollection["ModulationFile"][site];
+				modulationFile = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModulationFile" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("PlayBackMode"))
+			{
+				ConditionInfo = testConditionCollection["PlayBackMode"][site];
+				playBackMode = (int)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "PlayBackMode" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("VectorFileName"))
+			{
+				ConditionInfo = testConditionCollection["VectorFileName"][site];
+				vectorFileName = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "VectorFileName" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasDM"))
+			{
+				ConditionInfo = testConditionCollection["ModuleAliasDM"][site];
+				moduleAliasDM = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasDM" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			RF_LoadHardwareProfile(testSite);
+
+			PathModulationFile = tl->glob->ModulationFile[testSite][modulationFile];
+
+			RF_StopModulation(testSite, moduleAliasSigen);
+			RF_StartModulation(testSite, moduleAliasSigen, PathModulationFile, playBackMode);
+			DM_MIPIWriteVector(testSite, moduleAliasDM, vectorFileName);
+
+			//RF_KTM9420_ATTR_SOURCE_Trigger(testSite, "VSG1", tl->glob->ModulationFile[testSite]["WLAN_11AC_80MHz_MCS9.awf"]);
+			//DM_MIPIWriteVector(testSite, "DM483E", "SW3");
+
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_TriggerSigenStartModulation");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_WolferInit(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** CM_RF_WolferInit
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WolferInit");
+
+			//To get the desired Wolfer Number in current site
+			int externalModuleNo = 0;
+			for (int i = 0; i < CurrentHeadSite.ExternalModuleList->Count; i++)
+			{
+				if (CurrentHeadSite.ExternalModuleList[externalModuleNo]["Name"] == "Wolfer")
+					externalModuleNo = i;
+			}
+
+			////Control Method Compulsory Variable
+			String^ wolferType = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Type"];
+			String^ IOControl = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Address"];
+
+			//Start Modulation Operation Variable
+			String ^ CM = "WolferInit_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			//if ((bool)testConditionCollection->ContainsKey("WolferType"))
+			//{
+			//	ConditionInfo = testConditionCollection["WolferType"][site];
+			//	wolferType = (String^)ConditionInfo->Value;
+			//}
+			//else
+			//{
+			//	ErrorMessage = "Test Condition [" + CM + "WolferType" + "] is not found.";
+			//	throw gcnew Exception(ErrorMessage);
+			//}
+			//if ((bool)testConditionCollection->ContainsKey("IOControl")) //Get Hardware AMAP Name
+			//{
+			//	ConditionInfo = testConditionCollection["IOControl"][site];
+			//	IOControl = (String^)ConditionInfo->Value;
+			//}
+			//else
+			//{
+			//	ErrorMessage = "Test Condition [" + CM + "IOControl" + "] is not found.";
+			//	throw gcnew Exception(ErrorMessage);
+			//}
+
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			tl->glob->WolferInfo_Status[testSite].freqcalFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_CAL_LIST);
+			tl->glob->WolferInfo_Status[testSite].freqHarcalFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_HAR_CAL_LIST);
+			tl->glob->WolferInfo_Status[testSite].txplFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_TX);
+			tl->glob->WolferInfo_Status[testSite].rxplFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_RX);
+			tl->glob->WolferInfo_Status[testSite].txHarplFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_TX_HAR);
+			tl->glob->WolferInfo_Status[testSite].rxHarplFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_RX_HAR);
+
+			if (File::Exists(tl->glob->WolferInfo_Status[testSite].freqcalFile[wolferType]) != true)
+			{
+				throw gcnew Aemulus::Hardware::AlarmException(tl->glob->WolferInfo_Status[testSite].freqcalFile[wolferType] + " file not exist", -1);
+			}
+
+#pragma region "Read Frequency/Harmonic Frequency Calibration List and Path Loss"
+			int tempCount = 0;
+
+			tl->glob->freq_count[wolferType] = 0;
+			ReadFreqCalList(testSite, wolferType, tempCount);
+			tl->glob->freq_count[wolferType] = tempCount;
+
+			tl->glob->txpl_count[wolferType] = 0;
+			ReadTxPathLoss(testSite, wolferType, tempCount);
+			tl->glob->txpl_count[wolferType] = tempCount;
+
+			tl->glob->rxpl_count[wolferType] = 0;
+			ReadRxPathLoss(testSite, wolferType, tempCount);
+			tl->glob->rxpl_count[wolferType] = tempCount;
+
+			tl->glob->freqHar_count[wolferType] = 0;
+			ReadFreqHarList(testSite, wolferType, tempCount);
+			tl->glob->freqHar_count[wolferType] = tempCount;
+
+			tl->glob->rxpl_Har_count[wolferType] = 0;
+			ReadRxHarPathLoss(testSite, wolferType, tempCount);
+			tl->glob->rxpl_Har_count[wolferType] = tempCount;
+#pragma endregion
+
+			if (IOControl->StartsWith("IOM421"))
+			{
+				tl->glob->WolferInfo_Status[testSite].wolferIOFile->Add(wolferType, tl->glob->tf.RecipeFilePathDirectory + "\\" + "WolferIO\\" + wolferType + "\\" + wolferType + ".csv");
+				wlfGetSwMatrix(testSite, wolferType);
+
+				tl->glob->g_txpath[wolferType] = 0;
+				tl->glob->g_rxpath[wolferType] = 0;
+
+				tl->WriteToLogger(testSite, "Done Load " + tl->glob->WolferInfo_Status[testSite].wolferIOFile[wolferType] + " with " + IOControl + ".\n");
+			}
+			else if (IOControl == "DigitalBoard")
+			{
+				tl->WriteToLogger(testSite, "Done Load " + tl->glob->WolferInfo_Status[testSite].wolferIOFile[wolferType] + " with " + IOControl + ".\n");
+			}
+			else
+			{
+				throw gcnew Aemulus::Hardware::AlarmException(wolferType + " has undefined IOControl Type", -1);
+			}
+
+			wlfInit(testSite, IOControl);
+
+			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_WolferInit for " + wolferType + " wolfer.\n");
+
+#pragma endregion "Test"
+
+		}
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_WolferSelectPath(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** CM_RF_WolferSelectPath
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WolferSelectPath");
+
+			//To get the desired Wolfer Number in current site
+			int externalModuleNo = 0;
+			for (int i = 0; i < CurrentHeadSite.ExternalModuleList->Count; i++)
+			{
+				if (CurrentHeadSite.ExternalModuleList[externalModuleNo]["Name"] == "Wolfer")
+					externalModuleNo = i;
+			}
+
+			////Control Method Compulsory Variable
+			double sourceFreq;
+			double measureFreq;
+			String^ wolferType = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Type"];
+			String^ IOControl = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Address"];
+			String^ selectTxPath = nullptr;
+			String^ selectRxPath = nullptr;
+			bool TxBypassOn = false;
+			String^ TxInternalPath = nullptr;
+			String^ RxInternalPath = nullptr;
+
+			//Start Modulation Operation Variable
+			String ^ CM = "WolferSelectPath_";
+			String ^ ErrorMessage = nullptr;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
+			{
+				ConditionInfo = testConditionCollection["SourceFreq"][site];
+				sourceFreq = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("MeasureFreq"))
+			{
+				ConditionInfo = testConditionCollection["MeasureFreq"][site];
+				measureFreq = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "MeasureFreq" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SelectTxPath"))
+			{
+				ConditionInfo = testConditionCollection["SelectTxPath"][site];
+				selectTxPath = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SelectTxPath" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SelectRxPath"))
+			{
+				ConditionInfo = testConditionCollection["SelectRxPath"][site];
+				selectRxPath = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SelectRxPath" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+			if ((bool)testConditionCollection->ContainsKey("TxBypassOn")) //Tx Bypass Path Selection
+			{
+				ConditionInfo = testConditionCollection["TxBypassOn"][site];
+				TxBypassOn = (bool)ConditionInfo->Value;
+			}
+			if ((bool)testConditionCollection->ContainsKey("TxInternalPath")) //Direct Select Wolfer Tx Internal Path
+			{
+				ConditionInfo = testConditionCollection["TxInternalPath"][site];
+				TxInternalPath = (String^)ConditionInfo->Value;
+			}
+			if ((bool)testConditionCollection->ContainsKey("RxInternalPath")) //Direct Select Wolfer Rx Internal Path
+			{
+				ConditionInfo = testConditionCollection["RxInternalPath"][site];
+				RxInternalPath = (String^)ConditionInfo->Value;
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			bool toggleSwitch = false;
+
+			if (wolferType == "C2")
+			{
+				if (IOControl->StartsWith("IOM421"))
+				{
+					WolferSelectPath_C2(testSite, wolferType, selectTxPath, selectRxPath, sourceFreq, measureFreq, TxBypassOn, TxInternalPath, RxInternalPath);
+				}
+				else if (IOControl == "DigitalBoard")
+				{
+				}
+				else
+				{
+					throw gcnew Aemulus::Hardware::AlarmException(wolferType + " has undefined IOControl Type", -1);
+				}
+			}
+		}
+
+#pragma endregion "Test"
+
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+	void AMB7600SRTestLibrary::CM_RF_WolferSourcePower(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	{
+		/*****************************************************************************************************
+		** CM_RF_WolferSourcePower
+		** Arguments:
+		**
+		**
+		**
+		**
+		** Descriptions:
+		**
+		**
+		**
+		******************************************************************************************************/
+
+		try
+		{
+			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
+			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WolferSourcePower");
+
+			//To get the desired Wolfer Number in current site
+			int externalModuleNo = 0;
+			for (int i = 0; i < CurrentHeadSite.ExternalModuleList->Count; i++)
+			{
+				if (CurrentHeadSite.ExternalModuleList[externalModuleNo]["Name"] == "Wolfer")
+					externalModuleNo = i;
+			}
+
+			////Control Method Compulsory Variable
+			String^ wolferType = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Type"];
+			String^ IOControl = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Address"];
+			String^ C2_Coupler_CH = nullptr;
+			String^ sourceChannel = nullptr;
+			double sourceFreq = 0.0;
+			double sourcePin = 0.0;
+
+			//WolferSourcePower Operation Variable
+			String ^ CM = "WolferSourcePower_";
+			String ^ ErrorMessage = nullptr;
+			bool UserInputSourceAttenuation = false;
+
+			//Control Method Option Variable
+			double sourceAttenuation = 999.99;
+			String ^ inputBoardLossItem = nullptr;
+			double inputBoardLoss = 0.0;
+			double inputExtAtt = 0.0;
+
+			//Wolfer Operation Variable
+			double offset = 0.0;
+			double offset2 = 0.0;
+			double actualSourceLevel = 0.0;
+			double coupRef = -90.0;
+			double coupledPout = -90.0;
+			//double pathloss = 0.0;
+
+#pragma region "Test Condition Casting"
+
+			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
+
+			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
+
+			//SourceChannel Test Condition
+			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
+			{
+				ConditionInfo = testConditionCollection["SourceChannel"][site];
+				sourceChannel = (String^)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
+			{
+				ConditionInfo = testConditionCollection["SourceFreq"][site];
+				sourceFreq = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+			if ((bool)testConditionCollection->ContainsKey("SourcePin"))
+			{
+				ConditionInfo = testConditionCollection["SourcePin"][site];
+				sourcePin = (double)ConditionInfo->Value;
+			}
+			else
+			{
+				ErrorMessage = "Test Condition [" + CM + "SourcePin" + "] is not found.";
+				throw gcnew Exception(ErrorMessage);
+			}
+
+			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
+
+			if ((bool)testConditionCollection->ContainsKey("SourceAttenuation"))
+			{
+				ConditionInfo = testConditionCollection["SourceAttenuation"][site];
+				sourceAttenuation = (double)ConditionInfo->Value;
+				UserInputSourceAttenuation = true;
+			}
+			if ((bool)testConditionCollection->ContainsKey(wolferType + "_Coupler_CH"))
+			{
+				ConditionInfo = testConditionCollection[wolferType + "_Coupler_CH"][site];
+				C2_Coupler_CH = (String^)ConditionInfo->Value;
+			}
+
+#pragma endregion "Test Condition Casting"
+
+#pragma region "Test"
+
+			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(sourceChannel)[0];
+
+			if ((int)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["TestSite_LoadHardwareProfile"] != testSite)
+			{
+				RF_LoadHardwareProfile(testSite);
+				tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["TestSite_LoadHardwareProfile"] = testSite;
+			}
+
+			tl->glob->SourcePower_Status[testSite].SourcePowerPreStatus = sourcePin;
+			tl->glob->SourcePower_Status[testSite].SourceFreqPreStatus = sourceFreq;
+
+			//ActualSourcePower = sourcePin + inputBoardLoss + inputExtAtt;
+
+#pragma region Coupler Path Measurement & Adjustment
+
+			if (wolferType == "C2")
+			{
+				if (IOControl->StartsWith("IOM421"))
+				{
+
+					for (int i = 0; i < tl->glob->txpl_count[wolferType]; i++)
+					{
+						if ((tl->glob->txPathLoss_freq[wolferType][i] == sourceFreq) && (tl->glob->txPathLoss_targetpout[wolferType][i] == sourcePin) && (tl->glob->txPathLoss_outIndex[wolferType][i] == tl->glob->outIndex[wolferType]))
+						{
+							coupRef = tl->glob->txPathLoss_couppout[wolferType][i];
+							actualSourceLevel = tl->glob->txPathLoss_actualpout[wolferType][i];
+							break;
+						}
+					}
+
+					if ((bool)testConditionCollection->ContainsKey(wolferType + "_Coupler_CH"))
+					{
+						double l_Measure_Level_Coupler = coupRef + 5.0;
+
+						CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(C2_Coupler_CH, l_Measure_Level_Coupler, sourceFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS));
+						WlfSource(testSite, wolferType, sourceChannel, (int)wlfoutsw::wlfout1, tl->glob->outIndex[wolferType], tl->glob->g_txpath[wolferType], sourceFreq, sourcePin, offset + offset2, actualSourceLevel);
+						util->WaitSecond(2 mS);
+
+						try
+						{
+							CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
+						}
+						catch (Exception ^ ex)
+						{
+							CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(C2_Coupler_CH, l_Measure_Level_Coupler + 15, sourceFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS));
+							util->WaitSecond(2 mS);
+							CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
+						}
+
+						if (Math::Abs(coupRef - coupledPout) < 1)
+						{
+							offset2 = coupRef - coupledPout;
+						}
+					}
+					tl->WriteToLogger(testSite, "WolferCoupler Pout = " + coupledPout);
+					tl->glob->WolferCoupler_Pout[testSite] = coupledPout; //Coupler Pout
+
+
+																		  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  SourceChannel  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+					if (UserInputSourceAttenuation)
+						WlfSource(testSite, wolferType, sourceChannel, (int)wlfoutsw::wlfout1, tl->glob->outIndex[wolferType], tl->glob->g_txpath[wolferType], sourceFreq, sourcePin, offset + offset2, sourceAttenuation, actualSourceLevel);
+					else
+						WlfSource(testSite, wolferType, sourceChannel, (int)wlfoutsw::wlfout1, tl->glob->outIndex[wolferType], tl->glob->g_txpath[wolferType], sourceFreq, sourcePin, offset + offset2, actualSourceLevel);
+
+					util->WaitSecond(5 mS);
+					//CheckError(RF, Amsrf0->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
+
+				}
+				else if (IOControl == "DigitalBoard")
+				{
+				}
+				else
+				{
+					throw gcnew Aemulus::Hardware::AlarmException(wolferType + " has undefined IOControl Type", -1);
+				}
+			}
+#pragma endregion
+
+			//State Recording
+			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceChannel"] = HardwareRsrc->Alias;
+			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourcePower"] = actualSourceLevel;
+			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceFreq"] = sourceFreq;
+			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceAtt"] = sourceAttenuation;
+			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceFactor"] = 999.99;
+			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceAlignFactor"] = 999.99;
+			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"] = 0;//Source Normal
+			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceStatus"] = 1;//Source High
+		}
+
+#pragma endregion "Test"
+
+		catch (Exception ^ ex)
+		{
+			String ^ methodType = "CM_";
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->UpdateTestResultsWhenException(site, testSite);
+			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
+		}
+	}
+
 	//Test Methods
 	void AMB7600SRTestLibrary::TM_RF_MeasureChannel(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
 	{
@@ -5802,2686 +8485,4 @@ namespace Functions
 		{}
 	}
 
-	//Control Methods
-	void AMB7600SRTestLibrary::CM_RF_SourcePower(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourcePower");
-
-			//Control Method Compulsory Variable
-			String^ sourceChannel = nullptr;
-			double sourceFreq = 0.0;
-			double sourcePin = 0.0;
-
-			//Control Method Option Variable
-			double sourceAttenuation = 999.99;
-			String ^ inputBoardLossItem = nullptr;
-			double inputBoardLoss = 0.0;
-			double inputExtAtt = 0.0;
-
-			//Operation Variable
-			double ActualSourcePower = 0;
-			String^ ErrorMessage = nullptr;
-			String ^ CM = "SourcePower_";
-			bool UserInputSourceAttenuation = false;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
-			{
-				ConditionInfo = testConditionCollection["SourceChannel"][site];
-				sourceChannel = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
-			{
-				ConditionInfo = testConditionCollection["SourceFreq"][site];
-				sourceFreq = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourcePin"))
-			{
-				ConditionInfo = testConditionCollection["SourcePin"][site];
-				sourcePin = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourcePin" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			if ((bool)testConditionCollection->ContainsKey("SourceAttenuation"))
-			{
-				ConditionInfo = testConditionCollection["SourceAttenuation"][site];
-				sourceAttenuation = (double)ConditionInfo->Value;
-				UserInputSourceAttenuation = true;
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("InputBoardLossItem"))
-			{
-				ConditionInfo = testConditionCollection["InputBoardLossItem"][site];
-				inputBoardLossItem = (String^)ConditionInfo->Value;
-
-				if (tl->glob->boardLoss[testSite]->ContainsKey(inputBoardLossItem))
-				{
-					inputBoardLoss = tl->glob->boardLoss[testSite][inputBoardLossItem];
-				}
-				else
-				{
-					ErrorMessage = "Test Condition [" + CM + "InputBoardLossItem: " + inputBoardLossItem + "] is not exist in the BoardLoss.csv";
-					throw gcnew Exception(ErrorMessage);
-				}
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("InputExtAtt"))
-			{
-				ConditionInfo = testConditionCollection["InputExtAtt"][site];
-				inputExtAtt = (double)ConditionInfo->Value;
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-
-			tl->glob->SourcePower_Status[testSite].SourcePowerPreStatus = sourcePin;
-			tl->glob->SourcePower_Status[testSite].SourceFreqPreStatus = sourceFreq;
-
-			ActualSourcePower = sourcePin + inputBoardLoss + inputExtAtt;
-
-			if (UserInputSourceAttenuation == false)
-			{
-				RF_SourcePower(testSite, sourceChannel, ActualSourcePower, sourceFreq);
-			}
-			else
-			{
-				RF_SourcePower(testSite, sourceChannel, ActualSourcePower, sourceFreq, sourceAttenuation);
-			}
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourcePower");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_SourcePowerFast(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourcePowerFast");
-
-			//Control Method Compulsory Variable
-			String^ sourceChannel = nullptr;
-			double sourceFreq = 0.0;
-			double sourcePin = 0.0;
-
-			//Test Method Option Variable
-			double inputBoardLoss = 0.0;
-			String ^ inputBoardLossItem = nullptr;
-			double inputExtAtt = 0.0;
-			double sourceAttenuation = 999.99;
-
-			//Source Power Operation Variable		
-			double ActualSourcePower = 0;
-			String^ ErrorMessage = nullptr;
-			String ^ CM = "SourcePowerFast_";
-			bool UserInputSourceAttenuation = false;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
-			{
-				ConditionInfo = testConditionCollection["SourceChannel"][site];
-				sourceChannel = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
-			{
-				ConditionInfo = testConditionCollection["SourceFreq"][site];
-				sourceFreq = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourcePin"))
-			{
-				ConditionInfo = testConditionCollection["SourcePin"][site];
-				sourcePin = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourcePin" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			if ((bool)testConditionCollection->ContainsKey("InputBoardLossItem"))
-			{
-				ConditionInfo = testConditionCollection["InputBoardLossItem"][site];
-				inputBoardLossItem = (String^)ConditionInfo->Value;
-
-				if (tl->glob->boardLoss[testSite]->ContainsKey(inputBoardLossItem))
-				{
-					inputBoardLoss = tl->glob->boardLoss[testSite][inputBoardLossItem];
-				}
-				else
-				{
-					ErrorMessage = "Test Condition [" + CM + "InputBoardLossItem: " + inputBoardLossItem + "] is not exist in the BoardLoss.csv";
-					throw gcnew Exception(ErrorMessage);
-				}
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("InputExtAtt"))
-			{
-				ConditionInfo = testConditionCollection["InputExtAtt"][site];
-				inputExtAtt = (double)ConditionInfo->Value;
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("SourceAttenuation"))
-			{
-				ConditionInfo = testConditionCollection["SourceAttenuation"][site];
-				sourceAttenuation = (double)ConditionInfo->Value;
-				UserInputSourceAttenuation = true;
-			}
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-
-			tl->glob->SourcePower_Status[testSite].SourcePowerPreStatus = sourcePin;
-			tl->glob->SourcePower_Status[testSite].SourceFreqPreStatus = sourceFreq;
-
-			ActualSourcePower = sourcePin + inputBoardLoss + inputExtAtt;
-
-			RF_SourcePowerFast(testSite, sourceChannel, ActualSourcePower, sourceFreq, UserInputSourceAttenuation, sourceAttenuation);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourcePowerFast");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_SourceTwoTone(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourceTwoTone");
-
-			//Control Method Compulsory Variable
-			String^ sourceChannel = nullptr;
-			double sourceFreq0 = 0.0;
-			double sourcePin0 = 0.0;
-			double sourceFreq1 = 0.0;
-			double sourcePin1 = 0.0;
-			double sourceAttenuation = 0.0;
-
-			//Source Two Tone Operation Variable
-			String ^ inputBoardLossItem = nullptr;
-			array<double >^ inputBoardLoss = gcnew array <double>(2);
-			double InputExtAtt = 0.0;
-			String ^ CM = "SourceTwoTone_";
-			String ^ ErrorMessage = nullptr;
-			bool UserInputSourceAttenuation = false;
-			double inputExtAtt = 0.0;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
-			{
-				ConditionInfo = testConditionCollection["SourceChannel"][site];
-				sourceChannel = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourceFreq0"))
-			{
-				ConditionInfo = testConditionCollection["SourceFreq0"][site];
-				sourceFreq0 = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceFreq0" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourcePin0"))
-			{
-				ConditionInfo = testConditionCollection["SourcePin0"][site];
-				sourcePin0 = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourcePin0" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourceFreq1"))
-			{
-				ConditionInfo = testConditionCollection["SourceFreq1"][site];
-				sourceFreq1 = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceFreq1" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourcePin1"))
-			{
-				ConditionInfo = testConditionCollection["SourcePin1"][site];
-				sourcePin1 = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourcePin1" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			if ((bool)testConditionCollection->ContainsKey("SourceAttenuation"))
-			{
-				ConditionInfo = testConditionCollection["SourceAttenuation"][site];
-				sourceAttenuation = (double)ConditionInfo->Value;
-				UserInputSourceAttenuation = true;
-			}
-
-			for (int i = 0; i < 2; i++)
-			{
-				inputBoardLoss[i] = 0;
-
-				if ((bool)testConditionCollection->ContainsKey("InputBoardLossItem_" + i.ToString()))
-				{
-					ConditionInfo = testConditionCollection["InputBoardLossItem_" + i.ToString()][site];
-					inputBoardLossItem = (String^)ConditionInfo->Value;
-
-					if (tl->glob->boardLoss[testSite]->ContainsKey(inputBoardLossItem))
-					{
-						inputBoardLoss[i] = tl->glob->boardLoss[testSite][inputBoardLossItem];
-					}
-					else
-					{
-						ErrorMessage = "Test Condition [" + CM + "InputBoardLossItem_" + i.ToString() + ": " + inputBoardLossItem + "] is not exist in the BoardLoss.csv";
-						throw gcnew Exception(ErrorMessage);
-					}
-				}
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("InputExtAtt"))
-			{
-				ConditionInfo = testConditionCollection["InputExtAtt"][site];
-				inputExtAtt = (double)ConditionInfo->Value;
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			ResetAmsrfPreviousState(testSite, true);
-
-			tl->glob->SourcePower_Status[testSite].SourcePowerPreStatus = sourcePin1;
-
-			RF_LoadHardwareProfile(testSite);
-
-			if (tl->glob->TwoToneMode == 1)
-			{
-				if (UserInputSourceAttenuation == true)
-				{
-					RF_SourceTwoTone(testSite, sourceChannel, sourcePin0 + inputBoardLoss[0] + inputExtAtt, sourceFreq0, sourcePin1 + inputBoardLoss[1] + inputExtAtt, sourceFreq1, sourceAttenuation);
-				}
-				else
-				{
-					RF_SourceTwoTone(testSite, sourceChannel, sourcePin0 + inputBoardLoss[0] + inputExtAtt, sourceFreq0, sourcePin1 + inputBoardLoss[1] + inputExtAtt, sourceFreq1);
-				}
-			}
-			else if (tl->glob->TwoToneMode == 2)
-			{
-				RF_SourcePowerExternalSignalGenerator(testSite, sourcePin0 + inputBoardLoss[0] + inputExtAtt);
-				RF_SourceFreqExternalSignalGenerator(testSite, sourceFreq0);
-				RF_OutputEnableExternalSignalGenerator(testSite, true);
-
-				if (UserInputSourceAttenuation == true)
-				{
-					RF_SourcePower(testSite, sourceChannel, sourcePin1 + inputBoardLoss[1] + inputExtAtt, sourceFreq1, sourceAttenuation);
-				}
-				else
-				{
-					RF_SourcePower(testSite, sourceChannel, sourcePin1 + inputBoardLoss[1] + inputExtAtt, sourceFreq1);
-				}
-
-				RF_RFDM621_SetInputSource(testSite, 2, 0);
-				RF_RFDM621_SetMode(testSite, 2);
-			}
-
-			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"] = 2;
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourceTwoTone");
-
-#pragma endregion "Test"
-
-		}
-
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_SourcePowerLow(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourcePowerLow");
-
-			//Test Method Compulsory Variable
-			String^ sourceChannel = nullptr;
-			double sourceFreq = 0.0;
-
-			//Source Power Low Operation Variable
-			String ^ CM = "SourcePowerLow_";
-			double SourcePin = -120.0 dbm;
-			String ^ ErrorMessage = nullptr;
-			int sourceMode = (int)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"];
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
-			{
-				ConditionInfo = testConditionCollection["SourceChannel"][site];
-				sourceChannel = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
-			{
-				ConditionInfo = testConditionCollection["SourceFreq"][site];
-				sourceFreq = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-
-			if (sourceMode == 0 ||
-				sourceMode == 1 ||
-				sourceMode == 2)
-			{
-				RF_SourcePower(testSite, sourceChannel, SourcePin, sourceFreq);
-			}
-			else if (sourceMode == 3)
-			{
-				if (tl->glob->TwoToneMode == 1)
-				{
-					RF_SourceTwoTone(testSite, sourceChannel, SourcePin, sourceFreq, SourcePin, sourceFreq);
-				}
-				else if (tl->glob->TwoToneMode == 2)
-				{
-					RF_SourcePower(testSite, sourceChannel, SourcePin, sourceFreq);
-					RF_OutputEnableExternalSignalGenerator(testSite, false);
-				}
-			}
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourcePowerLow");
-
-#pragma endregion "Test"
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_RunSourceAlignment(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_RunSourceAlignment");
-
-			//Test Method Compulsory Variable
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			if (tl->glob->TestSiteAmsrfType[testSite] == "AMSRF0")
-			{
-				if (tl->glob->SourceAlignment_Status.AMSRF0 == false)
-				{
-					RF_RunSourceAlignment(testSite);
-					tl->glob->SourceAlignment_Status.AMSRF0 = true;
-				}
-			}
-			else if (tl->glob->TestSiteAmsrfType[testSite] == "AMSRF1")
-			{
-				if (tl->glob->SourceAlignment_Status.AMSRF1 == false)
-				{
-					RF_RunSourceAlignment(testSite);
-					tl->glob->SourceAlignment_Status.AMSRF1 = false;
-				}
-			}
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_RunSourceAlignment");
-
-#pragma endregion "Test"
-
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_StartModulation(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_StartModulation");
-
-			//Control Method Compulsory Variable
-			String^ moduleAlias = nullptr;
-			String^ modulationFile = nullptr;
-			int playBackMode = 0;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "StartModulation_";
-			String ^ PathModulationFile = nullptr;
-
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
-				moduleAlias = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("ModulationFile"))
-			{
-				ConditionInfo = testConditionCollection["ModulationFile"][site];
-				modulationFile = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModulationFile" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("PlayBackMode"))
-			{
-				ConditionInfo = testConditionCollection["PlayBackMode"][site];
-				playBackMode = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "PlayBackMode" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			PathModulationFile = tl->glob->ModulationFile[testSite][modulationFile];
-			RF_StartModulation(testSite, moduleAlias, PathModulationFile, playBackMode);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_StartModulation");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_IsolateChannel(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_IsolateChannel");
-
-			//Control Method Compulsory Variable
-			String^ channel = nullptr;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "IsolateChannel_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("Channel"))
-			{
-				ConditionInfo = testConditionCollection["Channel"][site];
-				channel = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "Channel" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-
-			if (channel == "AllChannel")
-			{
-				RF_IsolateAllChannel(testSite);
-			}
-			else
-			{
-				RF_IsolateChannel(testSite, channel);
-			}
-
-			ResetAmsrfPreviousState(testSite, true);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_IsolateChannel");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_StopModulation(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_StopModulation");
-
-			//Control Method Compulsory Variable
-			String^ moduleAlias = nullptr;
-
-
-			//Start Modulation Operation Variable
-			String ^ CM = "StopModulation_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
-				moduleAlias = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_StopModulation(testSite, moduleAlias);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_StopModulation");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_SetSourceTriggerOut(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetSourceTriggerOut");
-
-			//Control Method Compulsory Variable
-			String^ moduleAlias = nullptr;
-			bool enable = false;
-			int trigDestination = 999;
-			int trigOption = 999;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "SetSourceTriggerOut_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
-				moduleAlias = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("Enable"))
-			{
-				ConditionInfo = testConditionCollection["Enable"][site];
-				enable = (bool)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigDestination"))
-			{
-				ConditionInfo = testConditionCollection["TrigDestination"][site];
-				trigDestination = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigDestination" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigOption"))
-			{
-				ConditionInfo = testConditionCollection["TrigOption"][site];
-				trigOption = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigOption" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_SetSourceTriggerOut(testSite, moduleAlias, enable, trigDestination, trigOption);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetSourceTriggerOut");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_SetSourceTriggerRouting(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetSourceTriggerRouting");
-
-			//Control Method Compulsory Variable
-			String^ moduleAlias = nullptr;
-			bool enable = false;
-			int trigIn = 999;
-			int trigOut = 999;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "SetSourceTriggerRouting_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
-				moduleAlias = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("Enable"))
-			{
-				ConditionInfo = testConditionCollection["Enable"][site];
-				enable = (bool)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigIn"))
-			{
-				ConditionInfo = testConditionCollection["TrigIn"][site];
-				trigIn = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigIn" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigOut"))
-			{
-				ConditionInfo = testConditionCollection["TrigOut"][site];
-				trigOut = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigOut" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_SetSourceTriggerRouting(testSite, moduleAlias, enable, trigIn, trigOut);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetSourceTriggerRouting");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_SetMeasureTriggerRouting(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetMeasureTriggerRouting");
-
-			//Control Method Compulsory Variable
-			String^ moduleAlias = nullptr;
-			bool enable = false;
-			int trigIn = 999;
-			int trigOut = 999;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "SetMeasureTriggerRouting_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
-				moduleAlias = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("Enable"))
-			{
-				ConditionInfo = testConditionCollection["Enable"][site];
-				enable = (bool)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigIn"))
-			{
-				ConditionInfo = testConditionCollection["TrigIn"][site];
-				trigIn = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigIn" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigOut"))
-			{
-				ConditionInfo = testConditionCollection["TrigOut"][site];
-				trigOut = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigOut" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_SetMeasureTriggerRouting(testSite, moduleAlias, enable, trigIn, trigOut);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetMeasureTriggerRouting");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_SetSourceTriggerIn(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetSourceTriggerIn");
-
-			//Control Method Compulsory Variable
-			String^ moduleAlias = nullptr;
-			bool enable = false;
-			int trigSource = 999;
-			int trigPolarity = 999;
-			double trigDelay = 0.0;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "SetSourceTriggerIn_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
-				moduleAlias = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("Enable"))
-			{
-				ConditionInfo = testConditionCollection["Enable"][site];
-				enable = (bool)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigSource"))
-			{
-				ConditionInfo = testConditionCollection["TrigSource"][site];
-				trigSource = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigSource" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigPolarity"))
-			{
-				ConditionInfo = testConditionCollection["TrigPolarity"][site];
-				trigPolarity = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigPolarity" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigDelay"))
-			{
-				ConditionInfo = testConditionCollection["TrigDelay"][site];
-				trigDelay = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigDelay" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_SetSourceTriggerIn(testSite, moduleAlias, enable, trigSource, trigPolarity, trigDelay);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetSourceTriggerIn");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_SetMeasureTriggerIn(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetMeasureTriggerIn");
-
-			//Control Method Compulsory Variable
-			String^ moduleAlias = nullptr;
-			bool enable = false;
-			int trigSource = 999;
-			int trigPolarity = 999;
-			double trigDelay = 0.0;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "SetMeasureTriggerIn_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
-				moduleAlias = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("Enable"))
-			{
-				ConditionInfo = testConditionCollection["Enable"][site];
-				enable = (bool)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "Enable" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigSource"))
-			{
-				ConditionInfo = testConditionCollection["TrigSource"][site];
-				trigSource = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigSource" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigPolarity"))
-			{
-				ConditionInfo = testConditionCollection["TrigPolarity"][site];
-				trigPolarity = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigPolarity" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("TrigDelay"))
-			{
-				ConditionInfo = testConditionCollection["TrigDelay"][site];
-				trigDelay = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "TrigDelay" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_SetMeasureTriggerIn(testSite, moduleAlias, enable, trigSource, trigPolarity, trigDelay);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetMeasureTriggerIn");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_LoadModulation(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_LoadModulation");
-
-			//Control Method Compulsory Variable
-			String^ moduleAlias = nullptr;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "LoadModulation_";
-			int StationNo = 0;
-			String^ waveformFileDirectory = System::IO::Path::GetDirectoryName(site->Recipe->FlowFilePath) + "\\ModulationWaveform";
-			int totalWaveformFiles_awf = Directory::GetFiles(waveformFileDirectory, "*.awf")->Length;
-			int totalWaveformFiles_wfm = Directory::GetFiles(waveformFileDirectory, "*.wfm")->Length;
-			int totalWaveformFiles = totalWaveformFiles_awf + totalWaveformFiles_wfm;
-			array<String^> ^ waveformFiles_awf = gcnew array<String^>(totalWaveformFiles_awf);
-			array<String^> ^ waveformFiles_wfm = gcnew array<String^>(totalWaveformFiles_wfm);
-			String ^ fileName = nullptr;
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
-				moduleAlias = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			waveformFiles_awf = Directory::GetFiles(waveformFileDirectory, "*.awf");
-			waveformFiles_wfm = Directory::GetFiles(waveformFileDirectory, "*.wfm");
-
-			for (int i = 0; i < totalWaveformFiles_awf; i++)
-			{
-				fileName = nullptr;
-				fileName = waveformFiles_awf[i]->Replace(waveformFileDirectory + "\\", "");
-				tl->glob->ModulationFile[testSite]->Add(fileName, waveformFiles_awf[i]);
-
-				RF_LoadModulation(testSite, moduleAlias, waveformFiles_awf[i], StationNo);
-			}
-
-			for (int i = 0; i < totalWaveformFiles_wfm; i++)
-			{
-				fileName = nullptr;
-				fileName = waveformFiles_wfm[i]->Replace(waveformFileDirectory + "\\", "");
-				tl->glob->ModulationFile[testSite]->Add(fileName, waveformFiles_wfm[i]);
-
-				RF_LoadModulation(testSite, moduleAlias, waveformFiles_wfm[i], StationNo);
-			}
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_LoadModulation");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-			//tl->WarningMessageBox(tl->glob->TcrLgr.GlobalErrorMessage, "Fail");
-			throw;
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_WlanInit(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WlanInit");
-
-			//Control Method Compulsory Variable
-			String^ moduleAliasVSG = nullptr;
-			String^ moduleAliasVSA = nullptr;
-			int standardSelection = 999;
-			int measureOption_ACAX = WLAN_ACAX;
-			int measureOption_ABGN = WLAN_ABGN;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "WlanInit_";
-			String ^ ErrorMessage = nullptr;
-			bool Init_ACAX = false;
-			bool Init_ABGN = false;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSG"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAliasVSG"][site];
-				moduleAliasVSG = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSG" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSA"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAliasVSA"][site];
-				moduleAliasVSA = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSA" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("StandardSelection"))
-			{
-				ConditionInfo = testConditionCollection["StandardSelection"][site];
-				standardSelection = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "StandardSelection" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("measureOption_ACAX"))
-			{
-				ConditionInfo = testConditionCollection["measureOption_ACAX"][site];
-				Init_ACAX = (bool)ConditionInfo->Value;
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("measureOption_ABGN"))
-			{
-				ConditionInfo = testConditionCollection["measureOption_ABGN"][site];
-				Init_ABGN = (bool)ConditionInfo->Value;
-			}
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			//	RF_LoadHardwareProfile(testSite);
-
-			if (Init_ACAX == true)
-			{
-				RF_WlanInitSetup(testSite, moduleAliasVSG, moduleAliasVSA, standardSelection, measureOption_ACAX);
-			}
-
-			if (Init_ABGN == true)
-			{
-				RF_WlanInitSetup(testSite, moduleAliasVSG, moduleAliasVSA, standardSelection, measureOption_ABGN);
-			}
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_WlanInit");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-			throw;
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_EvmMeasurementSetup(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_EvmMeasurementSetup");
-
-			//Control Method Compulsory Variable
-			int wlanModulationStandard = 999;
-			WlanModulationStandardEnum standard;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "EvmMeasurementSetup_";
-			String ^ ErrorMessage = nullptr;
-			Dictionary<int, Object^>^ WlanSettings = gcnew Dictionary<int, Object^>();
-			List<int>^ Setting = gcnew List<int>();
-			array<String^>^ splitStr = nullptr;
-			array<String^>^ separators = { CM + "Setting_" };
-			DataType Var;
-			bool SetWlanSetting = false;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			for each(Condition ^ testcond in testConditionCollection)
-			{
-				if (testcond->Name->StartsWith(CM + "Setting_"))
-				{
-					splitStr = nullptr;
-					splitStr = testcond->Name->Split(separators, StringSplitOptions::RemoveEmptyEntries);
-					Setting->Add(Convert::ToInt32(splitStr[0]));
-				}
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("WlanModulationStandard"))
-			{
-				ConditionInfo = testConditionCollection["WlanModulationStandard"][site];
-				tl->TestCondCheckingDataType(CM + "WlanModulationStandard", DataType::Int32, ConditionInfo->Condition->DataType);
-				wlanModulationStandard = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "WlanModulationStandard" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-
-			}
-
-			for (int i = 0; i<Setting->Count; i++)
-			{
-				ConditionInfo = testConditionCollection["Setting_" + Setting[i]][site];
-
-				RF_WlanEvmSettingVariable(CM, Setting[i], Var);
-				tl->TestCondCheckingDataType(CM + "Setting_" + Setting[i], Var, ConditionInfo->Condition->DataType);
-
-				switch (Var)
-				{
-				case DataType::Double:
-					WlanSettings->Add(Setting[i], (double)ConditionInfo->Value);
-					break;
-
-				case DataType::Int32:
-					WlanSettings->Add(Setting[i], (int)ConditionInfo->Value);
-					break;
-
-				case DataType::String:
-					WlanSettings->Add(Setting[i], (String^)ConditionInfo->Value);
-					break;
-
-				case DataType::Boolean:
-					WlanSettings->Add(Setting[i], (bool)ConditionInfo->Value);
-					break;
-				}
-
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_WlanStandardSelection(testSite, wlanModulationStandard, standard);
-
-			if (WlanSettings->Count > 0)
-			{
-				SetWlanSetting = true;
-			}
-			else
-			{
-				SetWlanSetting = false;
-			}
-
-			RF_WlanEvmMeasurementSetup(testSite, standard, SetWlanSetting, WlanSettings);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_EvmMeasurementSetup");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_SemMeasurementSetup(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SemMeasurementSetup");
-
-			//Control Method Compulsory Variable
-			int wlanModulationStandard = 999;
-			WlanModulationStandardEnum standard;
-			int semAvg = 999;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "SemMeasurementSetup_";
-			String ^ ErrorMessage = nullptr;
-			Dictionary<int, Object^>^ WlanSettings = gcnew Dictionary<int, Object^>();
-			List<int>^ Setting = gcnew List<int>();
-			array<String^>^ splitStr = nullptr;
-			array<String^>^ separators = { CM + "Setting_" };
-			DataType Var;
-			bool SetWlanSetting = false;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			for each(Condition ^ testcond in testConditionCollection)
-			{
-				if (testcond->Name->StartsWith(CM + "Setting_"))
-				{
-					splitStr = nullptr;
-					splitStr = testcond->Name->Split(separators, StringSplitOptions::RemoveEmptyEntries);
-					Setting->Add(Convert::ToInt32(splitStr[0]));
-				}
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("WlanModulationStandard"))
-			{
-				ConditionInfo = testConditionCollection["WlanModulationStandard"][site];
-				wlanModulationStandard = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "WlanModulationStandard" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("SemAvg"))
-			{
-				ConditionInfo = testConditionCollection["SemAvg"][site];
-				semAvg = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SemAvg" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			for (int i = 0; i<Setting->Count; i++)
-			{
-				ConditionInfo = testConditionCollection["Setting_" + Setting[i]][site];
-
-				RF_WlanSemSettingVariable(CM, Setting[i], Var);
-
-				switch (Var)
-				{
-				case DataType::Double:
-					if (ConditionInfo->Condition->DataType == DataType::Double)
-					{
-						WlanSettings->Add(Setting[i], (double)ConditionInfo->Value);
-					}
-					else
-					{
-						ErrorMessage = "Test Condition [" + CM + "Setting_" + Setting[i] + " DataType] is not double.";
-						throw gcnew Exception(ErrorMessage);
-					}
-					break;
-				case DataType::Int32:
-					if (ConditionInfo->Condition->DataType == DataType::Int32)
-					{
-						WlanSettings->Add(Setting[i], (int)ConditionInfo->Value);
-					}
-					else
-					{
-						ErrorMessage = "Test Condition [" + CM + "Setting_" + Setting[i] + " DataType] must be set to int32.";
-						throw gcnew Exception(ErrorMessage);
-					}
-					break;
-
-				case DataType::String:
-					if (ConditionInfo->Condition->DataType == DataType::String)
-					{
-						WlanSettings->Add(Setting[i], (String^)ConditionInfo->Value);
-					}
-					else
-					{
-						ErrorMessage = "Test Condition [" + CM + "Setting_" + Setting[i] + " DataType] must be set to String.";
-						throw gcnew Exception(ErrorMessage);
-					}
-					break;
-
-				case DataType::Boolean:
-					if (ConditionInfo->Condition->DataType == DataType::Boolean)
-					{
-						WlanSettings->Add(Setting[i], (bool)ConditionInfo->Value);
-					}
-					else
-					{
-						ErrorMessage = "Test Condition [" + CM + "Setting_" + Setting[i] + " DataType] must be set to boolean.";
-						throw gcnew Exception(ErrorMessage);
-					}
-					break;
-				}
-
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_WlanStandardSelection(testSite, wlanModulationStandard, standard);
-
-			if (WlanSettings->Count > 0)
-			{
-				SetWlanSetting = true;
-			}
-			else
-			{
-				SetWlanSetting = false;
-			}
-
-			RF_WlanSemMeasurementSetup(testSite, standard, SetWlanSetting, semAvg, WlanSettings);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SemMeasurementSetup");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_MeasureSetup(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_MeasureSetup");
-
-			//Control Method Compulsory Variable
-			String^ measureChannel = nullptr;
-			double measurePower = 0.0;
-			double measureFreq = 0.0;
-			int filterOption = AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS;
-			double measureDelay = 1.0 mS;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "MeasureSetup_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("MeasureChannel"))
-			{
-				ConditionInfo = testConditionCollection["MeasureChannel"][site];
-				measureChannel = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "MeasureChannel" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("MeasurePower"))
-			{
-				ConditionInfo = testConditionCollection["MeasurePower"][site];
-				measurePower = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "MeasurePower" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("MeasureFreq"))
-			{
-				ConditionInfo = testConditionCollection["MeasureFreq"][site];
-				measureFreq = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "MeasureFreq" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-			if ((bool)testConditionCollection->ContainsKey("MeasureDelay"))
-			{
-				ConditionInfo = testConditionCollection["MeasureDelay"][site];
-				measureDelay = (double)ConditionInfo->Value;
-			}
-			if ((bool)testConditionCollection->ContainsKey("FilterOption"))
-			{
-				ConditionInfo = testConditionCollection["FilterOption"][site];
-				filterOption = (int)ConditionInfo->Value;
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_MeasureSetup(testSite, measureChannel, measurePower, measureFreq, filterOption);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_MeasureSetup");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_MeasureSetupIQ(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_MeasureSetupIQ");
-
-			//Control Method Compulsory Variable
-			String^ measureChannel = nullptr;
-			double measurePower = 0.0;
-			double measureFreq = 0.0;
-			int filterOption = AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS;
-			double measureDelay = 1.0 mS;
-			double sampleRate = 0.0;
-			int sampleSize = 0.0;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "MeasureSetupIQ_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("MeasureChannel"))
-			{
-				ConditionInfo = testConditionCollection["MeasureChannel"][site];
-				measureChannel = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "MeasureChannel" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("MeasurePower"))
-			{
-				ConditionInfo = testConditionCollection["MeasurePower"][site];
-				measurePower = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "MeasurePower" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			if ((bool)testConditionCollection->ContainsKey("MeasureFreq"))
-			{
-				ConditionInfo = testConditionCollection["MeasureFreq"][site];
-				measureFreq = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "MeasureFreq" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SampleRate"))
-			{
-				ConditionInfo = testConditionCollection["SampleRate"][site];
-				sampleRate = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SampleRate" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SampleSize"))
-			{
-				ConditionInfo = testConditionCollection["SampleSize"][site];
-				sampleSize = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SampleSize" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-			if ((bool)testConditionCollection->ContainsKey("MeasureDelay"))
-			{
-				ConditionInfo = testConditionCollection["MeasureDelay"][site];
-				measureDelay = (double)ConditionInfo->Value;
-			}
-			if ((bool)testConditionCollection->ContainsKey("FilterOption"))
-			{
-				ConditionInfo = testConditionCollection["FilterOption"][site];
-				filterOption = (int)ConditionInfo->Value;
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-			RF_MeasureSetupIQ(testSite, measureChannel, measurePower, measureFreq, sampleRate, sampleSize, filterOption);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_MeasureSetupIQ.\n");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_TriggerSigenStartModulation(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** TM_OS_Test
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_TriggerSigenStartModulation");
-
-			//Control Method Compulsory Variable
-			String^ moduleAliasSigen = nullptr;
-			String^ moduleAliasDM = nullptr;
-			String^ modulationFile = nullptr;
-			String^ vectorFileName = nullptr;
-			int playBackMode = 0;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "TriggerSigenStartModulation_";
-			String ^ ErrorMessage = nullptr;
-			String ^ PathModulationFile = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("ModuleAliasSigen"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAliasSigen"][site];
-				moduleAliasSigen = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAliasSigen" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("ModulationFile"))
-			{
-				ConditionInfo = testConditionCollection["ModulationFile"][site];
-				modulationFile = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModulationFile" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("PlayBackMode"))
-			{
-				ConditionInfo = testConditionCollection["PlayBackMode"][site];
-				playBackMode = (int)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "PlayBackMode" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("VectorFileName"))
-			{
-				ConditionInfo = testConditionCollection["VectorFileName"][site];
-				vectorFileName = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "VectorFileName" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("ModuleAliasDM"))
-			{
-				ConditionInfo = testConditionCollection["ModuleAliasDM"][site];
-				moduleAliasDM = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAliasDM" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			RF_LoadHardwareProfile(testSite);
-
-			PathModulationFile = tl->glob->ModulationFile[testSite][modulationFile];
-
-			RF_StopModulation(testSite, moduleAliasSigen);
-			RF_StartModulation(testSite, moduleAliasSigen, PathModulationFile, playBackMode);
-			DM_MIPIWriteVector(testSite, moduleAliasDM, vectorFileName);
-
-			//RF_KTM9420_ATTR_SOURCE_Trigger(testSite, "VSG1", tl->glob->ModulationFile[testSite]["WLAN_11AC_80MHz_MCS9.awf"]);
-			//DM_MIPIWriteVector(testSite, "DM483E", "SW3");
-
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_TriggerSigenStartModulation");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_WolferInit(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** CM_RF_WolferInit
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WolferInit");
-
-			//To get the desired Wolfer Number in current site
-			int externalModuleNo = 0;
-			for (int i = 0; i < CurrentHeadSite.ExternalModuleList->Count; i++)
-			{
-				if (CurrentHeadSite.ExternalModuleList[externalModuleNo]["Name"] == "Wolfer")
-					externalModuleNo = i;
-			}
-
-			////Control Method Compulsory Variable
-			String^ wolferType = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Type"];
-			String^ IOControl = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Address"];
-
-			//Start Modulation Operation Variable
-			String ^ CM = "WolferInit_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			//if ((bool)testConditionCollection->ContainsKey("WolferType"))
-			//{
-			//	ConditionInfo = testConditionCollection["WolferType"][site];
-			//	wolferType = (String^)ConditionInfo->Value;
-			//}
-			//else
-			//{
-			//	ErrorMessage = "Test Condition [" + CM + "WolferType" + "] is not found.";
-			//	throw gcnew Exception(ErrorMessage);
-			//}
-			//if ((bool)testConditionCollection->ContainsKey("IOControl")) //Get Hardware AMAP Name
-			//{
-			//	ConditionInfo = testConditionCollection["IOControl"][site];
-			//	IOControl = (String^)ConditionInfo->Value;
-			//}
-			//else
-			//{
-			//	ErrorMessage = "Test Condition [" + CM + "IOControl" + "] is not found.";
-			//	throw gcnew Exception(ErrorMessage);
-			//}
-
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			tl->glob->WolferInfo_Status[testSite].freqcalFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_CAL_LIST);
-			tl->glob->WolferInfo_Status[testSite].freqHarcalFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_HAR_CAL_LIST);
-			tl->glob->WolferInfo_Status[testSite].txplFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_TX);
-			tl->glob->WolferInfo_Status[testSite].rxplFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_RX);
-			tl->glob->WolferInfo_Status[testSite].txHarplFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_TX_HAR);
-			tl->glob->WolferInfo_Status[testSite].rxHarplFile->Add(wolferType, FILE_CONST_WOLFER_INFO + "\\" + wolferType + "\\" + FILE_NAME_WOLFER_RX_HAR);
-
-			if (File::Exists(tl->glob->WolferInfo_Status[testSite].freqcalFile[wolferType]) != true)
-			{
-				throw gcnew Aemulus::Hardware::AlarmException(tl->glob->WolferInfo_Status[testSite].freqcalFile[wolferType] + " file not exist", -1);
-			}
-
-#pragma region "Read Frequency/Harmonic Frequency Calibration List and Path Loss"
-			int tempCount = 0;
-
-			tl->glob->freq_count[wolferType] = 0;
-			ReadFreqCalList(testSite, wolferType, tempCount);
-			tl->glob->freq_count[wolferType] = tempCount;
-
-			tl->glob->txpl_count[wolferType] = 0;
-			ReadTxPathLoss(testSite, wolferType, tempCount);
-			tl->glob->txpl_count[wolferType] = tempCount;
-
-			tl->glob->rxpl_count[wolferType] = 0;
-			ReadRxPathLoss(testSite, wolferType, tempCount);
-			tl->glob->rxpl_count[wolferType] = tempCount;
-
-			tl->glob->freqHar_count[wolferType] = 0;
-			ReadFreqHarList(testSite, wolferType, tempCount);
-			tl->glob->freqHar_count[wolferType] = tempCount;
-
-			tl->glob->rxpl_Har_count[wolferType] = 0;
-			ReadRxHarPathLoss(testSite, wolferType, tempCount);
-			tl->glob->rxpl_Har_count[wolferType] = tempCount;
-#pragma endregion
-
-			if (IOControl->StartsWith("IOM421"))
-			{
-				tl->glob->WolferInfo_Status[testSite].wolferIOFile->Add(wolferType, tl->glob->tf.RecipeFilePathDirectory + "\\" + "WolferIO\\" + wolferType + "\\" + wolferType + ".csv");
-				wlfGetSwMatrix(testSite, wolferType);
-
-				tl->glob->g_txpath[wolferType] = 0;
-				tl->glob->g_rxpath[wolferType] = 0;
-
-				tl->WriteToLogger(testSite, "Done Load " + tl->glob->WolferInfo_Status[testSite].wolferIOFile[wolferType] + " with " + IOControl + ".\n");
-			}
-			else if (IOControl == "DigitalBoard")
-			{
-				tl->WriteToLogger(testSite, "Done Load " + tl->glob->WolferInfo_Status[testSite].wolferIOFile[wolferType] + " with " + IOControl + ".\n");
-			}
-			else
-			{
-				throw gcnew Aemulus::Hardware::AlarmException(wolferType + " has undefined IOControl Type", -1);
-			}
-
-			wlfInit(testSite, IOControl);
-
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_WolferInit for " + wolferType + " wolfer.\n");
-
-#pragma endregion "Test"
-
-		}
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_WolferSelectPath(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** CM_RF_WolferSelectPath
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WolferSelectPath");
-
-			//To get the desired Wolfer Number in current site
-			int externalModuleNo = 0;
-			for (int i = 0; i < CurrentHeadSite.ExternalModuleList->Count; i++)
-			{
-				if (CurrentHeadSite.ExternalModuleList[externalModuleNo]["Name"] == "Wolfer")
-					externalModuleNo = i;
-			}
-
-			////Control Method Compulsory Variable
-			double sourceFreq;
-			double measureFreq;
-			String^ wolferType = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Type"];
-			String^ IOControl = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Address"];
-			String^ selectTxPath = nullptr;
-			String^ selectRxPath = nullptr;
-			bool TxBypassOn = false;
-			String^ TxInternalPath = nullptr;
-			String^ RxInternalPath = nullptr;
-
-			//Start Modulation Operation Variable
-			String ^ CM = "WolferSelectPath_";
-			String ^ ErrorMessage = nullptr;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
-			{
-				ConditionInfo = testConditionCollection["SourceFreq"][site];
-				sourceFreq = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("MeasureFreq"))
-			{
-				ConditionInfo = testConditionCollection["MeasureFreq"][site];
-				measureFreq = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "MeasureFreq" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SelectTxPath"))
-			{
-				ConditionInfo = testConditionCollection["SelectTxPath"][site];
-				selectTxPath = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SelectTxPath" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SelectRxPath"))
-			{
-				ConditionInfo = testConditionCollection["SelectRxPath"][site];
-				selectRxPath = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SelectRxPath" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			if ((bool)testConditionCollection->ContainsKey("TxBypassOn")) //Tx Bypass Path Selection
-			{
-				ConditionInfo = testConditionCollection["TxBypassOn"][site];
-				TxBypassOn = (bool)ConditionInfo->Value;
-			}
-			if ((bool)testConditionCollection->ContainsKey("TxInternalPath")) //Direct Select Wolfer Tx Internal Path
-			{
-				ConditionInfo = testConditionCollection["TxInternalPath"][site];
-				TxInternalPath = (String^)ConditionInfo->Value;
-			}
-			if ((bool)testConditionCollection->ContainsKey("RxInternalPath")) //Direct Select Wolfer Rx Internal Path
-			{
-				ConditionInfo = testConditionCollection["RxInternalPath"][site];
-				RxInternalPath = (String^)ConditionInfo->Value;
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-			bool toggleSwitch = false;
-
-			if (wolferType == "C2")
-			{
-				if (IOControl->StartsWith("IOM421"))
-				{
-					WolferSelectPath_C2(testSite, wolferType, selectTxPath, selectRxPath, sourceFreq, measureFreq, TxBypassOn, TxInternalPath, RxInternalPath);
-				}
-				else if (IOControl == "DigitalBoard")
-				{
-				}
-				else
-				{
-					throw gcnew Aemulus::Hardware::AlarmException(wolferType + " has undefined IOControl Type", -1);
-				}
-			}
-		}
-
-#pragma endregion "Test"
-
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
-	void AMB7600SRTestLibrary::CM_RF_WolferSourcePower(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
-	{
-		/*****************************************************************************************************
-		** CM_RF_WolferSourcePower
-		** Arguments:
-		**
-		**
-		**
-		**
-		** Descriptions:
-		**
-		**
-		**
-		******************************************************************************************************/
-
-		try
-		{
-			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WolferSourcePower");
-
-			//To get the desired Wolfer Number in current site
-			int externalModuleNo = 0;
-			for (int i = 0; i < CurrentHeadSite.ExternalModuleList->Count; i++)
-			{
-				if (CurrentHeadSite.ExternalModuleList[externalModuleNo]["Name"] == "Wolfer")
-					externalModuleNo = i;
-			}
-
-			////Control Method Compulsory Variable
-			String^ wolferType = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Type"];
-			String^ IOControl = CurrentHeadSite.ExternalModuleList[externalModuleNo]["Address"];
-			String^ C2_Coupler_CH = nullptr;
-			String^ sourceChannel = nullptr;
-			double sourceFreq = 0.0;
-			double sourcePin = 0.0;
-
-			//WolferSourcePower Operation Variable
-			String ^ CM = "WolferSourcePower_";
-			String ^ ErrorMessage = nullptr;
-			bool UserInputSourceAttenuation = false;
-
-			//Control Method Option Variable
-			double sourceAttenuation = 999.99;
-			String ^ inputBoardLossItem = nullptr;
-			double inputBoardLoss = 0.0;
-			double inputExtAtt = 0.0;
-
-			//Wolfer Operation Variable
-			double offset = 0.0;
-			double offset2 = 0.0;
-			double actualSourceLevel = 0.0;
-			double coupRef = -90.0;
-			double coupledPout = -90.0;
-			//double pathloss = 0.0;
-
-#pragma region "Test Condition Casting"
-
-			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
-
-			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
-
-			//SourceChannel Test Condition
-			if ((bool)testConditionCollection->ContainsKey("SourceChannel"))
-			{
-				ConditionInfo = testConditionCollection["SourceChannel"][site];
-				sourceChannel = (String^)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceChannel" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourceFreq"))
-			{
-				ConditionInfo = testConditionCollection["SourceFreq"][site];
-				sourceFreq = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourceFreq" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-			if ((bool)testConditionCollection->ContainsKey("SourcePin"))
-			{
-				ConditionInfo = testConditionCollection["SourcePin"][site];
-				sourcePin = (double)ConditionInfo->Value;
-			}
-			else
-			{
-				ErrorMessage = "Test Condition [" + CM + "SourcePin" + "] is not found.";
-				throw gcnew Exception(ErrorMessage);
-			}
-
-			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
-
-			if ((bool)testConditionCollection->ContainsKey("SourceAttenuation"))
-			{
-				ConditionInfo = testConditionCollection["SourceAttenuation"][site];
-				sourceAttenuation = (double)ConditionInfo->Value;
-				UserInputSourceAttenuation = true;
-			}
-			if ((bool)testConditionCollection->ContainsKey(wolferType + "_Coupler_CH"))
-			{
-				ConditionInfo = testConditionCollection[wolferType + "_Coupler_CH"][site];
-				C2_Coupler_CH = (String^)ConditionInfo->Value;
-			}
-
-#pragma endregion "Test Condition Casting"
-
-#pragma region "Test"
-
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(sourceChannel)[0];
-
-			if ((int)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["TestSite_LoadHardwareProfile"] != testSite)
-			{
-				RF_LoadHardwareProfile(testSite);
-				tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["TestSite_LoadHardwareProfile"] = testSite;
-			}
-
-			tl->glob->SourcePower_Status[testSite].SourcePowerPreStatus = sourcePin;
-			tl->glob->SourcePower_Status[testSite].SourceFreqPreStatus = sourceFreq;
-
-			//ActualSourcePower = sourcePin + inputBoardLoss + inputExtAtt;
-
-#pragma region Coupler Path Measurement & Adjustment
-
-			if (wolferType == "C2")
-			{
-				if (IOControl->StartsWith("IOM421"))
-				{
-
-					for (int i = 0; i < tl->glob->txpl_count[wolferType]; i++)
-					{
-						if ((tl->glob->txPathLoss_freq[wolferType][i] == sourceFreq) && (tl->glob->txPathLoss_targetpout[wolferType][i] == sourcePin) && (tl->glob->txPathLoss_outIndex[wolferType][i] == tl->glob->outIndex[wolferType]))
-						{
-							coupRef = tl->glob->txPathLoss_couppout[wolferType][i];
-							actualSourceLevel = tl->glob->txPathLoss_actualpout[wolferType][i];
-							break;
-						}
-					}
-
-					if ((bool)testConditionCollection->ContainsKey(wolferType + "_Coupler_CH"))
-					{
-						double l_Measure_Level_Coupler = coupRef + 5.0;
-
-						CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(C2_Coupler_CH, l_Measure_Level_Coupler, sourceFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS));
-						WlfSource(testSite, wolferType, sourceChannel, (int)wlfoutsw::wlfout1, tl->glob->outIndex[wolferType], tl->glob->g_txpath[wolferType], sourceFreq, sourcePin, offset + offset2, actualSourceLevel);
-						util->WaitSecond(2 mS);
-
-						try
-						{
-							CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
-						}
-						catch (Exception ^ ex)
-						{
-							CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(C2_Coupler_CH, l_Measure_Level_Coupler + 15, sourceFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS));
-							util->WaitSecond(2 mS);
-							CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
-						}
-
-						if (Math::Abs(coupRef - coupledPout) < 1)
-						{
-							offset2 = coupRef - coupledPout;
-						}
-					}
-					tl->WriteToLogger(testSite, "WolferCoupler Pout = " + coupledPout);
-					tl->glob->WolferCoupler_Pout[testSite] = coupledPout; //Coupler Pout
-
-
-																		  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  SourceChannel  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-					if (UserInputSourceAttenuation)
-						WlfSource(testSite, wolferType, sourceChannel, (int)wlfoutsw::wlfout1, tl->glob->outIndex[wolferType], tl->glob->g_txpath[wolferType], sourceFreq, sourcePin, offset + offset2, sourceAttenuation, actualSourceLevel);
-					else
-						WlfSource(testSite, wolferType, sourceChannel, (int)wlfoutsw::wlfout1, tl->glob->outIndex[wolferType], tl->glob->g_txpath[wolferType], sourceFreq, sourcePin, offset + offset2, actualSourceLevel);
-
-					util->WaitSecond(5 mS);
-					//CheckError(RF, Amsrf0->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
-
-				}
-				else if (IOControl == "DigitalBoard")
-				{
-				}
-				else
-				{
-					throw gcnew Aemulus::Hardware::AlarmException(wolferType + " has undefined IOControl Type", -1);
-				}
-			}
-#pragma endregion
-
-			//State Recording
-			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceChannel"] = HardwareRsrc->Alias;
-			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourcePower"] = actualSourceLevel;
-			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceFreq"] = sourceFreq;
-			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceAtt"] = sourceAttenuation;
-			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceFactor"] = 999.99;
-			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceAlignFactor"] = 999.99;
-			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"] = 0;//Source Normal
-			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceStatus"] = 1;//Source High
-		}
-
-#pragma endregion "Test"
-
-		catch (Exception ^ ex)
-		{
-			String ^ methodType = "CM_";
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->UpdateTestResultsWhenException(site, testSite);
-			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-	}
 }

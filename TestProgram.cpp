@@ -1,6 +1,6 @@
 ﻿#include "TestProgram.h"
 
-namespace AMB7600SR_TestLibrary_REV2
+namespace AMB7600SR_TestLibrary_REV2P1
 {
 	// TestProgram Constructor
 	TestProgram::TestProgram(void)
@@ -259,7 +259,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		AFlowSubItem ^ subFlowItem;
 
 		// Test step object
-		TestStep ^ testStep;
+		//TestStep ^ testStep;
 
 		tl->glob->currentSubItemName = gcnew array<String^>(tl->glob->tf.NumberOfSites);
 
