@@ -1,6 +1,6 @@
 ﻿/*----------------------------------------------------------------------
 Copyright (c) Aemulus Corporation Sdn Bhd
-Title:			TestMethod.cpp
+Title:			MethodName.cpp
 Purpose:		To execute test function for all Control Steps, Control Items & Test Items
 Version:		v1.0.0.0
 ----------------------------------------------------------------------*/
@@ -180,8 +180,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_DriveVoltage</item>
 	/// <item attribute="description">Configures the Voltage Level (DVCI) for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_DriveVoltage</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -225,8 +225,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_DriveCurrent</item>
 	/// <item attribute="description">Configures the Current Level (DVCI) for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_DriveCurrent</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -270,8 +270,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ClampVoltage</item>
 	/// <item attribute="description">Configures the Clamp Voltage Level for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ClampVoltage</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -315,8 +315,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ClampCurrent</item>
 	/// <item attribute="description">Configures the Clamp Level for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ClampCurrent</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -360,8 +360,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_SetNPLC</item>
 	/// <item attribute="description">Configures the NPLC for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_SetNPLC</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -405,8 +405,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_SetPinOnOff</item>
 	/// <item attribute="description">Turn On or Off on the specified PinAlias. Value 1 = Turn On PinAlias; Value 0 = Turn Off PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_SetPinOnOff</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -451,8 +451,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ConfigureTriggerEdgeLevel</item>
 	/// <item attribute="description">Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ConfigureTriggerEdgeLevel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -504,8 +504,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ConfigureTriggerEdgeLevelExtra</item>
 	/// <item attribute="description">Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ConfigureTriggerEdgeLevelExtra</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -567,8 +567,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ConfigureTriggerEdgeLevel</item>
 	/// <item attribute="description">Connect 2 trigger lines together. Support AM430e, AM450e, AM451e, AM471e, DM483e, CM400e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ConfigureTriggerEdgeLevel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -620,8 +620,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_DriveSoftwareTrigger</item>
 	/// <item attribute="description">Drives software trigger immediately. Support AM430e, AM450e, AM451e, AM471e, DM483e, CM401e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_DriveSoftwareTrigger</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -674,8 +674,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_WaitSecond</item>
 	/// <item attribute="description"></item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_WaitSecond</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -715,8 +715,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ConfigureInputTriggerSelect</item>
 	/// <item attribute="description">Selects the trigger input to be used for operations such as AcquireMultiple() and AcquireArray(). Upon power-up nothing is selected for the triggerInput. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureInputTriggerSelect</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -768,8 +768,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_AMConfigureSMUOutputTriggerPulseWidth</item>
 	/// <item attribute="description">Configures the pulse width of trigger output signal.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureSMUOutputTriggerPulseWidth</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -813,8 +813,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_AMConfigureSMUOutputTriggerDuringSource</item>
 	/// <item attribute="description">Configures when trigger signal is generated.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureSMUOutputTriggerDuringSource</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -882,8 +882,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_AMConfigureSMUOutputTriggerMode</item>
 	/// <item attribute="description">Configures when a trigger output signal is generated.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureSMUOutputTriggerMode</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -927,8 +927,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_AMConfigureOutputTriggerSelect</item>
 	/// <item attribute="description">Selects the trigger output to be used Upon power-up nothing is selected for the triggerInput. Support AM430e, AM450e, AM451e, AM471e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureOutputTriggerSelect</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -985,8 +985,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigurePinToVector</item>
 	/// <item attribute="description">Configure the PinAlias’s operation mode to Vector. Configure the PinAlias’s level setting. Configure the PinAlias’s attribute of pin electronics. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigurePinToVector</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1038,8 +1038,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigurePinToPMU</item>
 	/// <item attribute="description">Configure the PinAlias’s operation mode to PMU. Configure the PinAlias’s configuration to DVCI or DICV. Configure the PinAlias’sense to Local or Remote. Configure the PinAlias to Clamp Current or Clamp Voltage. Configure the PinAlias to Drive Voltage or Drive Current. Configure the PinAlias’s NPLC. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigurePinToPMU</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1115,8 +1115,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigurePinToDIO</item>
 	/// <item attribute="description">Configure the PinAlias’s operation mode to DIO. Configure the PinAlias’s level setting. Configure the PinAlias’s to be input or output. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigurePinToDIO</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1168,8 +1168,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMLoadVectorFile</item>
 	/// <item attribute="description">Loads the vectors to the device specified in the vector file. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMLoadVectorFile</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1205,8 +1205,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_WriteVector</item>
 	/// <item attribute="description">Execute the Vector Set. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_WriteVector</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1248,10 +1248,10 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <list type="ControlStep" name="CM_DMCase_DMDioModeDrivePin" category="DMCase" group="DC_ControlStep" conditiontype="splitbycomma" methodname="seq_TestMethod">
 	/// <item attribute="name">DMCase_DMDioModeDrivePin</item>
 	/// <item attribute="displayas">DMCase_DMDioModeDrivePin</item>
-	/// <item attribute="description">Drive PinAlias’s to 0 (Low) or 1 (High). The high or low value is set according to the ControlMethod (DMCase_DMConfigurePinToDIO). Support DM483e</item>
+	/// <item attribute="description">Drive PinAlias’s to 0 (Low) or 1 (High). The high or low value is set according to the MethodName (DMCase_DMConfigurePinToDIO). Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMDioModeDrivePin</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1295,8 +1295,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMDriveSoftwareTrigger</item>
 	/// <item attribute="description">•	Drives software trigger immediately. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMDriveSoftwareTrigger</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1348,8 +1348,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMMapTriggerIntToTriggerOut</item>
 	/// <item attribute="description">Connect 2 trigger lines together. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMMapTriggerIntToTriggerOut</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1401,8 +1401,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigureTriggerEdgeLevel</item>
 	/// <item attribute="description">Configures the trigger edge level. Upon power-up nothing is selected for the triggerEnum.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigureTriggerEdgeLevel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1462,8 +1462,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigureInputTriggerSelect</item>
 	/// <item attribute="description">•	Selects the trigger input to be used for operations such as AcquireMultiple() and AcquireArray().Upon power - up nothing is selected for the triggerInput</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigureInputTriggerSelect</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1515,8 +1515,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigureOutputTriggerSelect</item>
 	/// <item attribute="description">Selects the trigger output to be used.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigureOutputTriggerSelect</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1568,8 +1568,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigureReadPin_TriggerOutput</item>
 	/// <item attribute="description">Configure PinAlias as the selected physical trigger line.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigureReadPin_TriggerOutput</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1613,8 +1613,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMCase_DMCastDPinLevel</item>
 	/// <item attribute="description">Define Dpin Level of the VIH/VIL/VOH/VOL/IOH/IOL/VCH/VCL/VTERM. The first set of Dpin Level is has no index. User able to define second or more set of Dpin Level with index. Example: VIH, VIH_1, etc.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMCase_DMCastDPinLevel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1714,8 +1714,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMCastTimingSetPeriod</item>
 	/// <item attribute="description">Define the waveforms period of the vector. The first set of Timing Set Period has no index. User able to define second or more set of Timing Set ing index. Example: TimingSetPeriod, TimingSetPeriod_1.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMCastTimingSetPeriod</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1751,8 +1751,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMCastPEAttribute</item>
 	/// <item attribute="description">To enable/disable Input Term/HV/Active Load/Differential Comparator function. The first set of PE Attribute is label as 0. User able to define second or more set of PE Attribute. Example: InputTermEnable_0, HVEnable_0, etc.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMCastPEAttribute</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1815,10 +1815,10 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <list type="ControlStep" name="CM_IOMCase_DIODrivePin" category="IOMCase" group="DC_ControlStep" conditiontype="splitbycomma" methodname="seq_TestMethod">
 	/// <item attribute="name">IOMCase_DIODrivePin</item>
 	/// <item attribute="displayas">IOMCase_DIODrivePin</item>
-	/// <item attribute="description">Configure the PinAlias to 1 (High) or 0 (Low) according to the ControlMethod (IOMCase_DIOSetModuleVIO)</item>
+	/// <item attribute="description">Configure the PinAlias to 1 (High) or 0 (Low) according to the MethodName (IOMCase_DIOSetModuleVIO)</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">IOMCase_DIODrivePin</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1862,8 +1862,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">IOMCase_DIODrivePort</item>
 	/// <item attribute="description">Drive the PortAlias to specified Digital Value.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">IOMCase_DIODrivePort</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1907,8 +1907,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">IOMCase_DIOSetModuleVIO</item>
 	/// <item attribute="description">Configure ModuleAlias’s Voltage Level to 0 (3.3V), 1 (5V), 2 (External Input)</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">IOMCase_DIOSetModuleVIO</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -1952,8 +1952,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">IOMCase_DIOSetPortDirection</item>
 	/// <item attribute="description">Configure the PortAlias’s port direction</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">IOMCase_DIOSetPortDirection</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2000,10 +2000,10 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <list type="ControlStep" name="CM_CMCase_CMDrivePin" category="CMCase" group="DC_ControlStep" conditiontype="splitbycomma" methodname="seq_TestMethod">
 	/// <item attribute="name">CMCase_CMDrivePin</item>
 	/// <item attribute="displayas">CMCase_CMDrivePin</item>
-	/// <item attribute="description">Configure the PinAlias to 1 (High) or 0 (Low) according to the ControlMethod (CMCase_CMSetModuleVIO)</item>
+	/// <item attribute="description">Configure the PinAlias to 1 (High) or 0 (Low) according to the MethodName (CMCase_CMSetModuleVIO)</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">CMCase_CMDrivePin</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2055,8 +2055,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">CMCase_CMDrivePort</item>
 	/// <item attribute="description">Drive the PortAlias to specified Digital Value.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">CMCase_CMDrivePort</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2100,8 +2100,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">CMCase_CMConfigurePXES2780_TriggerBus</item>
 	/// <item attribute="description">Drive the PortAlias to specified Digital Value.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">CMCase_CMConfigurePXES2780_TriggerBus</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2161,8 +2161,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">CMCase_CMSetPortDirection</item>
 	/// <item attribute="description">Drive the PortAlias to specified Digital Value.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">CMCase_CMSetPortDirection</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2206,13 +2206,13 @@ namespace AMB7600SR_TestLibrary_REV2P1
 
 #pragma region ".xml file -> Control Step -> RF SourcePower"
 	/// <summary>RFCase_SourcePower
-	/// <list type="ControlStep" name="RFCase_SourcePower" category="RFCase" group="RF_ControlStep" conditiontype="splitbycomma" methodname="seq_TestMethod">
+	/// <list type="ControlStep" name="CM_RFCase_SourcePower" category="RFCase" group="RF_ControlStep" conditiontype="splitbycomma" methodname="seq_TestMethod">
 	/// <item attribute="name">RFCase_SourcePower</item>
 	/// <item attribute="displayas">RFCase_SourcePower</item>
 	/// <item attribute="description">Configure RF PinAlias to source an RF Signal at the specified power level and frequency.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SourcePower</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2288,8 +2288,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SourcePowerFast</item>
 	/// <item attribute="description">Configure RF PinAlias to source an RF Signal at the specified power level and frequency.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SourcePowerFast</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2365,8 +2365,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SourcePowerLow</item>
 	/// <item attribute="description">Configure RF PinAlias to source an RF Signal at the specified power level and frequency.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SourcePowerLow</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2410,8 +2410,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SourceTwoTone</item>
 	/// <item attribute="description">Source two tone RF signals with specified power level and frequency respectively</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SourceTwoTone</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2511,8 +2511,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_IsolateChannel</item>
 	/// <item attribute="description">Configure RF PinAlias to the Isolate Mode.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_IsolateChannel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2548,8 +2548,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_StartModulation</item>
 	/// <item attribute="description">Start modulation on the signal generator.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_StartModulation</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2601,8 +2601,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_StopModulation</item>
 	/// <item attribute="description">Disable IQ modulation on the signal generator.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_StopModulation</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2638,8 +2638,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetSourceTriggerRouting</item>
 	/// <item attribute="description">Setup Source Trigger Routing of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetSourceTriggerRouting</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2699,8 +2699,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetSourceTriggerIn</item>
 	/// <item attribute="description">Setup Source TriggerIn of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetSourceTriggerIn</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2768,8 +2768,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetSourceTriggerOut</item>
 	/// <item attribute="description">Setup Source TriggerOut of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetSourceTriggerOut</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2829,8 +2829,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetMeasureTriggerRouting</item>
 	/// <item attribute="description">Setup Measure Trigger Routing of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetMeasureTriggerRouting</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2890,8 +2890,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetMeasureTriggerIn</item>
 	/// <item attribute="description">Setup Measure Trigger Routing of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetMeasureTriggerIn</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2959,8 +2959,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_RunSourceAlignment</item>
 	/// <item attribute="description">Perform Source Alignement</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_RunSourceAlignment</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -2988,8 +2988,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_LoadModulation</item>
 	/// <item attribute="description">Load the modulation file.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_LoadModulation</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3033,8 +3033,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_WlanInit</item>
 	/// <item attribute="description">Wlan initialization</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_WlanInit</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3094,8 +3094,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_EvmMeasurementSetup</item>
 	/// <item attribute="description">Evm Measurement Setup</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_EvmMeasurementSetup</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3171,8 +3171,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SemMeasurementSetup</item>
 	/// <item attribute="description">Sem Measurement Setup</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SemMeasurementSetup</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3232,8 +3232,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_MeasureSetup</item>
 	/// <item attribute="description">CW RF Measurement Setup</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_MeasureSetup</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3301,8 +3301,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_MeasureSetupIQ</item>
 	/// <item attribute="description">CW RF Measurement Setup IQ</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_MeasureSetupIQ</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3386,8 +3386,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_TriggerSigenStartModulation</item>
 	/// <item attribute="description">RF trigger signal generator to start sourcing modulation</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_TriggerSigenStartModulation</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3455,8 +3455,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_WolferInit</item>
 	/// <item attribute="description">Wolfer initialization</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_WolferInit</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3484,8 +3484,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_WolferSelectPath</item>
 	/// <item attribute="description">Wolfer path selection</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_WolferSelectPath</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3569,8 +3569,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_WolferSourcePower</item>
 	/// <item attribute="description">Source power configuration of wolfer</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_WolferSourcePower</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3644,8 +3644,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_DriveVoltage</item>
 	/// <item attribute="description">Configures the Voltage Level (DVCI) for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_DriveVoltage</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3689,8 +3689,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_DriveCurrent</item>
 	/// <item attribute="description">Configures the Current Level (DVCI) for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_DriveCurrent</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3734,8 +3734,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ClampVoltage</item>
 	/// <item attribute="description">Configures the Clamp Voltage Level for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ClampVoltage</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3779,8 +3779,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ClampCurrent</item>
 	/// <item attribute="description">Configures the Clamp Level for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ClampCurrent</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3824,8 +3824,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_SetNPLC</item>
 	/// <item attribute="description">Configures the NPLC for the specified PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_SetNPLC</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3869,8 +3869,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_SetPinOnOff</item>
 	/// <item attribute="description">Turn On or Off on the specified PinAlias. Value 1 = Turn On PinAlias; Value 0 = Turn Off PinAlias. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_SetPinOnOff</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3915,8 +3915,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ConfigureTriggerEdgeLevel</item>
 	/// <item attribute="description">Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ConfigureTriggerEdgeLevel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -3968,8 +3968,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ConfigureTriggerEdgeLevelExtra</item>
 	/// <item attribute="description">Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ConfigureTriggerEdgeLevelExtra</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4031,8 +4031,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ConfigureTriggerEdgeLevel</item>
 	/// <item attribute="description">Connect 2 trigger lines together. Support AM430e, AM450e, AM451e, AM471e, DM483e, CM400e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_ConfigureTriggerEdgeLevel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4084,8 +4084,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_DriveSoftwareTrigger</item>
 	/// <item attribute="description">Drives software trigger immediately. Support AM430e, AM450e, AM451e, AM471e, DM483e, CM401e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_DriveSoftwareTrigger</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4138,8 +4138,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_WaitSecond</item>
 	/// <item attribute="description"></item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_WaitSecond</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4179,8 +4179,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_ConfigureInputTriggerSelect</item>
 	/// <item attribute="description">Selects the trigger input to be used for operations such as AcquireMultiple() and AcquireArray(). Upon power-up nothing is selected for the triggerInput. Support AM430e, AM450e, AM451e, AM471e, DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureInputTriggerSelect</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4232,8 +4232,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_AMConfigureSMUOutputTriggerPulseWidth</item>
 	/// <item attribute="description">Configures the pulse width of trigger output signal.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureSMUOutputTriggerPulseWidth</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4277,8 +4277,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_AMConfigureSMUOutputTriggerDuringSource</item>
 	/// <item attribute="description">Configures when trigger signal is generated.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureSMUOutputTriggerDuringSource</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4346,8 +4346,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_AMConfigureSMUOutputTriggerMode</item>
 	/// <item attribute="description">Configures when a trigger output signal is generated.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureSMUOutputTriggerMode</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4391,8 +4391,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DCCase_AMConfigureOutputTriggerSelect</item>
 	/// <item attribute="description">Selects the trigger output to be used Upon power-up nothing is selected for the triggerInput. Support AM430e, AM450e, AM451e, AM471e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DCCase_AMConfigureOutputTriggerSelect</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4449,8 +4449,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigurePinToVector</item>
 	/// <item attribute="description">Configure the PinAlias’s operation mode to Vector. Configure the PinAlias’s level setting. Configure the PinAlias’s attribute of pin electronics. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigurePinToVector</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4502,8 +4502,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigurePinToPMU</item>
 	/// <item attribute="description">Configure the PinAlias’s operation mode to PMU. Configure the PinAlias’s configuration to DVCI or DICV. Configure the PinAlias’sense to Local or Remote. Configure the PinAlias to Clamp Current or Clamp Voltage. Configure the PinAlias to Drive Voltage or Drive Current. Configure the PinAlias’s NPLC. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigurePinToPMU</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4579,8 +4579,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigurePinToDIO</item>
 	/// <item attribute="description">Configure the PinAlias’s operation mode to DIO. Configure the PinAlias’s level setting. Configure the PinAlias’s to be input or output. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigurePinToDIO</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4632,8 +4632,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMLoadVectorFile</item>
 	/// <item attribute="description">Loads the vectors to the device specified in the vector file. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMLoadVectorFile</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4669,8 +4669,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_WriteVector</item>
 	/// <item attribute="description">Execute the Vector Set. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_WriteVector</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4712,10 +4712,10 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <list type="ControlItem" name="CI_DMCase_DMDioModeDrivePin" category="DMCase" group="DC_ControlItem" conditiontype="splitbycomma" methodname="seq_TestMethod">
 	/// <item attribute="name">DMCase_DMDioModeDrivePin</item>
 	/// <item attribute="displayas">DMCase_DMDioModeDrivePin</item>
-	/// <item attribute="description">Drive PinAlias’s to 0 (Low) or 1 (High). The high or low value is set according to the ControlMethod (DMCase_DMConfigurePinToDIO). Support DM483e</item>
+	/// <item attribute="description">Drive PinAlias’s to 0 (Low) or 1 (High). The high or low value is set according to the MethodName (DMCase_DMConfigurePinToDIO). Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMDioModeDrivePin</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4759,8 +4759,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMDriveSoftwareTrigger</item>
 	/// <item attribute="description">•	Drives software trigger immediately. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMDriveSoftwareTrigger</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4812,8 +4812,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMMapTriggerIntToTriggerOut</item>
 	/// <item attribute="description">Connect 2 trigger lines together. Support DM483e</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMMapTriggerIntToTriggerOut</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4865,8 +4865,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigureTriggerEdgeLevel</item>
 	/// <item attribute="description">Configures the trigger edge level. Upon power-up nothing is selected for the triggerEnum.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigureTriggerEdgeLevel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4926,8 +4926,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigureInputTriggerSelect</item>
 	/// <item attribute="description">•	Selects the trigger input to be used for operations such as AcquireMultiple() and AcquireArray().Upon power - up nothing is selected for the triggerInput</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigureInputTriggerSelect</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -4979,8 +4979,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigureOutputTriggerSelect</item>
 	/// <item attribute="description">Selects the trigger output to be used.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigureOutputTriggerSelect</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5032,8 +5032,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMConfigureReadPin_TriggerOutput</item>
 	/// <item attribute="description">Configure PinAlias as the selected physical trigger line.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMConfigureReadPin_TriggerOutput</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5077,8 +5077,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMCase_DMCastDPinLevel</item>
 	/// <item attribute="description">Define Dpin Level of the VIH/VIL/VOH/VOL/IOH/IOL/VCH/VCL/VTERM. The first set of Dpin Level is has no index. User able to define second or more set of Dpin Level with index. Example: VIH, VIH_1, etc.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMCase_DMCastDPinLevel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5178,8 +5178,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMCastTimingSetPeriod</item>
 	/// <item attribute="description">Define the waveforms period of the vector. The first set of Timing Set Period has no index. User able to define second or more set of Timing Set ing index. Example: TimingSetPeriod, TimingSetPeriod_1.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMCastTimingSetPeriod</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5215,8 +5215,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">DMCase_DMCastPEAttribute</item>
 	/// <item attribute="description">To enable/disable Input Term/HV/Active Load/Differential Comparator function. The first set of PE Attribute is label as 0. User able to define second or more set of PE Attribute. Example: InputTermEnable_0, HVEnable_0, etc.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">DMCase_DMCastPEAttribute</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5279,10 +5279,10 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <list type="ControlItem" name="CI_IOMCase_DIODrivePin" category="IOMCase" group="DC_ControlItem" conditiontype="splitbycomma" methodname="seq_TestMethod">
 	/// <item attribute="name">IOMCase_DIODrivePin</item>
 	/// <item attribute="displayas">IOMCase_DIODrivePin</item>
-	/// <item attribute="description">Configure the PinAlias to 1 (High) or 0 (Low) according to the ControlMethod (IOMCase_DIOSetModuleVIO)</item>
+	/// <item attribute="description">Configure the PinAlias to 1 (High) or 0 (Low) according to the MethodName (IOMCase_DIOSetModuleVIO)</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">IOMCase_DIODrivePin</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5326,8 +5326,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">IOMCase_DIODrivePort</item>
 	/// <item attribute="description">Drive the PortAlias to specified Digital Value.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">IOMCase_DIODrivePort</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5371,8 +5371,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">IOMCase_DIOSetModuleVIO</item>
 	/// <item attribute="description">Configure ModuleAlias’s Voltage Level to 0 (3.3V), 1 (5V), 2 (External Input)</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">IOMCase_DIOSetModuleVIO</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5416,8 +5416,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">IOMCase_DIOSetPortDirection</item>
 	/// <item attribute="description">Configure the PortAlias’s port direction</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">IOMCase_DIOSetPortDirection</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5464,10 +5464,10 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <list type="ControlItem" name="CI_CMCase_CMDrivePin" category="CMCase" group="DC_ControlItem" conditiontype="splitbycomma" methodname="seq_TestMethod">
 	/// <item attribute="name">CMCase_CMDrivePin</item>
 	/// <item attribute="displayas">CMCase_CMDrivePin</item>
-	/// <item attribute="description">Configure the PinAlias to 1 (High) or 0 (Low) according to the ControlMethod (CMCase_CMSetModuleVIO)</item>
+	/// <item attribute="description">Configure the PinAlias to 1 (High) or 0 (Low) according to the MethodName (CMCase_CMSetModuleVIO)</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">CMCase_CMDrivePin</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5519,8 +5519,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">CMCase_CMDrivePort</item>
 	/// <item attribute="description">Drive the PortAlias to specified Digital Value.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">CMCase_CMDrivePort</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5564,8 +5564,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">CMCase_CMConfigurePXES2780_TriggerBus</item>
 	/// <item attribute="description">Drive the PortAlias to specified Digital Value.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">CMCase_CMConfigurePXES2780_TriggerBus</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5625,8 +5625,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">CMCase_CMSetPortDirection</item>
 	/// <item attribute="description">Drive the PortAlias to specified Digital Value.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">CMCase_CMSetPortDirection</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5675,8 +5675,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SourcePower</item>
 	/// <item attribute="description">Configure RF PinAlias to source an RF Signal at the specified power level and frequency.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SourcePower</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5752,8 +5752,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SourcePowerFast</item>
 	/// <item attribute="description">Configure RF PinAlias to source an RF Signal at the specified power level and frequency.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SourcePowerFast</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5829,8 +5829,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SourcePowerLow</item>
 	/// <item attribute="description">Configure RF PinAlias to source an RF Signal at the specified power level and frequency.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SourcePowerLow</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5874,8 +5874,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SourceTwoTone</item>
 	/// <item attribute="description">Source two tone RF signals with specified power level and frequency respectively</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SourceTwoTone</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -5975,8 +5975,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_IsolateChannel</item>
 	/// <item attribute="description">Configure RF PinAlias to the Isolate Mode.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_IsolateChannel</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6012,8 +6012,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_StartModulation</item>
 	/// <item attribute="description">Start modulation on the signal generator.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_StartModulation</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6065,8 +6065,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_StopModulation</item>
 	/// <item attribute="description">Disable IQ modulation on the signal generator.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_StopModulation</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6102,8 +6102,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetSourceTriggerRouting</item>
 	/// <item attribute="description">Setup Source Trigger Routing of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetSourceTriggerRouting</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6163,8 +6163,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetSourceTriggerIn</item>
 	/// <item attribute="description">Setup Source TriggerIn of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetSourceTriggerIn</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6232,8 +6232,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetSourceTriggerOut</item>
 	/// <item attribute="description">Setup Source TriggerOut of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetSourceTriggerOut</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6293,8 +6293,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetMeasureTriggerRouting</item>
 	/// <item attribute="description">Setup Measure Trigger Routing of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetMeasureTriggerRouting</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6354,8 +6354,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SetMeasureTriggerIn</item>
 	/// <item attribute="description">Setup Measure Trigger Routing of the module.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SetMeasureTriggerIn</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6423,8 +6423,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_RunSourceAlignment</item>
 	/// <item attribute="description">Perform Source Alignement</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_RunSourceAlignment</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6452,8 +6452,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_LoadModulation</item>
 	/// <item attribute="description">Load the modulation file.</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_LoadModulation</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6497,8 +6497,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_WlanInit</item>
 	/// <item attribute="description">Wlan initialization</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_WlanInit</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6558,8 +6558,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_EvmMeasurementSetup</item>
 	/// <item attribute="description">Evm Measurement Setup</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_EvmMeasurementSetup</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6635,8 +6635,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_SemMeasurementSetup</item>
 	/// <item attribute="description">Sem Measurement Setup</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_SemMeasurementSetup</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6696,8 +6696,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_MeasureSetup</item>
 	/// <item attribute="description">CW RF Measurement Setup</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_MeasureSetup</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6765,8 +6765,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_MeasureSetupIQ</item>
 	/// <item attribute="description">CW RF Measurement Setup IQ</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_MeasureSetupIQ</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6850,8 +6850,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_TriggerSigenStartModulation</item>
 	/// <item attribute="description">RF trigger signal generator to start sourcing modulation</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_TriggerSigenStartModulation</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6919,8 +6919,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_WolferInit</item>
 	/// <item attribute="description">Wolfer initialization</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_WolferInit</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -6948,8 +6948,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_WolferSelectPath</item>
 	/// <item attribute="description">Wolfer path selection</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_WolferSelectPath</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -7033,8 +7033,8 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="displayas">RFCase_WolferSourcePower</item>
 	/// <item attribute="description">Source power configuration of wolfer</item>
 	/// <list type="StepCondition">
-	/// <item attribute="name">ControlMethod</item>
-	/// <item attribute="description">Specifies the ControlMethod.</item>
+	/// <item attribute="name">MethodName</item>
+	/// <item attribute="description">Specifies the MethodName.</item>
 	/// <item attribute="value">RFCase_WolferSourcePower</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
@@ -7120,7 +7120,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">-0.2</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">DCCase_OS</item>
 	/// <item attribute="prefix">None</item>
@@ -7177,7 +7177,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	}
 #pragma region ".xml file -> Test Item -> TM MeasureCurrent"
 	/// <summary> DCCase_MeasureCurrent
-	/// <list type="TestItem" name="DCCase_MeasureCurrent" category="DcTest" group="DC_Items" conditiontype="splitbysemicolon" methodname="seq_TestMethod">
+	/// <list type="TestItem" name="TM_DCCase_MeasureCurrent" category="DcTest" group="DC_Items" conditiontype="splitbysemicolon" methodname="seq_TestMethod">
 	/// <item attribute="name">DCCase_MeasureCurrent</item>
 	/// <item attribute="displayas">DCCase_MeasureCurrent</item>
 	/// <item attribute="description">Measures the current level for the specified pin alias. The test function is executed and the result is returned to the respective test parameter.</item>
@@ -7194,7 +7194,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">10</item>        
 	/// <item attribute="hilimitprefix">Micro</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">DCCase_MeasureCurrent</item>
 	/// <item attribute="prefix">None</item>
@@ -7252,7 +7252,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">2</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">DCCase_MeasureVoltage</item>
 	/// <item attribute="prefix">None</item>
@@ -7310,7 +7310,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">50</item>        
 	/// <item attribute="hilimitprefix">Milli</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">DCCase_AMMeasureBurstCurrent</item>
 	/// <item attribute="prefix">None</item>
@@ -7376,7 +7376,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">5</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">DCCase_AMMeasureBurstVoltage</item>
 	/// <item attribute="prefix">None</item>
@@ -7442,7 +7442,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">DCCase_DifferentialResult</item>
 	/// <item attribute="prefix">None</item>
@@ -7513,7 +7513,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">5</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">DMCase_MIPIReadVector</item>
 	/// <item attribute="prefix">None</item>
@@ -7624,7 +7624,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_MeasureChannel</item>
 	/// <item attribute="prefix">None</item>
@@ -7730,7 +7730,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_MeasureChannelFast</item>
 	/// <item attribute="prefix">None</item>
@@ -7836,7 +7836,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_MeasureChannelIQ</item>
 	/// <item attribute="prefix">None</item>
@@ -7958,7 +7958,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_MeasureIIP3</item>
 	/// <item attribute="prefix">None</item>
@@ -8136,7 +8136,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_MeasureBurstPower</item>
 	/// <item attribute="prefix">None</item>
@@ -8274,7 +8274,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_MeasureSwitchingTime</item>
 	/// <item attribute="prefix">None</item>
@@ -8452,7 +8452,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_MeasureSParam</item>
 	/// <item attribute="prefix">None</item>
@@ -8574,7 +8574,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_MeasureSParamIQ</item>
 	/// <item attribute="prefix">None</item>
@@ -8720,7 +8720,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_P1dB_DirectSearch</item>
 	/// <item attribute="prefix">None</item>
@@ -8866,7 +8866,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_P1dB_BinarySearch</item>
 	/// <item attribute="prefix">None</item>
@@ -9044,7 +9044,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_PowerServo</item>
 	/// <item attribute="prefix">None</item>
@@ -9206,7 +9206,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_PowerServo_BinarySearch</item>
 	/// <item attribute="prefix">None</item>
@@ -9376,7 +9376,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_PowerServo_LinearSearch</item>
 	/// <item attribute="prefix">None</item>
@@ -9570,7 +9570,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_ReadEvm</item>
 	/// <item attribute="prefix">None</item>
@@ -9612,7 +9612,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_ReadEvmAsync</item>
 	/// <item attribute="prefix">None</item>
@@ -9654,7 +9654,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_ReadSem</item>
 	/// <item attribute="prefix">None</item>
@@ -9704,7 +9704,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_ReadSemAsyn</item>
 	/// <item attribute="prefix">None</item>
@@ -9754,7 +9754,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_WlanPowerServo</item>
 	/// <item attribute="prefix">None</item>
@@ -9924,7 +9924,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_WlanResidualEVM</item>
 	/// <item attribute="prefix">None</item>
@@ -10166,7 +10166,7 @@ namespace AMB7600SR_TestLibrary_REV2P1
 	/// <item attribute="hilimit">999</item>        
 	/// <item attribute="hilimitprefix">None</item>
 	/// <list type="TestParameterCondition">
-	/// <item attribute="name">TestMethod</item>
+	/// <item attribute="name">MethodName</item>
 	/// <item attribute="description">Specifies the Test Method.</item>
 	/// <item attribute="value">RFCase_WoferMeasureChannel</item>
 	/// <item attribute="prefix">None</item>
@@ -10293,13 +10293,13 @@ namespace AMB7600SR_TestLibrary_REV2P1
 
 /*----------------------------------------------------------------------
 * Revision Log
-* &Log: TestMethod.cpp.rca&
+* &Log: MethodName.cpp.rca&
 
 
 *** Version	:v1.0.0.2
 *** Date	: 5 August 2026
 *** PIC		:Tham Zhi Kean
-* (7600 Test Library) Add API to support ControlMethod and TestMethod for TPEE xml import/export format
+* (7600 Test Library) Add API to support MethodName and MethodName for TPEE xml import/export format
 
 *** Version	: v1.0.0.1
 *** Date	: 31 March 2023
