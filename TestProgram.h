@@ -91,7 +91,6 @@ namespace AMB7600SR_TestLibrary_REV2
 		int PreProcessing(Site ^ site);
 		int PostProcessing(Site ^ site);
 		int seq_ControlItem(Site ^ site);
-		int seq_TestItem(Site ^ site);
 		int seq_TestMethod(Site^ site);
 
 		#pragma region ".xml -> Control Step for AM400e & DM400e"	
