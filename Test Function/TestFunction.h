@@ -69,18 +69,48 @@ namespace Functions
 		void InitializeGlobalVariables(Site^ site);
 		void ResetGlobalVariables(Site^ site);
 		void InitializeGlobalResult(int TotalSite);
-		int LoadGenericAppsWideVariable(Site^ site);
 		void IsRunTest(Site^ site, array<bool>^ RunTest);
 		void ThreadingInfo(Site^ site, bool RF_ResourceNeeded);
 		Object ^  GetGlobalResult(String^ Identifier, int siteIndex);
 		void SetGlobalResult(String ^ Identifier, int siteIndex, double Result);
+		
+		//techFlow Property | techFlow Project Type | techFlow File/Folder Directory
+		void GetTechFlowSiteProperty(Site ^ site);
+		void GetTechFlowProjectType(Site ^ site);
+		void GetTechFlowFilePathProperty(Site ^ site);
+		void GetTechFlowBinningProperty(Site ^ site);
 
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Tester ID
-		**	----------------------------------------------------------------------------------------------------
-		*/
+		//Tester ID
 		void GetTesterID(Site ^ site, int tfSite);
+
+		//App-Wide-Variable
+		int GetTechFlowAppsWideVariable(Site^ site, int tfSite);
+
+		//C --> Aemlus --> [Init Related Variables]
+		void InitializeDebugFolder(int tfSite);
+		void InitializeTesterInfoFolder(int tfSite);
+		void InitializeWolferFolder(int tfSite);
+
+		//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> BoardLossFileFolder [Init Related Variables]
+		int InitializeBoardLossFileFolder(int tfSite);
+
+		//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> DeviceStateFileTemplate [Init Related Variables]
+		int InitializeDeviceStateFileTemplateFolder(int tfSite);
+
+		//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> FixedOffsetFileFolder [Init Related Variables]
+		int InitializeFixedOffsetFileFolder(Site ^ site, int tfSite);
+
+		//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> ModulationFileFolderSitex [Init Related Variables]
+		int InitializeModulationFileFolder(int tfSite);
+
+		//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> VectorFileFolderSitex [Init Related Variables]
+		int InitializeVectorFileFolder(int tfSite);
+
+		//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> VectorStateFileFolderSitex [Init Related Variables]
+		int InitializeVectorStateFileFolder(int tfSite);
+
+		//Resource Manager Property (AEM DC Module)
+		int InitializeResourceManagerProperty(Site ^ site, int tfSite);
 
 #pragma endregion "Globals.cpp"
 		
@@ -107,9 +137,8 @@ namespace Functions
 		void WriteToFileLgr(String ^ fileDirectory, String ^ message);
 		int UninitializeFileLogger();
 
-		void WriteToLoggerTotalSite(String ^ LogMessage);
-		//void FileLogging(int siteIndex, String^ MssgType, String ^ LogMessage);
-		//int TRACERLOGGING(int siteIndex, String ^ LogMessage, int LogLineNumber, String ^ FileName);
+		void WRITETOTRACERANDFILELOGGER(int tfSite, int siteIndex, String ^ messageType, String ^ message);
+#define WriteToTracerAndFileLogger(tfSite, siteIndex, messageType, message) WRITETOTRACERANDFILELOGGER(tfSite, siteIndex, messageType, message);
 
 		//Check Error Functions
 		int CHECKERROR(int siteIndex, int errorCode, int ErrorLineNumber, String^ FileName);
@@ -117,9 +146,14 @@ namespace Functions
 
 		void WarningMessageBox(String^ MssgContent, String^ WarningMssgType);
 
+		//////Old 7600 test library functions
+		void WriteToLoggerTotalSite(String ^ LogMessage);
+		//void FileLogging(int siteIndex, String^ MssgType, String ^ LogMessage);
+		//int TRACERLOGGING(int siteIndex, String ^ LogMessage, int LogLineNumber, String ^ FileName);
+
 #pragma endregion "Diagnostic"
 
-#pragma region "Files"
+#pragma region "Files.cpp"
 
 		String ^ GetFileNameFromFullPathName(String ^ FullPathName);
 
@@ -191,7 +225,37 @@ namespace Functions
 		double GetCorrFactor(String^ TPName, int testSite);
 		void boardLossFileInit(Site^ site);
 		void boardLossFileLoad(Site^ site);
-#pragma endregion "Files"
+
+		//BoardLoss File Related
+		void CheckExistingBoardLossFileContent(int tfSite, String ^ fileDirectory, String ^ fileName);
+		void GenerateBoardLossFile(int tfSite, String ^ fileDirectory);
+		void LoadBoardLossFile(int tfSite, String ^ fileDirectory);
+		double GetBoardLossFactor(int tfSite, int siteIndex, String ^ hardwarePathKey);
+
+		//DeviceStateFile Related
+		void LoadDeviceStateFileTemplate(int tfSite);
+
+		//FixedOffset File Related
+		void CheckExistingFixedOffsetFileContent(Site ^ site, int tfSite, String ^ fileDirectory, String ^ fileName);
+		void GenerateFixedOffsetFile(Site ^ site, int tfSite, String ^ fileDirectory);
+		void LoadFixedOffsetFile(int tfSite, String ^ fileDirectory);
+		double GetFixedOffsetValue(int tfSite, int siteIndex, String ^ testParameterKey);
+		//double GetOffset(int tfSite, int siteIndex, String ^ testParameterKey);
+
+
+		//Modulation File Related
+		void LoadModulationFile(int tfSite);
+
+		//VectorFile Related
+		void LoadVectorFile(int tfSite);
+
+		//VectorStateFile Related
+		void LoadVectorStateFile(int tfSite);
+
+		//AppsCal File Related
+		void LoadAppsCalFile(int tfSite, String ^ fileDirectory);
+
+#pragma endregion "Files.cpp"
 
 #pragma region "techFlow"
 
@@ -203,13 +267,10 @@ namespace Functions
 		int UpdateTestNumber(Site^ site);
 		int UpdateTestParameterDescription(Site^ site);
 		void KillProcessByName(const char * exeName);
-		void UpdateTestProperty(Site^ site, int siteIndex);
-		int Update_Test_Property(Site^ site, int siteIndex);
-		void InitializeTestCondProperty(void);
+		int UpdateTestProperty(Site^ site, int siteIndex);
 		bool IsTPResultFailed(Site^ site, String ^ tpName, Object ^ result);
 		void SequenceBranchControl(Site ^ site, int siteIndex, String ^ tpName, Object ^ result);
-		int UpdateTestConditionProperty(Site^ site, int siteIndex);
-		void UpdateTestResults(Site^ site, int siteIndex, array<Object ^> ^ TestResult);
+		int UpdateTestResults(Site^ site, int siteIndex, array<Object ^> ^ TestResult);
 		void UpdateTestResultWlanAsync(Site^site, int siteIndex, String^ testItemName, String^ testParameterName, Object^ testResult);
 		void UpdateTestResultsWhenException(Site^ site, int siteIndex);
 		int GetPinNameFromAmapAlias(String^ pinAlias, String^ % pinName);

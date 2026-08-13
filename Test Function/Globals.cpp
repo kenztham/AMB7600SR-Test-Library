@@ -3,7 +3,7 @@ Copyright (c) Aemulus Corporation Sdn Bhd
 Title:			Globals.cpp
 Purpose:		Provide interface to manage global variables (standard) and GlobalResult array.
 UUTOffset:		Supported.
-Version:		v1.1.0.0
+Version:		v1.2.0.0
 ----------------------------------------------------------------------*/
 #pragma once
 #include "TestFunction.h"  
@@ -30,17 +30,79 @@ namespace Functions
 		glob->tf.RecipeFilePathDirectory = System::IO::Path::GetDirectoryName(site->Recipe->FlowFilePath);
 		glob->tf.RecipeFileName = Path::GetFileName(glob->tf.RecipeFilePathDirectory);
 
+#pragma region "Get 'debug' variable at first for file logging purpose"
 		if (tf_AppWideVariable_Exist("debug"))
 		{
 			glob->AWV.Debug = (int)(tf_AppWideVariable_Cast("debug"));
 		}
-		if (tf_AppWideVariable_Exist("AutoPat2Pbin"))
+		else
 		{
-			glob->AWV.AutoPat2Pbin = (bool)(tf_AppWideVariable_Cast("AutoPat2Pbin"));
+			ret = ER_CONST_AWV_OFFLINE_NOT_FOUND;
+			return ret;
+		}
+#pragma endregion
+
+		//if (tf_AppWideVariable_Exist("AutoPat2Pbin"))
+		//{
+		//	glob->AWV.AutoPat2Pbin = (bool)(tf_AppWideVariable_Cast("AutoPat2Pbin"));
+		//}
+
+#pragma region "Assembly Resolver"
+
+		//// Set True to register a handler for the AssemblyResolve event if the loading of.dll / .exe turns out to be unsucessfull due to different DLL Encryptor used for encryption, else False to by-pass the Assembly Resolve via current domain event handler.
+		//if ((bool)tf_Flow_ConditionExist("AssemblyResolver"))
+		//{
+		//	glob->FLOWVAR.AssemblyResolver = (bool)tf_Flow_ConditionCast("AssemblyResolver");
+		//}
+		//else
+		//{
+		//	glob->FLOWVAR.AssemblyResolver = false;
+		//}
+
+		//// Perform assembly resolve if the loading of.dll / .exe turns out to be unsucessfull 
+		//if (glob->FLOWVAR.AssemblyResolver)
+		//{
+		//	currentDomain = AppDomain::CurrentDomain;
+		//	this->currentDomain->AssemblyResolve += gcnew System::ResolveEventHandler(this, &TestFunction::currentDomain_AssemblyResolve);
+		//}
+
+#pragma endregion
+
+		// Get techFlow site property
+		GetTechFlowSiteProperty(site);
+
+		// Get techFlow project type
+		GetTechFlowProjectType(site);
+
+		// Get project's folder directory
+		GetTechFlowFilePathProperty(site);
+
+		// Get techFlow binning property
+		GetTechFlowBinningProperty(site);
+
+#pragma region "Setting instantiation site index based on techFlow project type"
+
+		if (glob->tf.StageCount == 1)
+		{
+			if ((glob->tf.ProjectType == int(ProjectType::SingleTFSiteSingleUUTOffset)) ||
+				(glob->tf.ProjectType == int(ProjectType::TrueParallelSingleUUTOffset)))
+			{
+				glob->tf.NumberOfTestSites = 1;
+				glob->tf.arr_activeUUT = gcnew array<bool>(1);
+			}
+			else if ((glob->tf.ProjectType == int(ProjectType::SingleTFSiteMultiUUTOffset)) ||
+				(glob->tf.ProjectType == int(ProjectType::TrueParallelMultiUUTOffset)) || (glob->tf.ProjectType == int(ProjectType::SingleTFSiteMultiUUTOffsetSharedVNA)))
+			{
+				glob->tf.NumberOfTestSites = glob->tf.TotalUUTOffsets;
+				glob->tf.arr_activeUUT = gcnew array<bool>(glob->tf.TotalUUTOffsets);
+			}
+		}
+		else
+		{
+			// [Future Enchancement] To handle instantiation site index for index parallel project.
 		}
 
-		InitializeGlobalVariables(site);
-		//InitializeGlobalVariables(site);
+#pragma endregion
 
 		// Init tracer logger
 		ret = InitializeTracerLogger(site, tfSite);
@@ -53,11 +115,47 @@ namespace Functions
 		ret = InitializeFileLogger(tfSite);
 		if (ret != 0) goto EndOfTest;
 
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram] Execute 'Load' phase. Initialize program.");
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTesterId] Tester ID | Tester Name | Station Name: " + glob->TesterId + ".");
+
+		// Get App-Wide-Variable
+		ret = GetTechFlowAppsWideVariable(site, tfSite);
+		if (ret != 0) goto EndOfTest;
+
+		// C --> Aemlus --> [Init Related Variables]
+		InitializeDebugFolder(tfSite);
+		InitializeTesterInfoFolder(tfSite);
+		InitializeWolferFolder(tfSite);
+
+		// C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> [Init Related Variables]
+		ret = InitializeBoardLossFileFolder(tfSite);
+		if (ret != 0) goto EndOfTest;
+		ret = InitializeDeviceStateFileTemplateFolder(tfSite);
+		if (ret != 0) goto EndOfTest;
+		ret = InitializeFixedOffsetFileFolder(site, tfSite);
+		if (ret != 0) goto EndOfTest;
+		ret = InitializeModulationFileFolder(tfSite);
+		if (ret != 0) goto EndOfTest;
+		ret = InitializeVectorFileFolder(tfSite);
+		if (ret != 0) goto EndOfTest;
+		ret = InitializeVectorStateFileFolder(tfSite);
+		if (ret != 0) goto EndOfTest;
+
 		InitializeGlobalResult(glob->tf.NumberOfSites); //Supported for MultiUUTOffest's test result 
-		LoadGenericAppsWideVariable(site);
+
 		ResetGlobalVariables(site);
 		ResetGlobalResult(glob->tf.NumberOfSites);
-		InitializeTestCondProperty();
+
+		//[Enhancement] Remove this if program working ,excessive funciton
+
+		//InitializeTestCondProperty();
+
+		// Get resource management property (AEM DC Module)
+		ret = InitializeResourceManagerProperty(site, tfSite);
+		if (ret != 0) goto EndOfTest;
+
+		// Init general global variables
+		InitializeGlobalVariables(site);
 
 		//BoardLoss Mode
 		if (glob->AWV.BoardLossMode == 1)
@@ -75,21 +173,22 @@ namespace Functions
 	EndOfTest:
 		return ret;
 	}
-	void TestFunction::InitializeTestCondProperty(void)
-	{
-		/*****************************************************************************************************
-		** InitializeTestCondProperty
-		** Descriptions:
-		**		This method is to instanstiate test condition properties.
-		******************************************************************************************************/
+	//[Enhancement] Remove this if program working ,excessive funciton
+	//void TestFunction::InitializeTestCondProperty(void)
+	//{
+	//	/*****************************************************************************************************
+	//	** InitializeTestCondProperty
+	//	** Descriptions:
+	//	**		This method is to instanstiate test condition properties.
+	//	******************************************************************************************************/
 
-		glob->TProperty = gcnew array<Globals::TestProperty_tf>(glob->tf.TPropertyTotalSite);
+	//	glob->TProperty = gcnew array<Globals::TestProperty_tf>(glob->tf.TPropertyTotalSite);
 
-		for (int siteIndex = 0; siteIndex < glob->tf.TPropertyTotalSite; siteIndex++) {
-			glob->TProperty[siteIndex].TC_dict = gcnew Dictionary <String ^, String ^>();
-			WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initialized Test Condition Properties {TProperty[" + siteIndex + "].TC_dict}");
-		}
-	}
+	//	for (int siteIndex = 0; siteIndex < glob->tf.TPropertyTotalSite; siteIndex++) {
+	//		glob->TProperty[siteIndex].TC_dict = gcnew Dictionary <String ^, String ^>();
+	//		WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initialized Test Condition Properties {TProperty[" + siteIndex + "].TC_dict}");
+	//	}
+	//}
 
 	//Gloabal Variable & Result Functions
 	void TestFunction::InitializeGlobalVariables(Site^ site)
@@ -103,40 +202,13 @@ namespace Functions
 
 		int siteIndex = 0;
 
+		WriteToTracerAndFileLogger(siteIndex, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeGlobalVariables] Initialize general global variable.");
+
 #pragma region "Main Global Variables"
 		//TechFLow Informations
 		glob->tf._RTPlotter			= true;
 		glob->tf.JumpOnFail			= false;
 		glob->FileLog.IsWarning		= false;
-		glob->tf.TestSite			= site->Index;	//Running techFlow Site	
-		glob->tf.TotalUUTOffsets	= site->UUTOffsetResolver->UUTOffsets->Count;
-		glob->tf.NumberOfSites		= glob->tf.TotalUUTOffsets;
-		glob->tf.TestHead			= site->FlowEngine->HeadNumber;
-		glob->TesterId				= site->FlowEngine->StationName;
-		glob->tf.StageCount			= site->FlowEngine->Sites->Count/*site->FlowEngine->SiteGroupManager->SiteStages->StageCount*/;
-
-		//Get Hardware Profile Path Location
-		if (String::IsNullOrEmpty(site->Recipe->ResourceMappingFilePath) == false)
-		{
-			glob->HardwareProfile = site->Recipe->ResourceMappingFilePath;
-		}
-		else
-		{
-			CheckError(siteIndex, ER_CONST_HARDWARE_PROFILE_NOT_SPECIFIED);
-		}
-
-		//Get Test Recipe File Path
-		glob->tf.RecipeFilePathDirectory = Path::GetDirectoryName(site->Recipe->RecipeFilePath);
-
-		//Get Profile Name
-		array<String^> ^ ArrString;
-		array<Char>^ SpliterFormat = { '\\' };
-		ArrString = glob->tf.RecipeFilePathDirectory->Split(SpliterFormat, System::StringSplitOptions::None);
-		glob->tf.ProfileName = ArrString[5];
-
-		//Get Project Name and Program Name from Techflow
-		glob->tf.ProjectName = Path::GetFileName(glob->tf.RecipeFilePathDirectory);
-		glob->tf.ProgramName = Path::GetFileName(site->DBPath);
 
 		//DC Initialization
 		glob->SMUStateSettingsManager			= gcnew array<Globals::SMUStateSettings>(glob->tf.NumberOfSites);
@@ -213,16 +285,6 @@ namespace Functions
 		{
 			Directory::CreateDirectory(FILE_CONST_TESTER_INFO);
 		}
-
-		//ResultType
-		glob->ResultType			= gcnew array <Globals::techFlowDataType>(glob->tf.NumberOfSites);
-
-		//glob->AppsCal.AppsCalFactorCount = 0;
-		glob->ResultOffset			= gcnew Dictionary <String ^, array<double> ^>();  //Fixed Offset 
-
-		//Test Properties
-		glob->TestProperty			= gcnew array<Globals::TestPropertyStruct>(glob->tf.NumberOfSites);
-		glob->tf.TPropertyTotalSite = glob->tf.NumberOfSites;
 
 		//Test Parameter Properties
 		glob->TestNameWithTestNumber	= gcnew Dictionary <String^, String^>();
@@ -346,25 +408,67 @@ namespace Functions
 			glob->ModulationFile[siteIndex] = gcnew Dictionary<String^, String^>();
 #pragma endregion "ModulationFile"
 
-#pragma region "ResultType"
-			glob->ResultType[siteIndex].DoubleTypeResult = 999.99;
-			glob->ResultType[siteIndex].IntTypeResult = 999;
-			glob->ResultType[siteIndex].StringTyperesult = nullptr;
-#pragma endregion "ResultType"
+#pragma region "Test Property Variables"
 
-#pragma region "TestProperty"
-			glob->TestProperty[siteIndex].TestParaNameWithSiteIndex			= gcnew Dictionary <String ^, String ^>();
-			glob->TestProperty[siteIndex].TestParaDisplayNameWithSiteIndex	= gcnew Dictionary <String ^, String ^>();			
-			// Flow Step (Control Step, Test Step)
-			glob->TestProperty[siteIndex].totalFlowStep						= 0;
-			glob->TestProperty[siteIndex].FlowStepItemName					= gcnew array<String^>(0);
-			glob->TestProperty[siteIndex].FlowStepItemDisplayName			= gcnew array<String^>(0);
-			glob->TestProperty[siteIndex].FlowStepItemExecuted				= gcnew array<bool>(0);
-#pragma endregion "TestProperty"
+			glob->TestProperty = gcnew array<Globals::TestPropertyStruct>(glob->tf.NumberOfTestSites);
+			for (int siteIndex = 0; siteIndex < glob->tf.NumberOfTestSites; siteIndex++)
+			{
+				// Test Property
+				glob->TestProperty[siteIndex].TestParaNameWithSiteIndex = gcnew Dictionary<String^, String^>();
+				glob->TestProperty[siteIndex].TestParaDisplayNameWithSiteIndex = gcnew Dictionary<String^, String^>();
+				glob->TestProperty[siteIndex].TestResults = gcnew Dictionary<String^, Object^>();
 
-#pragma region "TestProperty"
-			
-#pragma endregion "TestProperty"
+				// Sub Item
+				glob->TestProperty[siteIndex].ControlItemName = String::Empty;
+				glob->TestProperty[siteIndex].FlowItemName = String::Empty;
+
+				// Test Item
+				glob->TestProperty[siteIndex].TestItemName = String::Empty;
+				glob->TestProperty[siteIndex].TestItemDisplayName = String::Empty;
+
+				// Sub Item (Test Step, Control Step, Test Parameter) 
+				glob->TestProperty[siteIndex].totalSubItem = 0;
+
+				// Test Parameter
+				glob->TestProperty[siteIndex].TotalTestParameter = 0;
+				glob->TestProperty[siteIndex].TestParameterName = gcnew array<String^>(0);
+				glob->TestProperty[siteIndex].TestParameterDisplayName = gcnew array<String^>(0);
+				glob->TestProperty[siteIndex].TestParameterExecuted = gcnew Dictionary<String^, bool>();
+				glob->TestProperty[siteIndex].TestParameterTestStatus = gcnew array<int>(0);
+				glob->TestProperty[siteIndex].TestParameterUpdateResStatus = gcnew Dictionary<String^, bool>();
+				glob->TestProperty[siteIndex].IsCurrentTPBypassed = gcnew array<bool>(0);
+
+				// Flow Step (Control Step, Test Step)
+				glob->TestProperty[siteIndex].totalFlowStep = 0;
+				glob->TestProperty[siteIndex].FlowStepItemName = gcnew array<String^>(0);
+				glob->TestProperty[siteIndex].FlowStepItemDisplayName = gcnew array<String^>(0);
+				glob->TestProperty[siteIndex].FlowStepItemExecuted = gcnew array<bool>(0);
+			}
+
+#pragma endregion 
+
+#pragma region "Test Parameter DataType Variables (Result)"
+
+			glob->ResultWithDataType = gcnew array<Globals::TestParameterDataTypeProperty>(glob->tf.NumberOfTestSites);
+			for (int siteIndex = 0; siteIndex < glob->tf.NumberOfTestSites; siteIndex++)
+			{
+				glob->ResultWithDataType[siteIndex].StringTyperesult = String::Empty;
+				//glob->ResultWithDataType[siteIndex].Int16TypeResult	= 999;
+				//glob->ResultWithDataType[siteIndex].Int32TypeResult	= 999;
+				//glob->ResultWithDataType[siteIndex].Int64TypeResult	= 999;
+				glob->ResultWithDataType[siteIndex].FloatTyperesult = 999.99;
+				glob->ResultWithDataType[siteIndex].DoubleTypeResult = 999.99;
+				glob->ResultWithDataType[siteIndex].BoolTypeResult = false;
+				//glob->ResultWithDataType[siteIndex].UInt16TypeResult	= 999;
+				//glob->ResultWithDataType[siteIndex].UInt32TypeResult	= 999;
+				//glob->ResultWithDataType[siteIndex].UInt64TypeResult	= 999;
+				glob->ResultWithDataType[siteIndex].IntTypeResult = 999;
+				//glob->ResultWithDataType[siteIndex].UIntTypeResult	= 999;
+			}
+
+#pragma endregion 
+
+
 		}
 
 #pragma endregion "Main Global Variables"
@@ -610,11 +714,205 @@ namespace Functions
 		return glob->GlobalResult[siteIndex][Identifier];
 	}
 
-	/*
-	**	----------------------------------------------------------------------------------------------------
-	**	Tester ID
-	**	----------------------------------------------------------------------------------------------------
-	*/
+	//techFlow Property | techFlow Project Type | techFlow File/Folder Directory
+	void TestFunction::GetTechFlowSiteProperty(Site ^ site)
+	{
+		/*****************************************************************************************************
+		** GetTechFlowSiteProperty
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to get techFlow site properties.
+		******************************************************************************************************/
+
+		glob->tf.StageCount = 1;// = site->FlowEngine->SiteGroupManager->SiteStages->StageCount;	// Get current tF stage count				| eg: 1 = single/parallel project, 2 = index parallel project
+		glob->tf.TestHead = site->FlowEngine->HeadNumber;									// Get current tF head number				| eg: H0 / H1 / ...
+		glob->tf.TestSite = site->Index;													// Get current tF running site				| eg: 0 = site0, 1 = site1, ...		
+		glob->tf.TotalUUTOffsets = site->UUTOffsetResolver->UUTOffsets->Count;					// Get total uut count in a techFlow site	| eg: 1 = single uut offset, 2 = 2uut ofset, ...
+		glob->tf.TotalTestSite = site->FlowEngine->Sites->Count;								// Get total site count in techFlow			| eg: 1 = single site S0, 2 = parallel site S0 S1 or index parallel
+
+																								/*
+																								** tf.TestSite = Current tf site index.
+																								** If tF running S0, the site index is 0 | If tF running S1, the site index is 1
+																								** Unable to use this as the termination parameter in a FOR loop
+																								** Need to use another variable as the parameter, where it is always set to "1" in the program, so that each tF S0/S1/S2... able to run the program's FOR loop.
+																								*/
+		glob->tf.NumberOfSites = glob->tf.TotalUUTOffsets; //AMB7600
+		glob->tf.NumberOfTestSites = 1; // Default value	//AMB7300 [Enhancement] Merge the variables
+	}
+	void TestFunction::GetTechFlowProjectType(Site ^ site)
+	{
+		/*****************************************************************************************************
+		** GetTechFlowProjectType
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to auto detect techFlow3 project type.
+		**		- single site single uut offset
+		**		- single site multi uut offset
+		**		- single tf site multi uut offset with shared VNA
+		**		- true parallel single uut offset
+		**		- true parallel multi uut offset
+		**		- index parallel
+		******************************************************************************************************/
+
+#pragma region "Get 'SharedVNA' variable"
+
+		if (tf_AppWideVariable_Exist("SharedVNA"))
+		{
+			glob->AWV.SharedVNA = (bool)(tf_AppWideVariable_Cast("SharedVNA"));
+			glob->tf.SharedVNA = glob->AWV.SharedVNA;
+		}
+		else
+		{
+			glob->AWV.SharedVNA = false;
+			glob->tf.SharedVNA = glob->AWV.SharedVNA;
+		}
+
+#pragma endregion
+
+		// Single or True-parallel site tF project
+		if (glob->tf.StageCount == 1)
+		{
+			// Single site
+			if (glob->tf.TotalTestSite == 1)
+			{
+				// Single UUT offset
+				if (glob->tf.TotalUUTOffsets == 1)
+				{
+					glob->tf.ProjectType = int(ProjectType::SingleTFSiteSingleUUTOffset);
+				}
+				// Multi UUT offset
+				else
+				{
+					if (glob->tf.SharedVNA)
+					{
+						glob->tf.ProjectType = int(ProjectType::SingleTFSiteMultiUUTOffsetSharedVNA);
+					}
+					else
+					{
+						glob->tf.ProjectType = int(ProjectType::SingleTFSiteMultiUUTOffset);
+					}
+				}
+			}
+			// True-parallel site
+			else
+			{
+				// Single UUT offset
+				if (glob->tf.TotalUUTOffsets == 1)
+				{
+					glob->tf.ProjectType = int(ProjectType::TrueParallelSingleUUTOffset);
+				}
+				// Multi UUT offset
+				else
+				{
+					glob->tf.ProjectType = int(ProjectType::TrueParallelMultiUUTOffset);
+				}
+			}
+		}
+		// Index-Parallel project
+		else
+		{	// [Future Enchancement] reserved for index parallel project.
+		}
+	}
+	void TestFunction::GetTechFlowFilePathProperty(Site ^ site)
+	{
+		/*****************************************************************************************************
+		** GetTechFlowFilePathProperty
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to get the project related file & folder name and directory.
+		******************************************************************************************************/
+
+		// Get Test Project's recipe path 
+		glob->tf.RecipeFilePathDirectory = System::IO::Path::GetDirectoryName(site->Recipe->FlowFilePath);
+		glob->tf.RecipeFileName = Path::GetFileName(glob->tf.RecipeFilePathDirectory);
+
+		// Get Profile Name
+		array<String^> ^ ArrString;
+		array<Char>^ SpliterFormat = { '\\' };
+		ArrString = glob->tf.RecipeFilePathDirectory->Split(SpliterFormat, System::StringSplitOptions::None);
+		glob->tf.ProfileName = ArrString[5];
+
+		// Get Project Name
+		glob->tf.ProjectName = Path::GetFileName(glob->tf.RecipeFilePathDirectory);
+
+		// Get Program Name
+		glob->tf.ProgramName = Path::GetFileName(site->DBPath);
+
+		// Get Device Name
+		glob->tf.DeviceName = site->DBPath;
+		ArrString = glob->tf.DeviceName->Split(SpliterFormat, System::StringSplitOptions::None);
+		glob->tf.DeviceName = ArrString[5];
+
+		// Get Device Revision
+		glob->tf.DeviceRevision = "";		// [Future Enchancement] To get the correct device revision. For now setting default empty.
+
+		// Get Program Revision
+		glob->tf.ProgramRevision = "";		// [Future Enchancement] To get the correct program revision. For now setting default empty.
+
+											// Get Test Project's VSProject path 
+		glob->tf.HandlerPathDirectory = FOLDER_CONST_AEM_TF3_PROJECTS_HANDLERS;																										// C:\Aemulus\techFlow3\Projects\Handlers
+		glob->tf.PSRecipePathDirectory = FOLDER_CONST_AEM_TF3_PROJECTS_PSRECIPES + "\\" + glob->tf.ProfileName + "\\" + glob->tf.ProjectName;									// C:\Aemulus\techFlow3\Projects\PSRecipes\'Profile'\'ProjectName'
+		glob->tf.TestProgramPathDirectory = FOLDER_CONST_AEM_TF3_PROJECTS_TESTPROGRAMS + "\\" + glob->tf.ProfileName + "\\" + glob->tf.ProjectName;									// C:\Aemulus\techFlow3\Projects\TestPrograms\'Profile'\'ProjectName'
+		glob->tf.RecipeFilePathDirectory = FOLDER_CONST_AEM_TF3_PROJECTS_TESTRECIPES + "\\" + glob->tf.ProfileName + "\\" + glob->tf.ProjectName;									// C:\Aemulus\techFlow3\Projects\TestRecipes\'Profile'\'ProjectName'
+		glob->tf.VSProjectPathDirectory = FOLDER_CONST_AEM_TF3_PROJECTS_VSPROJECTS + "\\" + glob->tf.ProfileName + "\\" + glob->tf.ProjectName + "\\" + glob->tf.ProjectName;	// C:\Aemulus\techFlow3\Projects\VSProjects\'Profile'\'ProjectName'\'ProjectName'
+	}
+	void TestFunction::GetTechFlowBinningProperty(Site ^ site)
+	{
+		/*****************************************************************************************************
+		** GetTechFlowBinningProperty
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to get techFlow binning rules, hard & soft bin info.
+		******************************************************************************************************/
+
+		glob->tf.SoftBinCount = site->SoftBins->Count;				// Get total soft bin count      
+		glob->tf.arr_HBin = gcnew array<int>(glob->tf.SoftBinCount);						// Initiallize int array to store hard bin value
+		glob->tf.TiTpRule_by_HBin = gcnew Dictionary<String^, int>();			// Initiallize dictionary
+		glob->tf.Ti_by_S2PFilename = gcnew Dictionary<String^, String^>();		// Initiallize dictionary
+		glob->tf.BinString_by_BinPath = gcnew Dictionary<String^, String^>();	// Initiallize dictionary
+		System::Collections::Generic::HashSet<int> HashSet_HardBin = gcnew System::Collections::Generic::HashSet<int>();	// Use HashSet to remove duplicate HardBin element
+
+		int arr_HBin_Index = 0;
+		int str_arrHBin_Index = 0;
+
+		for each (SoftBin^ SoftBin_object in site->SoftBins)
+		{
+			glob->tf.arr_HBin[arr_HBin_Index++] = SoftBin_object->HardBin;
+		}
+
+
+		for each (int value in glob->tf.arr_HBin)
+		{
+			HashSet_HardBin.Add(value);
+		}
+
+		// Convert int value in HashSet_HardBin into String^
+		glob->tf.HardBinCount = HashSet_HardBin.Count;					// Get total hard bin count  
+		glob->tf.str_arrHBin = gcnew array<String^>(glob->tf.HardBinCount); // Initiallize String array to store hard bin value
+
+		for each (int value in HashSet_HardBin)
+		{
+			glob->tf.str_arrHBin[str_arrHBin_Index++] = value.ToString();
+		}
+
+		// Store bin rules into TP_Hbin Dictionary
+		for each(BinSorterRule ^ rules in site->BinSorter->Rules)
+		{
+			if (rules->Status != Aemulus::Tech::Flow::TestParameterPassFail::Pass)
+			{
+				for each(BinSorterRuleSetting ^ setting in rules->Settings)
+				{
+					glob->tf.TiTpRule_by_HBin->Add(setting->TestParameter->FullDisplayName, rules->SoftBin->HardBin);
+				}
+			}
+		}
+	}
+
+	//Tester ID
 	void TestFunction::GetTesterID(Site ^ site, int tfSite)
 	{
 		/*****************************************************************************************************
@@ -628,98 +926,134 @@ namespace Functions
 		// Local variable
 		//int tfSite = glob->tf.TestSite;
 
-		//WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTesterId] Load tester ID.");
+		//WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTesterId] Load tester ID.");
 		//WriteToTcrLgr(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTesterId] Load tester ID.");
 
 		// Tester ID | Tester Name | Station Name
 		glob->TesterId = site->FlowEngine->StationName;
 
-		//WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTesterId] Tester ID | Tester Name | Station Name: " + glob->TesterId + ".");
+		//WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTesterId] Tester ID | Tester Name | Station Name: " + glob->TesterId + ".");
 		//WriteToTcrLgr(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTesterId] Tester ID | Tester Name | Station Name: " + glob->TesterId + ".");
 	}
 
-	//Generic AppWideVariables Function  
-	int TestFunction::LoadGenericAppsWideVariable(Site^ site)
+	//App-Wide-Variable
+	int TestFunction::GetTechFlowAppsWideVariable(Site ^ site, int tfSite)
 	{
 		/*****************************************************************************************************
-		** LoadGenericAppsWideVariable
-		**		site	- This is techFlow site object.
+		** GetTechFlowAppsWideVariable
+		**		site - This is techFlow site object.
+		**
 		** Descriptions:
-		**		This test method is to load all the generic App-Wide Variables from techFlow during Load Phase.
+		**		This is a function to load the generic App-Wide-Variables from techFlow.
 		******************************************************************************************************/
 
+		// Local variable
 		int ret = 0;
-		int siteIndex = 0;
 
-		//<Info> "Debug" App Wide Variables  
-		if (tf_AppWideVariable_Exist("debug"))
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] Load App-Wide-Variables.");
+
+#pragma region "debug"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'debug' App Wide Variables
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_debug))
 		{
-			glob->AWV.Debug = (int)(tf_AppWideVariable_Cast("debug"));
+			glob->AWV.Debug = (int)(tf_AppWideVariable_Cast(AppWideVariableName_debug));
 		}
 		else
 		{
-			glob->TcrLgr.GlobalErrorMessage = "Debug mode unspecified!";
-			CheckError(siteIndex, ER_CONST_APPSWIDEVARIABLE_NOT_SPECIFIED);
-		}
-		if (glob->AWV.Debug == 1)
-		{
-			for (siteIndex = 0; siteIndex < glob->tf.NumberOfSites; siteIndex++)
-			{
-				WriteToTcrLgr("SITE " + siteIndex.ToString(), "Debug: " + glob->AWV.Debug);
-			}
+			ret = ER_CONST_AWV_DEBUG_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_debug + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
 		}
 
-		//<Info> "PowerLineFrequency" App Wide Variables
-		//		  TH = Thailand = 50Hz
-		//		  US = United States of America = 60Hz
-		//		  MY = Malaysia = 50Hz
-		//		  CN = China = 50Hz
-		if (tf_AppWideVariable_Exist("PowerLineFrequency"))
+		// Check user input
+		if ((glob->AWV.Debug < 0) || (glob->AWV.Debug > 1))
 		{
+			ret = ER_CONST_AWV_DEBUG_INPUT_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_debug + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_debug + "' = " + glob->AWV.Debug.ToString());
+		}
+#pragma endregion "debug"
+
+#pragma region "offline"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'offline' App Wide Variables
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_offline))
+		{
+			glob->AWV.Offline = (bool)(tf_AppWideVariable_Cast(AppWideVariableName_offline));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_OFFLINE_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_offline + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// Check user input
+		if ((glob->AWV.Offline != true) && (glob->AWV.Offline != false))
+		{
+			ret = ER_CONST_AWV_OFFLINE_INPUT_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_offline + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_offline + "' = " + glob->AWV.Offline.ToString());
+		}
+#pragma endregion "offline"
+
+#pragma region "PowerLineFrequency"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'PowerLineFrequency' App Wide Variables
+		**	Thailand = 50Hz
+		**	United States of America = 60Hz
+		**	Malaysia = 50Hz
+		**	China = 50Hz
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_PowerLineFrequency))
+		{
+			// AWV: 0 = 50Hz | 1 = 60Hz
 			int PowerLineFreqGet = 0;
-			PowerLineFreqGet = (int)(tf_AppWideVariable_Cast("PowerLineFrequency"));
+			PowerLineFreqGet = (int)(tf_AppWideVariable_Cast(AppWideVariableName_PowerLineFrequency));
 
 			if (PowerLineFreqGet == 0)
-			{
-				glob->AWV.PowerLineFreq = 50;
-			}
+				glob->AWV.PowerLineFreq = 50.0 Hz;
 			else if (PowerLineFreqGet == 1)
-			{
-				glob->AWV.PowerLineFreq = 60;
-			}
-			else
-			{
-				glob->TcrLgr.GlobalErrorMessage = "Invalid power line frequency specified!";
-				CheckError(siteIndex, ER_CONST_INVALID_SETTING);
-			}
+				glob->AWV.PowerLineFreq = 60.0 Hz;
 		}
 		else
 		{
-			glob->TcrLgr.GlobalErrorMessage = "Power line frequency unspecified!";
-			CheckError(siteIndex, ER_CONST_APPSWIDEVARIABLE_NOT_SPECIFIED);
-		}
-		for (siteIndex = 0; siteIndex < glob->tf.NumberOfSites; siteIndex++)
-		{
-			WriteToTcrLgr("SITE " + siteIndex.ToString(), "Power Line Frequency: " + glob->AWV.PowerLineFreq + "Hz");
+			ret = ER_CONST_AWV_PLF_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_PowerLineFrequency + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
 		}
 
-
-		//<Info> "offline" App Wide Variables
-		if (tf_AppWideVariable_Exist("offline"))
+		// Check user input
+		if ((glob->AWV.PowerLineFreq != 50.0 Hz) && (glob->AWV.PowerLineFreq != 60.0 Hz))
 		{
-			glob->AWV.Offline = (bool)(tf_AppWideVariable_Cast("offline"));
+			ret = ER_CONST_AWV_PLF_INPUT_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_PowerLineFrequency + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
 		}
 		else
 		{
-			glob->TcrLgr.GlobalErrorMessage = "Offline mode unspecified!";
-			CheckError(siteIndex, ER_CONST_APPSWIDEVARIABLE_NOT_SPECIFIED);
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_PowerLineFrequency + "' = " + glob->AWV.PowerLineFreq.ToString() + "Hz");
 		}
-		for (siteIndex = 0; siteIndex < glob->tf.NumberOfSites; siteIndex++)
-		{
-			WriteToTcrLgr("SITE " + siteIndex.ToString(), "Offline: " + glob->AWV.Offline);
-		}
+#pragma endregion "PowerLineFrequency"
 
-
+#pragma region "DeviceName" 
 		//<Info> "DeviceName" App Wide Variables
 		if (tf_AppWideVariable_Exist("DeviceName"))
 		{
@@ -728,13 +1062,11 @@ namespace Functions
 		else
 		{
 			glob->TcrLgr.GlobalErrorMessage = "DeviceName unspecified!";
-			CheckError(siteIndex, ER_CONST_READ_FILE_ERROR);
+			CheckError(tfSite, ER_CONST_READ_FILE_ERROR);
 		}
-		for (siteIndex = 0; siteIndex < glob->tf.NumberOfSites; siteIndex++)
-		{
-			WriteToTcrLgr("SITE " + siteIndex.ToString(), "DeviceName: " + glob->AWV.DeviceName);
-		}
+#pragma endregion "DeviceName"
 
+#pragma region "AmsrfControllerMode" 
 		//<Info> "AmsrfControllerMode" App Wide Variables
 		if (tf_AppWideVariable_Exist("AmsrfControllerMode"))
 		{
@@ -743,17 +1075,15 @@ namespace Functions
 		else
 		{
 			glob->TcrLgr.GlobalErrorMessage = "AmsrfControllerMode unspecified!";
-			CheckError(siteIndex, ER_CONST_READ_FILE_ERROR);
+			CheckError(tfSite, ER_CONST_READ_FILE_ERROR);
 		}
-		for (siteIndex = 0; siteIndex < glob->tf.NumberOfSites; siteIndex++)
-		{
-			WriteToTcrLgr("SITE " + siteIndex.ToString(), "AmsrfControllerMode: " + glob->AWV.AmsrfControllerMode);
-		}
+#pragma endregion "AmsrfControllerMode"
 
 		//<Info> "DMPinGroup" App Wide Variables
 		//		  0 = DPin Group 0 and 1 (All)
 		//		  1 = Dpin Group 0 for Odd Site, Dpin Group 1 for Even Site
 
+#pragma region "DMPinGroup" 
 		//if (tf_AppWideVariable_Exist("DMPinGroup"))
 		//{
 		//	glob->AWV.DMPinGroup = (int)(tf_AppWideVariable_Cast("DMPinGroup"));
@@ -763,11 +1093,9 @@ namespace Functions
 		//	glob->TcrLgr.GlobalErrorMessage = "DMPinGroup unspecified!";
 		//	CheckError(siteIndex, ER_CONST_READ_FILE_ERROR);
 		//}
-		for (siteIndex = 0; siteIndex < glob->tf.NumberOfSites; siteIndex++)
-		{
-			WriteToTcrLgr("SITE " + siteIndex.ToString(), "DMPinGroup: " + glob->AWV.DMPinGroup);
-		}
+#pragma endregion "DMPinGroup"
 
+#pragma region "BoardLossMode" 
 		if (tf_AppWideVariable_Exist("BoardLossMode"))
 		{
 			glob->AWV.BoardLossMode = (int)(tf_AppWideVariable_Cast("BoardLossMode"));
@@ -775,9 +1103,11 @@ namespace Functions
 		else
 		{
 			glob->TcrLgr.GlobalErrorMessage = "BoardLoss mode unspecified!";
-			CheckError(siteIndex, ER_CONST_APPSWIDEVARIABLE_NOT_SPECIFIED);
+			CheckError(tfSite, ER_CONST_APPSWIDEVARIABLE_NOT_SPECIFIED);
 		}
+#pragma endregion "BoardLossMode"
 
+#pragma region "DMInitOption" 
 		if (tf_AppWideVariable_Exist("DMInitOption"))
 		{
 			glob->AWV.DMInitOption = (int)(tf_AppWideVariable_Cast("DMInitOption"));
@@ -786,7 +1116,9 @@ namespace Functions
 		{
 			glob->AWV.DMInitOption = 0xf;
 		}
+#pragma endregion "DMInitOption"
 
+#pragma region "AMInitOption" 
 		if (tf_AppWideVariable_Exist("AMInitOption"))
 		{
 			glob->AWV.AMInitOption = (int)(tf_AppWideVariable_Cast("AMInitOption"));
@@ -795,6 +1127,9 @@ namespace Functions
 		{
 			glob->AWV.AMInitOption = 0xf;
 		}
+#pragma endregion "AMInitOption"
+
+#pragma region "CMInitOption" 
 		if (tf_AppWideVariable_Exist("CMInitOption"))
 		{
 			glob->AWV.CMInitOption = (int)(tf_AppWideVariable_Cast("CMInitOption"));
@@ -803,6 +1138,9 @@ namespace Functions
 		{
 			glob->AWV.CMInitOption = 0xf;
 		}
+#pragma endregion "CMInitOption"
+
+#pragma region "IOMInitOption" 
 		if (tf_AppWideVariable_Exist("IOMInitOption"))
 		{
 			glob->AWV.IOMInitOption = (int)(tf_AppWideVariable_Cast("IOMInitOption"));
@@ -811,7 +1149,2022 @@ namespace Functions
 		{
 			glob->AWV.IOMInitOption = 0xf;
 		}
+#pragma endregion "IOMInitOption"
+
+#pragma region "gCreateFixedOffsetFile"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'gCreateFixedOffsetFile' App Wide Variables
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_gCreateFixedOffsetFile))
+		{
+			glob->AWV.CreateFixedOffsetFile = (bool)(tf_AppWideVariable_Cast(AppWideVariableName_gCreateFixedOffsetFile));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_CREATE_FIXED_OFFSET_FILE_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_gCreateFixedOffsetFile + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// Check user input
+		if ((glob->AWV.CreateFixedOffsetFile != true) && (glob->AWV.CreateFixedOffsetFile != false))
+		{
+			ret = ER_CONST_AWV_CREATE_FIXED_OFFSET_FILE_INPUT_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_gCreateFixedOffsetFile + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_gCreateFixedOffsetFile + "' = " + glob->AWV.CreateFixedOffsetFile.ToString());
+		}
+#pragma endregion
+
+#pragma region "SaveSnpData_Format"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'SaveSSaveSnpData_FormatnpData' App Wide Variables
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_SaveSnpData))
+		{
+			glob->AWV.SaveSnpData = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_SaveSnpData));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_SaveSnpData_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_SaveSnpData + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// Check user input
+		array <String^>^ arrStr = gcnew array<String^>(0);
+		array<String^>^ separator = gcnew array<String^>(1);
+		separator[0] = "/";
+		arrStr = glob->AWV.SaveSnpData->Split(separator, StringSplitOptions::None);
+
+		// Validate AWV value input --> 'SaveToTouchstoneFile'
+		// SaveSnpData parameter: SaveToTouchstoneFileEnable (SaveSnpDataOn | SaveSnpDataOff), TouchstoneSNPFormat (Re_Imag | Mag_Angle | dB_Angle)
+		if ((arrStr[0] != Cond_SaveSnpData_Enable_SaveSnpDataOn) &&
+			(arrStr[0] != Cond_SaveSnpData_Enable_SaveSnpDataOff))
+		{
+			ret = ER_CONST_AWV_SaveSnpData_INVALID;
+			String ^ additionalMessage = "'SaveSnpData' 1st parameter available settings: " + "\n" +
+				"-> SaveSnpDataOn" + "\n" +
+				"-> SaveSnpDataOff";
+			MessageBox::Show(additionalMessage, TITLE_CONST_INVALID_APPWIDE_VARIABLE_INPUT_VALUE, MessageBoxButtons::OK, MessageBoxIcon::Warning);
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "['VnaFetch' condition value verification] 'SaveSnpData' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		if ((arrStr[1] != Cond_SaveSnpData_SNPFormat_ReImag) &&
+			(arrStr[1] != Cond_SaveSnpData_SNPFormat_MagAngle) &&
+			(arrStr[1] != Cond_SaveSnpData_SNPFormat_dBAngle))
+		{
+			ret = ER_CONST_AWV_SaveSnpData_INVALID;
+			String ^ additionalMessage = "'SaveSnpData' 2nd parameter available settings: " + "\n" +
+				"-> Re_Imag" + "\n" +
+				"-> Mag_Angle" + "\n" +
+				"-> dB_Angle";
+			MessageBox::Show(additionalMessage, TITLE_CONST_INVALID_APPWIDE_VARIABLE_INPUT_VALUE, MessageBoxButtons::OK, MessageBoxIcon::Warning);
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "['AppWideVariable' condition value verification] 'SaveSnpData' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		if (arrStr->Length != 2)
+		{
+			ret = ER_CONST_AWV_SaveSnpData_INVALID;
+			String ^ additionalMessage = "'SaveSnpData' contain 2x parameter which is differentiate by '/'." + "\n" +
+				"1st parameter: Enable save data to touchstone file." + "\n" +
+				"2nd parameter: Select touchstone SNP format." + "\n" +
+				"Example: SaveSnpDataOn/dB_Angle --> meaning enable save data to touchstone file (.snp), with dB_Angle SNP format.";
+			MessageBox::Show(additionalMessage, TITLE_CONST_INVALID_APPWIDE_VARIABLE_INPUT_VALUE, MessageBoxButtons::OK, MessageBoxIcon::Warning);
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "['AppWideVariable' condition value verification] 'SaveSnpData' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else if (arrStr->Length == 2)
+		{
+			if (arrStr[0] == Cond_SaveSnpData_Enable_SaveSnpDataOn)
+				glob->AWV.EnableSaveSnpData = true;
+			else if (arrStr[0] == Cond_SaveSnpData_Enable_SaveSnpDataOff)
+				glob->AWV.EnableSaveSnpData = false;
+
+			if (arrStr[1] == Cond_SaveSnpData_SNPFormat_ReImag)
+				glob->AWV.touchstoneFileDataFormat = int(SnPFormat::SNP_RI_FORMAT);
+			else if (arrStr[1] == Cond_SaveSnpData_SNPFormat_MagAngle)
+				glob->AWV.touchstoneFileDataFormat = int(SnPFormat::SNP_MA_FORMAT);
+			else if (arrStr[1] == Cond_SaveSnpData_SNPFormat_dBAngle)
+				glob->AWV.touchstoneFileDataFormat = int(SnPFormat::SNP_DB_FORMAT);
+		}
+
+#pragma endregion
+
+#pragma region "Get 'S2P' pathway"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'S2Ppath' App Wide Variables
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_S2Ppath))
+		{
+			glob->AWV.S2Ppath = site->FlowEngine->AppWideVariables["S2Ppath"]->ToString();
+
+			////create SaveSnpFilePath
+			//if (!(Directory::Exists(glob->AWV.S2Ppath)) && !(glob->AWV.S2Ppath == String::Empty))
+			//{
+			//	Directory::CreateDirectory(glob->AWV.S2Ppath);
+			//}
+
+		}
+		else
+		{
+			ret = ER_CONST_AWV_S2Ppath_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[AppWideVariables dont have the S2Ppath variable. Please check accordingly.");
+			return ret;
+		}
+#pragma endregion
+
+#pragma region "S2Prename_EN"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'S2Prename_EN' App Wide Variables
+		**	-use to define if custom snp file name is used
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_S2P_rename))
+		{
+			glob->AWV.EnableRenameSnpData = (bool)(tf_AppWideVariable_Cast(AppWideVariableName_S2P_rename));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_S2P_rename_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_S2P_rename + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// Check user input 'UseGenericStateFile'
+		if ((glob->AWV.EnableRenameSnpData != true) && (glob->AWV.EnableRenameSnpData != false))
+		{
+			ret = ER_CONST_AWV_S2P_rename_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_S2P_rename + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_S2P_rename + "' = " + glob->AWV.EnableRenameSnpData.ToString());
+		}
+#pragma endregion
+
+#pragma region "S2Prename_Name"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'S2Prename_Name' App Wide Variables
+		**	-use to define customized snp file name
+		**	If 'S2P_rename' TRUE -> use defined file name specified by 'snpFileName', support Macros
+		**  Elseif 'S2P_rename' FALSE -> use generic file name
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_snpFileName))
+		{
+			glob->AWV.snpFileName = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_snpFileName));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_snpFileName_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_snpFileName + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+#pragma endregion
+
+#pragma region "SwapS2PData"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'isSwapS2PData' App Wide Variables
+		**	-use to manually swap data for Port1 and Port2 within a S2P.
+		**	-Usual case Port17 and Port18 as output; Port1~16 as input.
+		**	If isSwapS2PData TRUE -> Port17 and Port18 as Input; Port1~16 as Output.
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_SwapS2PData))
+		{
+			glob->AWV.isSwapS2PData = (bool)(tf_AppWideVariable_Cast(AppWideVariableName_SwapS2PData));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_SwapS2PData_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_SwapS2PData + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// Check user input
+		if ((glob->AWV.isSwapS2PData != true) && (glob->AWV.isSwapS2PData != false))
+		{
+			ret = ER_CONST_AWV_SwapS2PData_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_SwapS2PData + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_SwapS2PData + "' = " + glob->AWV.CreateFixedOffsetFile.ToString());
+		}
+#pragma endregion
+
+#pragma region "SaveBinFolder"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'isSaveBinFolder' App Wide Variables
+		**	-Use binning [Hard Bin] in the folder pathway.
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_SaveBinFolder))
+		{
+			glob->AWV.isSaveBinFolder = (bool)(tf_AppWideVariable_Cast(AppWideVariableName_SaveBinFolder));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_SaveBinFolder_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_SaveBinFolder + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// Check user input
+		if ((glob->AWV.isSaveBinFolder != true) && (glob->AWV.isSaveBinFolder != false))
+		{
+			ret = ER_CONST_AWV_SaveBinFolder_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_SaveBinFolder + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_SaveBinFolder + "' = " + glob->AWV.CreateFixedOffsetFile.ToString());
+		}
+
+		// Cross check with EnableSaveSnpData
+		if ((glob->AWV.EnableSaveSnpData == false) && (glob->AWV.isSaveBinFolder == true))
+		{
+			String ^ additionalMessage = "'SaveSnpData' is Off but 'SaveBinFolder' is True " + "\n" +
+				"Please make sure [snp] settings in AppWideVariable are valid!";
+			MessageBox::Show(additionalMessage, TITLE_CONST_INVALID_APPWIDE_VARIABLE_INPUT_VALUE, MessageBoxButtons::OK, MessageBoxIcon::Warning);
+
+			ret = ER_CONST_AWV_SaveBinFolder_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_SaveBinFolder + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+#pragma endregion
+
+#pragma region "CalibrationValidityDay"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'CalibrationValidityDay' App Wide Variables
+		**	-Set a cal validity reminder. If exceed, prompt user to re-cal
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_CalibrationValidityDay))
+		{
+			glob->AWV.CalibrationValidityDay = (int)(tf_AppWideVariable_Cast(AppWideVariableName_CalibrationValidityDay));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_CalibrationValidityDay_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_CalibrationValidityDay + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+#pragma endregion
+
+#pragma region "GenericStateMappingFile_EN"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'GenericStateMappingFile_EN' App Wide Variables
+		**	-use to define if project is loading generic state file instead of "AMB7300Config_DeviceName"
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_GenericStateMappingFile_EN))
+		{
+			glob->AWV.GenericStateMappingFile_EN = (bool)(tf_AppWideVariable_Cast(AppWideVariableName_GenericStateMappingFile_EN));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_GenericStateMappingFile_EN_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_GenericStateMappingFile_EN + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// Check user input 'UseGenericStateFile'
+		if ((glob->AWV.GenericStateMappingFile_EN != true) && (glob->AWV.GenericStateMappingFile_EN != false))
+		{
+			ret = ER_CONST_AWV_GenericStateMappingFile_EN_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_GenericStateMappingFile_EN + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_GenericStateMappingFile_EN + "' = " + glob->AWV.GenericStateMappingFile_EN.ToString());
+		}
+#pragma endregion
+
+#pragma region "GenericStateMappingFile_Name"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'GenericStateMappingFile_Name' App Wide Variables
+		**	-use to define Generic State Filepath
+		**	If 'GenericStateMappingFile_EN' TRUE -> use defined file name specified by 'GenericStateMappingFile_EN'
+		**  Elseif 'GenericStateMappingFile_EN' FALSE -> use 'AMB7300Config_DeviceName' state file
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_GenericStateMappingFile_Name))
+		{
+			glob->AWV.GenericStateMappingFile_Name = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_GenericStateMappingFile_Name));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_GenericStateMappingFile_Name_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_GenericStateMappingFile_Name + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+#pragma endregion
+
+#pragma region "HighPwrTest_EN"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'HighPwrTest_EN' App Wide Variables
+		**	-use to define if high power test is enabled, 0 = Default | 1 = High power test enable & expected external PA conneected & separate AppsPowerCal done
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_HighPwrTest_EN))
+		{
+			glob->AWV.HighPwrTest_EN = (bool)(tf_AppWideVariable_Cast(AppWideVariableName_HighPwrTest_EN));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_HighPwrTest_EN_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_HighPwrTest_EN + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// Check user input 'UseGenericStateFile'
+		if ((glob->AWV.HighPwrTest_EN != true) && (glob->AWV.HighPwrTest_EN != false))
+		{
+			ret = ER_CONST_AWV_HighPwrTest_EN_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_HighPwrTest_EN + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_HighPwrTest_EN + "' = " + glob->AWV.HighPwrTest_EN.ToString());
+		}
+#pragma endregion
+
+#pragma region "HighPwrTest_AppsCalFile"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'HighPwrTest_AppsCalFile' App Wide Variables
+		**	-use to define AppsCalFile path if 'HighPwrTest_EN' = TRUE
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_HighPwrTest_AppsCalFile))
+		{
+			glob->AWV.HighPwrTest_AppsCalFile = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_HighPwrTest_AppsCalFile));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_HighPwrTest_AppsCalFile_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_HighPwrTest_AppsCalFile + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+#pragma endregion
+
+#pragma region "VNA_Mutex_EN"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'VNA_Mutex_EN' App Wide Variables
+		**	-use to define if Mutex feature is enabled, 0 = Off | 1 = Enable enable ping-pong testing, use this for index parallel testing when VNA resource is shared for multiple sites
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		if (tf_AppWideVariable_Exist(AppWideVariableName_VNA_Mutex_EN))
+		{
+			glob->AWV.VNA_Mutex_EN = (bool)(tf_AppWideVariable_Cast(AppWideVariableName_VNA_Mutex_EN));
+		}
+		else
+		{
+			ret = ER_CONST_AWV_VNA_Mutex_EN_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_VNA_Mutex_EN + "' variable name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// Check user input 'UseGenericStateFile'
+		if ((glob->AWV.VNA_Mutex_EN != true) && (glob->AWV.VNA_Mutex_EN != false))
+		{
+			ret = ER_CONST_AWV_VNA_Mutex_EN_INVALID;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_VNA_Mutex_EN + "' variable value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+		else
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> GetTechFlowAppsWideVariable] App-Wide-Variable '" + AppWideVariableName_VNA_Mutex_EN + "' = " + glob->AWV.VNA_Mutex_EN.ToString());
+		}
+#pragma endregion
+
+#pragma region "PortMatchingX"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	'PortMatchingX' App Wide Variables
+		**	-use to define snp filepath of matching circuit for Port 'X'
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->AWV.PortMatching_EN = gcnew array<bool>(6);
+
+		if (tf_AppWideVariable_Exist(AppWideVariableName_PortMatching1))
+		{
+			glob->AWV.PortMatching1 = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_PortMatching1));
+			if (glob->AWV.PortMatching1->Trim() != String::Empty)
+			{
+				glob->AWV.PortMatching_EN[0] = true;
+			}
+		}
+		if (tf_AppWideVariable_Exist(AppWideVariableName_PortMatching2))
+		{
+			glob->AWV.PortMatching2 = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_PortMatching2));
+			if (glob->AWV.PortMatching2->Trim() != String::Empty)
+			{
+				glob->AWV.PortMatching_EN[1] = true;
+			}
+		}
+		if (tf_AppWideVariable_Exist(AppWideVariableName_PortMatching3))
+		{
+			glob->AWV.PortMatching3 = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_PortMatching3));
+			if (glob->AWV.PortMatching3->Trim() != String::Empty)
+			{
+				glob->AWV.PortMatching_EN[2] = true;
+			}
+		}
+		if (tf_AppWideVariable_Exist(AppWideVariableName_PortMatching4))
+		{
+			glob->AWV.PortMatching4 = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_PortMatching4));
+			if (glob->AWV.PortMatching4->Trim() != String::Empty)
+			{
+				glob->AWV.PortMatching_EN[3] = true;
+			}
+		}
+		if (tf_AppWideVariable_Exist(AppWideVariableName_PortMatching5))
+		{
+			glob->AWV.PortMatching5 = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_PortMatching5));
+			if (glob->AWV.PortMatching5->Trim() != String::Empty)
+			{
+				glob->AWV.PortMatching_EN[4] = true;
+			}
+		}
+		if (tf_AppWideVariable_Exist(AppWideVariableName_PortMatching6))
+		{
+			glob->AWV.PortMatching6 = (String^)(tf_AppWideVariable_Cast(AppWideVariableName_PortMatching6));
+			if (glob->AWV.PortMatching6->Trim() != String::Empty)
+			{
+				glob->AWV.PortMatching_EN[5] = true;
+			}
+		}
+#pragma endregion
+		EndOfTest:
+				 return ret;
+	}
+
+	//C --> Aemlus --> [Init Related Variables]
+	void TestFunction::InitializeDebugFolder(int tfSite)
+	{
+		/*****************************************************************************************************
+		** InitializeDebugFolder
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to initialize helper function/variables that are related to the 'Debug' folder.
+		**		Target directory: C:\Aemulus\Debug
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeDebugFolder] Initialize '" + FILENAME_CONST_AEM_DEBUG_FOLDER + "' folder. Target directory: " + FOLDER_CONST_AEM_DEBUG + ".");
+
+		// Check 'Debug' folder existence
+		if (!Directory::Exists(FOLDER_CONST_AEM_DEBUG))
+		{
+			ret = ER_CONST_AEM_DEBUG_FOLDER_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDebugFolder] '" + FILENAME_CONST_AEM_DEBUG_FOLDER + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_AEM_DEBUG_FOLDER + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'Debug' folder
+			Directory::CreateDirectory(FOLDER_CONST_AEM_DEBUG);
+		}
+
+		// [Future Enchancement] Reserved for future development or tester platform combination.
+	}
+	void TestFunction::InitializeTesterInfoFolder(int tfSite)
+	{
+		/*****************************************************************************************************
+		** InitializeTesterInfoFolder
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to initialize helper function/variables that are related to the 'TesterInfo' folder.
+		**		Target directory: C:\Aemulus\TesterInfo
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeTesterInfoFolder] Initialize '" + FILENAME_CONST_AEM_TESTERINFO_FOLDER + "' folder. Target directory: " + FOLDER_CONST_AEM_TESTERINFO + ".");
+
+		// Check 'TesterInfo' folder existence
+		if (!Directory::Exists(FOLDER_CONST_AEM_TESTERINFO))
+		{
+			ret = ER_CONST_AEM_TESTERINFO_FOLDER_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeTesterInfoFolder] '" + FILENAME_CONST_AEM_TESTERINFO_FOLDER + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_AEM_TESTERINFO_FOLDER + "' folder and sub-folders will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'TesterInfo' folder
+			Directory::CreateDirectory(FOLDER_CONST_AEM_TESTERINFO);
+
+			// Create related sub-folders
+			if (!Directory::Exists(FOLDER_CONST_AEM_TESTERINFO_APPSCAL))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_TESTERINFO_APPSCAL);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_TESTERINFO_APPSCAL_ARCHIVED))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_TESTERINFO_APPSCAL_ARCHIVED + "\\" + glob->tf.ProfileName);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_TESTERINFO_BOARDLOSS))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_TESTERINFO_BOARDLOSS);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_TESTERINFO_CORRFACTOR))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_TESTERINFO_CORRFACTOR);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_TESTERINFO_CORRFACTOR_ARCHIVED))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_TESTERINFO_CORRFACTOR_ARCHIVED + "\\" + glob->tf.ProfileName);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_TESTERINFO_GUCAL))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_TESTERINFO_GUCAL + "\\" + glob->tf.ProfileName);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_TESTERINFO_KGUDATA))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_TESTERINFO_KGUDATA);
+		}
+
+		// [Future Enchancement] Reserved for future development or tester platform combination.
+	}
+	void TestFunction::InitializeWolferFolder(int tfSite)
+	{
+		/*****************************************************************************************************
+		** InitializeWolferFolder
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to initialize helper function/variables that are related to the 'Wolfer' folder.
+		**		Target directory: C:\Aemulus\Wolfer
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeWolferFolder] Initialize '" + FILENAME_CONST_AEM_WOLFER_FOLDER + "' folder. Target directory: " + FOLDER_CONST_AEM_WOLFER + ".");
+
+		// Check 'Wolfer' folder existence
+		if (!Directory::Exists(FOLDER_CONST_AEM_WOLFER))
+		{
+			ret = ER_CONST_AEM_WOLFER_FOLDER_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeWolferFolder] '" + FILENAME_CONST_AEM_WOLFER_FOLDER + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_AEM_WOLFER_FOLDER + "' folder and sub-folders will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'Wolfer' folder
+			Directory::CreateDirectory(FOLDER_CONST_AEM_WOLFER);
+
+			// Create related sub-folders
+			if (!Directory::Exists(FOLDER_CONST_AEM_WOLFER_C0))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_WOLFER_C0);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_WOLFER_C1U))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_WOLFER_C1U);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_WOLFER_C2))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_WOLFER_C2);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_WOLFER_SKY01))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_WOLFER_SKY01);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_WOLFER_V1))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_WOLFER_V1);
+
+			if (!Directory::Exists(FOLDER_CONST_AEM_WOLFER_GUOBOPA))
+				Directory::CreateDirectory(FOLDER_CONST_AEM_WOLFER_GUOBOPA);
+		}
+
+		// [Future Enchancement] Reserved for future development or tester platform combination.
+	}
+	
+	//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> BoardLossFileFolder [Init Related Variables]
+	int TestFunction::InitializeBoardLossFileFolder(int tfSite)
+	{
+		/*****************************************************************************************************
+		** InitializeBoardLossFileFolder
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to initialize helper function/variables that are related to the 'BoardLossFileFolder' folder.
+		**		Target directory: C:\Aemulus\techFlow3\Projects\TestRecipes\'SampleProfile'\'Project'\BoardLossFileFolder
+		**		This function support file/folder checking, file/folder creation, content checking, and factor loading.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		glob->BoardLoss.isCreateNewBoardLossFile = false;
+		glob->BoardLoss.BoardLossFileFolderDirectory = glob->tf.RecipeFilePathDirectory + "\\" + FILENAME_CONST_PROJECT_BOARDLOSSFILEFOLDER;
+		glob->BoardLoss.BoardLossFileDirectory = glob->BoardLoss.BoardLossFileFolderDirectory + "\\" + glob->TesterId + "_" + FILENAME_CONST_PROJECT_BOARDLOSS + "_" + glob->tf.ProjectName + "_Site" + tfSite.ToString() + ".csv";
+		String ^ csvFileName = glob->TesterId + "_" + FILENAME_CONST_PROJECT_BOARDLOSS + "_" + glob->tf.ProjectName + "_Site" + tfSite.ToString() + ".csv";
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder] Initialize '" + FILENAME_CONST_PROJECT_BOARDLOSSFILEFOLDER + "' folder. Target directory: " + glob->BoardLoss.BoardLossFileFolderDirectory + ".");
+
+		// Check 'BoardLossFileFolder' folder existence in the project 'TestRecipes' folder
+		if (!Directory::Exists(glob->BoardLoss.BoardLossFileFolderDirectory))
+		{
+			ret = ER_CONST_PROJECT_BOARDLOSSFILEFOLDER_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder] '" + FILENAME_CONST_PROJECT_BOARDLOSSFILEFOLDER + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROJECT_BOARDLOSSFILEFOLDER + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'BoardLossFileFolder' folder
+			Directory::CreateDirectory(glob->BoardLoss.BoardLossFileFolderDirectory);
+			glob->BoardLoss.isCreateNewBoardLossFile = true;
+			goto CreateNewBoardLossFile;
+		}
+
+		// Check 'BoardLossFileFolder' -> 'Archive' folder existence in the project 'TestRecipes' folder
+		if (!Directory::Exists(glob->BoardLoss.BoardLossFileFolderDirectory + "\\Archive"))
+		{
+			ret = ER_CONST_PROJECT_BOARDLOSSFILEFOLDER_ARCHIVEFOLDER_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder] '" + FILENAME_CONST_ARCHIVE + "' folder does not exist in the '" + FILENAME_CONST_PROJECT_BOARDLOSSFILEFOLDER + "' folder in the target directory. A new '" + FILENAME_CONST_ARCHIVE + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'BoardLossFileFolder' -> 'Archive' folder
+			Directory::CreateDirectory(glob->BoardLoss.BoardLossFileFolderDirectory + "\\Archive");
+		}
+
+		// Check 'BoardLoss_TesterID_Sx.csv' file existence in the project 'TestRecipes\BoardLossFileFolder' folder
+		if (!File::Exists(glob->BoardLoss.BoardLossFileDirectory))
+		{
+			ret = ER_CONST_PROJECT_BOARDLOSSFILE_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder] '" + csvFileName + "' file does not exist in the '" + FILENAME_CONST_PROJECT_BOARDLOSSFILEFOLDER + "' folder. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			glob->BoardLoss.isCreateNewBoardLossFile = true;
+			goto CreateNewBoardLossFile;
+		}
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder] Check '" + csvFileName + "' file format and content.");
+		// Check the existing 'BoardLoss_TesterID_Sx.csv' file contents
+		CheckExistingBoardLossFileContent(tfSite, glob->BoardLoss.BoardLossFileDirectory, csvFileName);
+
+	CreateNewBoardLossFile:
+
+		// To check whether need to generate a new 'BoardLoss_TesterID_Sx.csv'
+		if (glob->BoardLoss.isCreateNewBoardLossFile == true)
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder] Generate new '" + csvFileName + "' file (with empty boardloss factor).");
+			// Copy all the existing files into the 'Archive' folder, delete all files
+			int temp_FileCount = Directory::GetFiles(glob->BoardLoss.BoardLossFileFolderDirectory, "*.csv")->Length;
+			array<String^> ^ temp_FileDirectory = gcnew array<String^>(temp_FileCount);
+			temp_FileDirectory = Directory::GetFiles(glob->BoardLoss.BoardLossFileFolderDirectory, "*.csv");
+			for (int i = 0; i < temp_FileCount; i++)
+			{
+				array<String^> ^ temp_ArrStr = gcnew array<String ^>(0);
+				array<String^> ^ temp_Separator = gcnew array<String ^>(1);
+				temp_Separator[0] = "\\";
+				temp_ArrStr = temp_FileDirectory[i]->Split(temp_Separator, StringSplitOptions::None);
+				File::Copy(temp_FileDirectory[i], glob->BoardLoss.BoardLossFileFolderDirectory + "\\Archive\\" + temp_ArrStr[8], true);
+			}
+			for (int i = 0; i < temp_FileCount; i++)
+			{
+				File::Delete(temp_FileDirectory[i]);
+			}
+			// Generate 'BoardLoss_TesterID_Sx.csv'
+			GenerateBoardLossFile(tfSite, glob->BoardLoss.BoardLossFileDirectory);
+		}
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder] Load boardloss factor from '" + csvFileName + "' file.");
+		// Load boardloss factor from 'BoardLoss_TesterID_Sx.csv' file and the key is hardware path name
+		glob->BoardLoss.BoardLossFactor = gcnew Dictionary<String^, array<double>^>();
+		LoadBoardLossFile(tfSite, glob->BoardLoss.BoardLossFileDirectory);
+		glob->BoardLoss.isCreateNewBoardLossFile = false;
+
+	EndOfTest:
 		return ret;
+	}
+
+	
+	//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> DeviceStateFileTemplate [Init Related Variables]
+	int TestFunction::InitializeDeviceStateFileTemplateFolder(int tfSite)
+	{
+		/*****************************************************************************************************
+		** InitializeDeviceStateFileTemplateFolder
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to initialize helper function/variables that are related to the 'DeviceStateFileTemplate' folder.
+		**		Target directory: C:\Aemulus\techFlow3\Projects\TestRecipes\'SampleProfile'\'Project'\DeviceStateFileTemplate
+		**		This function support file/folder checking and file loading.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		glob->DeviceStateFileTemplate.DeviceStateFileTemplateDirectory = glob->tf.RecipeFilePathDirectory + "\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE;
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder] Initialize '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder. Target directory: " + glob->DeviceStateFileTemplate.DeviceStateFileTemplateDirectory + ".");
+
+		// Check 'DeviceStateFileTemplate' folder existence in the project 'TestRecipes' folder
+		if (!Directory::Exists(glob->DeviceStateFileTemplate.DeviceStateFileTemplateDirectory))
+		{
+			ret = ER_CONST_PROJECT_DEVICESTATEFILETEMPLATE_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder] '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder does not exist in the target director. A new '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'DeviceStateFileTemplate' folder
+			Directory::CreateDirectory(glob->DeviceStateFileTemplate.DeviceStateFileTemplateDirectory);
+		}
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder] Load device state file and mapping file from '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder.");
+		// Load device state file & mapping file directory from 'DeviceStateFileTemplate' folder
+		glob->DeviceStateFileTemplate.isDeviceStateFileTemplateStateFIleInvalid = false;
+		glob->DeviceStateFileTemplate.isDeviceStateFileTemplateMappingFileInvalid = false;
+		LoadDeviceStateFileTemplate(tfSite);
+		// [Info] For the local device state file and mapping file verification and operation, will be handle at InitializeTester()
+
+	EndOfTest:
+		return ret;
+	}
+
+	//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> FixedOffsetFileFolder [Init Related Variables]
+	int TestFunction::InitializeFixedOffsetFileFolder(Site ^ site, int tfSite)
+	{
+		/*****************************************************************************************************
+		** InitializeFixedOffsetFileFolder
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to initialize helper function/variables that are related to the 'FixedOffsetFileFolder' folder.
+		**		Target directory: C:\Aemulus\techFlow3\Projects\TestRecipes\'SampleProfile'\'Project'\FixedOffsetFileFolder
+		**		This function support file/folder checking, file/folder creation, content checking, and factor loading.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		glob->FixedOffset.isCreateNewFixedOffsetFile = false;
+		glob->FixedOffset.FixedOffsetFileFolderDirectory = glob->tf.RecipeFilePathDirectory + "\\" + FILENAME_CONST_PROJECT_FIXEDOFFSETFILEFOLDER;
+		//glob->FixedOffset.FixedOffsetFileDirectory			= glob->FixedOffset.FixedOffsetFileFolderDirectory + "\\" + glob->TesterId + "_" + FILENAME_CONST_PROJECT_FIXEDOFFSET + "_" + glob->tf.ProjectName + "_Site" + tfSite.ToString() + ".csv";
+		//String ^ csvFileName								= glob->TesterId + "_" + FILENAME_CONST_PROJECT_FIXEDOFFSET + "_" + glob->tf.ProjectName + "_Site" + tfSite.ToString() + ".csv";
+		glob->FixedOffset.FixedOffsetFileDirectory = glob->FixedOffset.FixedOffsetFileFolderDirectory + "\\" + glob->TesterId + "_" + glob->tf.ProjectName + "_CorrFactor_S" + tfSite.ToString() + ".csv";
+		String ^ csvFileName = glob->TesterId + "_" + glob->tf.ProjectName + "_CorrFactor_S" + tfSite.ToString() + ".csv";
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder] Initialize '" + FILENAME_CONST_PROJECT_FIXEDOFFSETFILEFOLDER + "' folder. Target directory: " + glob->FixedOffset.FixedOffsetFileFolderDirectory + ".");
+
+		// Check 'FixedOffsetFileFolder' folder existence in the project 'TestRecipes' folder
+		if (!Directory::Exists(glob->FixedOffset.FixedOffsetFileFolderDirectory))
+		{
+			ret = ER_CONST_PROJECT_FIXEDOFFSETFILEFOLDER_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder] '" + FILENAME_CONST_PROJECT_FIXEDOFFSETFILEFOLDER + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROJECT_FIXEDOFFSETFILEFOLDER + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'FixedOffsetFileFolder' folder
+			Directory::CreateDirectory(glob->FixedOffset.FixedOffsetFileFolderDirectory);
+			glob->FixedOffset.isCreateNewFixedOffsetFile = true;
+			goto CreateNewFixedOffsetFile;
+		}
+
+		// Check 'FixedOffsetFileFolder' -> 'Archive' folder existence in the project 'TestRecipes' folder
+		if (!Directory::Exists(glob->FixedOffset.FixedOffsetFileFolderDirectory + "\\Archive"))
+		{
+			ret = ER_CONST_PROJECT_FIXEDOFFSETFILEFOLDER_ARCHIVEFOLDER_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder] '" + FILENAME_CONST_ARCHIVE + "' folder does not exist in the '" + FILENAME_CONST_PROJECT_FIXEDOFFSETFILEFOLDER + "' folder in the target directory. A new '" + FILENAME_CONST_ARCHIVE + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'FixedOffsetFileFolder' -> 'Archive' folder
+			Directory::CreateDirectory(glob->FixedOffset.FixedOffsetFileFolderDirectory + "\\Archive");
+		}
+
+		// Check 'FixedOffset_TesterID_Sx.csv' file existence in the project 'TestRecipes\FixedOffsetFileFolder' folder
+		if (!File::Exists(glob->FixedOffset.FixedOffsetFileDirectory))
+		{
+			ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder] '" + csvFileName + "' file does not exist in the '" + FILENAME_CONST_PROJECT_FIXEDOFFSETFILEFOLDER + "' folder. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			glob->FixedOffset.isCreateNewFixedOffsetFile = true;
+			goto CreateNewFixedOffsetFile;
+		}
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder] Check '" + csvFileName + "' file format and content.");
+		// Compare and check the existing 'FixedOffset_TesterID_Sx.csv' contents with the project test recipes contents
+		CheckExistingFixedOffsetFileContent(site, tfSite, glob->FixedOffset.FixedOffsetFileDirectory, csvFileName);
+
+	CreateNewFixedOffsetFile:
+
+		// To check whether need to generate a new 'FixedOffset_TesterID_Sx.csv'
+		if ((glob->FixedOffset.isCreateNewFixedOffsetFile == true) || (glob->AWV.CreateFixedOffsetFile == true))
+		{
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder] Generate new '" + csvFileName + "' file (with empty fixed offset factor).");
+			// Copy all the existing files into the 'Archive' folder, delete all files
+			int temp_FileCount = Directory::GetFiles(glob->FixedOffset.FixedOffsetFileFolderDirectory, "*.csv")->Length;
+			array<String^> ^ temp_FileDirectory = gcnew array<String^>(temp_FileCount);
+			temp_FileDirectory = Directory::GetFiles(glob->FixedOffset.FixedOffsetFileFolderDirectory, "*.csv");
+			for (int i = 0; i < temp_FileCount; i++)
+			{
+				array<String^> ^ temp_ArrStr = gcnew array<String ^>(0);
+				array<String^> ^ temp_Separator = gcnew array<String ^>(1);
+				temp_Separator[0] = "\\";
+				temp_ArrStr = temp_FileDirectory[i]->Split(temp_Separator, StringSplitOptions::None);
+				File::Copy(temp_FileDirectory[i], glob->FixedOffset.FixedOffsetFileFolderDirectory + "\\Archive\\" + temp_ArrStr[8], true);
+			}
+			for (int i = 0; i < temp_FileCount; i++)
+			{
+				File::Delete(temp_FileDirectory[i]);
+			}
+			// Generate 'FixedOffset_TesterID_Sx.csv'
+			GenerateFixedOffsetFile(site, tfSite, glob->FixedOffset.FixedOffsetFileDirectory);
+		}
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder] Load fixed offset factor from '" + csvFileName + "' file.");
+		// Load fixed offset factor from 'FixedOffset_TesterID_Sx.csv' file and the key is test parameter name
+		//glob->FixedOffset.ResultOffset = gcnew Dictionary<String^, array<double>^>();
+		glob->FixedOffset.ResultOffset = gcnew Dictionary<String^, double>();
+
+		//LoadFixedOffsetFile(tfSite, glob->FixedOffset.FixedOffsetFileDirectory);
+		glob->FixedOffset.isCreateNewFixedOffsetFile = false;
+
+	EndOfTest:
+		return ret;
+	}
+
+	//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> ModulationFileFolderSitex [Init Related Variables]
+	int TestFunction::InitializeModulationFileFolder(int tfSite)
+		//[Enhancement] Upgrade 7600 to use this
+	{
+		/*****************************************************************************************************
+		** InitializeModulationFileFolder
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to initialize helper function/variables that are related to the 'ModulationFileFolderSitex' folder.
+		**		Target directory: C:\Aemulus\techFlow3\Projects\TestRecipes\'SampleProfile'\'Project'\ModulationFileFolderSitex
+		**		This function support file/folder checking and file loading.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+	//	glob->ModulationFile.ModulationFileFolderDirectory = glob->tf.RecipeFilePathDirectory + "\\" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString();
+
+	//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder] Initialize '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDERSITEX + "' folder. Target directory: " + glob->ModulationFile.ModulationFileFolderDirectory + ".");
+
+	//	if (!Directory::Exists(glob->ModulationFile.ModulationFileFolderDirectory))
+	//	{
+	//		ret = ER_CONST_PROJECT_MODULATIONFILEFOLDER_NOT_FOUND;
+	//		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeModulationFileFolder] '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder does not exist in the target directory. A new '" FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+	//		ret = 0;
+	//		// Create 'ModulationFileFolderSitex' folder
+	//		Directory::CreateDirectory(glob->ModulationFile.ModulationFileFolderDirectory);
+	//	}
+
+	//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder] Load modulation file list from '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder.");
+	//	// Load modulation file list from 'ModulationFileFolderSitex' folder
+	//	LoadModulationFile(tfSite);
+
+	//EndOfTest:
+		return ret;
+	}
+
+	//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> VectorFileFolderSiteX [Init Related Variables]
+	int TestFunction::InitializeVectorFileFolder(int tfSite)
+	{
+		/*****************************************************************************************************
+		** InitializeVectorFileFolder
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to initialize helper function/variables that are related to the 'VectorFileFolderSitex' folder.
+		**		Target directory: C:\Aemulus\techFlow3\Projects\TestRecipes\'SampleProfile'\'Project'\VectorFileFolderSitex
+		**		This function support file/folder checking and file loading.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		glob->VectorFile.VectorFileFolderDirectory = glob->tf.RecipeFilePathDirectory + "\\" + FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString();
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorFileFolder] Initialize '" + FILENAME_CONST_PROJECT_VECTORFILEFOLDERSITEX + "' folder. Target directory: " + glob->VectorFile.VectorFileFolderDirectory + ".");
+
+		// Check 'VectorFileFolderSitex' folder existence in the project 'TestRecipes' folder
+		if (!Directory::Exists(glob->VectorFile.VectorFileFolderDirectory))
+		{
+			ret = ER_CONST_PROJECT_VECTORFILEFOLDER_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeVectorFileFolder] '" + FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString() + "' folder does not exist in the target directory. A new '" FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString() + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'VectorFileFolderSitex' folder
+			Directory::CreateDirectory(glob->VectorFile.VectorFileFolderDirectory);
+		}
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorFileFolder] Load vector file list from '" + FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString() + "' folder.");
+		// Load vector file list from 'VectorFileFolderSitex' folder
+		LoadVectorFile(tfSite);
+
+	EndOfTest:
+		return ret;
+	}
+
+	//C --> Aemulus --> techFlow3 --> Projects --> TestRecipes --> 'SampleProfile' --> 'Project' --> VectorStateFileFolderSiteX [Init Related Variables]
+	int TestFunction::InitializeVectorStateFileFolder(int tfSite)
+	{
+		/*****************************************************************************************************
+		** InitializeVectorStateFileFolder
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to initialize helper function/variables that are related to the 'VectorStateFileFolderSitex' folder.
+		**		Target directory: C:\Aemulus\techFlow3\Projects\TestRecipes\'SampleProfile'\'Project'\VectorStateFileFolderSitex
+		**		This function support file/folder checking and file loading.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		glob->VectorStateFile.VectorStateFileFolderDirectory = glob->tf.RecipeFilePathDirectory + "\\" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString();
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorStateFileFolder] Initialize '" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDERSITEX + "' folder. Target directory: " + glob->VectorStateFile.VectorStateFileFolderDirectory + ".");
+
+		// Check 'VectorStateFileFolderSitex' folder existence in the project 'TestRecipes' folder
+		if (!Directory::Exists(glob->VectorStateFile.VectorStateFileFolderDirectory))
+		{
+			ret = ER_CONST_PROJECT_VECTORSTATEFILEFOLDER_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeVectorStateFileFolder] '" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString() + "' folder does not exist in the target directory. A new '" FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString() + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			ret = 0;
+			// Create 'VectorStateFileFolderSitex' folder
+			Directory::CreateDirectory(glob->VectorStateFile.VectorStateFileFolderDirectory);
+		}
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorStateFileFolder] Load vector state file list from '" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString() + "' folder.");
+		// Load vector state file list from 'VectorStateFileFolderSitex' folder
+		LoadVectorStateFile(tfSite);
+
+#pragma region "Verification: check VectorFile & VectorStateFile Info"
+
+		if (glob->VectorFile.totalVecFileExist != glob->VectorStateFile.totalVecStateFileExist)
+		{
+			ret = ER_CONST_PROJECT_VECTORFILE_VECTORSTATEFILE_CONTENT_NOT_MATCH;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeVectorFileFolder & InitializeVectorStateFileFolder] 'VectorFile' and 'VectorStateFile' files amount are not match." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		for (int i = 0; i < glob->VectorFile.totalVecFileExist; i++)
+		{
+			if (glob->VectorFile.vecFileName[i] != glob->VectorStateFile.vecStateFileName[i])
+			{
+				ret = ER_CONST_PROJECT_VECTORFILE_VECTORSTATEFILE_CONTENT_NOT_MATCH;
+				WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeVectorFileFolder & InitializeVectorStateFileFolder] 'VectorFile' and 'VectorStateFile' filename are not match." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				return ret;
+			}
+		}
+
+		if (glob->VectorFile.totalVecFileExist > 1024)
+		{
+			ret = ER_CONST_PROJECT_VECTORFILE_EXCEED_MAX_COUNT;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeVectorFileFolder & InitializeVectorStateFileFolder] 'VectorFile' amount cannot exceed 1024x file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+#pragma endregion
+
+		EndOfTest:
+				 return ret;
+	}
+
+	//Resource Manager Property (AEM DC Module)
+	int TestFunction::InitializeResourceManagerProperty(Site ^ site, int tfSite)
+	{
+		/*****************************************************************************************************
+		** InitializeResourceManagerProperty
+		**		site - This is techFlow site object.
+		**
+		** Descriptions:
+		**		This is a function to get project resource properties.
+		**		Including module alias, pin alias, pin map name, alias info.
+		**		Only for AEM DC module, such as CM, AM, DM, IOM, ACM, TM.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeResourceManagerProperty] Initialize resource management property. Target directory: " + glob->tf.RecipeFilePathDirectory + ".");
+
+		// Get project hardware profile
+		if (String::IsNullOrEmpty(site->Recipe->ResourceMappingFilePath) == false)
+		{
+			glob->HardwareProfile = site->Recipe->ResourceMappingFilePath;
+		}
+		else
+		{
+			ret = ER_CONST_PROJECT_HARDWARE_PROFILE_NOT_FOUND;
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeResourceManagerProperty] Hardware profile (project AMAP) does not exist in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			return ret;
+		}
+
+		// To get all the info from the resource planner
+		int totalSiteIndex = 0;
+		if ((glob->tf.ProjectType == int(ProjectType::SingleTFSiteSingleUUTOffset)) || (glob->tf.ProjectType == int(ProjectType::TrueParallelSingleUUTOffset)))
+		{
+			totalSiteIndex = glob->tf.TotalTestSite;
+		}
+		else if ((glob->tf.ProjectType == int(ProjectType::SingleTFSiteMultiUUTOffset)) || (glob->tf.ProjectType == int(ProjectType::TrueParallelMultiUUTOffset) || glob->tf.ProjectType == int(ProjectType::SingleTFSiteMultiUUTOffsetSharedVNA)))
+		{
+			totalSiteIndex = glob->tf.TotalUUTOffsets;
+		}
+		else if (glob->tf.ProjectType == int(ProjectType::IndexParallel))
+		{
+			// [Future Enchancement] reserved for index parallel project.
+		}
+
+		// Resource Manager
+		glob->RsrcManager.RsrcMngr = gcnew array<ResourceManager^>(totalSiteIndex);
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			glob->RsrcManager.RsrcMngr[i] = nullptr;
+			glob->RsrcManager.RsrcMngr[i] = gcnew ResourceManager(glob->HardwareProfile, glob->tf.TestHead, i);
+		}
+
+#pragma region "CM400 Series Module Alias & Pin Alias"
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.cmModuleCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((hardwareResource->Hierarchy->Length == 1) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_CM) == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_CM200e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_CM201e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_CM400e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_CM401e) == true)) &&
+					((hardwareResource->Type->StartsWith(ModuleName_CM200e)) ||
+					(hardwareResource->Type->StartsWith(ModuleName_CM201e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_CM400e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_CM401e))))
+				{
+					glob->RsrcManager.cmModuleCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.moduleAlias_CM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.cmModuleCount);
+		glob->RsrcManager.moduleAlias_CM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.cmModuleCount);
+		glob->RsrcManager.hardwareStatus_CM = gcnew array<bool, 2>(totalSiteIndex, glob->RsrcManager.cmModuleCount);
+
+		if (glob->RsrcManager.cmModuleCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.cmModuleCount; j++)
+				{
+					glob->RsrcManager.moduleAlias_CM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.moduleAlias_CM_Address[i, j] = String::Empty;
+					glob->RsrcManager.hardwareStatus_CM[i, j] = false;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int cmModuleIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			cmModuleIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((hardwareResource->Hierarchy->Length == 1) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_CM) == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_CM200e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_CM201e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_CM400e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_CM401e) == true)) &&
+						((hardwareResource->Type->StartsWith(ModuleName_CM200e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_CM201e)) ||
+							(hardwareResource->Type->StartsWith(ModuleName_CM400e)) ||
+							(hardwareResource->Type->StartsWith(ModuleName_CM401e))))
+					{
+						glob->RsrcManager.moduleAlias_CM_PinMapName[i, cmModuleIndex] = Rsrc->ToString();						// "Module Alias Name"
+						glob->RsrcManager.moduleAlias_CM_Address[i, cmModuleIndex] = hardwareResource->Value->ToString();	// "PXIXX::0::INSTR"
+						glob->RsrcManager.hardwareStatus_CM[i, cmModuleIndex] = true;
+						cmModuleIndex++;
+					}
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.cmPinCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((glob->RsrcManager.hardwareStatus_CM->Length != 0) &&
+				(hardwareResource->Hierarchy->Length == 2) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_CM) == true) &&
+				(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_CM200e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_CM201e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_CM400e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_CM401e) == true)) &&
+					(hardwareResource->Type->StartsWith("Pin")))
+				{
+					glob->RsrcManager.cmPinCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.pinAlias_CM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.cmPinCount);
+		glob->RsrcManager.pinAlias_CM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.cmPinCount);
+		glob->RsrcManager.pinAlias_CM_HwResourceAlias = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.cmPinCount);
+
+		if (glob->RsrcManager.cmPinCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.cmPinCount; j++)
+				{
+					glob->RsrcManager.pinAlias_CM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_CM_Address[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_CM_HwResourceAlias[i, j] = String::Empty;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int cmPinIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			cmPinIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((glob->RsrcManager.hardwareStatus_CM->Length != 0) &&
+					(hardwareResource->Hierarchy->Length == 2) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_CM) == true) &&
+					(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_CM200e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_CM201e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_CM400e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_CM401e) == true)) &&
+						(hardwareResource->Type->StartsWith("Pin")))
+					{
+						glob->RsrcManager.pinAlias_CM_PinMapName[i, cmPinIndex] = Rsrc->ToString();								// "Pin Alias Name"
+						glob->RsrcManager.pinAlias_CM_Address[i, cmPinIndex] = hardwareResource->Hierarchy[0]->ToString();	// "XMXXXe=PXIXX::0::INSTR"
+						glob->RsrcManager.pinAlias_CM_HwResourceAlias[i, cmPinIndex] = hardwareResource->Alias->ToString();			// "XMXXXe_X_ChX"
+						cmPinIndex++;
+					}
+				}
+			}
+		}
+
+#pragma endregion
+
+#pragma region "AM400 Series Module Alias & Pin Alias"
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.amModuleCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((hardwareResource->Hierarchy->Length == 1) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_AM) == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_AM430e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_AM450e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_AM451e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_AM471e) == true)) &&
+					((hardwareResource->Type->StartsWith(ModuleName_AM430e)) ||
+					(hardwareResource->Type->StartsWith(ModuleName_AM450e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_AM451e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_AM471e))))
+				{
+					glob->RsrcManager.amModuleCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.moduleAlias_AM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.amModuleCount);
+		glob->RsrcManager.moduleAlias_AM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.amModuleCount);
+		glob->RsrcManager.hardwareStatus_AM = gcnew array<bool, 2>(totalSiteIndex, glob->RsrcManager.amModuleCount);
+
+		if (glob->RsrcManager.amModuleCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.amModuleCount; j++)
+				{
+					glob->RsrcManager.moduleAlias_AM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.moduleAlias_AM_Address[i, j] = String::Empty;
+					glob->RsrcManager.hardwareStatus_AM[i, j] = false;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int amModuleIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			amModuleIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((hardwareResource->Hierarchy->Length == 1) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_AM) == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_AM430e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_AM450e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_AM451e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_AM471e) == true)) &&
+						((hardwareResource->Type->StartsWith(ModuleName_AM430e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_AM450e)) ||
+							(hardwareResource->Type->StartsWith(ModuleName_AM451e)) ||
+							(hardwareResource->Type->StartsWith(ModuleName_AM471e))))
+					{
+						glob->RsrcManager.moduleAlias_AM_PinMapName[i, amModuleIndex] = Rsrc->ToString();
+						glob->RsrcManager.moduleAlias_AM_Address[i, amModuleIndex] = hardwareResource->Value->ToString();
+						glob->RsrcManager.hardwareStatus_AM[i, amModuleIndex] = true;
+						amModuleIndex++;
+					}
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.amPinCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((glob->RsrcManager.hardwareStatus_AM->Length != 0) &&
+				(hardwareResource->Hierarchy->Length == 2) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_AM) == true) &&
+				(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_AM430e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_AM450e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_AM451e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_AM471e) == true)) &&
+					(hardwareResource->Type->StartsWith("Pin")))
+				{
+					glob->RsrcManager.amPinCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.pinAlias_AM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.amPinCount);
+		glob->RsrcManager.pinAlias_AM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.amPinCount);
+		glob->RsrcManager.pinAlias_AM_HwResourceAlias = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.amPinCount);
+
+		if (glob->RsrcManager.amPinCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.amPinCount; j++)
+				{
+					glob->RsrcManager.pinAlias_AM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_AM_Address[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_AM_HwResourceAlias[i, j] = String::Empty;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int amPinIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			amPinIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((glob->RsrcManager.hardwareStatus_AM->Length != 0) &&
+					(hardwareResource->Hierarchy->Length == 2) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_AM) == true) &&
+					(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_AM430e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_AM450e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_AM451e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_AM471e) == true)) &&
+						(hardwareResource->Type->StartsWith("Pin")))
+					{
+						glob->RsrcManager.pinAlias_AM_PinMapName[i, amPinIndex] = Rsrc->ToString();
+						glob->RsrcManager.pinAlias_AM_Address[i, amPinIndex] = hardwareResource->Hierarchy[0]->ToString();
+						glob->RsrcManager.pinAlias_AM_HwResourceAlias[i, amPinIndex] = hardwareResource->Alias->ToString();
+						amPinIndex++;
+					}
+				}
+			}
+		}
+
+#pragma endregion
+
+#pragma region "DM400 Series Module Alias & Pin Alias"
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.dmModuleCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((hardwareResource->Hierarchy->Length == 1) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_DM) == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_DM481e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_DM482e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_DM483e) == true)) &&
+					((hardwareResource->Type->StartsWith(ModuleName_DM481e)) ||
+					(hardwareResource->Type->StartsWith(ModuleName_DM482e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_DM483e))))
+				{
+					glob->RsrcManager.dmModuleCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.moduleAlias_DM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.dmModuleCount);
+		glob->RsrcManager.moduleAlias_DM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.dmModuleCount);
+		glob->RsrcManager.hardwareStatus_DM = gcnew array<bool, 2>(totalSiteIndex, glob->RsrcManager.dmModuleCount);
+
+		if (glob->RsrcManager.dmModuleCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.dmModuleCount; j++)
+				{
+					glob->RsrcManager.moduleAlias_DM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.moduleAlias_DM_Address[i, j] = String::Empty;
+					glob->RsrcManager.hardwareStatus_DM[i, j] = false;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int dmModuleIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			dmModuleIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((hardwareResource->Hierarchy->Length == 1) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_DM) == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_DM481e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_DM482e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_DM483e) == true)) &&
+						((hardwareResource->Type->StartsWith(ModuleName_DM481e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_DM482e)) ||
+							(hardwareResource->Type->StartsWith(ModuleName_DM483e))))
+					{
+						glob->RsrcManager.moduleAlias_DM_PinMapName[i, dmModuleIndex] = Rsrc->ToString();
+						glob->RsrcManager.moduleAlias_DM_Address[i, dmModuleIndex] = hardwareResource->Value->ToString();
+						glob->RsrcManager.hardwareStatus_DM[i, dmModuleIndex] = true;
+						dmModuleIndex++;
+					}
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.dmPinCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((glob->RsrcManager.hardwareStatus_DM->Length != 0) &&
+				(hardwareResource->Hierarchy->Length == 2) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_DM) == true) &&
+				(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_DM481e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_DM482e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_DM483e) == true)) &&
+					(hardwareResource->Type->StartsWith("Pin")))
+				{
+					glob->RsrcManager.dmPinCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.pinAlias_DM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.dmPinCount);
+		glob->RsrcManager.pinAlias_DM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.dmPinCount);
+		glob->RsrcManager.pinAlias_DM_HwResourceAlias = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.dmPinCount);
+
+		if (glob->RsrcManager.dmPinCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.dmPinCount; j++)
+				{
+					glob->RsrcManager.pinAlias_DM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_DM_Address[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_DM_HwResourceAlias[i, j] = String::Empty;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int dmPinIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			dmPinIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((glob->RsrcManager.hardwareStatus_DM->Length != 0) &&
+					(hardwareResource->Hierarchy->Length == 2) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_DM) == true) &&
+					(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_DM481e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_DM482e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_DM483e) == true)) &&
+						(hardwareResource->Type->StartsWith("Pin")))
+					{
+						glob->RsrcManager.pinAlias_DM_PinMapName[i, dmPinIndex] = Rsrc->ToString();
+						glob->RsrcManager.pinAlias_DM_Address[i, dmPinIndex] = hardwareResource->Hierarchy[0]->ToString();
+						glob->RsrcManager.pinAlias_DM_HwResourceAlias[i, dmPinIndex] = hardwareResource->Alias->ToString();
+						dmPinIndex++;
+					}
+				}
+			}
+		}
+
+#pragma endregion
+
+#pragma region "IOM400 Series Module Alias & Pin Alias"
+
+		// [Future Enchancement] To cater IOM module alias, port alias, pin alias.
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.iomModuleCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((hardwareResource->Hierarchy->Length == 1) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_IOM) == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_IOM420e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_IOM421) == true)) &&
+					((hardwareResource->Type->StartsWith(ModuleName_IOM420e)) ||
+					(hardwareResource->Type->StartsWith(ModuleName_IOM421))))
+				{
+					glob->RsrcManager.iomModuleCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.moduleAlias_IOM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.iomModuleCount);
+		glob->RsrcManager.moduleAlias_IOM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.iomModuleCount);
+		glob->RsrcManager.hardwareStatus_IOM = gcnew array<bool, 2>(totalSiteIndex, glob->RsrcManager.iomModuleCount);
+
+		if (glob->RsrcManager.iomModuleCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.iomModuleCount; j++)
+				{
+					glob->RsrcManager.moduleAlias_IOM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.moduleAlias_IOM_Address[i, j] = String::Empty;
+					glob->RsrcManager.hardwareStatus_IOM[i, j] = false;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int iomModuleIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			iomModuleIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((hardwareResource->Hierarchy->Length == 1) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_IOM) == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_IOM420e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_IOM421) == true)) &&
+						((hardwareResource->Type->StartsWith(ModuleName_IOM420e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_IOM421))))
+					{
+						glob->RsrcManager.moduleAlias_IOM_PinMapName[i, iomModuleIndex] = Rsrc->ToString();
+						glob->RsrcManager.moduleAlias_IOM_Address[i, iomModuleIndex] = hardwareResource->Value->ToString();
+						glob->RsrcManager.hardwareStatus_IOM[i, iomModuleIndex] = true;
+						iomModuleIndex++;
+					}
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.iomPinCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((glob->RsrcManager.hardwareStatus_IOM->Length != 0) &&
+				(hardwareResource->Hierarchy->Length == 2) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_IOM) == true) &&
+				(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_IOM420e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_IOM421) == true)) &&
+					(hardwareResource->Type->StartsWith("Pin")))
+				{
+					glob->RsrcManager.iomPinCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.pinAlias_IOM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.iomPinCount);
+		glob->RsrcManager.pinAlias_IOM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.iomPinCount);
+		glob->RsrcManager.pinAlias_IOM_HwResourceAlias = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.iomPinCount);
+
+		if (glob->RsrcManager.iomPinCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.iomPinCount; j++)
+				{
+					glob->RsrcManager.pinAlias_IOM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_IOM_Address[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_IOM_HwResourceAlias[i, j] = String::Empty;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int iomPinIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			iomPinIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((glob->RsrcManager.hardwareStatus_IOM->Length != 0) &&
+					(hardwareResource->Hierarchy->Length == 2) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_IOM) == true) &&
+					(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_IOM420e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_IOM421) == true)) &&
+						(hardwareResource->Type->StartsWith("Pin")))
+					{
+						glob->RsrcManager.pinAlias_IOM_PinMapName[i, iomPinIndex] = Rsrc->ToString();
+						glob->RsrcManager.pinAlias_IOM_Address[i, iomPinIndex] = hardwareResource->Hierarchy[0]->ToString();
+						glob->RsrcManager.pinAlias_IOM_HwResourceAlias[i, iomPinIndex] = hardwareResource->Alias->ToString();
+						iomPinIndex++;
+					}
+				}
+			}
+		}
+
+#pragma endregion
+
+#pragma region "ACM400 Series Module Alias & Pin Alias"
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.acmModuleCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((hardwareResource->Hierarchy->Length == 1) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_ACM) == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_ACM432e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_ACM433e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_ACM434e) == true)) &&
+					((hardwareResource->Type->StartsWith(ModuleName_ACM432e)) ||
+					(hardwareResource->Type->StartsWith(ModuleName_ACM433e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_ACM434e))))
+				{
+					glob->RsrcManager.acmModuleCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.moduleAlias_ACM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.acmModuleCount);
+		glob->RsrcManager.moduleAlias_ACM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.acmModuleCount);
+		glob->RsrcManager.hardwareStatus_ACM = gcnew array<bool, 2>(totalSiteIndex, glob->RsrcManager.acmModuleCount);
+
+		if (glob->RsrcManager.acmModuleCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.acmModuleCount; j++)
+				{
+					glob->RsrcManager.moduleAlias_ACM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.moduleAlias_ACM_Address[i, j] = String::Empty;
+					glob->RsrcManager.hardwareStatus_ACM[i, j] = false;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int acmModuleIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			acmModuleIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((hardwareResource->Hierarchy->Length == 1) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_ACM) == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_ACM432e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_ACM433e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_ACM434e) == true)) &&
+						((hardwareResource->Type->StartsWith(ModuleName_ACM432e)) ||
+						(hardwareResource->Type->StartsWith(ModuleName_ACM433e)) ||
+							(hardwareResource->Type->StartsWith(ModuleName_ACM434e))))
+					{
+						glob->RsrcManager.moduleAlias_ACM_PinMapName[i, acmModuleIndex] = Rsrc->ToString();
+						glob->RsrcManager.moduleAlias_ACM_Address[i, acmModuleIndex] = hardwareResource->Value->ToString();
+						glob->RsrcManager.hardwareStatus_ACM[i, acmModuleIndex] = true;
+						acmModuleIndex++;
+					}
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.acmPinCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((glob->RsrcManager.hardwareStatus_ACM->Length != 0) &&
+				(hardwareResource->Hierarchy->Length == 2) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_ACM) == true) &&
+				(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_ACM432e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_ACM433e) == true) ||
+					(hardwareResource->Alias->StartsWith(ModuleName_ACM434e) == true)) &&
+					(hardwareResource->Type->StartsWith("Pin")))
+				{
+					glob->RsrcManager.acmPinCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.pinAlias_ACM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.acmPinCount);
+		glob->RsrcManager.pinAlias_ACM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.acmPinCount);
+		glob->RsrcManager.pinAlias_ACM_HwResourceAlias = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.acmPinCount);
+
+		if (glob->RsrcManager.acmPinCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.acmPinCount; j++)
+				{
+					glob->RsrcManager.pinAlias_ACM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_ACM_Address[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_ACM_HwResourceAlias[i, j] = String::Empty;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int acmPinIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			acmPinIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((glob->RsrcManager.hardwareStatus_ACM->Length != 0) &&
+					(hardwareResource->Hierarchy->Length == 2) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_ACM) == true) &&
+					(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_ACM432e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_ACM433e) == true) ||
+						(hardwareResource->Alias->StartsWith(ModuleName_ACM434e) == true)) &&
+						(hardwareResource->Type->StartsWith("Pin")))
+					{
+						glob->RsrcManager.pinAlias_ACM_PinMapName[i, acmPinIndex] = Rsrc->ToString();
+						glob->RsrcManager.pinAlias_ACM_Address[i, acmPinIndex] = hardwareResource->Hierarchy[0]->ToString();
+						glob->RsrcManager.pinAlias_ACM_HwResourceAlias[i, acmPinIndex] = hardwareResource->Alias->ToString();
+						acmPinIndex++;
+					}
+				}
+			}
+		}
+
+#pragma endregion
+
+#pragma region "TM400 Series Module Alias & Pin Alias"
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.tmModuleCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((hardwareResource->Hierarchy->Length == 1) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_TM) == true))
+			{
+				if (((hardwareResource->Alias->StartsWith(ModuleName_TM460e) == true)) &&
+					((hardwareResource->Type->StartsWith(ModuleName_TM460e))))
+				{
+					glob->RsrcManager.tmModuleCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.moduleAlias_TM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.tmModuleCount);
+		glob->RsrcManager.moduleAlias_TM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.tmModuleCount);
+		glob->RsrcManager.hardwareStatus_TM = gcnew array<bool, 2>(totalSiteIndex, glob->RsrcManager.tmModuleCount);
+
+		if (glob->RsrcManager.tmModuleCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.tmModuleCount; j++)
+				{
+					glob->RsrcManager.moduleAlias_TM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.moduleAlias_TM_Address[i, j] = String::Empty;
+					glob->RsrcManager.hardwareStatus_TM[i, j] = false;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get module alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int tmModuleIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			tmModuleIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((hardwareResource->Hierarchy->Length == 1) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_TM) == true))
+				{
+					if (((hardwareResource->Alias->StartsWith(ModuleName_TM460e) == true)) &&
+						((hardwareResource->Type->StartsWith(ModuleName_TM460e))))
+					{
+						glob->RsrcManager.moduleAlias_TM_PinMapName[i, tmModuleIndex] = Rsrc->ToString();
+						glob->RsrcManager.moduleAlias_TM_Address[i, tmModuleIndex] = hardwareResource->Value->ToString();
+						glob->RsrcManager.hardwareStatus_TM[i, tmModuleIndex] = true;
+						tmModuleIndex++;
+					}
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias type count
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.tmPinCount = 0;
+		// Apply RsrcMngr[0] because don't care about the site, just collect all the pin/module alias
+		for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[0]->MapNames)
+		{
+			Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[0]->ResolveResource(Rsrc)[0];
+
+			if ((glob->RsrcManager.hardwareStatus_TM->Length != 0) &&
+				(hardwareResource->Hierarchy->Length == 2) &&
+				(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_TM) == true) &&
+				(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+			{
+				if ((hardwareResource->Alias->StartsWith(ModuleName_TM460e) == true) &&
+					(hardwareResource->Type->StartsWith("Pin")))
+				{
+					glob->RsrcManager.tmPinCount++;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Setup storage for pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		glob->RsrcManager.pinAlias_TM_PinMapName = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.tmPinCount);
+		glob->RsrcManager.pinAlias_TM_Address = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.tmPinCount);
+		glob->RsrcManager.pinAlias_TM_HwResourceAlias = gcnew array<String^, 2>(totalSiteIndex, glob->RsrcManager.tmPinCount);
+
+		if (glob->RsrcManager.tmPinCount != 0)
+		{
+			for (int i = 0; i < totalSiteIndex; i++)
+			{
+				for (int j = 0; j < glob->RsrcManager.tmPinCount; j++)
+				{
+					glob->RsrcManager.pinAlias_TM_PinMapName[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_TM_Address[i, j] = String::Empty;
+					glob->RsrcManager.pinAlias_TM_HwResourceAlias[i, j] = String::Empty;
+				}
+			}
+		}
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Get pin alias
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int tmPinIndex = 0;
+		for (int i = 0; i < totalSiteIndex; i++)
+		{
+			tmPinIndex = 0;
+			for each (String ^ Rsrc in glob->RsrcManager.RsrcMngr[i]->MapNames)
+			{
+				Resource ^ hardwareResource = glob->RsrcManager.RsrcMngr[i]->ResolveResource(Rsrc)[0];
+
+				if ((glob->RsrcManager.hardwareStatus_TM->Length != 0) &&
+					(hardwareResource->Hierarchy->Length == 2) &&
+					(hardwareResource->Hierarchy[0]->StartsWith(ModuleType_TM) == true) &&
+					(hardwareResource->Hierarchy[1]->StartsWith("Pin") == true))
+				{
+					if ((hardwareResource->Alias->StartsWith(ModuleName_TM460e) == true) &&
+						(hardwareResource->Type->StartsWith("Pin")))
+					{
+						glob->RsrcManager.pinAlias_TM_PinMapName[i, tmPinIndex] = Rsrc->ToString();
+						glob->RsrcManager.pinAlias_TM_Address[i, tmPinIndex] = hardwareResource->Hierarchy[0]->ToString();
+						glob->RsrcManager.pinAlias_TM_HwResourceAlias[i, tmPinIndex] = hardwareResource->Alias->ToString();
+						tmPinIndex++;
+					}
+				}
+			}
+		}
+
+#pragma endregion
+
+		EndOfTest:
+				 return ret;
 	}
 
 	//Multi-UUTOffset Run Test Function 
@@ -968,7 +3321,6 @@ namespace Functions
 	}
 
 	//CheckError & Logger Utilities Functions
-
 	int TestFunction::InitializeTracerLogger(Site ^ site, int tfSite)
 	{
 		/*****************************************************************************************************
@@ -1001,7 +3353,7 @@ namespace Functions
 				// Default set as "None" prefix unit
 				glob->TcrLgr.PrefixValue = 1.0;
 
-				WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeTracerLogger] Initialize tracer logger.");
+				WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeTracerLogger] Initialize tracer logger.");
 				//WriteToTcrLgr(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeTracerLogger] Initialize tracer logger.");
 			}
 			else
@@ -1012,23 +3364,6 @@ namespace Functions
 
 	EndOfTest:
 		return ret;
-	}
-	void TestFunction::WriteToTcrLgr(String ^ TracerTabName, String ^ LogMessage)
-	{
-		/*****************************************************************************************************
-		** WriteToTcrLgr
-		** Arguments:
-		**		TracerTabName	- The tracer tab name used is LOGGER_WARNING_TYPE "[INFO]".
-		**		LogMessage		- Specific log/ debug message to be display on tracer window.
-		** Descriptions:
-		**		This method is to wrap the "glob->TcrLgr.TracerLog->WriteToTracer" action to ease the end-user
-		**		when intended to write the debug message to tracer window. Only Enable when debug mode.
-		******************************************************************************************************/
-
-		if (glob->AWV.Debug == 1 /*&& glob->AutoGUCal.AutoGUCalToolActive == false*/)
-		{
-			glob->TcrLgr.TracerLog->WriteToTracer(TracerTabName, LOGGER_INFO_TYPE + glob->TimeNow + ":  " + LogMessage);
-		}
 	}
 	void TestFunction::WRITETOTRACERLOGGER(int tfSite, int siteIndex, String ^ messageType, String ^ message, int programLineNumber, String ^ programFileName, String ^ programFunctionName)
 	{
@@ -1105,6 +3440,23 @@ namespace Functions
 			}
 		}
 	}
+	void TestFunction::WriteToTcrLgr(String ^ TracerTabName, String ^ LogMessage)
+	{
+		/*****************************************************************************************************
+		** WriteToTcrLgr
+		** Arguments:
+		**		TracerTabName	- The tracer tab name used is LOGGER_WARNING_TYPE "[INFO]".
+		**		LogMessage		- Specific log/ debug message to be display on tracer window.
+		** Descriptions:
+		**		This method is to wrap the "glob->TcrLgr.TracerLog->WriteToTracer" action to ease the end-user
+		**		when intended to write the debug message to tracer window. Only Enable when debug mode.
+		******************************************************************************************************/
+
+		if (glob->AWV.Debug == 1 /*&& glob->AutoGUCal.AutoGUCalToolActive == false*/)
+		{
+			glob->TcrLgr.TracerLog->WriteToTracer(TracerTabName, LOGGER_INFO_TYPE + glob->TimeNow + ":  " + LogMessage);
+		}
+	}
 	int TestFunction::UninitializeTracerLogger()
 	{
 		/*****************************************************************************************************
@@ -1124,7 +3476,7 @@ namespace Functions
 		{
 			if (glob->tf.StageCount == 1)
 			{
-				WriteToTracerLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeProgram -> UninitializeTracerLogger] Uninitialize tracer logger.");
+				WriteToTracerAndFileLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeProgram -> UninitializeTracerLogger] Uninitialize tracer logger.");
 				//WriteToTcrLgr(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeProgram -> UninitializeTracerLogger] Uninitialize tracer logger.");
 
 				try
@@ -1136,7 +3488,7 @@ namespace Functions
 				catch (Exception^ ex)
 				{
 					ret = ER_CONST_FAIL_TO_UNINIT_TRACER_LOGGER;
-					WriteToTracerLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, ERROR, "[Unload -> UninitializeProgram -> UninitializeTracerLogger] Fail to uninitialize tracer logger." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+					WriteToTracerAndFileLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, ERROR, "[Unload -> UninitializeProgram -> UninitializeTracerLogger] Fail to uninitialize tracer logger." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 					//WriteToTcrLgr(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, ERROR, "[Unload -> UninitializeProgram -> UninitializeTracerLogger] Fail to uninitialize tracer logger." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 					return ret;
 				}
@@ -1181,13 +3533,11 @@ namespace Functions
 				catch (Exception^ ex)
 				{
 					ret = ER_CONST_FAIL_TO_INIT_FILE_LOGGER;
-					WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFileLogger] Fail to initialize file logger." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-					WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFileLogger] Fail to initialize file logger." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+					WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFileLogger] Fail to initialize file logger." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 					return ret;
 				}
 
-				WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeFileLogger] Initialize file logger.");
-				WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeFileLogger] Initialize file logger.");
+				WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeFileLogger] Initialize file logger.");
 			}
 			else
 			{
@@ -1309,8 +3659,7 @@ namespace Functions
 		{
 			if (glob->tf.StageCount == 1)
 			{
-				WriteToTracerLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeFileLogger] Uninitialize file logger.");
-				WriteToFileLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeFileLogger] Uninitialize file logger.");
+				WriteToTracerAndFileLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeFileLogger] Uninitialize file logger.");
 
 				try
 				{
@@ -1320,8 +3669,7 @@ namespace Functions
 				catch (Exception^ ex)
 				{
 					ret = ER_CONST_FAIL_TO_UNINIT_FILE_LOGGER;
-					WriteToTracerLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, ERROR, "[Unload -> UninitializeFileLogger] Fail to uninitialize file logger." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-					WriteToFileLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, ERROR, "[Unload -> UninitializeFileLogger] Fail to uninitialize file logger." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+					WriteToTracerAndFileLogger(glob->tf.TestSite, glob->TcrLgr.tracerMainTab, ERROR, "[Unload -> UninitializeFileLogger] Fail to uninitialize file logger." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 					return ret;
 				}
 			}
@@ -1335,6 +3683,11 @@ namespace Functions
 		return ret;
 	}
 
+	void TestFunction::WRITETOTRACERANDFILELOGGER(int tfSite, int siteIndex, String ^ messageType, String ^ message)
+	{
+		WriteToTracerLogger(tfSite, siteIndex, messageType, message);
+		WriteToFileLogger(tfSite, siteIndex, messageType, message);
+	}
 
 	void TestFunction::ErrorHandling(Site ^ site, int siteIndex, String^ methodName, String ^ ErrorMessage)
 	{
@@ -1455,7 +3808,7 @@ namespace Functions
 	//int TestFunction::TRACERLOGGING(int siteIndex, String ^ LogMessage, int LogLineNumber, String ^ FileName)
 	//{
 	//	/*****************************************************************************************************
-	//	** WriteToTracerLogger
+	//	** WriteToTracerAndFileLogger
 	//	** Arguments:
 	//	**		siteIndex		- This is selected physical site. (Note: UUT offset index for the MultiUUTOffsets
 	//	**						  project or techFlow sites for Index Parallel project.
@@ -1468,9 +3821,9 @@ namespace Functions
 	//	**		when Debug mode is Enable. Main purpose is to ease the debug action. This is useful when user intended
 	//	**		to trace the single API before executing and after execited effect.
 	//	**		Usage:
-	//	**			 WriteToTracerLogger(siteIndex, "dio[siteIndex]->PowerOnOff("DIO", IOM_CONST_OUTPUT_VCCOUT5_OFF, IOM_CONST_OUTPUT_VCCOUT12_OFF)");
+	//	**			 WriteToTracerAndFileLogger(siteIndex, "dio[siteIndex]->PowerOnOff("DIO", IOM_CONST_OUTPUT_VCCOUT5_OFF, IOM_CONST_OUTPUT_VCCOUT12_OFF)");
 	//	**			 CheckError(siteIndex, dio[siteIndex]->PowerOnOff("DIO", IOM_CONST_OUTPUT_VCCOUT5_OFF, IOM_CONST_OUTPUT_VCCOUT12_OFF));
-	//	**			 WriteToTracerLogger(siteIndex, "dio[siteIndex]->PowerOnOff("DIO", IOM_CONST_OUTPUT_VCCOUT5_OFF, IOM_CONST_OUTPUT_VCCOUT12_OFF)");
+	//	**			 WriteToTracerAndFileLogger(siteIndex, "dio[siteIndex]->PowerOnOff("DIO", IOM_CONST_OUTPUT_VCCOUT5_OFF, IOM_CONST_OUTPUT_VCCOUT12_OFF)");
 	//	**		Effect on tracer window:
 	//	**			Executing dio[siteIndex]->PowerOnOff("DIO", IOM_CONST_OUTPUT_VCCOUT5_OFF, IOM_CONST_OUTPUT_VCCOUT12_OFF) at line xx.
 	//	**			Executed dio[siteIndex]->PowerOnOff("DIO", IOM_CONST_OUTPUT_VCCOUT5_OFF, IOM_CONST_OUTPUT_VCCOUT12_OFF) at line xx.
@@ -1569,7 +3922,7 @@ namespace Functions
 	//	**		FunctionName	- This is the current executing method/function name in test program where the
 	//	**					      last error happens.
 	//	** Descriptions:
-	//	**		This method is to wrap the "tl->glob->TcrLgr.TracerLog->WriteToTracer", FileLoging and WriteToTracerLogger
+	//	**		This method is to wrap the "tl->glob->TcrLgr.TracerLog->WriteToTracer", FileLoging and WriteToTracerAndFileLogger
 	//	**		actions to ease the end-user when intended to write the debug message to tracer window or debug
 	//	**		file. Only Enable when debug mode.
 	//	******************************************************************************************************/
@@ -3116,4 +5469,7 @@ namespace Functions
 
 * V1.1.0.0 (29 Jan 2021), LKL
 * Added operation setting value struct to support operation setting.
+
+* v1.2.0.0 (13 Aug 2026), ZhiKean
+* Merge AMB7600SR Test Library REV1 with AMB7300 Test Library REV2P0
 ----------------------------------------------------------------------*/

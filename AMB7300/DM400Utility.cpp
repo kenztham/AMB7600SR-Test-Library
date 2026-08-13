@@ -102,7 +102,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_INIT_DM_HARDWARE_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> DM400Utility -> InitializeDm] Fail to initialize DM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> DM400Utility -> InitializeDm] Fail to initialize DM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> DM400Utility -> InitializeDm] Fail to initialize DM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -159,7 +159,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_UNINIT_DM_HARDWARE_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> DM400Utility -> UninitializeDm] Fail to uninitialize DM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> DM400Utility -> UninitializeDm] Fail to uninitialize DM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> DM400Utility -> UninitializeDm] Fail to uninitialize DM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -265,7 +265,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_CONFIGURE_DM_PIN_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigurePinDm] Fail to configure DM pin." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigurePinDm] Fail to configure DM pin." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigurePinDm] Fail to configure DM pin." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -318,7 +318,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_CONFIGURE_DM_VECTOR_ENGINE_MIPI_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigureDmVectorEngine_Mipi] Fail to configure DM vector engine for MIPI test mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigureDmVectorEngine_Mipi] Fail to configure DM vector engine for MIPI test mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigureDmVectorEngine_Mipi] Fail to configure DM vector engine for MIPI test mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -351,7 +351,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_CONFIGURE_DM_VECTOR_ENGINE_SPI_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigureDmVectorEngine_Spi] Fail to configure DM vector engine for SPI test mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigureDmVectorEngine_Spi] Fail to configure DM vector engine for SPI test mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigureDmVectorEngine_Spi] Fail to configure DM vector engine for SPI test mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -384,7 +384,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_CONFIGURE_DM_VECTOR_ENGINE_I2C_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigureDmVectorEngine_I2c] Fail to configure DM vector engine for I2C test mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigureDmVectorEngine_I2c] Fail to configure DM vector engine for I2C test mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> ConfigureDmVectorEngine_I2c] Fail to configure DM vector engine for I2C test mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -467,7 +467,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_CONFIGURE_DM_PIN_TO_PE_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmConfigurePinToPeMode] Fail to configure DM pin to PE mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmConfigurePinToPeMode] Fail to configure DM pin to PE mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmConfigurePinToPeMode] Fail to configure DM pin to PE mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -540,7 +540,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_CONFIGURE_DM_PIN_TO_PMU_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmConfigurePinToPmuMode] Fail to configure DM pin to PMU mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmConfigurePinToPmuMode] Fail to configure DM pin to PMU mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmConfigurePinToPmuMode] Fail to configure DM pin to PMU mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -571,7 +571,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_CONFIGURE_DM_PIN_TO_DIO_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmConfigurePinToDioMode] Fail to configure DM pin to DIO mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmConfigurePinToDioMode] Fail to configure DM pin to DIO mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmConfigurePinToDioMode] Fail to configure DM pin to DIO mode." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -623,7 +623,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_DM_TEST_FUNCTION_OS_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmTestFunction_OS] Fail at OS test." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmTestFunction_OS] Fail at OS test." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmTestFunction_OS] Fail at OS test." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -658,7 +658,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_DM_TEST_FUNCTION_MEASURE_CURRENT_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmTestFunction_MeasureCurrent] Fail to measure current." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmTestFunction_MeasureCurrent] Fail to measure current." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmTestFunction_MeasureCurrent] Fail to measure current." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -693,7 +693,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_DM_TEST_FUNCTION_MEASURE_VOLTAGE_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmTestFunction_MeasureVoltage] Fail to measure voltage." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmTestFunction_MeasureVoltage] Fail to measure voltage." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmTestFunction_MeasureVoltage] Fail to measure voltage." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -738,7 +738,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_DM_PATTERN_TEST_MIPI_WRITE_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_MipiWrite] Fail to perform MIPI write." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_MipiWrite] Fail to perform MIPI write." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_MipiWrite] Fail to perform MIPI write." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -833,7 +833,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_DM_PATTERN_TEST_MIPI_READ_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_MipiRead] Fail to perform MIPI read." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_MipiRead] Fail to perform MIPI read." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_MipiRead] Fail to perform MIPI read." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -865,7 +865,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_DM_PATTERN_TEST_SPI_WRITE_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_SpiWrite] Fail to perform SPI write." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_SpiWrite] Fail to perform SPI write." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_SpiWrite] Fail to perform SPI write." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -899,7 +899,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_DM_PATTERN_TEST_SPI_READ_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_SpiRead] Fail to perform SPI read." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_SpiRead] Fail to perform SPI read." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_SpiRead] Fail to perform SPI read." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -931,7 +931,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_DM_PATTERN_TEST_I2C_WRITE_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_I2cWrite] Fail to perform I2C write." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_I2cWrite] Fail to perform I2C write." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_I2cWrite] Fail to perform I2C write." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -965,7 +965,7 @@ namespace Functions
 		catch (Exception ^ ex)
 		{
 			ret = ER_CONST_DM_PATTERN_TEST_I2C_READ_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_I2cRead] Fail to perform I2C read." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_I2cRead] Fail to perform I2C read." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmPatternTestFunction_I2cRead] Fail to perform I2C read." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -1018,7 +1018,7 @@ namespace Functions
 //			if (!Directory::Exists(dmMipiVec.vecFileFolderDirectory))
 //			{
 //				ret = ER_CONST_PROJECT_VECTOR_FILE_FOLDER_NOT_FOUND;
-//				tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] 'VectorFileFolder' does not exist in the project's 'TestRecipes' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+//				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] 'VectorFileFolder' does not exist in the project's 'TestRecipes' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //				tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] 'VectorFileFolder' does not exist in the project's 'TestRecipes' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //				return ret;
 //			}
@@ -1026,7 +1026,7 @@ namespace Functions
 //			if (!Directory::Exists(dmMipiVec.vecStateFileFolderDirectory))
 //			{
 //				ret = ER_CONST_PROJECT_VECTOR_STATE_FILE_FOLDER_NOT_FOUND;
-//				tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] 'VectorStateFileFolder' does not exist in the project's 'TestRecipes' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+//				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] 'VectorStateFileFolder' does not exist in the project's 'TestRecipes' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //				tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] 'VectorStateFileFolder' does not exist in the project's 'TestRecipes' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //				return ret;
 //			}
@@ -1041,7 +1041,7 @@ namespace Functions
 //			if (dmMipiVec.totalVecFileExist != dmMipiVec.totalVecStateFileExist)
 //			{
 //				ret = ER_CONST_PROJECT_VECTOR_FILE_STATE_FILE_CONTENT_NOT_MATCH;
-//				tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] VectorFile and VectorStateFile filename/amount/content not match." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+//				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] VectorFile and VectorStateFile filename/amount/content not match." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //				tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] VectorFile and VectorStateFile filename/amount/content not match." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //				return ret;
 //			}
@@ -1049,7 +1049,7 @@ namespace Functions
 //			if (dmMipiVec.totalVecFileExist > 1024)
 //			{
 //				ret = ER_CONST_PROJECT_VECTOR_FILE_MAX_COUNT;
-//				tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] VectorFile amount cannot exceed 1024x file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+//				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] VectorFile amount cannot exceed 1024x file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //				tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] VectorFile amount cannot exceed 1024x file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //				return ret;
 //			}
@@ -1109,7 +1109,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_LOAD_VECTOR_FILE_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] Fail to laod VectorFile." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] Fail to laod VectorFile." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmLoadVectorFile] Fail to laod VectorFile." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -1153,7 +1153,7 @@ namespace Functions
 		if (!File::Exists(targetVecFileDirectory))
 		{
 			ret = ER_CONST_PROJECT_VECTOR_FILE_NOT_FOUND;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Target vector file does not exist in the 'VectorFileFolder' (under project's 'TestRecipes')." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Target vector file does not exist in the 'VectorFileFolder' (under project's 'TestRecipes')." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Target vector file does not exist in the 'VectorFileFolder' (under project's 'TestRecipes')." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			goto EndOfTest;
 		}
@@ -1163,7 +1163,7 @@ namespace Functions
 		if (!File::Exists(targetVecStateFileDirectory))
 		{
 			ret = ER_CONST_PROJECT_VECTOR_STATE_FILE_NOT_FOUND;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Target vector state file does not exist in the 'VectorStateFileFolder' (under project's 'TestRecipes')." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Target vector state file does not exist in the 'VectorStateFileFolder' (under project's 'TestRecipes')." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Target vector state file does not exist in the 'VectorStateFileFolder' (under project's 'TestRecipes')." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			goto EndOfTest;
 		}
@@ -1229,7 +1229,7 @@ namespace Functions
 		if (initialMipiSetCount == 0)
 		{
 			ret = ER_CONST_VECTOR_STATE_FILE_MIPI_SET_INPUT_EMPTY;
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> DmVectorFileReadBack_Mipi] MIPI set setting cannot remain empty in the VectorStateFile." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> DmVectorFileReadBack_Mipi] MIPI set setting cannot remain empty in the VectorStateFile." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> DmVectorFileReadBack_Mipi] MIPI set setting cannot remain empty in the VectorStateFile." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			goto EndOfTest;
 		}
@@ -1324,7 +1324,7 @@ namespace Functions
 		if (lineNumber == 5)
 		{
 			ret = ER_CONST_VECTOR_STATE_FILE_MIPI_SET_INPUT_EMPTY;
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> DmVectorFileReadBack_Mipi] MIPI set setting cannot remain empty in the VectorStateFile." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> DmVectorFileReadBack_Mipi] MIPI set setting cannot remain empty in the VectorStateFile." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> DmVectorFileReadBack_Mipi] MIPI set setting cannot remain empty in the VectorStateFile." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			goto EndOfTest;
 		}
@@ -1939,7 +1939,7 @@ namespace Functions
 			if (count >= 200000)
 			{
 				ret = ER_CONST_DM_VECTOR_ENGINE_STATUS_BUSY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				goto EndOfTest;
 			}
@@ -2003,7 +2003,7 @@ namespace Functions
 							if (count >= 200000)
 							{
 								ret = ER_CONST_DM_VECTOR_ENGINE_STATUS_BUSY;
-								tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								goto EndOfTest;
 							}
@@ -2074,7 +2074,7 @@ namespace Functions
 									readHistoryRam[i] = 999;
 								
 									ret = ER_CONST_DM_PATTERN_TEST_READHISTORYRAM_UNDEFINED;
-									tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Fail at ReadHistoryRam. Undefined (binary 10) has been detected. Please check the PE voltage setting, hardwares, device's spec, and vector file / vector state file contents." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Fail at ReadHistoryRam. Undefined (binary 10) has been detected. Please check the PE voltage setting, hardwares, device's spec, and vector file / vector state file contents." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Fail at ReadHistoryRam. Undefined (binary 10) has been detected. Please check the PE voltage setting, hardwares, device's spec, and vector file / vector state file contents." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									goto EndOfTest;
 								}
@@ -2148,7 +2148,7 @@ namespace Functions
 									readHistoryRam[i] = 999;
 
 									ret = ER_CONST_DM_PATTERN_TEST_READHISTORYRAM_UNDEFINED;
-									tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Fail at ReadHistoryRam. Undefined (binary 10) has been detected. Please check the PE voltage setting, hardwares, device's spec, and vector file / vector state file contents." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Fail at ReadHistoryRam. Undefined (binary 10) has been detected. Please check the PE voltage setting, hardwares, device's spec, and vector file / vector state file contents." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] Fail at ReadHistoryRam. Undefined (binary 10) has been detected. Please check the PE voltage setting, hardwares, device's spec, and vector file / vector state file contents." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									goto EndOfTest;
 								}
@@ -2170,7 +2170,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_MIPI_VECTOR_READ_BACK_HISTORYRAM_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[AM400Utility -> DmVectorFileReadBack_Mipi] Fail at Mipi vector file read back through ReadHistoryRam." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[AM400Utility -> DmVectorFileReadBack_Mipi] Fail at Mipi vector file read back through ReadHistoryRam." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[AM400Utility -> DmVectorFileReadBack_Mipi] Fail at Mipi vector file read back through ReadHistoryRam." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -2217,7 +2217,7 @@ namespace Functions
 					if (count >= 200000)
 					{
 						ret = ER_CONST_DM_VECTOR_ENGINE_STATUS_BUSY;
-						tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmVectorFileReadBack_Mipi] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
@@ -2227,7 +2227,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_MIPI_VECTOR_READ_BACK_FAILCOUNT_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[AM400Utility -> DmVectorFileReadBack_Mipi] Fail at Mipi vector file read back through ReadFailCount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[AM400Utility -> DmVectorFileReadBack_Mipi] Fail at Mipi vector file read back through ReadFailCount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[AM400Utility -> DmVectorFileReadBack_Mipi] Fail at Mipi vector file read back through ReadFailCount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -2321,7 +2321,7 @@ namespace Functions
 				if (count >= 200000)
 				{
 					ret = ER_CONST_DM_VECTOR_ENGINE_STATUS_BUSY;
-					tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmRunVector] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmRunVector] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmRunVector] DM vector engine status in BUSY." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					goto EndOfTest;
 				}
@@ -2330,7 +2330,7 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_DM_RUN_VECTOR_FAIL;
-			tl->WriteToTracerLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmRunVector] Fail to run vector file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmRunVector] Fail to run vector file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[DM400Utility -> DmRunVector] Fail to run vector file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
@@ -2358,7 +2358,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_DPINGROUP_NOT_FOUND;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'DM_DPinGroup' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'DM_DPinGroup' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'DM_DPinGroup' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2369,7 +2369,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_DPINGROUP_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'DM_DPinGroup' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'DM_DPinGroup' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'DM_DPinGroup' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2383,7 +2383,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_DPINGROUP_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'DM_DPINGroup' setting only available in: 1 (ch0~5) or 2 (ch6~11) or 3 (ch0~11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'DM_DPINGroup' setting only available in: 1 (ch0~5) or 2 (ch6~11) or 3 (ch0~11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'DM_DPINGroup' setting only available in: 1 (ch0~5) or 2 (ch6~11) or 3 (ch0~11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2405,7 +2405,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_SCLK_CH_NOT_FOUND;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2416,7 +2416,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_SCLK_CH_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2430,7 +2430,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_SCLK_CH_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' setting only available in: 0~11 (CH0~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' setting only available in: 0~11 (CH0~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' setting only available in: 0~11 (CH0~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2441,7 +2441,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_SCLK_CH_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 1, 'SCLK_Channel' only support: 0~5 (CH0~CH5)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 1, 'SCLK_Channel' only support: 0~5 (CH0~CH5)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 1, 'SCLK_Channel' only support: 0~5 (CH0~CH5)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2452,7 +2452,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_SCLK_CH_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 1, With 'DM_DPINGroup' = 2, 'SCLK_Channel' only support: 6~11 (CH6~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 1, With 'DM_DPINGroup' = 2, 'SCLK_Channel' only support: 6~11 (CH6~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 1, With 'DM_DPINGroup' = 2, 'SCLK_Channel' only support: 6~11 (CH6~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2474,7 +2474,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_SDATA_CH_NOT_FOUND;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SDATA_Channel' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SDATA_Channel' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SDATA_Channel' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2485,7 +2485,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SDATA_Channel' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SDATA_Channel' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SDATA_Channel' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2499,7 +2499,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SDATA_Channel' setting only available in: 0~11 (CH0~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SDATA_Channel' setting only available in: 0~11 (CH0~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SDATA_Channel' setting only available in: 0~11 (CH0~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2510,7 +2510,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 1, 'SDATA_Channel' only support: 0~5 (CH0~CH5)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 1, 'SDATA_Channel' only support: 0~5 (CH0~CH5)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 1, 'SDATA_Channel' only support: 0~5 (CH0~CH5)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2521,7 +2521,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 2, 'SDATA_Channel' only support: 6~11 (CH6~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 2, 'SDATA_Channel' only support: 6~11 (CH6~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] When 'DM_DPINGroup' = 2, 'SDATA_Channel' only support: 6~11 (CH6~CH11)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2532,7 +2532,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' & 'SDATA_Channel' setting cannot be the same channel at the same time." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' & 'SDATA_Channel' setting cannot be the same channel at the same time." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'SCLK_Channel' & 'SDATA_Channel' setting cannot be the same channel at the same time." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2554,7 +2554,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_TIMING_SET_NOT_FOUND;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'VectorTimingSet' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'VectorTimingSet' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'VectorTimingSet' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2565,7 +2565,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_TIMING_SET_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'VectorTimingSet' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'VectorTimingSet' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'VectorTimingSet' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2579,7 +2579,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_TIMING_SET_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'VectorTimingSet' setting only available in: 0~1023." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'VectorTimingSet' setting only available in: 0~1023." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'VectorTimingSet' setting only available in: 0~1023." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2605,7 +2605,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_MIPI_SET_HEADER_NOT_FOUND;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'Mode', 'USID', 'RegAddr', 'RegData', 'Operation', 'Speed' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'Mode', 'USID', 'RegAddr', 'RegData', 'Operation', 'Speed' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] 'Mode', 'USID', 'RegAddr', 'RegData', 'Operation', 'Speed' identifier not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2636,7 +2636,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_MODE_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2655,7 +2655,7 @@ namespace Functions
 					for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 					{
 						ret = ER_CONST_VECTOR_STATE_FILE_MIPI_MODE_INPUT_INVALID;
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -2674,7 +2674,7 @@ namespace Functions
 					for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 					{
 						ret = ER_CONST_VECTOR_STATE_FILE_MIPI_MODE_INPUT_INVALID;
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -2693,7 +2693,7 @@ namespace Functions
 					for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 					{
 						ret = ER_CONST_VECTOR_STATE_FILE_MIPI_MODE_INPUT_INVALID;
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting only available in: 'Basic' or 'Extended' or 'Reg0'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -2712,7 +2712,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_MIPI_MODE_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Mode' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2737,7 +2737,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_USID_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'USID' setting only support 4x bits (0000~1111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'USID' setting only support 4x bits (0000~1111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'USID' setting only support 4x bits (0000~1111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2748,7 +2748,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_MIPI_USID_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'USID' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'USID' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'USID' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2776,7 +2776,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_ADDR_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Basic' Mode RegAddr only support 5x bits (00000~11111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Basic' Mode RegAddr only support 5x bits (00000~11111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Basic' Mode RegAddr only support 5x bits (00000~11111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2786,7 +2786,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_ADDR_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Extended' Mode RegAddr only support 8x bits (00000000~11111111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Extended' Mode RegAddr only support 8x bits (00000000~11111111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Extended' Mode RegAddr only support 8x bits (00000000~11111111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2796,7 +2796,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_ADDR_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Reg0' Mode does not contains RegAddr, please insert value 0 or let it remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Reg0' Mode does not contains RegAddr, please insert value 0 or let it remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Reg0' Mode does not contains RegAddr, please insert value 0 or let it remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2807,7 +2807,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_MIPI_ADDR_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'RegAddr' setting in 'Basic' & 'Extended' Mode cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'RegAddr' setting in 'Basic' & 'Extended' Mode cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'RegAddr' setting in 'Basic' & 'Extended' Mode cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2832,7 +2832,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_DATA_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Basic' & 'Extended' Mode RegData only support 8x bits (00000000~11111111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Basic' & 'Extended' Mode RegData only support 8x bits (00000000~11111111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Basic' & 'Extended' Mode RegData only support 8x bits (00000000~11111111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2842,7 +2842,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_DATA_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Reg0' Mode RegData only support 7x bits (0000000~1111111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Reg0' Mode RegData only support 7x bits (0000000~1111111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Reg0' Mode RegData only support 7x bits (0000000~1111111)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2853,7 +2853,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_MIPI_DATA_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'RegData' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'RegData' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'RegData' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2882,7 +2882,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_OPERATION_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting only available in: 'Write' or 'Read'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting only available in: 'Write' or 'Read'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting only available in: 'Write' or 'Read'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2901,7 +2901,7 @@ namespace Functions
 					for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 					{
 						ret = ER_CONST_VECTOR_STATE_FILE_MIPI_OPERATION_INPUT_INVALID;
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting only available in: 'Write' or 'Read'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting only available in: 'Write' or 'Read'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting only available in: 'Write' or 'Read'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -2920,7 +2920,7 @@ namespace Functions
 					for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 					{
 						ret = ER_CONST_VECTOR_STATE_FILE_MIPI_OPERATION_INPUT_INVALID;
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting only available in: 'Write' or 'Read'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting only available in: 'Write' or 'Read'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting only available in: 'Write' or 'Read'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -2932,7 +2932,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_OPERATION_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting for 'Reg0' mode only available in: 'Write'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting for 'Reg0' mode only available in: 'Write'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting for 'Reg0' mode only available in: 'Write'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2948,7 +2948,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_MIPI_OPERATION_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Operation' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -2977,7 +2977,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_SPEED_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting only available in: 'Full' or 'Half'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting only available in: 'Full' or 'Half'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting only available in: 'Full' or 'Half'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2996,7 +2996,7 @@ namespace Functions
 					for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 					{
 						ret = ER_CONST_VECTOR_STATE_FILE_MIPI_SPEED_INPUT_INVALID;
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting only available in: 'Full' or 'Half'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting only available in: 'Full' or 'Half'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting only available in: 'Full' or 'Half'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -3015,7 +3015,7 @@ namespace Functions
 					for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 					{
 						ret = ER_CONST_VECTOR_STATE_FILE_MIPI_SPEED_INPUT_INVALID;
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting only available in: 'Full' or 'Half'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting only available in: 'Full' or 'Half'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting only available in: 'Full' or 'Half'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -3032,7 +3032,7 @@ namespace Functions
 				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 				{
 					ret = ER_CONST_VECTOR_STATE_FILE_MIPI_SPEED_INPUT_INVALID;
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting for 'Write' operation only available in: 'Full'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting for 'Write' operation only available in: 'Full'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting for 'Write' operation only available in: 'Full'." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3043,7 +3043,7 @@ namespace Functions
 			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
 			{
 				ret = ER_CONST_VECTOR_STATE_FILE_MIPI_SPEED_INPUT_EMPTY;
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[DM400Utility -> VectorStateFile content verification] MIPI 'Speed' setting cannot remain empty." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}

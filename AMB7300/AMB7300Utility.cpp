@@ -354,7 +354,7 @@ namespace AMB7600SR_TestLibrary_REV2
 											"Module_1, PinAlias_1, ControlFunction_1, NPLC_1, VoltageLevel_1, CurrentLevel_1, Delay_1"																+ "\n" +
 											"Module_2, PinAlias_2, ControlFunction_2, NPLC_2, VoltageLevel_2, CurrentLeve_2, Delay_2";
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcControlConditionName_Module + " & "  + DcControlConditionName_PinAlias + " & " + DcControlConditionName_ControlFunction + " & " + DcControlConditionName_NPLC + " & " + DcControlConditionName_VoltageLevel + " & " + DcControlConditionName_CurrentLevel);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition set verification] 'DcControl' condition set amount invalid. 1x condition set should contain " + singleConfigurationSetItemCount.ToString() + "x condition." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition set verification] 'DcControl' condition set amount invalid. 1x condition set should contain " + singleConfigurationSetItemCount.ToString() + "x condition." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition set verification] 'DcControl' condition set amount invalid. 1x condition set should contain " + singleConfigurationSetItemCount.ToString() + "x condition." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -380,7 +380,7 @@ namespace AMB7600SR_TestLibrary_REV2
 			{
 				ret = ER_CONST_DCCONTROL_CONDITION_NAME_NOT_FOUND;
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcControlConditionName_Module);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'Module' or 'Module_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'Module' or 'Module_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'Module' or 'Module_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -411,7 +411,7 @@ namespace AMB7600SR_TestLibrary_REV2
 			{
 				ret = ER_CONST_DCCONTROL_CONDITION_NAME_NOT_FOUND;
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcControlConditionName_PinAlias);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'PinAlias' or 'PinAlias_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'PinAlias' or 'PinAlias_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'PinAlias' or 'PinAlias_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -442,7 +442,7 @@ namespace AMB7600SR_TestLibrary_REV2
 			{
 				ret = ER_CONST_DCCONTROL_CONDITION_NAME_NOT_FOUND;
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcControlConditionName_ControlFunction);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'ControlFunction' or 'ControlFunction_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'ControlFunction' or 'ControlFunction_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'ControlFunction' or 'ControlFunction_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -473,7 +473,7 @@ namespace AMB7600SR_TestLibrary_REV2
 			{
 				ret = ER_CONST_DCCONTROL_CONDITION_NAME_NOT_FOUND;
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcControlConditionName_NPLC);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'NPLC' or 'NPLC_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'NPLC' or 'NPLC_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'NPLC' or 'NPLC_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -506,7 +506,7 @@ namespace AMB7600SR_TestLibrary_REV2
 			{
 				ret = ER_CONST_DCCONTROL_CONDITION_NAME_NOT_FOUND;
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcControlConditionName_CurrentLevel);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'CurrentLevel' or 'CurrentLevel_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'CurrentLevel' or 'CurrentLevel_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'CurrentLevel' or 'CurrentLevel_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -537,7 +537,7 @@ namespace AMB7600SR_TestLibrary_REV2
 			{
 				ret = ER_CONST_DCCONTROL_CONDITION_NAME_NOT_FOUND;
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcControlConditionName_VoltageLevel);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'VoltageLevel' or 'VoltageLevel_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'VoltageLevel' or 'VoltageLevel_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'VoltageLevel' or 'VoltageLevel_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -568,7 +568,7 @@ namespace AMB7600SR_TestLibrary_REV2
 			{
 				ret = ER_CONST_DCCONTROL_CONDITION_NAME_NOT_FOUND;
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcControlConditionName_Delay);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'Delay' or 'Delay_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'Delay' or 'Delay_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition name verification] 'Delay' or 'Delay_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -699,7 +699,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_DCTEST_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcTestConditionName_Module);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'Module' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'Module' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'Module' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -721,7 +721,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_DCTEST_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcTestConditionName_PinAlias);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'PinAlias' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'PinAlias' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'PinAlias' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -743,7 +743,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_DCTEST_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcTestConditionName_TestFunction);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'TestFunction' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'TestFunction' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'TestFunction' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -765,7 +765,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_DCTEST_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcTestConditionName_NPLC);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'NPLC' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'NPLC' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'NPLC' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -787,7 +787,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_DCTEST_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, DcTestConditionName_MeasureDelay);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'MeasureDelay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'MeasureDelay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition name verification] 'MeasureDelay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -946,7 +946,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_ControlFunction);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'ControlFunction' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'ControlFunction' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'ControlFunction' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -968,7 +968,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_isMultiVecToOneResult);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'isMultiVecToOneResult' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'isMultiVecToOneResult' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'isMultiVecToOneResult' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -986,7 +986,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_isOneVecToMultiResult);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'isOneVecToMultiResult' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'isOneVecToMultiResult' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'isOneVecToMultiResult' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1008,7 +1008,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_sclkPinAlias);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'sclkPinAlias' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'sclkPinAlias' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'sclkPinAlias' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1030,7 +1030,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_sdataPinAlias);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'sdataPinAlias' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'sdataPinAlias' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'sdataPinAlias' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1052,7 +1052,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_MipiFreq);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'MipiFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'MipiFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'MipiFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1074,7 +1074,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_DmTerminationVoltage);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'DmTerminationVoltage' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'DmTerminationVoltage' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'DmTerminationVoltage' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1096,7 +1096,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_DmInputChDelay);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'DmInputChDelay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'DmInputChDelay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'DmInputChDelay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1118,7 +1118,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_RunVectorDelay);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'RunVectorDelay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'RunVectorDelay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'RunVectorDelay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1156,7 +1156,7 @@ namespace AMB7600SR_TestLibrary_REV2
 			{
 				ret = ER_CONST_PATTERNCONTROL_CONDITION_NAME_NOT_FOUND;
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternControlConditionName_VectorFileName);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'VectorFileName' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'VectorFileName' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition name verification] 'VectorFileName' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -1258,7 +1258,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_PATTERNTEST_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, PatternTestConditionName_ReturnIndex);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternTest' condition name verification] 'ReturnIndex' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternTest' condition name verification] 'ReturnIndex' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternTest' condition name verification] 'ReturnIndex' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1412,7 +1412,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_SweepType);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SweepType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SweepType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SweepType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1476,7 +1476,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			/*ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_ChannelNum);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;*/
 		}
@@ -1550,7 +1550,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_StratFreq);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StartFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StartFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StartFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -1570,7 +1570,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_StopFreq);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StopFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StopFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StopFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -1590,7 +1590,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_Points);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Points' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Points' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Points' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -1610,7 +1610,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_Ifbw);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Ifbw' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Ifbw' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Ifbw' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -1630,7 +1630,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_Power);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Power' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Power' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Power' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -1650,7 +1650,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_Delay);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Delay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Delay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Delay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -1735,7 +1735,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		//{
 		//	ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 		//	amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_SNP);
-		//	tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SNP' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+		//	tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SNP' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 		//	tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SNP' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 		//	return ret;
 		//}
@@ -1882,7 +1882,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_MeasurePortPair);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'MeasurePortPair' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'MeasurePortPair' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'MeasurePortPair' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1941,7 +1941,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_TraceCount);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceCount' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceCount' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceCount' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -1964,7 +1964,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_TraceMeasurementFormat);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceMeasurementFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceMeasurementFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceMeasurementFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -2102,7 +2102,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_AveragingSetting);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'AveragingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'AveragingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'AveragingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -2130,7 +2130,7 @@ namespace AMB7600SR_TestLibrary_REV2
 											"2nd parameter: Set averaging factor."										+ "\n" +
 											"Example: AveOn/10 --> meaning enable averaging, apply 10 averaging factor.";
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_AveragingSetting, additionalMessage);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -2165,7 +2165,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		//	{
 		//		/*ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 		//		amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_ChannelNum);
-		//		tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+		//		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 		//		tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 		//		return ret;*/
 		//	}
@@ -2206,7 +2206,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_SnpDataFilePath);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'SnpDataFilePathway' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'SnpDataFilePathway' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'SnpDataFilePathway' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -2625,7 +2625,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_TraceIndex);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'TraceIndex' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'TraceIndex' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'TraceIndex' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -2647,7 +2647,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_Function);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Function' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Function' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Function' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -2703,7 +2703,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_Freq);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Freq' or 'Freq_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Freq' or 'Freq_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Freq' or 'Freq_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2721,7 +2721,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_FreqRangeStart);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStart' or 'FreqRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStart' or 'FreqRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStart' or 'FreqRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2739,7 +2739,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_FreqRangeStop);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStop' or 'FreqRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStop' or 'FreqRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStop' or 'FreqRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2752,7 +2752,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Freq);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Freq', 'FreqRangeStart', 'FreqRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Freq', 'FreqRangeStart', 'FreqRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Freq', 'FreqRangeStart', 'FreqRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -2808,7 +2808,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_Power);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Power' or 'Power_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Power' or 'Power_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Power' or 'Power_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2826,7 +2826,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_PowerRangeStart);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStart' or 'PowerRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStart' or 'PowerRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStart' or 'PowerRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2844,7 +2844,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				{
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_PowerRangeStop);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStop' or 'PowerRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStop' or 'PowerRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStop' or 'PowerRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2857,7 +2857,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Power);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Power', 'PowerRangeStart', 'PowerRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Power', 'PowerRangeStart', 'PowerRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Power', 'PowerRangeStart', 'PowerRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -2884,7 +2884,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_AnalysisSetting);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'AnalysisSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'AnalysisSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'AnalysisSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -2932,7 +2932,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"2nd parameter: Select marker search type."														+ "\n" + 
 													"Example: SearchRangeOn/Max --> meaning enable marker search range, searching for maximum value.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -2968,7 +2968,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"3rd parameter: Select peak polarity."															+ "\n" + 
 													"Example: SearchPeak/1/Positive --> meaning select search peak type, apply 1dB peak excursion, select positive peak polarity.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msPeak' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msPeak' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msPeak' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3004,7 +3004,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"3rd parameter: Select target transition."														+ "\n" +  
 													"Example: SearchTarget/-10/Positive --> meaning select search target, apply 10dB target value, select positive target transition.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3036,7 +3036,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"1st parameter: Enable statistics range."															+ "\n" +  
 													"Example: StatisticsRangeOn --> meaning enable statistics range.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmStatistics' mode is invalid. It should contain 1x value parameter, without a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmStatistics' mode is invalid. It should contain 1x value parameter, without a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmStatistics' mode is invalid. It should contain 1x value parameter, without a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3080,7 +3080,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"3rd parameter: Set bandwidth value."																+ "\n" +  
 													"Example: Bandpass/Marker/-3 --> meaning select bandpass type, select marker as search reference, apply -3dB bandwidth value.\n";           
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3124,7 +3124,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"3rd parameter: Set bandwidth value." + "\n" +
 						"Example: Bandpass/Marker/-3 --> meaning select bandpass type, select marker as search reference, apply -3dB bandwidth value.\n";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3165,7 +3165,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"2nd parameter: Select marker search type." + "\n" +
 						"Example: SearchRangeOn/Max --> meaning enable marker search range, searching for maximum value.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3201,7 +3201,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"3rd parameter: Select target transition." + "\n" +
 						"Example: SearchTarget/-10/Positive --> meaning select search target, apply 10dB target value, select positive target transition.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3247,7 +3247,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"4th parameter: Set bandwidth value." + "\n" +
 						"Example: SearchRangeOff/Bandpass/Marker/-3 --> meaning select bandpass type, select marker as search reference, apply -3dB bandwidth value.\n";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3293,7 +3293,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"4th parameter: Set bandwidth value." + "\n" +
 						"Example: SearchRangeOff/Bandpass/Marker/-3 --> meaning select bandpass type, select marker as search reference, apply -3dB bandwidth value.\n";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3317,7 +3317,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_SmoothingSetting);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'SmoothingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'SmoothingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'SmoothingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -3345,7 +3345,7 @@ namespace AMB7600SR_TestLibrary_REV2
 											"2nd parameter: Set smoothing aperture."									+ "\n" +
 											"Example: SmoOn/5 --> meaning enable smoothing, apply 5% smoothing aperture.";
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_SmoothingSetting, additionalMessage);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -3365,7 +3365,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_OutputType);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -3387,7 +3387,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_OutputFormat);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -3409,7 +3409,7 @@ namespace AMB7600SR_TestLibrary_REV2
 //		{
 //			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 //			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_Threshold);
-//			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Threshold' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+//			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Threshold' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Threshold' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //			return ret;
 //		}
@@ -3514,7 +3514,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_MATH_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, MathConditionName_Function);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['Math' condition name verification] 'MathFunction' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['Math' condition name verification] 'MathFunction' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['Math' condition name verification] 'MathFunction' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -3536,7 +3536,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_MATH_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, MathConditionName_TP1);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['Math' condition name verification] 'MathConditionName_TP1' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['Math' condition name verification] 'MathConditionName_TP1' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['Math' condition name verification] 'MathConditionName_TP1' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -3558,7 +3558,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			ret = ER_CONST_MATH_CONDITION_NAME_NOT_FOUND;
 			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, MathConditionName_TP2);
-			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['Math' condition name verification] 'MathConditionName_TP2' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['Math' condition name verification] 'MathConditionName_TP2' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['Math' condition name verification] 'MathConditionName_TP2' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
@@ -3618,7 +3618,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> ACM"						+ "\n" + 
 													"-> TMU";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_Module, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'Module' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'Module' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'Module' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3738,7 +3738,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'PinAlias' must exist inside the resource planner." + "\n" + 
 													"The 'PinAlias' must be the same as the 'Pin Map Name' inside the Reource Planner.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_PinAlias, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'PinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'PinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'PinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -3767,7 +3767,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"-> DVCI"														+ "\n" +
 														"-> DICV";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_ControlFunction, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'ControlFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'ControlFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'ControlFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -3786,7 +3786,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"-> PE"															+ "\n" +
 														"-> DIO";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_ControlFunction, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'ControlFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'ControlFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'ControlFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -3828,7 +3828,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'NPLC' for AM resource, the available settings: "	+ "\n" +
 														"-> 0.001 < NPLC < 10";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_NPLC, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -3843,7 +3843,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'NPLC' for DM resource, the available settings: "	+ "\n" +
 														"-> 0.001 < NPLC < 10";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_NPLC, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -3899,7 +3899,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"-> 1,2,3,4 quadrant (equal): "									+ "\n" + 
 																"-> [-100.0mA ~ +100.0mA | -10.0V ~ +10.0V]";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_CurrentLevel, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -3931,7 +3931,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"-> [-100.0mA ~ +100.0mA | 0.0V ~ +48.0V]"						+ "\n" +
 																"-> [-1.0A ~ +1.0A | 0.0V ~ +10.0V]";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_CurrentLevel, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -3969,7 +3969,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"-> [-2.0A ~ +2.0A | -6.0V ~ +6.0V]"							+ "\n" +
 																"-> [0.0A ~ +3.0A | -1.0V ~ +1.0V]";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_CurrentLevel, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -3998,7 +3998,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"-> [-100.0mA ~ +100.0mA | 0.0V ~ +10.0V]"						+ "\n" +
 																"-> [-3.0A ~ +3.0A | 0.0V ~ +6.0V]";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_CurrentLevel, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -4031,7 +4031,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																//"-> 1,2 quadrant: "											+ "\n" + 
 																"-> [-32.0mA ~ +32.0mA | -2.5V ~ +10.5V]";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_CurrentLevel, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -4059,7 +4059,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																//"-> 1,2 quadrant: "													+ "\n" + 
 																"-> [-25.0mA ~ +25.0mA | -2.0V ~ +6.0V]";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_CurrentLevel, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'CurrentLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -4115,7 +4115,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																		"-> 1,2,3,4 quadrant (equal): "									+ "\n" + 
 																		"-> [-100.0mA ~ +100.0mA | -10.0V ~ +10.0V]";
 										amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-										tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+										tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 										tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 										return ret;
 								}
@@ -4146,7 +4146,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-100.0mA ~ +100.0mA | 0.0V ~ +48.0V]"						+ "\n" +
 																	"-> [-1.0A ~ +1.0A | 0.0V ~ +10.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4164,7 +4164,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-100.0mA ~ +100.0mA | 0.0V ~ +48.0V]"						+ "\n" +
 																	"-> [-1.0A ~ +1.0A | 0.0V ~ +10.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4182,7 +4182,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-100.0mA ~ +100.0mA | 0.0V ~ +48.0V]"						+ "\n" +
 																	"-> [-1.0A ~ +1.0A | 0.0V ~ +10.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4219,7 +4219,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-2.0A ~ +2.0A | -6.0V ~ +6.0V]"							+ "\n" +
 																	"-> [0.0A ~ +3.0A | -1.0V ~ +1.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4240,7 +4240,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-2.0A ~ +2.0A | -6.0V ~ +6.0V]"							+ "\n" +
 																	"-> [0.0A ~ +3.0A | -1.0V ~ +1.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4261,7 +4261,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-2.0A ~ +2.0A | -6.0V ~ +6.0V]"							+ "\n" +
 																	"-> [0.0A ~ +3.0A | -1.0V ~ +1.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4282,7 +4282,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-2.0A ~ +2.0A | -6.0V ~ +6.0V]"							+ "\n" +
 																	"-> [0.0A ~ +3.0A | -1.0V ~ +1.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4303,7 +4303,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-2.0A ~ +2.0A | -6.0V ~ +6.0V]"							+ "\n" +
 																	"-> [0.0A ~ +3.0A | -1.0V ~ +1.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4324,7 +4324,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-2.0A ~ +2.0A | -6.0V ~ +6.0V]"							+ "\n" +
 																	"-> [0.0A ~ +3.0A | -1.0V ~ +1.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4352,7 +4352,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-100.0mA ~ +100.0mA | 0.0V ~ +10.0V]"						+ "\n" +
 																	"-> [-3.0A ~ +3.0A | 0.0V ~ +6.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4369,7 +4369,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> [-100.0mA ~ +100.0mA | 0.0V ~ +10.0V]"						+ "\n" +
 																	"-> [-3.0A ~ +3.0A | 0.0V ~ +6.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4401,7 +4401,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	//"-> 1,2 quadrant: "											+ "\n" + 
 																	"-> [-32.0mA ~ +32.0mA | -2.5V ~ +10.5V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4428,7 +4428,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	//"-> 1,2 quadrant: "													+ "\n" + 
 																	"-> [-25.0mA ~ +25.0mA | -2.0V ~ +6.0V]";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcControlConditionName_VoltageLevel, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcControl' condition value verification] 'VoltageLevel' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -4505,7 +4505,7 @@ namespace AMB7600SR_TestLibrary_REV2
 												"-> ACM"						+ "\n" + 
 												"-> TMU";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcTestConditionName_Module, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'Module' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'Module' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'Module' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -4614,7 +4614,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"'PinAlias' must exist inside the resource planner." + "\n" + 
 												"The 'PinAlias' must be the same as the 'Pin Map Name' inside the Reource Planner.";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcTestConditionName_PinAlias, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'PinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'PinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'PinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -4642,7 +4642,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> MeasureCurrent"											+ "\n" +
 													"-> MeasureVoltage";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcTestConditionName_TestFunction, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'TestFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'TestFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'TestFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -4659,7 +4659,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> MeasureCurrent"											+ "\n" +
 													"-> MeasureVoltage";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcTestConditionName_TestFunction, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'TestFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'TestFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'TestFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -4698,7 +4698,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'NPLC' for AM resource, the available settings: "	+ "\n" +
 													"-> 0.001 < NPLC < 10";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcTestConditionName_NPLC, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -4713,7 +4713,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'NPLC' for DM resource, the available settings: "	+ "\n" +
 													"-> 0.001 < NPLC < 10";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, DcTestConditionName_NPLC, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['DcTest' condition value verification] 'NPLC' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -4781,7 +4781,7 @@ namespace AMB7600SR_TestLibrary_REV2
 												"-> MipiRead"								+ "\n" +
 												"-> PlayPattern";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_ControlFunction, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'ControlFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'ControlFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'ControlFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -4802,7 +4802,7 @@ namespace AMB7600SR_TestLibrary_REV2
 												"Please only enable one of the function by setting 'True', and then disable the rest by setting 'False'."	+ "\n"
 												"Set to 'True' = enable | Set to 'False' = disable";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_isMultiVecToOneResult + " & " + PatternControlConditionName_isOneVecToMultiResult, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'isMultiVecToOneResult' & 'isOneVecToMultiResult' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'isMultiVecToOneResult' & 'isOneVecToMultiResult' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'isMultiVecToOneResult' & 'isOneVecToMultiResult' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -4815,7 +4815,7 @@ namespace AMB7600SR_TestLibrary_REV2
 												"Please only enable one of the function by setting 'True', and then disable the rest by setting 'False'."	+ "\n"
 												"Set to 'True' = enable | Set to 'False' = disable";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_isMultiVecToOneResult + " & " + PatternControlConditionName_isOneVecToMultiResult, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'isMultiVecToOneResult' & 'isOneVecToMultiResult' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'isMultiVecToOneResult' & 'isOneVecToMultiResult' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'isMultiVecToOneResult' & 'isOneVecToMultiResult' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -4834,7 +4834,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"'MipiFreq' available settings: " + "\n" +
 												"-> >0.0 MHz ~ 52.0 MHz";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_MipiFreq, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'MipiFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'MipiFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'MipiFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -4876,7 +4876,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"'sclkPinAlias' must exist inside the resource planner."	+ "\n" +
 												"'sclkPinAlias' must be the same as the 'Pin Map Name' inside the ResourcePlanner.";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_sclkPinAlias, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'sclkPinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'sclkPinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'sclkPinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -4918,7 +4918,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"'sdataPinAlias' must exist inside the resource planner."	+ "\n" +
 												"'sdataPinAlias' must be the same as the 'Pin Map Name' inside the ResourcePlanner.";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_sdataPinAlias, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'sdataPinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'sdataPinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'sdataPinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -4961,7 +4961,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				ret = ER_CONST_PATTERNCONTROL_CONDITION_VALUE_INPUT_INVALID;
 				String ^ additionalMessage = "'sclkPinAlias' & 'sdataPinAlias' resource must be under the same DM module.";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_sclkPinAlias + " & " +  PatternControlConditionName_sdataPinAlias, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'sclkPinAlias' & 'sdataPinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'sclkPinAlias' & 'sdataPinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'sclkPinAlias' & 'sdataPinAlias' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -4983,7 +4983,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"'DmTerminationVoltage' available settings: " + "\n" +
 												"-> 0.0 V ~ 15.0 V";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_DmTerminationVoltage, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'DmTerminationVoltage' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'DmTerminationVoltage' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'DmTerminationVoltage' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -5002,7 +5002,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"'DmInputChDelay' available settings: " + "\n" +
 												"-> -10.0 clock cycle ~ 100.0 clock cycle";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_DmInputChDelay, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'DmInputChDelay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'DmInputChDelay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'DmInputChDelay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -5044,7 +5044,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					ret = ER_CONST_PATTERNCONTROL_CONDITION_VALUE_INPUT_INVALID;
 					String ^ additionalMessage = "'VectorFileName' must be the same with the .vec file's name inside the 'VectorFileFolder', inside the project's 'TestRecipes' folder.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_VectorFileName, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'VectorFileName' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'VectorFileName' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'VectorFileName' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -5057,7 +5057,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"There is only 1x vector file in the 'PatternControl' condition, please enable 'isOneVecToMultiResult' function by setting 'True', and disable 'isMultiVecToOneResult' by setting 'False'."	+ "\n"
 												"Set to 'True' = enable | Set to 'False' = disable";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_VectorFileName, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'VectorFileName' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'VectorFileName' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'VectorFileName' & 'isMultiVecToOneResult' & 'isOneVecToMultiResult' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -5069,7 +5069,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"There is more than 1x vector file in the 'PatternControl' condition, please enable 'isMultiVecToOneResult' function by setting 'True', and disable 'isOneVecToMultiResult' by setting 'False'." + "\n"
 												"Set to 'True' = enable | Set to 'False' = disable";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternControlConditionName_VectorFileName, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'VectorFileName' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'VectorFileName' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['PatternControl' condition value verification] 'VectorFileName' & 'isMultiVecToOneResult' & 'isOneVecToMultiResult' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -5156,7 +5156,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					"-> GetFromStateFile" + "\n" +
 					"-> SharedMemoryTransfer";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_SweepType, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SweepType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SweepType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SweepType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -5183,7 +5183,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage = "'ChannelNum' available settings: " + "\n" +
 					"-> 1 ~ 16";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_ChannelNum, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -5199,7 +5199,7 @@ namespace AMB7600SR_TestLibrary_REV2
 											"Channel available from Mapping file-> " + str_vna_chn;
 					
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_ChannelNum, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -5223,7 +5223,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'StartFreq' available settings: " + "\n" +
 														"-> 300.0 kHz ~ 9000.0 MHz";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5235,7 +5235,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'StopFreq' available settings: " + "\n" +
 														"-> 300.0 kHz ~ 9000.0 MHz";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StopFreq, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5249,7 +5249,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'StartFreq' available settings: " + "\n" +
 														"-> 9.0 kHz ~ 20000.0 MHz";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5261,7 +5261,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'StopFreq' available settings: " + "\n" +
 														"-> 9.0 kHz ~ 20000.0 MHz";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StopFreq, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5283,7 +5283,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					ret = ER_CONST_VNACONFIG_CONDITION_VALUE_INPUT_INVALID;
 					String ^ additionalMessage = "'StartFreq' & 'StopFreq' cannot have the same frequency condition value.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq + " & " + VnaConfigConditionName_StopFreq, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' & 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' & 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''StartFreq' & StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -5304,7 +5304,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					ret = ER_CONST_VNACONFIG_CONDITION_VALUE_INPUT_INVALID;
 					String ^ additionalMessage = "Segment frequency cannot overlap with other segment frequency.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq + " & " + VnaConfigConditionName_StopFreq, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' & 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' & 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''StartFreq' & StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -5325,7 +5325,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					ret = ER_CONST_VNACONFIG_CONDITION_VALUE_INPUT_INVALID;
 					String ^ additionalMessage = "'StartFreq' & 'StopFreq' must exist in a valid range (StartFreq must < StopFreq).";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq + " & " + VnaConfigConditionName_StopFreq, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' & 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' & 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''StartFreq' & StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -5350,7 +5350,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'Points' available settings: " + "\n" +
 														"-> 2 ~ 100001";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Ifbw, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5364,7 +5364,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'Points' available settings: " + "\n" +
 														"-> 1 ~ 100003";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Ifbw, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5389,7 +5389,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'Ifbw' available settings: " + "\n" +
 														"-> 1.0 Hz ~ 1.0 MHz";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Ifbw, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5403,7 +5403,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'Ifbw' available settings: " + "\n" +
 														"-> 1.0 Hz ~ 15.0 MHz";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Ifbw, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5428,7 +5428,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'Power' available settings: " + "\n" +
 														"-> -50.0 dBm ~ +15.0 dBm";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Power, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5442,7 +5442,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'Power' available settings: " + "\n" +
 														"-> -100.0 dBm ~ +20.0 dBm";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Power, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5467,7 +5467,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'Delay' available settings: " + "\n" +
 														"-> 0.0 sec ~ 100.0 sec";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Delay, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5481,7 +5481,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						String ^ additionalMessage =	"'Delay' available settings: " + "\n" +
 														"-> -86400 sec ~ 86400.0 sec";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Delay, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5507,7 +5507,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							"-> NA\n" +
 							"-> S3P\n";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_SNP, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5522,7 +5522,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"-> NA\n" +
 						"-> S3P\n";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_SNP, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 					}
@@ -5581,7 +5581,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port1 name only available in: P1"				+ "\n" +
 															"Port2 name only available in: P2";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5603,7 +5603,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port1 name only available in: OUT1, OUT2, OUT3, OUT4"		+ "\n" +
 															"Port2 name only available in: OUT5, OUT6, OUT7, OUT8";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5633,7 +5633,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port1 name only available in: OUT1, OUT2, OUT3, OUT4, OUT5, OUT6, OUT7, OUT8"			+ "\n" +
 															"Port2 name only available in: OUT9, OUT10, OUT11, OUT12, OUT13, OUT14, OUT15, OUT16";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5663,7 +5663,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port1 name only available in: OUT1, OUT2, OUT3, OUT4, OUT5, OUT6, OUT7, OUT8"			+ "\n" +
 															"Port2 name only available in: OUT1, OUT2, OUT3, OUT4, OUT5, OUT6, OUT7, OUT8";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5685,7 +5685,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port1 name only available in: OUT1, OUT2, OUT3, OUT4"			+ "\n" +
 															"Port2 name only available in: OUT1, OUT2, OUT3, OUT4";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5717,7 +5717,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port1 name only available in: OUT1, OUT2, OUT3, OUT4, OUT5, OUT6, OUT7, OUT8, OUT9, OUT10, OUT11, OUT12, OUT13, OUT14, OUT15, OUT16"	+ "\n" +
 															"Port2 name only available in: OUT17, OUT18";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5729,7 +5729,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"'MeasurePortPair' type does not match with the system configuration."	+ "\n"
 														"For example: system configuration A5 only able to measure S2P ('MeasurePortPair' = OUT1,OUT17), unable to measure S3P ('MeasurePortPair' = OUT1,OUT2,OUT3).";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5752,7 +5752,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port2 name only available in: OUT3, OUT4"			+ "\n" +
 															"Port3 name only available in: OUT5, OUT6";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5770,7 +5770,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port2 name only available in: OUT2"			+ "\n" +
 															"Port3 name only available in: OUT3";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5782,7 +5782,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"'MeasurePortPair' type does not match with the system configuration."	+ "\n"
 														"For example: system configuration A5 only able to measure S2P ('MeasurePortPair' = OUT1,OUT17), unable to measure S3P ('MeasurePortPair' = OUT1,OUT2,OUT3).";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5808,7 +5808,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port3 name only available in: OUT5, OUT6"		+ "\n" +
 															"Port4 name only available in: OUT7, OUT8";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5828,7 +5828,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port3 name only available in: OUT3"			+ "\n" +
 															"Port4 name only available in: OUT4";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5840,7 +5840,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"'MeasurePortPair' type does not match with the system configuration."	+ "\n"
 														"For example: system configuration A5 only able to measure S2P ('MeasurePortPair' = OUT1,OUT17), unable to measure S3P ('MeasurePortPair' = OUT1,OUT2,OUT3).";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5855,7 +5855,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"Example: OUT1,OUT2,OUT3 --> S3P 3-port measurement."														+ "\n" +  
 													"Example: OUT1,OUT2,OUT3,OUT4 --> S4P 4-port measurement.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -5874,7 +5874,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							String ^ additionalMessage =	"'MeasurePortPair' for system config S2P1D (S1P)"	+ "\n" +
 															"Port1 name only available in: P1, P2";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5891,7 +5891,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							String ^ additionalMessage =	"'MeasurePortPair' for system config S4P1D (S1P)"	+ "\n" +
 															"Port1 name only available in: P1, P2, P3, P4";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5910,7 +5910,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							String ^ additionalMessage =	"'MeasurePortPair' for system config S6P1D (S1P)"	+ "\n" +
 															"Port1 name only available in: P1, P2, P3, P4, P5, P6";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5946,7 +5946,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							String ^ additionalMessage = "'MeasurePortPair' for system config S6P22N (S1P)" + "\n" +
 								"Port1 name only available in: P1A, P2A, P3A up to P22A";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5958,7 +5958,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"'MeasurePortPair' type does not match with the system configuration."	+ "\n"
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -5976,7 +5976,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port1 name only available in: P1"					+ "\n" +
 															"Port2 name only available in: P2";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -5998,7 +5998,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port1 name only available in: P1, P2, P3, P4"		+ "\n" +
 															"Port2 name only available in: P2, P2, P3, P4";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6024,7 +6024,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port1 name only available in: P1, P2, P3, P4, P5, P6"		+ "\n" +
 															"Port2 name only available in: P2, P2, P3, P4, P5, P6";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6082,7 +6082,7 @@ namespace AMB7600SR_TestLibrary_REV2
 								"Port1 name only available in: OUT1~OUT18, P3, P4, P5, P6" + "\n" +
 								"Port2 name only available in: OUT1~OUT18, P3, P4, P5, P6";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6104,7 +6104,7 @@ namespace AMB7600SR_TestLibrary_REV2
 								"Port1 name only available in: OUT1, OUT2, OUT3, OUT4" + "\n" +
 								"Port2 name only available in: OUT1, OUT2, OUT3, OUT4";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6116,7 +6116,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"'MeasurePortPair' type does not match with the system configuration."	+ "\n"
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -6145,7 +6145,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port2 name only available in: P1, P2, P3, P4"		+ "\n" +
 															"Port3 name only available in: P2, P2, P3, P4";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6178,7 +6178,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port2 name only available in: P1, P2, P3, P4, P5, P6"		+ "\n" +
 															"Port3 name only available in: P2, P2, P3, P4, P5, P6";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6196,7 +6196,7 @@ namespace AMB7600SR_TestLibrary_REV2
 								"Port2 name only available in: OUT2" + "\n" +
 								"Port3 name only available in: OUT3";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6208,7 +6208,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"'MeasurePortPair' type does not match with the system configuration."	+ "\n"
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -6242,7 +6242,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port3 name only available in: P1, P2, P3, P4"		+ "\n" +
 															"Port4 name only available in: P2, P2, P3, P4";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6282,7 +6282,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port3 name only available in: P1, P2, P3, P4, P5, P6"		+ "\n" +
 															"Port4 name only available in: P2, P2, P3, P4, P5, P6";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6302,7 +6302,7 @@ namespace AMB7600SR_TestLibrary_REV2
 								"Port3 name only available in: OUT3" + "\n" +
 								"Port4 name only available in: OUT4";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6314,7 +6314,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"'MeasurePortPair' type does not match with the system configuration."	+ "\n"
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -6363,7 +6363,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port4 name only available in: P1, P2, P3, P4, P5, P6"		+ "\n" +
 															"Port5 name only available in: P2, P2, P3, P4, P5, P6";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6375,7 +6375,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"'MeasurePortPair' type does not match with the system configuration."	+ "\n"
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -6431,7 +6431,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"Port5 name only available in: P1, P2, P3, P4, P5, P6"		+ "\n" +
 															"Port6 name only available in: P2, P2, P3, P4, P5, P6";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6443,7 +6443,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"'MeasurePortPair' type does not match with the system configuration."	+ "\n"
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -6458,7 +6458,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"Example: OUT1,OUT2,OUT3 --> S3P 3-port measurement."														+ "\n" +  
 													"Example: OUT1,OUT2,OUT3,OUT4 --> S4P 4-port measurement.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -6478,7 +6478,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"'TraceCount' available settings: " + "\n" +
 												"-> 1 ~ 16";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceCount, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceCount' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceCount' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceCount' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -6544,7 +6544,7 @@ namespace AMB7600SR_TestLibrary_REV2
 										"-> S21 / A21 / B21" + "\n" +
 										"-> S22 / A22 / B22";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -6556,7 +6556,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -6604,7 +6604,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S43 / A43 / B43"																						+ "\n" +
 																	"-> S44 / A44 / B44";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -6616,7 +6616,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -6664,7 +6664,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S43 / A43 / B43"																						+ "\n" +
 																	"-> S44 / A44 / B44";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -6676,7 +6676,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -6688,7 +6688,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 															"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6730,7 +6730,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"-> PolarLin"													+ "\n" +
 															"-> PolarReIm";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -6755,7 +6755,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S11 / A11 / B11"																						+ "\n" +
 																	"-> S22 / A22 / B22";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -6784,7 +6784,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S33 / A33 / B33"																						+ "\n" +
 																	"-> S44 / A44 / B44";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -6821,7 +6821,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S55 / A55 / B55"																						+ "\n" +
 																	"-> S66 / A66 / B66";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -6833,7 +6833,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -6864,7 +6864,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S21 / A21 / B21"																						+ "\n" +
 																	"-> S22 / A22 / B22";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -6909,7 +6909,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S43 / A43 / B43"																						+ "\n" +
 																	"-> S44 / A44 / B44";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -6994,7 +6994,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S65 / A65 / B65"																						+ "\n" +
 																	"-> S66 / A66 / B66";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7079,7 +7079,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S65 / A65 / B65"																						+ "\n" +
 																	"-> S66 / A66 / B66";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7100,7 +7100,7 @@ namespace AMB7600SR_TestLibrary_REV2
 										"-> S21 / A21 / B21 " + "\n" +
 										"-> S22 / A22 / B22 ";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7112,7 +7112,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -7159,7 +7159,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S43 / A43 / B43"																						+ "\n" +
 																	"-> S44 / A44 / B44";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7244,7 +7244,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S65 / A65 / B65"																						+ "\n" +
 																	"-> S66 / A66 / B66";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7275,7 +7275,7 @@ namespace AMB7600SR_TestLibrary_REV2
 										"-> S32 / A32 / B32" + "\n" +
 										"-> S33 / A33 / B33";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7287,7 +7287,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -7334,7 +7334,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S43 / A43 / B43"																						+ "\n" +
 																	"-> S44 / A44 / B44";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7419,7 +7419,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S65 / A65 / B65"																						+ "\n" +
 																	"-> S66 / A66 / B66";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7464,7 +7464,7 @@ namespace AMB7600SR_TestLibrary_REV2
 										"-> S43 / A43 / B43" + "\n" +
 										"-> S44 / A44 / B44";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7476,7 +7476,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -7563,7 +7563,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S65 / A65 / B65"																						+ "\n" +
 																	"-> S66 / A66 / B66";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7575,7 +7575,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -7662,7 +7662,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																	"-> S65 / A65 / B65"																						+ "\n" +
 																	"-> S66 / A66 / B66";
 									amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-									tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
@@ -7674,7 +7674,7 @@ namespace AMB7600SR_TestLibrary_REV2
 																"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-								tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
@@ -7686,7 +7686,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"'TraceMeasurementFormat' measurement parameter does not match with the system configuration."	+ "\n"
 															"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -7728,7 +7728,7 @@ namespace AMB7600SR_TestLibrary_REV2
 															"-> PolarLin"													+ "\n" +
 															"-> PolarReIm";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -7744,7 +7744,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"Example: S21/LogMag --> trace#1 measure 'S21' parameter with 'LogMag' format."						+ "\n" +
 													"Example: S11/SWR,S21/LogMag --> trace#1 measure 'S11' parameter with 'SWR' format, trace#2 measure 'S21' parameter with 'LogMag' format.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -7765,7 +7765,7 @@ namespace AMB7600SR_TestLibrary_REV2
 												"-> AveOn"												+ "\n" +
 												"-> AveOff";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_AveragingSetting, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -7783,7 +7783,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'AveragingSetting' 2nd parameter available settings: " + "\n" +
 													"-> 1 ~ 999";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_AveragingSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -7797,7 +7797,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'AveragingSetting' 2nd parameter available settings: " + "\n" +
 													"-> 1 ~ 65535";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_AveragingSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -7824,7 +7824,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		//		String ^ additionalMessage = "'ChannelNum' available settings: " + "\n" +
 		//			"-> 1 ~ 16";
 		//		amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceCount, additionalMessage);
-		//		tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+		//		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 		//		tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 		//		return ret;
 		//	}
@@ -7870,7 +7870,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				String ^ additionalMessage =	"'TraceIndex' available settings: " + "\n" +
 												"-> 1 ~ 16";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_TraceIndex, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -7880,7 +7880,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 				String ^ additionalMessage = "Selected trace index must exists in 'TraceCount' at 'VnaFetch'.";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_TraceIndex, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -7924,7 +7924,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> Mean"							+ "\n" +
 													"-> P1dB";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Function, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -7983,7 +7983,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> SharedMemoryMinMaxRipple"		+ "\n" +
 													"-> P1dB";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Function, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8013,7 +8013,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> SearchRangeOn"																+ "\n" +
 													"-> SearchRangeOff";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8027,7 +8027,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> Max"																		+ "\n" +
 													"-> Min";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8047,7 +8047,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> SearchPeakLeft"																+ "\n" +
 													"-> SearchPeakRight";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8060,7 +8060,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'AnalysisSetting' for 'msPeak' function, 2nd parameter available settings: " + "\n" +
 													"-> -500.0 dB ~ +500.0 dB";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8076,7 +8076,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> Negative"																	+ "\n" +
 													"-> Both";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8089,7 +8089,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage = "'AnalysisSetting' for 'msPeak' function, 4th parameter available settings: " + "\n" +
 						"-> -500.0 dB ~ +500.0 dB";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}*/
@@ -8109,7 +8109,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> SearchTargetLeft"															+ "\n" +
 													"-> SearchTargetRight";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8122,7 +8122,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'AnalysisSetting' for 'msTarget' function, 2nd parameter available settings: " + "\n" +
 													"-> -500.0 dB ~ +500.0 dB";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8138,7 +8138,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> Negative"																	+ "\n" +
 													"-> Both";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8154,7 +8154,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				//											"-> TargetLineOn"																+ "\n" +
 				//											"-> TargetLineOff";
 				//			amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-				//			tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				//			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				//			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				//			return ret;
 				//		}
@@ -8173,7 +8173,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> StatisticsRangeOn"																+ "\n" +
 													"-> StatisticsRangeOff";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8190,7 +8190,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> Bandpass"																		+ "\n" +
 													"-> Notch";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8208,7 +8208,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"-> Max"																			+ "\n" +
 														"-> Min";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8223,7 +8223,7 @@ namespace AMB7600SR_TestLibrary_REV2
 														"-> Marker"																			+ "\n" +
 														"-> Peak";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8237,7 +8237,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'AnalysisSetting' for 'mmBwSearch' function, 3rd parameter available settings: " + "\n" +
 													"-> -500.0 dB ~ +500.0 dB";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8254,7 +8254,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"-> Bandpass" + "\n" +
 						"-> Notch";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8272,7 +8272,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							"-> Max" + "\n" +
 							"-> Min";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8287,7 +8287,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							"-> Marker" + "\n" +
 							"-> Peak";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8301,7 +8301,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage = "'AnalysisSetting' for 'mmBwSearchAbs' function, 3rd parameter available settings: " + "\n" +
 						"-> -500.0 dB ~ +500.0 dB";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8333,7 +8333,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"-> SearchRangeOn" + "\n" +
 						"-> SearchRangeOff";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8347,7 +8347,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"-> Max" + "\n" +
 						"-> Min";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8364,7 +8364,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"-> SearchRangeOn" + "\n" +
 						"-> SearchRangeOff";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8377,7 +8377,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage = "'AnalysisSetting' for 'SharedMemoryDataTarget' function, 2nd parameter available settings: " + "\n" +
 						"-> -500.0 dB ~ +500.0 dB";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8393,7 +8393,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"-> Negative" + "\n" +
 						"-> Both";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8411,7 +8411,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"-> SearchRangeOn" + "\n" +
 						"-> SearchRangeOff";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8425,7 +8425,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						"-> Bandpass" + "\n" +
 						"-> Notch";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8443,7 +8443,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							"-> Max" + "\n" +
 							"-> Min";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8458,7 +8458,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							"-> Marker" + "\n" +
 							"-> Peak";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8472,7 +8472,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage = "'AnalysisSetting' for 'SharedMemoryDataBWSearch' function, 4th parameter available settings: " + "\n" +
 						"-> -500.0 dB ~ +500.0 dB";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8494,7 +8494,7 @@ namespace AMB7600SR_TestLibrary_REV2
 												"-> SmoOn"												+ "\n" +
 												"-> SmoOff";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_SmoothingSetting, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -8508,7 +8508,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'SmoothingSetting' 2nd parameter available settings: " + "\n" +
 													"-> 0.01 ~ 20.0";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_SmoothingSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8522,7 +8522,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'SmoothingSetting' 2nd parameter available settings: " + "\n" +
 													"-> 0.0 ~ 25.0";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_SmoothingSetting, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8552,7 +8552,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							String ^ additionalMessage = "'Freq' for '" + amb7300tl->vnaDataAnalysisTPC.function + "' function, the available settings: " + "\n" +
 								"-> 300.0 kHz ~ 9000.0 MHz";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Freq, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -8566,7 +8566,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							String ^ additionalMessage = "'Freq' for '" + amb7300tl->vnaDataAnalysisTPC.function + "' function, the available settings: " + "\n" +
 								"-> 9.0 kHz ~ 20000.0 MHz";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Freq, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -8577,7 +8577,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 						String ^ additionalMessage = "'FreqRangeStart' is unavailable for '" + amb7300tl->vnaDataAnalysisTPC.function + "' function, please remain the condition value as 0.0 MHz.";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_FreqRangeStart, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8587,7 +8587,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 						String ^ additionalMessage = "'FreqRangeStop' is unavailable for '" + amb7300tl->vnaDataAnalysisTPC.function + "' function, please remain the condition value as 0.0 MHz.";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_FreqRangeStop, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8660,7 +8660,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							String ^ additionalMessage = "'Power' for 'P1dBTarget' function, the available settings: " + "\n" +
 								"-> -50 dBm ~ 15 dBm";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Power, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -8674,7 +8674,7 @@ namespace AMB7600SR_TestLibrary_REV2
 							String ^ additionalMessage = "'Power' for 'P1dBTarget' function, the available settings: " + "\n" +
 								"-> -100 dBm ~ 20 dBm";
 							amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Power, additionalMessage);
-							tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
@@ -8685,7 +8685,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 						String ^ additionalMessage = "'PowerRangeStart' is unavailable for 'TraceData' function, please remain the condition value as 0.0 MHz.";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_PowerRangeStart, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8695,7 +8695,7 @@ namespace AMB7600SR_TestLibrary_REV2
 						ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 						String ^ additionalMessage = "'PowerRangeStop' is unavailable for 'TraceData' function, please remain the condition value as 0.0 MHz.";
 						amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_PowerRangeStop, additionalMessage);
-						tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
@@ -8726,7 +8726,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> Freq"																														+ "\n" +
 													"-> Data";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8743,7 +8743,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> StdDev"																+ "\n" +
 													"-> PeakToPeak";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8768,7 +8768,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> Q"																											+ "\n" +
 													"-> Loss";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8785,7 +8785,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> Slope"															+ "\n" +
 													"-> Flat";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8798,7 +8798,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					String ^ additionalMessage =	"'OutputType' for 'msMinMaxRipple', 'SharedMemoryMinMaxRipple' function, the available settings: " + "\n" +
 													"-> Data";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8840,7 +8840,7 @@ namespace AMB7600SR_TestLibrary_REV2
 													"-> Conductance"																										+ "\n" +
 													"-> Susceptance";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputFormat, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8857,7 +8857,7 @@ namespace AMB7600SR_TestLibrary_REV2
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 					String ^ additionalMessage =	"'OutputFormat' is unavailable for 'mmStatistics', 'mmBwSearch', 'mmFlatness', 'SharedMemoryDataBWSearch' function, please remain the condition value empty.";
 					amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputFormat, additionalMessage);
-					tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
@@ -8920,7 +8920,7 @@ namespace AMB7600SR_TestLibrary_REV2
 												"-> AbsAdd"							+ "\n" +
 												"-> AbsSubtract";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, MathTestConditionName_MathFunction, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['Math' condition value verification] 'MathFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['Math' condition value verification] 'MathFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['Math' condition value verification] 'MathFunction' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -8938,7 +8938,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				ret = ER_CONST_MATH_CONDITION_VALUE_INPUT_INVALID;
 				String ^ additionalMessage = "Test Parameter: " + amb7300tl->MathTPC.mathTP1 + " is not available!\n";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, MathTestConditionName_MathFunction, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['Math' condition value verification] 'MathTP1' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['Math' condition value verification] 'MathTP1' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['Math' condition value verification] 'MathTP1' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
@@ -8956,7 +8956,7 @@ namespace AMB7600SR_TestLibrary_REV2
 				ret = ER_CONST_MATH_CONDITION_VALUE_INPUT_INVALID;
 				String ^ additionalMessage = "Test Parameter: " + amb7300tl->MathTPC.mathTP2 + " is not available!\n";
 				amb7300tl->ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, MathTestConditionName_MathFunction, additionalMessage);
-				tl->WriteToTracerLogger(tfSite, siteIndex, WARNING, "['Math' condition value verification] 'MathTP2' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['Math' condition value verification] 'MathTP2' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['Math' condition value verification] 'MathTP2' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}

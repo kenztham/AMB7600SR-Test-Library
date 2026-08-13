@@ -5,10 +5,8 @@ namespace AMB7600SR_TestLibrary_REV2
 	// TestProgram Constructor
 	TestProgram::TestProgram(void)
 	{
-		
 		//<Info> tl - TestLibrary 
 		tl = gcnew TestFunction();
-		amb7300tl = gcnew AMB7300TestLibrary(tl);
 	}
 
 	// Public Methods
@@ -301,7 +299,7 @@ namespace AMB7600SR_TestLibrary_REV2
 
 					ConditionCollection ^ testConditionCollection = gcnew ConditionCollection();
 
-					for (int l_siteIndex = 0; l_siteIndex < tl->glob->tf.TPropertyTotalSite; l_siteIndex++)
+					for (int l_siteIndex = 0; l_siteIndex < tl->glob->tf.NumberOfSites; l_siteIndex++)
 					{
 						// Get current flow item's name
 						tl->glob->currentSubItemName[l_siteIndex] = subFlowItem->Name;
