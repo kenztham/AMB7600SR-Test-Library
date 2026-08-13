@@ -163,15 +163,6 @@ namespace AMB7600SR_TestLibrary_REV2
 
 		return ret;
 	}
-	int TestProgram::seq_TestItem(Site ^ site)
-	{
-		int ret = 0;
-
-		tl->ThreadingInfo(site, tl->TestItem_RF_ResourceNeeded(site));
-		ret = tl->DoThreadHardware(gcnew ParameterizedThreadStart(this, &TestProgram::AMB7600SR_TestLibrary_ControlMethod_TestMethod), site);
-
-		return ret;
-	}
 
 	int TestProgram::seq_TestMethod(Site ^ site)
 	{
