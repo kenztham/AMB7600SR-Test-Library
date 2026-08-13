@@ -1351,7 +1351,7 @@ namespace Functions
 			if (FlowType == ControlItem::typeid)
 			{
 				glob->TProperty[siteIndex].CI_Name = (String ^)tf_ControlItem_Name();
-				WriteToLogger(siteIndex, ">>Updating test condition properties for Control Item <<" +
+				WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updating test condition properties for Control Item <<" +
 					glob->TProperty[siteIndex].CI_Name + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
 
 				TC = ((ControlItem^)site->CurrentFlowItem)->Conditions;
@@ -1388,7 +1388,7 @@ namespace Functions
 					}
 				}
 
-				WriteToLogger(siteIndex, ">>Updated test condition properties for Control Item <<" +
+				WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updated test condition properties for Control Item <<" +
 					glob->TProperty[siteIndex].CI_Name + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
 			}
 
@@ -1398,7 +1398,7 @@ namespace Functions
 				glob->TProperty[siteIndex].TI_Name = (String ^)tf_TestItem_Name();
 				glob->TProperty[siteIndex].TP_Name = gcnew array<String ^>(glob->TProperty[siteIndex].TotalTestParameter);
 
-				WriteToLogger(siteIndex, ">>Updating test condition properties for Test Item <<" +
+				WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updating test condition properties for Test Item <<" +
 					glob->TProperty[siteIndex].TI_Name + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
 
 				/* [20201214]: KL Added TI conditions */
@@ -1434,16 +1434,16 @@ namespace Functions
 					if (!glob->TProperty[siteIndex].TC_dict->ContainsKey(Cond->Name))
 					{
 						glob->TProperty[siteIndex].TC_dict->Add(Cond->Name, glob->TProperty[siteIndex].TCond);
-						WriteToLogger(siteIndex, ">>**Added new test condition in test property dictionary <<" +
+						WriteToTcrLgr("SITE " + siteIndex.ToString(),">>**Added new test condition in test property dictionary <<" +
 							glob->TProperty[siteIndex].TI_Name + ">> [ConditionName: " + Cond->Name + " ConditionValue:" +
 							glob->TProperty[siteIndex].TCond + "]");
 					}
 					else {
 						glob->TProperty[siteIndex].TC_dict->Remove(Cond->Name);
 						glob->TProperty[siteIndex].TC_dict->Add(Cond->Name, glob->TProperty[siteIndex].TCond);
-						WriteToLogger(siteIndex, ">>!Found same test condition name in test property dictionary <<" +
+						WriteToTcrLgr("SITE " + siteIndex.ToString(),">>!Found same test condition name in test property dictionary <<" +
 							glob->TProperty[siteIndex].TI_Name + ">> [ConditionName: " + Cond->Name + "]");
-						WriteToLogger(siteIndex, ">>Added same test condition in test property dictionary <<" +
+						WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Added same test condition in test property dictionary <<" +
 							glob->TProperty[siteIndex].TI_Name + ">> [ConditionName: " + Cond->Name + " ConditionValue:" +
 							glob->TProperty[siteIndex].TCond + "]");
 					}
@@ -1484,23 +1484,23 @@ namespace Functions
 						if (!glob->TProperty[siteIndex].TC_dict->ContainsKey(Cond->Name))
 						{
 							glob->TProperty[siteIndex].TC_dict->Add(Cond->Name, glob->TProperty[siteIndex].TCond);
-							WriteToLogger(siteIndex, ">>**Added new test condition in test property dictionary <<" +
+							WriteToTcrLgr("SITE " + siteIndex.ToString(),">>**Added new test condition in test property dictionary <<" +
 								glob->TProperty[siteIndex].TI_Name + ">> [ConditionName: " + Cond->Name + " ConditionValue:" +
 								glob->TProperty[siteIndex].TCond + "]");
 						}
 						else {
 							glob->TProperty[siteIndex].TC_dict->Remove(Cond->Name);
 							glob->TProperty[siteIndex].TC_dict->Add(Cond->Name, glob->TProperty[siteIndex].TCond);
-							WriteToLogger(siteIndex, ">>!Found same test condition name in test property dictionary <<" +
+							WriteToTcrLgr("SITE " + siteIndex.ToString(),">>!Found same test condition name in test property dictionary <<" +
 								glob->TProperty[siteIndex].TI_Name + ">> [ConditionName: " + Cond->Name + "]");
-							WriteToLogger(siteIndex, ">>Added same test condition in test property dictionary <<" +
+							WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Added same test condition in test property dictionary <<" +
 								glob->TProperty[siteIndex].TI_Name + ">> [ConditionName: " + Cond->Name + " ConditionValue:" +
 								glob->TProperty[siteIndex].TCond + "]");
 						}
 					}
 				}
 
-				WriteToLogger(siteIndex, ">>Updated test condition properties for Test Item <<" +
+				WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updated test condition properties for Test Item <<" +
 					glob->TProperty[siteIndex].TI_Name + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
 			}
 		}
@@ -1564,7 +1564,7 @@ namespace Functions
 		glob->TestProperty[siteIndex].FlowStepItemDisplayName	= gcnew array<String ^>(glob->TestProperty[siteIndex].totalFlowStep);
 		glob->TestProperty[siteIndex].FlowStepItemExecuted		= gcnew array<bool>(glob->TestProperty[siteIndex].totalFlowStep);
 
-		WriteToLogger(siteIndex, ">>Updating test properties for Test Item <<" + glob->TestProperty[siteIndex].TestItemName + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
+		WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updating test properties for Test Item <<" + glob->TestProperty[siteIndex].TestItemName + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
 
 		try
 		{
@@ -1639,7 +1639,7 @@ namespace Functions
 			CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
 		}
 
-		WriteToLogger(siteIndex, ">>Updated test properties for Test Item <<" + glob->TestProperty[siteIndex].TestItemName + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
+		WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updated test properties for Test Item <<" + glob->TestProperty[siteIndex].TestItemName + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
 	}
 	int TestFunction::Update_Test_Property(Site ^ site, int siteIndex)
 	{
@@ -1779,139 +1779,6 @@ namespace Functions
 	EndOfTest:
 		return ret;
 	}
-	void TestFunction::UpdateTestResults(Site^ site, int siteIndex, array<double>^ TestResult)
-	{
-		/*****************************************************************************************************
-		** UpdateTestResults
-		** Arguments:
-		**		site			- This is techFlow site object.
-		**		siteIndex		- This is selected physical site. (Note: UUT offset index for the MultiUUTOffsets
-		**						  project or techFlow sites for Index Parallel project.
-		**		TestResult		- This is a double type array of test result, store test result of each test parameter.
-		** Descriptions:
-		**		This test method is to updates the test results with the offset value (grab from FixedOffset.csv)
-		**		to the techFlow.
-		******************************************************************************************************/
-
-		bool IsInfinityStatus = false;
-		String ^ ResultUnit = String::Empty;
-		String ^ Identifier = String::Empty;
-		String ^ ResultUnitPrefix = String::Empty;
-		double OffsetFactor = 0.0;
-		bool isCurrentTPByPassed = false;
-
-		WriteToLogger(siteIndex, ">>Updating test results for Test Item <<" + glob->TestProperty[siteIndex].TestItemName + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
-
-		try
-		{
-			for (int i = 0; i < glob->TestProperty[siteIndex].TotalTestParameter; i++)
-			{
-				Identifier = glob->TestProperty[siteIndex].TestParameterDisplayName[i] + "_S" + siteIndex.ToString();
-				isCurrentTPByPassed = tf_TestParameter_BypassStatus(glob->TestProperty[siteIndex].TestParameterName[i]);
-
-				if ((glob->TestProperty[siteIndex].TestParaDisplayNameWithSiteIndex->ContainsKey(Identifier) == true) && (isCurrentTPByPassed == false))
-				{
-					ResultUnit = ((TestItem^)site->FlowItems[glob->TestProperty[siteIndex].TestItemName])->TestParameters[glob->TestProperty[siteIndex].TestParaDisplayNameWithSiteIndex[Identifier]]->Unit;
-					ResultUnitPrefix = GetStringUnitPrefix(site, glob->TestProperty[siteIndex].TestItemName, glob->TestProperty[siteIndex].TestParaDisplayNameWithSiteIndex[Identifier]);
-					DataType ResultDataType = ((TestItem^)site->FlowItems[glob->TestProperty[siteIndex].TestItemName])->TestParameters[glob->TestProperty[siteIndex].TestParaDisplayNameWithSiteIndex[Identifier]]->DataType;
-
-					switch (ResultDataType)
-					{
-					case DataType::Double:
-
-						glob->ResultType[siteIndex].DoubleTypeResult = TestResult[i] + OffsetFactor;
-						Util->IsInfinity(glob->ResultType[siteIndex].DoubleTypeResult, IsInfinityStatus);
-
-						if (IsInfinityStatus == true)
-						{
-							glob->ResultType[siteIndex].DoubleTypeResult = ER_CONST_ERRROR_CATCH;
-						}
-
-						if (glob->tf.StageCount > 1) //Index Parallel 
-						{
-							tf_SetResult(glob->TestProperty[siteIndex].TestParameterName[i], glob->ResultType[siteIndex].DoubleTypeResult);
-						}
-						else //Multi UUTOffsets
-						{
-							tf_SetResult_UUTOffset(glob->TestProperty[siteIndex].TestParameterName[i], glob->ResultType[siteIndex].DoubleTypeResult, siteIndex);
-						}
-						break;
-
-					case DataType::Int32:
-
-						glob->ResultType[siteIndex].IntTypeResult = (int)TestResult[i] + (int)OffsetFactor;
-
-						if (glob->tf.StageCount > 1) //Index Parallel 
-						{
-							tf_SetResult(glob->TestProperty[siteIndex].TestParameterName[i], glob->ResultType[siteIndex].IntTypeResult);
-						}
-						else //Multi UUTOffsets
-						{
-							tf_SetResult_UUTOffset(glob->TestProperty[siteIndex].TestParameterName[i], glob->ResultType[siteIndex].IntTypeResult, siteIndex);
-						}
-						break;
-
-					case DataType::String:
-
-						glob->ResultType[siteIndex].StringTyperesult = Convert::ToString(TestResult[i]);
-
-						if (glob->tf.StageCount > 1) //Index Parallel 
-						{
-							tf_SetResult(glob->TestProperty[siteIndex].TestParameterName[i], glob->ResultType[siteIndex].StringTyperesult);
-						}
-						else //Multi UUTOffsets
-						{
-							tf_SetResult_UUTOffset(glob->TestProperty[siteIndex].TestParameterName[i],
-								glob->ResultType[siteIndex].StringTyperesult, siteIndex);
-						}
-						break;
-					}
-
-					if (glob->AWV.Debug == 1) {
-						if (ResultDataType != DataType::String) {
-							glob->TcrLgr.TracerLog->WriteToTracer(glob->TcrLgr.TracerTabNamePhysicalSite + siteIndex, LOGGER_INFO_TYPE + DateTime::Now.Year + "/" + DateTime::Now.Month + "/" + DateTime::Now.Day + " " + DateTime::Now.ToString("h:mm:ss tt") +
-								": Test Parameter Identifier = " + Identifier + "\n\t\t\t\t\t" +
-								"techFlow Site = Site " + glob->tf.TestSite + "\n\t\t\t\t\t" +
-								"UUTOffset Site = Site " + siteIndex + "\n\t\t\t\t\t" +
-								"Raw Test Result = " + Convert::ToDouble(TestResult[i]) / glob->TcrLgr.PrefixValue + ResultUnitPrefix + ResultUnit + "\n\t\t\t\t\t" +
-								"Offset Factor = " + OffsetFactor / glob->TcrLgr.PrefixValue + ResultUnitPrefix + ResultUnit + "\n\t\t\t\t\t" +
-								"Final Test Result = " + glob->ResultType[siteIndex].DoubleTypeResult / glob->TcrLgr.PrefixValue + ResultUnitPrefix + ResultUnit);
-
-							glob->TcrLgr.Messages = "Test Parameter Identifier = " + Identifier + "\n" + "," + "," +
-								"techFlow Site = Site " + glob->tf.TestSite + "\n" + "," + "," +
-								"UUTOffset Site = Site " + siteIndex + "\n" + "," + "," +
-								"Raw Test Result = " + Convert::ToDouble(TestResult[i]) / glob->TcrLgr.PrefixValue + ResultUnitPrefix + ResultUnit + "\n" + "," + "," +
-								"Offset Factor = " + OffsetFactor / glob->TcrLgr.PrefixValue + ResultUnitPrefix + ResultUnit + "\n" + "," + "," +
-								"Final Test Result = " + glob->ResultType[siteIndex].DoubleTypeResult / glob->TcrLgr.PrefixValue + ResultUnitPrefix + ResultUnit;
-						}
-						//String type data  
-						else {
-							glob->TcrLgr.TracerLog->WriteToTracer(glob->TcrLgr.TracerTabNamePhysicalSite + siteIndex, LOGGER_INFO_TYPE + DateTime::Now.Year + "/" + DateTime::Now.Month + "/" + DateTime::Now.Day + " " + DateTime::Now.ToString("h:mm:ss tt") +
-								": Test Parameter Identifier = " + Identifier + "\n\t\t\t\t\t" +
-								"techFlow Site = Site " + glob->tf.TestSite + "\n\t\t\t\t\t" +
-								"UUTOffset Site = Site " + siteIndex + "\n\t\t\t\t\t" +
-								"Raw Test Result = " + Convert::ToString(TestResult[i]) + "\n\t\t\t\t\t" +
-								"Final Test Result = " + glob->ResultType[siteIndex].StringTyperesult);
-
-							glob->TcrLgr.Messages = "Test Parameter Identifier = " + Identifier + "\n" + "," + "," +
-								"techFlow Site = Site " + glob->tf.TestSite + "\n" + "," + "," +
-								"UUTOffset Site = Site " + siteIndex + "\n" + "," + "," +
-								"Raw Test Result = " + Convert::ToString(TestResult[i]) + "\n" + "," + "," +
-								"Final Test Result = " + glob->ResultType[siteIndex].StringTyperesult;
-						}
-						FileLogging(siteIndex, LOGGER_INFO_TYPE, glob->TcrLgr.Messages);
-					}
-				}
-			}
-		}
-		catch (Exception^ ex)
-		{
-			glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
-		}
-
-		WriteToLogger(siteIndex, ">>Updated test results for Test Item <<" + glob->TestProperty[siteIndex].TestItemName + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
-	}
 	void TestFunction::UpdateTestResults(Site^ site, int siteIndex, array<Object ^> ^ TestResult)
 	{
 		/*****************************************************************************************************
@@ -1933,7 +1800,7 @@ namespace Functions
 		Object^ OffsetFactor = 0;
 		bool isCurrentTPByPassed = false;
 
-		WriteToLogger(siteIndex, ">>Updating test results for Test Item <<" +
+		WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updating test results for Test Item <<" +
 			glob->TestProperty[siteIndex].TestItemName + ">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
 
 		try
@@ -2057,7 +1924,7 @@ namespace Functions
 									"Raw Test Result = " + glob->ResultType[siteIndex].StringTyperesult[siteIndex] + "\n" + "," + "," +
 									"Final Test Result = " + glob->ResultType[siteIndex].StringTyperesult[siteIndex];
 							}
-							FileLogging(siteIndex, LOGGER_INFO_TYPE, glob->TcrLgr.Messages);
+							WriteToFileLgr(glob->FileLog.FileNameDebugLog, glob->TcrLgr.Messages);
 						}
 					}
 				}
@@ -2069,12 +1936,8 @@ namespace Functions
 			CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
 		}
 
-		WriteToLogger(siteIndex, ">>Updated test results for Test Item <<" + glob->TestProperty[siteIndex].TestItemName +
+		WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updated test results for Test Item <<" + glob->TestProperty[siteIndex].TestItemName +
 			">> [Site" + glob->tf.TestSite + " with UUTOffset" + siteIndex + "]");
-	}
-	void TestFunction::UpdateTestResults(Site^ site, int siteIndex, Object ^ testResult)
-	{
-
 	}
 	void TestFunction::UpdateTestResultWlanAsync(Site^site, int siteIndex, String^ testItemName, String^ testParaName, Object^ testResult)
 	{
@@ -2112,7 +1975,7 @@ namespace Functions
 
 		if (site->CurrentFlowItem->GetType() == TestItem::typeid)
 		{
-			WriteToLogger(siteIndex, ">>Updated test results as an exception catch during updating the test results");
+			WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updated test results as an exception catch during updating the test results");
 			for (int i = 0; i < glob->TestProperty[siteIndex].TotalTestParameter; i++)
 			{
 				DataType dataType = ((TestItem^)site->FlowItems[glob->TestProperty[siteIndex].TestItemName])->
@@ -2152,7 +2015,7 @@ namespace Functions
 					}
 				}
 			}
-			WriteToLogger(siteIndex, ">>Updated test results as an exception catch during updating the test results");
+			WriteToTcrLgr("SITE " + siteIndex.ToString(),">>Updated test results as an exception catch during updating the test results");
 		}
 
 	}

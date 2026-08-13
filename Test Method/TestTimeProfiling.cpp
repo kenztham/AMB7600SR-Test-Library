@@ -140,7 +140,7 @@ namespace TestMethods
 //				if (childNodes[i] == "SiteConfiguration")
 //				{
 //					testerSiteConfig = innerTexts[i];
-//					tl->WriteToLogger(0, childNodes[i] + ": " + testerSiteConfig);
+//					tl->WriteToTcrLgr(0, childNodes[i] + ": " + testerSiteConfig);
 //				}
 //				//else if (childNodes[i] == "TotalUUTCount_PerHead_PerSite")
 //				//{
@@ -153,12 +153,12 @@ namespace TestMethods
 //				//		throw gcnew Aemulus::Hardware::AlarmException();
 //				//	}
 //
-//				//	tl->WriteToLogger(0, childNodes[i] + ": " + NumberOfUUTCount.ToString());
+//				//	tl->WriteToTcrLgr(0, childNodes[i] + ": " + NumberOfUUTCount.ToString());
 //				//}
 //				//else if (childNodes[i] == "TotalHeadCount")
 //				//{
 //				//	NumberOfHeadCount = int::Parse(innerTexts[i]);
-//				//	tl->WriteToLogger(0, childNodes[i] + ": " + NumberOfHeadCount.ToString());
+//				//	tl->WriteToTcrLgr(0, childNodes[i] + ": " + NumberOfHeadCount.ToString());
 //				//}
 //			}
 //
@@ -749,7 +749,7 @@ void TestTimeProfiling::RetrieveProjectConfig(Site^ site)
 			if (childNodes[i] == "SiteConfiguration")
 			{
 				testerSiteConfig = innerTexts[i];
-				tl->WriteToLogger(0, childNodes[i] + ": " + testerSiteConfig);
+				tl->WriteToTcrLgr("0", childNodes[i] + ": " + testerSiteConfig);
 			}
 			else if (childNodes[i] == "TotalUUTCount_PerHead_PerSite")
 			{
@@ -762,12 +762,12 @@ void TestTimeProfiling::RetrieveProjectConfig(Site^ site)
 					throw gcnew Aemulus::Hardware::AlarmException();
 				}
 
-				tl->WriteToLogger(0, childNodes[i] + ": " + NumberOfUUTCount.ToString());
+				tl->WriteToTcrLgr("0", childNodes[i] + ": " + NumberOfUUTCount.ToString());
 			}
 			else if (childNodes[i] == "TotalHeadCount")
 			{
 				NumberOfHeadCount = int::Parse(innerTexts[i]);
-				tl->WriteToLogger(0, childNodes[i] + ": " + NumberOfHeadCount.ToString());
+				tl->WriteToTcrLgr("0", childNodes[i] + ": " + NumberOfHeadCount.ToString());
 			}
 		}
 

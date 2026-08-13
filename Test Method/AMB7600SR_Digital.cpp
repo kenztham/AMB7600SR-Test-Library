@@ -20,7 +20,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMInit");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMInit");
 
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
@@ -68,7 +68,7 @@ namespace Functions
 
 #pragma endregion "Test"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMInit");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMInit");
 
 		}
 
@@ -99,7 +99,7 @@ namespace Functions
 			try
 			{
 				//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-				tl->WriteToLogger(testSite, "Executing Control Method DMCase_WriteVector");
+				tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_WriteVector");
 
 				//Control Method Compulsory Variable
 				String^ vectorFileName = nullptr;
@@ -142,7 +142,7 @@ namespace Functions
 
 				DM_MIPIWriteVector(testSite, moduleAlias, vectorFileName);
 
-				tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_WriteVector");
+				tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_WriteVector");
 
 #pragma endregion "Test"
 
@@ -173,7 +173,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMConfigureInputTriggerSelect");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMConfigureInputTriggerSelect");
 			//Control Method Compulsory Variable
 			int trigOutput0 = 0;
 			int trigOutput1 = 0;
@@ -233,7 +233,7 @@ namespace Functions
 			DM_ConfigureInputTriggerSelect(testSite, moduleAlias, trigOutput0, trigOutput1);
 			//tl->CheckError(testSite, cm[testSite]->MapTriggerInToTriggerOut("CM400e", 1, 23));
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMConfigureInputTriggerSelect");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMConfigureInputTriggerSelect");
 
 
 #pragma endregion "Test"
@@ -263,7 +263,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMConfigureOutputTriggerSelect");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMConfigureOutputTriggerSelect");
 			//Control Method Compulsory Variable
 			int trigOutput0 = 0;
 			int trigOutput1 = 0;
@@ -323,7 +323,7 @@ namespace Functions
 			DM_ConfigureOutputTriggerSelect(testSite, moduleAlias, trigOutput0, trigOutput1);
 			//tl->CheckError(testSite, cm[testSite]->MapTriggerInToTriggerOut("CM400e", 1, 23));
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMConfigureOutputTriggerSelect");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMConfigureOutputTriggerSelect");
 
 
 #pragma endregion "Test"
@@ -353,7 +353,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMConfigureReadPin_TriggerOutput");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMConfigureReadPin_TriggerOutput");
 
 			//Control Method Compulsory Variable
 			String ^ pinAlias = nullptr;
@@ -398,7 +398,7 @@ namespace Functions
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			DM_ConfigureReadPin_TriggerOutput(testSite, pinAlias, pinStatusSelect);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMConfigureReadPin_TriggerOutput");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMConfigureReadPin_TriggerOutput");
 
 #pragma endregion "Test"
 		}
@@ -428,7 +428,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMConfigurePinToPMU");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMConfigurePinToPMU");
 
 			//Control Method Compulsory Variable
 			array<String ^>^ pinAlias = nullptr;
@@ -607,7 +607,7 @@ namespace Functions
 				DM_ConfigureDigitalPinToPMU(testSite, pinAlias[i], measureMode[i], senseMode[i], compliance[i], driveValue[i], nplc[i]);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMConfigurePinToPMU");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMConfigurePinToPMU");
 
 #pragma endregion "Test"
 		}
@@ -637,7 +637,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMConfigurePinToVector");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMConfigurePinToVector");
 
 			//Control Method Compulsory Variable
 			array<String ^>^ pinAlias = nullptr;
@@ -787,7 +787,7 @@ namespace Functions
 				DM_ConfigureDigitalPinToVector(testSite, pinAlias[i], dPinLevelSet[i], pEAttSet[i]);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMConfigurePinToVector");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMConfigurePinToVector");
 
 #pragma endregion "Test"
 		}
@@ -817,7 +817,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMConfigurePinToDIO");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMConfigurePinToDIO");
 			//Control Method Compulsory Variable
 			//Operation Variable
 
@@ -970,7 +970,7 @@ namespace Functions
 			
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMConfigurePinToDIO");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMConfigurePinToDIO");
 
 #pragma endregion "Test"
 		}
@@ -999,7 +999,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMDioModeDrivePin");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMDioModeDrivePin");
 			//Control Method Compulsory Variable
 			array<String^> ^ pinAlias = nullptr;
 			array<int> ^ pinState = nullptr;
@@ -1067,7 +1067,7 @@ namespace Functions
 			}
 #pragma endregion "Control Condition Casting"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMDioModeDrivePin");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMDioModeDrivePin");
 
 		}
 
@@ -1083,7 +1083,7 @@ namespace Functions
 	{
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DMCastDPinLevelCondition");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCastDPinLevelCondition");
 
 			//Control Method Compulsory Variable
 
@@ -1210,7 +1210,7 @@ namespace Functions
 
 #pragma endregion "Control Condition Casting"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method CM_DMCastDPinLevelCondition");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method CM_DMCastDPinLevelCondition");
 
 		}
 
@@ -1239,7 +1239,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMCastTimingSetPeriod");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMCastTimingSetPeriod");
 			//Control Method Compulsory Variable
 
 			//Operation Variable
@@ -1296,7 +1296,7 @@ namespace Functions
 			}
 #pragma endregion "Control Condition Casting"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMCastTimingSetPeriod");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMCastTimingSetPeriod");
 
 		}
 
@@ -1312,7 +1312,7 @@ namespace Functions
 	{
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DMCastPEAttribute");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCastPEAttribute");
 
 			//Control Method Compulsory Variable
 
@@ -1446,7 +1446,7 @@ namespace Functions
 			}
 #pragma endregion "Control Condition Casting"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method CM_DMCastDPinLevelCondition");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method CM_DMCastDPinLevelCondition");
 
 		}
 
@@ -1475,7 +1475,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DMCase_DMLoadVectorFile");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DMCase_DMLoadVectorFile");
 
 			//Control Method Compulsory Variable
 			array<String^> ^ moduleAlias = nullptr;
@@ -1525,7 +1525,7 @@ namespace Functions
 				}
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DMCase_DMLoadVectorFile");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DMCase_DMLoadVectorFile");
 
 #pragma endregion "Test"
 
@@ -1558,7 +1558,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method IOMCase_DIODrivePin");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method IOMCase_DIODrivePin");
 			//Control Method Compulsory Variable
 			array<String^> ^ pinAlias = nullptr;
 			array<int> ^ dioPinState = nullptr;
@@ -1635,7 +1635,7 @@ namespace Functions
 				DIO_DrivePin(testSite, pinAlias[i], dioPinState[i]);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method IOMCase_DIODrivePin");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method IOMCase_DIODrivePin");
 
 #pragma endregion "Test"
 
@@ -1666,7 +1666,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method IOMCase_DIODrivePort");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method IOMCase_DIODrivePort");
 
 			//Control Method Compulsory Variable
 			array<String^> ^ portAlias = nullptr;
@@ -1745,7 +1745,7 @@ namespace Functions
 
 #pragma endregion "Test"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method IOMCase_DIODrivePort");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method IOMCase_DIODrivePort");
 		}
 
 		catch (Exception ^ ex)
@@ -1773,7 +1773,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method IOMCase_DIOSetModuleVIO");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method IOMCase_DIOSetModuleVIO");
 
 			//Control Method Compulsory Variable
 			array<String^> ^ ModuleAlias = nullptr;
@@ -1861,7 +1861,7 @@ namespace Functions
 				DIO_SetVIO(testSite, ModuleAlias[i], dioVioVal[i]);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method IOMCase_DIOSetModuleVIO");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method IOMCase_DIOSetModuleVIO");
 
 #pragma endregion "Test"
 		}
@@ -1892,7 +1892,7 @@ namespace Functions
 		try
 		{
 
-			tl->WriteToLogger(testSite, "Executing Control Method IOMCase_DIOSetPortDirection");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method IOMCase_DIOSetPortDirection");
 
 			//Control Method Compulsory Variable
 			array<String^> ^ portAlias = nullptr;
@@ -1969,7 +1969,7 @@ namespace Functions
 
 #pragma endregion "Test"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method IOMCase_DIOSetPortDirection");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method IOMCase_DIOSetPortDirection");
 
 		}
 
@@ -2000,7 +2000,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method CMCase_CMDrivePin");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method CMCase_CMDrivePin");
 
 			//Control Method Compulsory Variable
 			array<String^>^ moduleAlias = nullptr;
@@ -2147,7 +2147,7 @@ namespace Functions
 				CM_DrivePin(testSite, moduleAlias[i], pin[i], pinVal[i]);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method CMCase_CMDrivePin");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method CMCase_CMDrivePin");
 
 #pragma endregion "Test"
 
@@ -2178,7 +2178,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method CMCase_CMDrivePort");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method CMCase_CMDrivePort");
 
 			//Control Method Compulsory Variable
 			array<String^> ^ moduleAlias = nullptr;
@@ -2256,7 +2256,7 @@ namespace Functions
 
 #pragma endregion "Test"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method CMCase_CMDrivePort");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method CMCase_CMDrivePort");
 		}
 
 		catch (Exception ^ ex)
@@ -2285,7 +2285,7 @@ namespace Functions
 		try
 		{
 
-			tl->WriteToLogger(testSite, "Executing Control Method CMCase_CMSetPortDirection");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method CMCase_CMSetPortDirection");
 
 			//Control Method Compulsory Variable
 			array<String^> ^ moduleAlias = nullptr;
@@ -2364,7 +2364,7 @@ namespace Functions
 
 #pragma endregion "Test"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method CMCase_CMSetPortDirection");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method CMCase_CMSetPortDirection");
 
 		}
 
@@ -2394,7 +2394,7 @@ namespace Functions
 		try
 		{
 
-			tl->WriteToLogger(testSite, "Executing Control Method CMCase_CMConfigurePXES2780_TriggerBus");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method CMCase_CMConfigurePXES2780_TriggerBus");
 
 			//Control Method Compulsory Variable
 			array<String^>^ moduleAlias = nullptr;
@@ -2562,7 +2562,7 @@ namespace Functions
 
 #pragma endregion "Test"
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method CMCase_CMConfigurePXES2780_TriggerBus");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method CMCase_CMConfigurePXES2780_TriggerBus");
 
 		}
 
@@ -2594,7 +2594,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method DMCase_MIPIReadVector");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method DMCase_MIPIReadVector");
 
 			testParameterCount = 1;
 
@@ -2754,7 +2754,7 @@ namespace Functions
 
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method DMCase_MIPIReadVector");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method DMCase_MIPIReadVector");
 
 #pragma endregion "Update Test Result"
 		}

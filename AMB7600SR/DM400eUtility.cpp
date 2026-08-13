@@ -158,8 +158,8 @@ namespace Functions
 				if (exisAmaptModuleAliasRunVector[i] == false)
 				{
 					String^ ErrorMessage = " ModuleAlias: " + moduleAliasRunVector[i] + "that Stated at the Test Flow ControlItem Condition is not found in Resource Amap. Please check  DmModuleVectorMode_" + moduleAliasRunVector[i] + ".";
-					tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-					tl->WriteToLogger(siteIndex, ErrorMessage);
+					tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 				}
 			}
 
@@ -224,8 +224,8 @@ namespace Functions
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 			String^ ErrorMessage = "Site " + siteIndex + ":: [Casting Timing Set Period condition at Load Phase] encountered error [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
-			tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-			tl->WriteToLogger(siteIndex, ErrorMessage);
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 		}
 
 		return ret;
@@ -335,8 +335,8 @@ namespace Functions
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 			String^ ErrorMessage = "Site " + siteIndex + ":: [Casting DpinLevel condition at Load Phase] encountered error [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
-			tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-			tl->WriteToLogger(siteIndex, ErrorMessage);
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 		}
 
 		return ret;
@@ -454,8 +454,8 @@ namespace Functions
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 			String^ ErrorMessage = "Site " + siteIndex + ":: [Casting PEAttribute condition at Load Phase] encountered error [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
-			tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-			tl->WriteToLogger(siteIndex, ErrorMessage);
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 		}
 		return ret;
 	}
@@ -488,7 +488,7 @@ namespace Functions
 		catch (Exception ^ ex)
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->ErrorHandling(site, glob->TcrLgr.GlobalErrorMessage);
+			tl->ErrorHandling(site, tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 
 		return ret;
@@ -525,7 +525,7 @@ namespace Functions
 		catch (Exception ^ ex)
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->ErrorHandling(site, glob->TcrLgr.GlobalErrorMessage);
+			tl->ErrorHandling(site, tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 
 		return ret;
@@ -963,7 +963,7 @@ namespace Functions
 							}
 							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Speed->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Speed[x]);
 							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Single_VectorFile[x]);
-							//tl->WriteToLogger(siteIndex, "VectorFile: " + s + " , Read_Location_Single_VectorFile =" + (tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[s]]).ToString() + ",  done");
+							//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "VectorFile: " + s + " , Read_Location_Single_VectorFile =" + (tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[s]]).ToString() + ",  done");
 							//Only ++ when have READ operation
 							//x++;
 						}
@@ -1109,8 +1109,8 @@ namespace Functions
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 			String^ ErrorMessage = "Site " + siteIndex + ":: [LoadVectorFiles at Load Phase] encountered error [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
-			tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-			tl->WriteToLogger(siteIndex, ErrorMessage);
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 		}
 
 		return ret;
@@ -1155,7 +1155,7 @@ namespace Functions
 
 			if (ResourceManagerSett[siteIndex].DM_HardwareStatus)
 			{
-				tl->WriteToLogger(siteIndex, "Initializing DM400e System Resources...");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing DM400e System Resources...");
 
 				for each(Condition ^ controlMethod in testConditionCollection)
 				{
@@ -1177,7 +1177,7 @@ namespace Functions
 					DM_Init(siteIndex, 3);
 				}
 
-				tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] initialized");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] initialized");
 			}
 		}
 #pragma endregion "DM Initialization"	
@@ -1226,14 +1226,14 @@ namespace Functions
 					*	0 : DM_CONST_SINGLE_SITE
 					*	1 : DM_CONST_MULTI_SITE*/
 
-					tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", DM_CONST_MULTI_SITE)");
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", DM_CONST_MULTI_SITE)");
 					tl->CheckError(siteIndex, dm[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], DM_CONST_MULTI_SITE));
 
-					tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->ConfigurePowerLineFrequency(" + moduleAlias[siteIndex][count] + "," + tl->glob->AWV.PowerLineFreq.ToString() + " )");
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigurePowerLineFrequency(" + moduleAlias[siteIndex][count] + "," + tl->glob->AWV.PowerLineFreq.ToString() + " )");
 					tl->CheckError(siteIndex, dm[siteIndex]->ConfigurePowerLineFrequency(moduleAlias[siteIndex][count], tl->glob->AWV.PowerLineFreq));
 				}
 
-				tl->WriteToLogger(siteIndex, "Initializing DM400e Related Global Variables for Previous States...");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing DM400e Related Global Variables for Previous States...");
 				InitDmPinAliasPreviousState(site, siteIndex);//initialize DM modules related global variables to store previous states
 
 			}
@@ -1252,28 +1252,28 @@ namespace Functions
 			if (ResourceManagerSett[siteIndex].DM_HardwareStatus)
 			{
 				////Dpin Level use for Vector or DIO operation mode for DM
-				//tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] casting the Dpin Level.");
+				//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the Dpin Level.");
 				//CastDpinLevelControlItem(site, siteIndex);
 
 				//if (CheckingAnyDmModuleRunVector(site, siteIndex, moduleAlias[siteIndex], moduleAliasRunVector, communicationProtocol))
 				//{
-				//	tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] casting the Timing Set Period.");
+				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the Timing Set Period.");
 				//	CastTimingSetPeriodControlItem(site, siteIndex);
 
-				//	tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] casting the PE Attribute.");
+				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the PE Attribute.");
 				//	CastPEAttributeControlItem(site, siteIndex);
 
-				//	tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] getting the vector file.");
+				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] getting the vector file.");
 				//	GetVectorFiles(site);
 
-				//	tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] obtaining the vector files' information.");
+				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] obtaining the vector files' information.");
 				//	VectorFilesInfo(site, siteIndex);
 
-				//	tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] loading vector file to Module Alias.");
+				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] loading vector file to Module Alias.");
 				//	for (int i = 0; i < moduleAliasRunVector->Length; i++)
 				//	{
 				//		DMLoadVectorFiles(site, siteIndex, moduleAliasRunVector[i]);
-				//		tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + " ,Module Alias: " + moduleAliasRunVector[i] + " ,Communiation Protocol: " + communicationProtocol[i] + "] is loading vector");
+				//		tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + " ,Module Alias: " + moduleAliasRunVector[i] + " ,Communiation Protocol: " + communicationProtocol[i] + "] is loading vector");
 				//	}
 
 				//}
@@ -1334,10 +1334,10 @@ namespace Functions
 				{
 					for (int count = 0; count < moduleCount[siteIndex]; count++)
 					{
-						tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
 						tl->CheckError(siteIndex, dm[siteIndex]->Reset(moduleAlias[siteIndex][count]));
 
-						tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->Close(" + moduleAlias[siteIndex][count] + ")");
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Close(" + moduleAlias[siteIndex][count] + ")");
 						tl->CheckError(siteIndex, dm[siteIndex]->Close(moduleAlias[siteIndex][count]));
 
 					}
@@ -1348,8 +1348,8 @@ namespace Functions
 				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 				tl->CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
 				String^ ErrorMessage = "AMB7600SRTestLibrary:: UninitializeDM400eResource " + "encountered error when performing.";
-				tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-				tl->WriteToLogger(siteIndex, ErrorMessage);
+				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 			}
 		}
 
@@ -1390,7 +1390,7 @@ namespace Functions
 			if (moduleCount[siteIndex] > 0)
 			{
 				ResourceManagerSett[siteIndex].DM_HardwareStatus = true;
-				tl->WriteToLogger(siteIndex, "Initializing DM400e System Resources...");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing DM400e System Resources...");
 			}
 		}
 
@@ -1465,7 +1465,7 @@ namespace Functions
 				//Configure module alias only 
 				for (count = 0; count < moduleCount[siteIndex]; count++)
 				{
-					//tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
+					//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
 					//tl->CheckError(siteIndex, dm[siteIndex]->Reset(moduleAlias[siteIndex][count]));
 
 					/* 1. In multi site mode, DLL do lock down resource to prevent other thread from accessing it thus allowing every thread to function properly but it incurs more test time.
@@ -1474,17 +1474,17 @@ namespace Functions
 					*	0 : DM_CONST_SINGLE_SITE
 					*	1 : DM_CONST_MULTI_SITE*/
 
-					tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", DM_CONST_MULTI_SITE)");
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", DM_CONST_MULTI_SITE)");
 					tl->CheckError(siteIndex, dm[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], DM_CONST_MULTI_SITE));
 
-					tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->ConfigurePowerLineFrequency(" + moduleAlias[siteIndex][count] + "," + tl->glob->AWV.PowerLineFreq.ToString() + " )");
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigurePowerLineFrequency(" + moduleAlias[siteIndex][count] + "," + tl->glob->AWV.PowerLineFreq.ToString() + " )");
 					tl->CheckError(siteIndex, dm[siteIndex]->ConfigurePowerLineFrequency(moduleAlias[siteIndex][count], tl->glob->AWV.PowerLineFreq));
 				}
 
-				tl->WriteToLogger(siteIndex, "Initializing DM400e Related Global Variables for Previous States...");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing DM400e Related Global Variables for Previous States...");
 				InitDmPinAliasPreviousState(site, siteIndex);//initialize DM modules related global variables to store previous states
 
-				tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] initialized");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] initialized");
 			}
 			else if (moduleCount[siteIndex] == 0)
 			{
@@ -1497,24 +1497,24 @@ namespace Functions
 		{
 			if (ResourceManagerSett[siteIndex].DM_HardwareStatus)
 			{
-				tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] casting the Dpin Level.");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the Dpin Level.");
 				CastDpinLevelControlItem(site, siteIndex);
 
 				if (CheckingAnyDmModuleRunVector(site, siteIndex, moduleAlias[siteIndex], moduleAliasRunVector, communicationProtocol))
 				{
-					tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] casting the Timing Set Period.");
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the Timing Set Period.");
 					CastTimingSetPeriodControlItem(site, siteIndex);
-					tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] casting the PE Attribute.");
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the PE Attribute.");
 					CastPEAttributeControlItem(site, siteIndex);
-					tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] loading vector file.");
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] loading vector file.");
 
 					for (int i = 0; i < moduleAliasRunVector->Length; i++)
 					{
 						LoadVectorFiles(site, siteIndex, moduleAliasRunVector[i]);
-						tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + " ,Module Alias: " + moduleAliasRunVector[i] + " ,Communiation Protocol: " + communicationProtocol[i] + "] is loading vector");
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + " ,Module Alias: " + moduleAliasRunVector[i] + " ,Communiation Protocol: " + communicationProtocol[i] + "] is loading vector");
 					}
 
-					tl->WriteToLogger(siteIndex, "DM[site " + siteIndex + "] done loading vector file.");
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] done loading vector file.");
 
 				}
 			}
@@ -1992,7 +1992,7 @@ namespace Functions
 							}
 							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Speed->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Speed[x]);
 							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Single_VectorFile[x]);
-							//tl->WriteToLogger(siteIndex, "VectorFile: " + s + " , Read_Location_Single_VectorFile =" + (tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[s]]).ToString() + ",  done");
+							//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "VectorFile: " + s + " , Read_Location_Single_VectorFile =" + (tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[s]]).ToString() + ",  done");
 							//Only ++ when have READ operation
 							//x++;
 						}
@@ -2133,19 +2133,19 @@ namespace Functions
 				if (ret != 0) return ret;
 			}
 
-			tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->ConfigureVectorEngineAttribute(" + ModuleAlias + ", false, false)");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureVectorEngineAttribute(" + ModuleAlias + ", false, false)");
 			CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
 
 			for (int i = 0; i < tl->glob->TimingSetPeriod[siteIndex]->Length; i++)
 			{
 				double period = (1 / (2 * tl->glob->TimingSetPeriod[siteIndex][i]));
 
-				tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->DPINPeriod(" + ModuleAlias + "," + period.ToString() + " )");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->DPINPeriod(" + ModuleAlias + "," + period.ToString() + " )");
 				CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
 			}
 
-			tl->WriteToLogger(siteIndex, "Successfully Loaded vector files...");
-			tl->WriteToLogger(siteIndex, "Directory: " + tl->glob->VectorFileDirectory + "...");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Successfully Loaded vector files...");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Directory: " + tl->glob->VectorFileDirectory + "...");
 
 		}
 
@@ -2153,8 +2153,8 @@ namespace Functions
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 			String^ ErrorMessage = "Site " + siteIndex + ":: [LoadVectorFiles at Load Phase] encountered error [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
-			tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-			tl->WriteToLogger(siteIndex, ErrorMessage);
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 		}
 
 		return ret;
@@ -2617,7 +2617,7 @@ namespace Functions
 							}
 							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Speed->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Speed[x]);
 							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Single_VectorFile[x]);
-							//tl->WriteToLogger(siteIndex, "VectorFile: " + s + " , Read_Location_Single_VectorFile =" + (tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[s]]).ToString() + ",  done");
+							//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "VectorFile: " + s + " , Read_Location_Single_VectorFile =" + (tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[s]]).ToString() + ",  done");
 							//Only ++ when have READ operation
 							//x++;
 						}
@@ -2758,19 +2758,19 @@ namespace Functions
 				if (ret != 0) return ret;
 			}
 
-			tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->ConfigureVectorEngineAttribute(" + ModuleAlias + ", false, false)");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureVectorEngineAttribute(" + ModuleAlias + ", false, false)");
 			CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
 
 			for (int i = 0; i < tl->glob->TimingSetPeriod[siteIndex]->Length; i++)
 			{
 				double period = (1 / (2 * tl->glob->TimingSetPeriod[siteIndex][i]));
 
-				tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->DPINPeriod(" + ModuleAlias + "," + period.ToString() + " )");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->DPINPeriod(" + ModuleAlias + "," + period.ToString() + " )");
 				CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
 			}
 
-			tl->WriteToLogger(siteIndex, "Successfully Loaded vector files...");
-			tl->WriteToLogger(siteIndex, "Directory: " + tl->glob->VectorFileDirectory + "...");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Successfully Loaded vector files...");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Directory: " + tl->glob->VectorFileDirectory + "...");
 
 		}
 
@@ -2778,8 +2778,8 @@ namespace Functions
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 			String^ ErrorMessage = "Site " + siteIndex + ":: [LoadVectorFiles at Load Phase] encountered error [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
-			tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-			tl->WriteToLogger(siteIndex, ErrorMessage);
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 		}
 
 		return ret;
@@ -3018,7 +3018,7 @@ namespace Functions
 
 						if ((l_DM_Status == DM_CONST_VEC_ENG_STAT_DONE))
 						{
-							tl->WriteToLogger(testSite, ">> ReadLocation =" + (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z]).ToString() + ",  done");
+							tl->WriteToTcrLgr("SITE " + testSite.ToString(),">> ReadLocation =" + (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z]).ToString() + ",  done");
 
 							CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, l_ReadBack_Vector_Count, tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z], tl->glob->VectorSetNumber[VectorFileName], l_ReadData_Raw_Array));
 
@@ -3098,7 +3098,7 @@ namespace Functions
 
 							if ((l_DM_Status == DM_CONST_VEC_ENG_STAT_DONE))
 							{
-								tl->WriteToLogger(testSite, ">> ReadLocation =" + (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z]).ToString() + ",  done");
+								tl->WriteToTcrLgr("SITE " + testSite.ToString(),">> ReadLocation =" + (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z]).ToString() + ",  done");
 
 								CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, l_ReadBack_Vector_Count, tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z], tl->glob->VectorSetNumber[VectorFileName], l_ReadData_Raw_Array));
 

@@ -25,7 +25,7 @@ namespace Functions
 
 		try
 		{
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_MapTriggerIntToTriggerOut");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_MapTriggerIntToTriggerOut");
 
 			//Control Method Compulsory Variable
 			int inputTerminal		= 0;
@@ -101,7 +101,7 @@ namespace Functions
 				throw gcnew Exception(ErrorMessage);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_MapTriggerInToTriggerOut");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_MapTriggerInToTriggerOut");
 
 			#pragma endregion "Test"
 		}
@@ -132,7 +132,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_DriveSoftwareTrigger");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_DriveSoftwareTrigger");
 
 			//Control Method Compulsory Variable
 			int select				= 0;
@@ -208,7 +208,7 @@ namespace Functions
 				ErrorMessage = "Module Alias: " + moduleAlias + " , Hardware Resource: " + HardwareRsrc->Hierarchy[0] + " is not supported";
 				throw gcnew Exception(ErrorMessage);
 			}
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_DriveSoftwareTrigger");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_DriveSoftwareTrigger");
 
 			#pragma endregion "Test"
 		}
@@ -243,7 +243,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_ConfigureTriggerEdgeLevel");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_ConfigureTriggerEdgeLevel");
 
 			//Control Method Compulsory Variable
 			int trigMode			= 0;
@@ -334,7 +334,7 @@ namespace Functions
 				throw gcnew Exception(ErrorMessage);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_ConfigureTriggerEdgeLevel");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_ConfigureTriggerEdgeLevel");
 
 			#pragma endregion "Test"
 
@@ -366,7 +366,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_DriveVoltage");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_DriveVoltage");
 
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
@@ -493,7 +493,7 @@ namespace Functions
 				}
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_DriveVoltage");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_DriveVoltage");
 
 			#pragma endregion "Test"
 		}
@@ -524,7 +524,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_DriveCurrent");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_DriveCurrent");
 
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
@@ -650,7 +650,7 @@ namespace Functions
 				}
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_DriveCurrent");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_DriveCurrent");
 
 			#pragma endregion "Test"
 		}
@@ -681,7 +681,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_ClampVoltage");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_ClampVoltage");
 
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
@@ -808,7 +808,7 @@ namespace Functions
 				}
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_ClampVoltage");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_ClampVoltage");
 
 			#pragma endregion "Test"
 
@@ -840,7 +840,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_ClampCurrent");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_ClampCurrent");
 
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
@@ -966,7 +966,7 @@ namespace Functions
 				}
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_ClampCurrent");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_ClampCurrent");
 
 			#pragma endregion "Test"
 
@@ -998,7 +998,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_SetNPLC");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_SetNPLC");
 
 
 			//Control Method Compulsory Variable
@@ -1122,7 +1122,7 @@ namespace Functions
 				}
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_SetNPLC");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_SetNPLC");
 
 			#pragma endregion "Test"
 
@@ -1154,7 +1154,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_SetPinOnOff");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_SetPinOnOff");
 
 			//Control Method Compulsory Variable
 			array<String^> ^ pin	= nullptr;
@@ -1300,7 +1300,7 @@ namespace Functions
 				}
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_SetPinOnOff");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_SetPinOnOff");
 
 			#pragma endregion "Test"
 		}
@@ -1336,7 +1336,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_ConfigureInputTriggerSelect");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_ConfigureInputTriggerSelect");
 
 			//Control Method Compulsory Variabl
 			int trigSource = 0;
@@ -1391,7 +1391,7 @@ namespace Functions
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			SMU_ConfigureInputTriggerSelect(testSite, alias, trigSource, delayAfterTrig);
 				
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_ConfigureInputTriggerSelect");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_ConfigureInputTriggerSelect");
 
 #pragma endregion "Test"
 		}
@@ -1422,7 +1422,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_AMConfigureSMUOutputTriggerMode");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_AMConfigureSMUOutputTriggerMode");
 
 			//Control Method Compulsory Variable
 			int mode				= 0;
@@ -1468,7 +1468,7 @@ namespace Functions
 
 			SMU_ConfigureSMUOutputTriggerMode(testSite, pinAlias, mode);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_AMConfigureSMUOutputTriggerMode");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_AMConfigureSMUOutputTriggerMode");
 
 			#pragma endregion "Test"
 		}
@@ -1499,7 +1499,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_AMConfigureSMUOutputTriggerPulseWidth");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_AMConfigureSMUOutputTriggerPulseWidth");
 
 			//Control Method Compulsory Variable
 			double pulseWidth		= 0;
@@ -1545,7 +1545,7 @@ namespace Functions
 
 			SMU_ConfigureSMUOutputTriggerPulseWidth(testSite, pinAlias, pulseWidth);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_AMConfigureSMUOutputTriggerPulseWidth");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_AMConfigureSMUOutputTriggerPulseWidth");
 
 			#pragma endregion "Test"
 		}
@@ -1576,7 +1576,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_AMConfigureSMUOutputTriggerDuringSource");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_AMConfigureSMUOutputTriggerDuringSource");
 
 			//Control Method Compulsory Variable
 			double level			= 0;
@@ -1660,7 +1660,7 @@ namespace Functions
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			SMU_ConfigureSMUOutputTriggerDuringSource(testSite,pinAlias, level, range, mode, edgeSetting);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_AMConfigureSMUOutputTriggerDuringSource");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_AMConfigureSMUOutputTriggerDuringSource");
 
 #pragma endregion "Test"
 		}
@@ -1691,7 +1691,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_AMConfigureOutputTriggerSelect");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_AMConfigureOutputTriggerSelect");
 
 			//Control Method Compulsory Variable
 			int triggerOutput		= 0;
@@ -1747,7 +1747,7 @@ namespace Functions
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			SMU_ConfigureOutputTriggerSelect(testSite, pinAlias, triggerOutput, triggerDelay);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_AMConfigureOutputTriggerSelect");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_AMConfigureOutputTriggerSelect");
 
 			#pragma endregion "Test"
 		}
@@ -1768,7 +1768,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_DifferentialResult");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method DCCase_DifferentialResult");
 			testParameterCount = 1;
 
 			//Test Method Compulsory Variable
@@ -1923,7 +1923,7 @@ namespace Functions
 				break;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_DifferentialResult");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method DCCase_DifferentialResult");
 
 		}
 		catch (Exception ^ ex)
@@ -1953,7 +1953,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Control Method DCCase_WaitSecond");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method DCCase_WaitSecond");
 
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
@@ -1986,7 +1986,7 @@ namespace Functions
 
 			util->WaitSecond(delay);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method DCCase_WaitSecond");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method DCCase_WaitSecond");
 
 #pragma endregion "Test"
 		}
@@ -2025,7 +2025,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_OS");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method DCCase_OS");
 
 			testParameterCount = 1;
 
@@ -2083,7 +2083,7 @@ namespace Functions
 
 #pragma region "Test"
 			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinMeasure)[0];
-			tl->WriteToLogger(testSite, "PinMeasure:" + HardwareRsrc->Alias);
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "PinMeasure:" + HardwareRsrc->Alias);
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 			if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
@@ -2108,7 +2108,7 @@ namespace Functions
 
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_OS");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method DCCase_OS");
 
 #pragma endregion "Update Test Result"
 		}
@@ -2126,7 +2126,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureCurrent");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method DCCase_MeasureCurrent");
 
 			testParameterCount = 1;
 
@@ -2194,7 +2194,7 @@ namespace Functions
 
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureCurrent");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method DCCase_MeasureCurrent");
 
 #pragma endregion "Update Test Result"
 		}
@@ -2213,7 +2213,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureVoltage");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method DCCase_MeasureVoltage");
 
 			testParameterCount = 1;
 
@@ -2284,7 +2284,7 @@ namespace Functions
 
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureVoltage");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method DCCase_MeasureVoltage");
 
 #pragma endregion "Update Test Result"
 		}
@@ -2319,7 +2319,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureBurstCurrent");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method DCCase_MeasureBurstCurrent");
 
 			testParameterCount = 1;
 
@@ -2392,7 +2392,7 @@ namespace Functions
 
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureBurstCurrent");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method DCCase_MeasureBurstCurrent");
 
 #pragma endregion "Update Test Result"
 		}
@@ -2423,7 +2423,7 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 
-			tl->WriteToLogger(testSite, "Executing Test Method DCCase_MeasureBurstVoltage");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method DCCase_MeasureBurstVoltage");
 
 			testParameterCount = 1;
 
@@ -2497,7 +2497,7 @@ namespace Functions
 
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method DCCase_MeasureBurstVoltage");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method DCCase_MeasureBurstVoltage");
 
 #pragma endregion "Update Test Result"
 		}

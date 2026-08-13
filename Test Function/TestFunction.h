@@ -3,7 +3,7 @@ Copyright (c) Aemulus Corporation Sdn Bhd
 Title:			TestFunction.h
 Purpose:		Declare all test functions.
 UUTOffset:		Supported.
-Version:		v1.1.0.0
+Version:		v1.2.0.0
 ----------------------------------------------------------------------*/
 
 #pragma once
@@ -23,8 +23,10 @@ Version:		v1.1.0.0
 
 using namespace System;
 using namespace System::IO;
+using namespace System::IO::MemoryMappedFiles;
 using namespace System::Text;
 using namespace System::Net;
+using namespace System::Xml;
 using namespace System::Reflection;
 using namespace System::Threading;
 using namespace System::Diagnostics;
@@ -33,10 +35,13 @@ using namespace System::Runtime::Remoting;
 using namespace System::Collections::Generic;
 using namespace System::Collections::Concurrent;
 using namespace System::Runtime::InteropServices;
+
 using namespace Aemulus::Hardware;
 using namespace Aemulus::Tech::Flow;
+using namespace Aemulus::Tech::Flow::Result;
 using namespace Aemulus::TestLib::Utility;
 using namespace Aemulus::Tech::Flow::ProductionSystem;
+using namespace Aemulus::WaferTestLibrary;
 
 namespace Functions
 {
@@ -52,12 +57,13 @@ namespace Functions
 		TestFunction();
 		~TestFunction(void);
 
-#pragma region "Global"
+#pragma region "Globals.cpp"
 
 		Globals^ glob;
-		
 
-		void InitializeLogger(Site ^ site);
+		// Barrier
+		BaseBarrierCollections^ barrier;
+
 		int InitializeProgram(Site ^ site);
 		void ResetGlobalResult(int TotalSite);
 		void InitializeGlobalVariables(Site^ site);
@@ -69,33 +75,47 @@ namespace Functions
 		Object ^  GetGlobalResult(String^ Identifier, int siteIndex);
 		void SetGlobalResult(String ^ Identifier, int siteIndex, double Result);
 
-#pragma endregion "Global"
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Tester ID
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		void GetTesterID(Site ^ site, int tfSite);
+
+#pragma endregion "Globals.cpp"
 		
 #pragma region "Diagnostic"
+
+		void TestCondCheckingDataType(String^ item, DataType var, DataType TC_DataType_Casting);
+		//int AppErrorCodeChecking(String^ testCondName, String^ message);
+
+		void ErrorHandling(Site ^ site, int siteIndex, String^ methodName, String ^ ErrorMessage);
+		void ErrorHandling(Site ^ site, int siteIndex, String^ methodName, Exception ^ Ex);
+		void ErrorHandling(Site ^ site, int siteIndex, String ^ ErrorMessage);
+		void ErrorHandling(Site ^ site, String ^ ErrorMessage);
+
+		//Tracer Logging and Logging Functions
+		int InitializeTracerLogger(Site ^ site, int tfSite);
+		void WRITETOTRACERLOGGER(int tfSite, int siteIndex, String ^ messageType, String ^ message, int programLineNumber, String ^ programFileName, String ^ programFunctionName);
+#define WriteToTracerLogger(tfSite, siteIndex, messageType, message) WRITETOTRACERLOGGER(tfSite, siteIndex, messageType, message, __LINE__, __FILE__, __FUNCTION__);
+		void WriteToTcrLgr(String ^ TracerTabName, String ^ LogMessage);
+		int UninitializeTracerLogger();
+
+		int InitializeFileLogger(int tfSite);
+		void WRITETOFILELOGGER(int tfSite, int siteIndex, String ^ messageType, String ^ message, int programLineNumber, String ^ programFileName, String ^ programFunctionName);
+#define WriteToFileLogger(tfSite, siteIndex, messageType, message) WRITETOFILELOGGER(tfSite, siteIndex, messageType, message, __LINE__, __FILE__, __FUNCTION__);
+		void WriteToFileLgr(String ^ fileDirectory, String ^ message);
+		int UninitializeFileLogger();
+
+		void WriteToLoggerTotalSite(String ^ LogMessage);
+		//void FileLogging(int siteIndex, String^ MssgType, String ^ LogMessage);
+		//int TRACERLOGGING(int siteIndex, String ^ LogMessage, int LogLineNumber, String ^ FileName);
 
 		//Check Error Functions
 		int CHECKERROR(int siteIndex, int errorCode, int ErrorLineNumber, String^ FileName);
 #define CheckError(siteIndex, errorCode) CHECKERROR(siteIndex, errorCode, __LINE__, __FILE__);
 
-		//Tracer Logging and Logging Functions
-		int TRACERLOGGING(int siteIndex, String^ LogMessage, int LogLineNumber, String^ FileName);
-#define TracerLogging(siteIndex, LogMessage) TRACERLOGGING(siteIndex, LogMessage, __LINE__, __FILE__);
-
 		void WarningMessageBox(String^ MssgContent, String^ WarningMssgType);
-		void FileLogging(int siteIndex, String^ MssgType, String ^ LogMessage);
-		void ErrorHandling(Site ^ site, int siteIndex, String^ methodName,String ^ ErrorMessage);
-		void ErrorHandling(Site ^ site, int siteIndex, String^ methodName, Exception ^ Ex);
-		void ErrorHandling(Site ^ site, int siteIndex, String ^ ErrorMessage);
-		void ErrorHandling(Site ^ site, String ^ ErrorMessage);
-		void WriteToTracerLogger(String ^ TracerTabName, String ^ LogMessage);
-		void WriteToLoggerTotalSite(String ^ LogMessage);
-		void WRITETOLOGGER(int siteIndex, String ^ LogMessage, int LogLineNumber, String ^ FileName, String ^ FunctionName);
-		void TestCondCheckingDataType(String^ item, DataType var, DataType TC_DataType_Casting);
-		//int AppErrorCodeChecking(String^ testCondName, String^ message);
-
-#define WriteToLogger(siteIndex, LogMessage) WRITETOLOGGER(siteIndex, LogMessage, __LINE__, __FILE__, __FUNCTION__);
-
-		void KillTracerLogger(int TotalUUTOffsets, String ^ CurrentPhase);
 
 #pragma endregion "Diagnostic"
 
@@ -189,9 +209,7 @@ namespace Functions
 		bool IsTPResultFailed(Site^ site, String ^ tpName, Object ^ result);
 		void SequenceBranchControl(Site ^ site, int siteIndex, String ^ tpName, Object ^ result);
 		int UpdateTestConditionProperty(Site^ site, int siteIndex);
-		void UpdateTestResults(Site^ site, int siteIndex, array<double>^ TestResult);
 		void UpdateTestResults(Site^ site, int siteIndex, array<Object ^> ^ TestResult);
-		void UpdateTestResults(Site^ site, int siteIndex, Object ^ testResult);
 		void UpdateTestResultWlanAsync(Site^site, int siteIndex, String^ testItemName, String^ testParameterName, Object^ testResult);
 		void UpdateTestResultsWhenException(Site^ site, int siteIndex);
 		int GetPinNameFromAmapAlias(String^ pinAlias, String^ % pinName);
@@ -236,4 +254,8 @@ namespace Functions
 * Added bool IsTPResultFailed(Site^ site, String ^ tpName, Object ^ result);
 		int OperationBranchingCheck(Site^ site, int siteIndex);
 		void SequenceBranchControl(Site ^ site, int siteIndex, String ^ tpName, Object ^ result);
+
+* v1.2.0.0 (12 Aug 2026), ZhiKean
+* Merge AMB7600SR Test Library REV1 with AMB7300 Test Library REV2P0 (v1.0.0.3)
+
 ----------------------------------------------------------------------*/

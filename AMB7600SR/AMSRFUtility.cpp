@@ -8,9 +8,9 @@ namespace Functions
 
 		RF_SystemConfiguration(site);
 
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+		for (int testSite = 0; testSite < tl->glob->tf.NumberOfSites; testSite++)
 		{
-			tl->WriteToLogger(siteIndex, "Initializing AMSRF System Resources...");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Initializing AMSRF System Resources...");
 		}
 
 		Amsrf0 = gcnew AMSRF();
@@ -42,9 +42,9 @@ namespace Functions
 		//Write to Logger (RF Informations)
 		AmsrfInfoToLoggerFile();
 
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+		for (int testSite = 0; testSite < tl->glob->tf.NumberOfSites; testSite++)
 		{
-			tl->WriteToLogger(siteIndex, "AMSRF System Initialized.");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "AMSRF System Initialized.");
 		}
 
 		return ret;
@@ -54,9 +54,9 @@ namespace Functions
 		int ret = 0;
 		String ^ AmsrfSupported = CurrentHeadSite.AMSRFSupported;
 
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+		for (int testSite = 0; testSite < tl->glob->tf.NumberOfSites; testSite++)
 		{
-			tl->WriteToLogger(siteIndex, "Uninitializing AMSRF System Resources...");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Uninitializing AMSRF System Resources...");
 		}
 
 		if (AmsrfSupported->Contains("AMSRF0"))
@@ -71,9 +71,9 @@ namespace Functions
 
 		RF_ExternalModuleUninitialization(site);
 
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+		for (int testSite = 0; testSite < tl->glob->tf.NumberOfSites; testSite++)
 		{
-			tl->WriteToLogger(siteIndex, "AMSRF System Uninitialized.");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "AMSRF System Uninitialized.");
 		}
 
 		return ret;
@@ -1262,15 +1262,15 @@ namespace Functions
 				if (!status)
 				{
 					String^ ErrorMessage = "Wait For Data Timeout at API KtM9420_WaitForData ErrorCode RF: " + ER_HADWARE_TIMEOUT.ToString();
-					tl->FileLogging(testSite, LOGGER_ERROR_TYPE, "Wait For Data Timeout at API KtM9420_WaitForData ErrorCode RF: " + ER_HADWARE_TIMEOUT.ToString());
-					tl->WriteToLogger(testSite, ErrorMessage);
+					tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, "Wait For Data Timeout at API KtM9420_WaitForData ErrorCode RF: " + ER_HADWARE_TIMEOUT.ToString());
+					tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
 				}
 			}
 			catch (Exception ^ ex)
 			{
 				String^ ErrorMessage = "Site" + testSite.ToString() + "ErrorCode RF: " + ret.ToString();
-				tl->FileLogging(testSite, LOGGER_ERROR_TYPE, ErrorMessage);
-				tl->WriteToLogger(testSite, ErrorMessage);
+				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+				tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
 			}
 
 
@@ -1283,8 +1283,8 @@ namespace Functions
 			catch (Exception ^ ex)
 			{
 				String^ ErrorMessage = "Site " + testSite + ":: KTM9420_ATTR_IQ_ACQUISITION_SAMPLES_GET [" + testSite + "] " + "encountered error [" + ex->ToString() + "] when performing.";
-				tl->FileLogging(testSite, LOGGER_ERROR_TYPE, ErrorMessage);
-				tl->WriteToLogger(testSite, ErrorMessage);
+				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+				tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
 			}
 			int actualSamples = samples * 2;
 
@@ -1298,14 +1298,14 @@ namespace Functions
 			catch (Exception ^ ex)
 			{
 				String^ ErrorMessage = "Site " + testSite + ":: KtM9420_IQAcquisitionReadIQData [" + testSite + "] " + "encountered error [" + ex->ToString() + "] when performing.";
-				tl->FileLogging(testSite, LOGGER_ERROR_TYPE, ErrorMessage);
-				tl->WriteToLogger(testSite, ErrorMessage);
+				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+				tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
 			}
 			if (overload)
 			{
 				String^ ErrorMessage = "Digitizer Overload!Please adjust the measure level to a higher value.ErrorCode RF : " + ER_ILLEGAL_OPERATION.ToString();
-				tl->FileLogging(testSite, LOGGER_ERROR_TYPE, "Digitizer Overload! Please adjust the measure level to a higher value. ErrorCode RF: " + ER_ILLEGAL_OPERATION.ToString());
-				tl->WriteToLogger(testSite, ErrorMessage);
+				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, "Digitizer Overload! Please adjust the measure level to a higher value. ErrorCode RF: " + ER_ILLEGAL_OPERATION.ToString());
+				tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
 			}
 
 			for (int index = 0; index < samples; index++)
@@ -1404,16 +1404,16 @@ namespace Functions
 				//Get Points on the left
 				if (i != 0)
 				{
-					for (int n = i - 1; n >= i - (movingAverageFactor / 2) + delta; n--)
+					for (int count = i - 1; count >= i - (movingAverageFactor / 2) + delta; count--)
 					{
-						pData_Watt_MA[i] += pData_Watt[n];
+						pData_Watt_MA[i] += pData_Watt[count];
 					}
 				}
 
 				//Get Points on the right
-				for (int n = i + 1; n <= i + movingAverageFactor / 2 + delta; n++)
+				for (int count = i + 1; count <= i + movingAverageFactor / 2 + delta; count++)
 				{
-					pData_Watt_MA[i] += pData_Watt[n];
+					pData_Watt_MA[i] += pData_Watt[count];
 				}
 
 				pData_Watt_MA[i] += pData_Watt[i];
@@ -1425,17 +1425,17 @@ namespace Functions
 				delta = movingAverageFactor / 2 + i - (sampleNum - 1);  //Number of insufficient point(s) on the right
 
 				//Get Points on the left
-				for (int n = i - 1; n >= i - (movingAverageFactor / 2) - delta; n--)
+				for (int count = i - 1; count >= i - (movingAverageFactor / 2) - delta; count--)
 				{
-					pData_Watt_MA[i] += pData_Watt[n];
+					pData_Watt_MA[i] += pData_Watt[count];
 				}
 
 				//Get Points on the right
 				if (i != sampleNum - 1)
 				{
-					for (int n = i + 1; n <= i + movingAverageFactor / 2 - delta; n++)
+					for (int count = i + 1; count <= i + movingAverageFactor / 2 - delta; count++)
 					{
-						pData_Watt_MA[i] += pData_Watt[n];
+						pData_Watt_MA[i] += pData_Watt[count];
 					}
 				}
 				pData_Watt_MA[i] += pData_Watt[i];
@@ -1444,15 +1444,15 @@ namespace Functions
 			else
 			{
 				//Get Points on the left
-				for (int n = i - 1; n >= i - movingAverageFactor / 2; n--)
+				for (int count = i - 1; count >= i - movingAverageFactor / 2; count--)
 				{
-					pData_Watt_MA[i] += pData_Watt[n];
+					pData_Watt_MA[i] += pData_Watt[count];
 				}
 
 				//Get Points on the right
-				for (int n = i + 1; n <= i + movingAverageFactor / 2; n++)
+				for (int count = i + 1; count <= i + movingAverageFactor / 2; count++)
 				{
-					pData_Watt_MA[i] += pData_Watt[n];
+					pData_Watt_MA[i] += pData_Watt[count];
 				}
 
 				pData_Watt_MA[i] += pData_Watt[i];
@@ -1587,7 +1587,7 @@ namespace Functions
 				{
 					startCounting = true;
 					iStart = i;
-					//tl->WriteToLogger(0, "RiseFall: " optionRiseFall.ToString());
+					//tl->WriteToFileLogger(0, "RiseFall: " optionRiseFall.ToString());
 				}
 
 				if (startCounting == true)

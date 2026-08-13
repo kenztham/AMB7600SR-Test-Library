@@ -46,7 +46,7 @@ namespace Functions
 
 		for (siteIndex = 0; siteIndex < TotalSite; siteIndex++)
 		{
-			tl->WriteToLogger(siteIndex, "Initializing Aemulus Tester...");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing Aemulus Tester...");
 		}
 
 		try
@@ -149,13 +149,13 @@ namespace Functions
 		catch (Exception^ ex)
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->ErrorHandling(site, glob->TcrLgr.GlobalErrorMessage);
+			tl->ErrorHandling(site, tl->glob->TcrLgr.GlobalErrorMessage);
 			throw gcnew Aemulus::Hardware::AlarmException(ex->ToString(),ex->HResult);
 		}
 
 		for (siteIndex = 0; siteIndex < TotalSite; siteIndex++)
 		{
-			tl->WriteToLogger(siteIndex, "Initialized Aemulus Tester");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initialized Aemulus Tester");
 		}
 
 		return ret;
@@ -167,7 +167,7 @@ namespace Functions
 
 		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
-			tl->WriteToLogger(siteIndex, "Uninitializing Aemulus Tester...");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Uninitializing Aemulus Tester...");
 		}
 
 		UninitializeDM400eResource(site);
@@ -182,7 +182,7 @@ namespace Functions
 
 		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
-			tl->WriteToLogger(siteIndex, "Uninitialized Aemulus Tester");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Uninitialized Aemulus Tester");
 		}
 
 		return ret;
@@ -361,7 +361,7 @@ namespace Functions
 			tl->ErrorHandling(site, tl->glob->TcrLgr.GlobalErrorMessage);
 			//String^ ErrorMessage = "Error: Encountered error during casting informations from RFSiteConfigInfo.xml [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
 			//tl->FileLogging(0, LOGGER_ERROR_TYPE, ErrorMessage);
-			//tl->WriteToLogger(0, ErrorMessage);
+			//tl->WriteToFileLogger(0, ErrorMessage);
 			//tl->CheckError(0, ER_CONST_RFSiteConfigInfo);
 		}
 	}
@@ -584,13 +584,13 @@ namespace Functions
 			if (siteIndex < 0 || siteIndex > totalSite)
 				siteIndex = 0;
 
-			glob->RunTimeErrorCode[siteIndex] = errorCode;
+			tl->glob->RunTimeErrorCode[siteIndex] = errorCode;
 
 			String^ _fileName = gcnew String(fileName);
 			_fileName = _fileName->Remove(0, 2);
 			StringBuilder ^ sb = gcnew StringBuilder();
 			sb->AppendFormat(exceptionMessageFormat, siteIndex.ToString(), _fileName, errorLineNumber, errorCode, errorMessage);
-			glob->RunTimeError[siteIndex] = true;
+			tl->glob->RunTimeError[siteIndex] = true;
 
 			if (debug)
 			{
@@ -675,7 +675,7 @@ namespace Functions
 
 		if (errorCode != 0)
 		{
-			glob->RunTimeErrorCode[0] = errorCode; //default to "0" for non-hardware error
+			tl->glob->RunTimeErrorCode[0] = errorCode; //default to "0" for non-hardware error
 
 			String^ _fileName = gcnew String(fileName);
 			_fileName = _fileName->Remove(0, 2);

@@ -79,7 +79,7 @@ namespace Functions
 				{
 					if (EachProcess->ProcessName->Contains("gnuplot.exe")) 
 					{
-						WriteToLogger(siteIndex, ">> gnuplot.exe[" + exeCount + "] running in background...");
+						WriteToTcrLgr("SITE " + siteIndex.ToString(), ">> gnuplot.exe[" + exeCount + "] running in background...");
 						exeCount++;
 					}
 				}
@@ -126,12 +126,12 @@ namespace Functions
 			{
 				if (EachProcess->ProcessName->Contains("gnuplot.exe")) 
 				{
-					WriteToLogger(siteIndex, ">> Un-loaded gnuplot.exe[" + exeCount + "]");
+					WriteToTcrLgr("SITE " + siteIndex.ToString(), ">> Un-loaded gnuplot.exe[" + exeCount + "]");
 					exeCount++;
 				}
 				else if (EachProcess->ProcessName->Contains("RTPlot.exe")) 
 				{
-					WriteToLogger(siteIndex, ">> Un-loaded RTPlot.exe[" + exeCount + "]");
+					WriteToTcrLgr("SITE " + siteIndex.ToString(), ">> Un-loaded RTPlot.exe[" + exeCount + "]");
 					_exeCount++;
 				}
 			}

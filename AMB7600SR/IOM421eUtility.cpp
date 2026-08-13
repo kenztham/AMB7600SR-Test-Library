@@ -111,7 +111,7 @@ namespace Functions
 			if (moduleCount[siteIndex] > 0)
 			{
 				ResourceManagerSett[siteIndex].DIO_HardwareStatus = true;
-				tl->WriteToLogger(siteIndex, "Initializing IOM421e System Resources...");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing IOM421e System Resources...");
 			}
 		}
 
@@ -165,7 +165,7 @@ namespace Functions
 				//Configure module alias only 
 				for (int count = 0; count < moduleCount[siteIndex]; count++)
 				{
-					//tl->WriteToLogger(siteIndex, "Executing dio[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
+					//tl->WriteToTcrLgr("SITE " + siteIndex.ToString() "Executing dio[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
 					//tl->CheckError(siteIndex, dio[siteIndex]->Reset(moduleAlias[siteIndex][count]));
 
 					/* 1. In multi site mode, DLL do lock down resource to prevent other thread from accessing it thus allowing every thread to function properly but it incurs more test time.
@@ -174,14 +174,14 @@ namespace Functions
 					*	0 : DM_CONST_SINGLE_SITE
 					*	1 : DM_CONST_MULTI_SITE*/
 
-					tl->WriteToLogger(siteIndex, "Executing dio[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 1)");
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dio[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 1)");
 					tl->CheckError(siteIndex, dio[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], IOM_CONST_MULTI_SITE));
 				}
 
 				InitIOMPortAliasPreviousState(site, siteIndex);
 				InitIOMPinAliasPreviousState(site, siteIndex);
 
-				tl->WriteToLogger(siteIndex, "DIO[site " + siteIndex + "] initialized");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DIO[site " + siteIndex + "] initialized");
 			}
 
 		}
@@ -207,10 +207,10 @@ namespace Functions
 				{
 					for (int count = 0; count < moduleCount[siteIndex]; count++)
 					{
-						tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
 						tl->CheckError(siteIndex, dio[siteIndex]->Reset(moduleAlias[siteIndex][count]));
 
-						tl->WriteToLogger(siteIndex, "Executing dm[" + siteIndex + "]->Close(" + moduleAlias[siteIndex][count] + ")");
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Close(" + moduleAlias[siteIndex][count] + ")");
 						tl->CheckError(siteIndex, dio[siteIndex]->Close(moduleAlias[siteIndex][count]));
 
 					}
@@ -221,8 +221,8 @@ namespace Functions
 				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 				tl->CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
 				String^ ErrorMessage = "AMB7600SRTestLibrary:: UninitializeIOM421eResource " + "encountered error when performing.";
-				tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-				tl->WriteToLogger(siteIndex, ErrorMessage);
+				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 			}
 		}
 

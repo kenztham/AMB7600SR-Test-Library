@@ -96,7 +96,7 @@ namespace Functions
 			if (moduleCount[siteIndex] > 0)
 			{
 				ResourceManagerSett[siteIndex].AM_HardwareStatus = true;
-				tl->WriteToLogger(siteIndex, "Initializing SMU[site " + siteIndex + "]...");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing SMU[site " + siteIndex + "]...");
 			}
 		}
 
@@ -146,16 +146,16 @@ namespace Functions
 					if (HardwareRsrc->Type == "AM430e" || HardwareRsrc->Type == "AM471e" || HardwareRsrc->Type == "AM451e")
 					{
 						tl->CheckError(siteIndex, smu[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], AM_CONST_SINGLE_SITE));
-						tl->WriteToLogger(siteIndex, "Executing smu[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 0)");
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing smu[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 0)");
 					}
 					else
 					{
 						tl->CheckError(siteIndex, smu[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], AM_CONST_MULTI_SITE));
-						tl->WriteToLogger(siteIndex, "Executing smu[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 1)");
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing smu[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 1)");
 					}
 				}
 
-				tl->WriteToLogger(siteIndex, "Initializing AM400e Related Global Variables for Previous States...");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing AM400e Related Global Variables for Previous States...");
 				InitAmPinAliasPreviousState(site, siteIndex); //initialize AM modules related global variables to store previous states
 
 				for each (KeyValuePair<String^, int>^ pinAlias in ResourceManagerSett[siteIndex].AMResourceAlias)
@@ -163,7 +163,7 @@ namespace Functions
 					ConfigureSMU(siteIndex, pinAlias->Key, AM_CONST_DVCI, AM_CONST_TRANSIENT_NORMAL, AM_CONST_100UA_RANGE, AM_CONST_PLC, tl->glob->AWV.PowerLineFreq);
 				}
 
-				tl->WriteToLogger(siteIndex, "SMU[site " + siteIndex + "] initialized");
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "SMU[site " + siteIndex + "] initialized");
 
 			}
 			else if (moduleCount[siteIndex] == 0)
@@ -192,9 +192,9 @@ namespace Functions
 				{
 					for (int count = 0; count < moduleCount[siteIndex]; count++)
 					{
-						tl->WriteToLogger(siteIndex, "Executing smu[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing smu[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
 						tl->CheckError(siteIndex, smu[siteIndex]->Reset(moduleAlias[siteIndex][count]));
-						tl->WriteToLogger(siteIndex, "Executing smu[" + siteIndex + "]->Close(" + moduleAlias[siteIndex][count] + ")");
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing smu[" + siteIndex + "]->Close(" + moduleAlias[siteIndex][count] + ")");
 						tl->CheckError(siteIndex, smu[siteIndex]->Close(moduleAlias[siteIndex][count]));
 					}
 				}
@@ -204,8 +204,8 @@ namespace Functions
 				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 				tl->CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
 				String^ ErrorMessage = "AMB7600SRTestLibrary:: UninitializeAM400eResource " + "encountered error when performing.";
-				tl->FileLogging(siteIndex, LOGGER_ERROR_TYPE, ErrorMessage);
-				tl->WriteToLogger(siteIndex, ErrorMessage);
+				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 			}
 		}
 

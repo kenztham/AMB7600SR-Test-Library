@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -59,7 +59,7 @@
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "..\..\..\..\TestPrograms\SampleProfile\AMB7600SR_TestLibrary_REV2"
@@ -86,8 +86,14 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Reference Include="Aemulus.Configuration.AMB7300">
+      <HintPath>..\..\..\..\..\bin\NF4\x64\Aemulus.Configuration.AMB7300.dll</HintPath>
+    </Reference>
     <Reference Include="Aemulus.Hardware.ACM">
       <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.ACM.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Hardware.AMB7300">
+      <HintPath>..\..\..\..\..\bin\NF4\x64\Aemulus.Hardware.AMB7300.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.CM">
       <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.CM.dll</HintPath>
@@ -97,6 +103,9 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     </Reference>
     <Reference Include="Aemulus.Hardware.DM">
       <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.DM.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Hardware.NetworkAnalyzer">
+      <HintPath>..\..\..\..\..\bin\NF4\x64\Aemulus.Hardware.NetworkAnalyzer.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.ResourceManager">
       <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.ResourceManager.dll</HintPath>
@@ -113,10 +122,14 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     <Reference Include="Aemulus.TestLib.Utility">
       <HintPath>..\..\..\..\..\bin\x64\Aemulus.TestLib.Utility.dll</HintPath>
     </Reference>
+    <Reference Include="Aemulus.WaferTestLibrary">
+      <HintPath>..\..\..\..\..\bin\Aemulus.WaferTestLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="libSync">
       <HintPath>..\..\..\..\..\bin\libSync.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Forms" />
@@ -125,6 +138,7 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AMB7300\AMB7300.h" />
     <ClInclude Include="AMB7600SR\AMB7600SR.h" />
     <ClInclude Include="Test Function\Aemulus.Hardware.ACM.h" />
     <ClInclude Include="Test Function\Aemulus.Hardware.AMSRF.h" />
@@ -144,6 +158,16 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     <ClInclude Include="UserDefines.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AMB7300\ACM400Utility.cpp" />
+    <ClCompile Include="AMB7300\AM400Utility.cpp" />
+    <ClCompile Include="AMB7300\AMB7300.cpp" />
+    <ClCompile Include="AMB7300\AMB7300Utility.cpp" />
+    <ClCompile Include="AMB7300\CM400Utility.cpp" />
+    <ClCompile Include="AMB7300\CopperMountainVnaUtility.cpp" />
+    <ClCompile Include="AMB7300\DM400Utility.cpp" />
+    <ClCompile Include="AMB7300\IOM400Utility.cpp" />
+    <ClCompile Include="AMB7300\KeysightVnaUtility.cpp" />
+    <ClCompile Include="AMB7300\TM400Utility.cpp" />
     <ClCompile Include="AMB7600SR\AM400eUtility.cpp" />
     <ClCompile Include="AMB7600SR\AMB7600SR.cpp" />
     <ClCompile Include="AMB7600SR\AMSRFUtility.cpp" />

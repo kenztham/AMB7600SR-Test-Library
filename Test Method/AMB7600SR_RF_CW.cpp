@@ -21,7 +21,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourcePower");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SourcePower");
 
 			//Control Method Compulsory Variable
 			String^ sourceChannel = nullptr;
@@ -129,7 +129,7 @@ namespace Functions
 				RF_SourcePower(testSite, sourceChannel, ActualSourcePower, sourceFreq, sourceAttenuation);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourcePower");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SourcePower");
 
 #pragma endregion "Test"
 
@@ -160,7 +160,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourcePowerFast");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SourcePowerFast");
 
 			//Control Method Compulsory Variable
 			String^ sourceChannel = nullptr;
@@ -260,7 +260,7 @@ namespace Functions
 
 			RF_SourcePowerFast(testSite, sourceChannel, ActualSourcePower, sourceFreq, UserInputSourceAttenuation, sourceAttenuation);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourcePowerFast");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SourcePowerFast");
 
 #pragma endregion "Test"
 
@@ -291,7 +291,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourceTwoTone");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SourceTwoTone");
 
 			//Control Method Compulsory Variable
 			String^ sourceChannel = nullptr;
@@ -445,7 +445,7 @@ namespace Functions
 
 			tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"] = 2;
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourceTwoTone");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SourceTwoTone");
 
 #pragma endregion "Test"
 
@@ -477,7 +477,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SourcePowerLow");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SourcePowerLow");
 
 			//Test Method Compulsory Variable
 			String^ sourceChannel = nullptr;
@@ -485,7 +485,7 @@ namespace Functions
 
 			//Source Power Low Operation Variable
 			String ^ CM = "SourcePowerLow_";
-			double SourcePin = -120.0 dbm;
+			double SourcePin = -120.0 dBm;
 			String ^ ErrorMessage = nullptr;
 			int sourceMode = (int)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"];
 
@@ -542,7 +542,7 @@ namespace Functions
 				}
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SourcePowerLow");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SourcePowerLow");
 
 #pragma endregion "Test"
 		}
@@ -572,7 +572,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_RunSourceAlignment");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_RunSourceAlignment");
 
 			//Test Method Compulsory Variable
 
@@ -604,7 +604,7 @@ namespace Functions
 				}
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_RunSourceAlignment");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_RunSourceAlignment");
 
 #pragma endregion "Test"
 
@@ -636,7 +636,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_StartModulation");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_StartModulation");
 
 			//Control Method Compulsory Variable
 			String^ moduleAlias = nullptr;
@@ -695,7 +695,7 @@ namespace Functions
 			PathModulationFile = tl->glob->ModulationFile[testSite][modulationFile];
 			RF_StartModulation(testSite, moduleAlias, PathModulationFile, playBackMode);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_StartModulation");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_StartModulation");
 
 #pragma endregion "Test"
 
@@ -726,7 +726,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_IsolateChannel");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_IsolateChannel");
 
 			//Control Method Compulsory Variable
 			String^ channel = nullptr;
@@ -768,7 +768,7 @@ namespace Functions
 
 			ResetAmsrfPreviousState(testSite, true);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_IsolateChannel");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_IsolateChannel");
 
 #pragma endregion "Test"
 
@@ -799,7 +799,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_StopModulation");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_StopModulation");
 
 			//Control Method Compulsory Variable
 			String^ moduleAlias = nullptr;
@@ -833,7 +833,7 @@ namespace Functions
 			RF_LoadHardwareProfile(testSite);
 			RF_StopModulation(testSite, moduleAlias);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_StopModulation");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_StopModulation");
 
 #pragma endregion "Test"
 
@@ -864,7 +864,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetSourceTriggerOut");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SetSourceTriggerOut");
 
 			//Control Method Compulsory Variable
 			String^ moduleAlias = nullptr;
@@ -931,7 +931,7 @@ namespace Functions
 			RF_LoadHardwareProfile(testSite);
 			RF_SetSourceTriggerOut(testSite, moduleAlias, enable, trigDestination, trigOption);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetSourceTriggerOut");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SetSourceTriggerOut");
 
 #pragma endregion "Test"
 
@@ -962,7 +962,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetSourceTriggerRouting");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SetSourceTriggerRouting");
 
 			//Control Method Compulsory Variable
 			String^ moduleAlias = nullptr;
@@ -1028,7 +1028,7 @@ namespace Functions
 			RF_LoadHardwareProfile(testSite);
 			RF_SetSourceTriggerRouting(testSite, moduleAlias, enable, trigIn, trigOut);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetSourceTriggerRouting");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SetSourceTriggerRouting");
 
 #pragma endregion "Test"
 
@@ -1059,7 +1059,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetMeasureTriggerRouting");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SetMeasureTriggerRouting");
 
 			//Control Method Compulsory Variable
 			String^ moduleAlias = nullptr;
@@ -1126,7 +1126,7 @@ namespace Functions
 			RF_LoadHardwareProfile(testSite);
 			RF_SetMeasureTriggerRouting(testSite, moduleAlias, enable, trigIn, trigOut);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetMeasureTriggerRouting");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SetMeasureTriggerRouting");
 
 #pragma endregion "Test"
 
@@ -1157,7 +1157,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetSourceTriggerIn");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SetSourceTriggerIn");
 
 			//Control Method Compulsory Variable
 			String^ moduleAlias = nullptr;
@@ -1234,7 +1234,7 @@ namespace Functions
 			RF_LoadHardwareProfile(testSite);
 			RF_SetSourceTriggerIn(testSite, moduleAlias, enable, trigSource, trigPolarity, trigDelay);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetSourceTriggerIn");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SetSourceTriggerIn");
 
 #pragma endregion "Test"
 
@@ -1265,7 +1265,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SetMeasureTriggerIn");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SetMeasureTriggerIn");
 
 			//Control Method Compulsory Variable
 			String^ moduleAlias = nullptr;
@@ -1342,7 +1342,7 @@ namespace Functions
 			RF_LoadHardwareProfile(testSite);
 			RF_SetMeasureTriggerIn(testSite, moduleAlias, enable, trigSource, trigPolarity, trigDelay);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SetMeasureTriggerIn");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SetMeasureTriggerIn");
 
 #pragma endregion "Test"
 
@@ -1373,7 +1373,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_LoadModulation");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_LoadModulation");
 
 			//Control Method Compulsory Variable
 			String^ moduleAlias = nullptr;
@@ -1434,7 +1434,7 @@ namespace Functions
 				RF_LoadModulation(testSite, moduleAlias, waveformFiles_wfm[i], StationNo);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_LoadModulation");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_LoadModulation");
 
 #pragma endregion "Test"
 
@@ -1445,8 +1445,6 @@ namespace Functions
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 			tl->UpdateTestResultsWhenException(site, testSite);
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
-			//tl->WarningMessageBox(tl->glob->TcrLgr.GlobalErrorMessage, "Fail");
-			throw;
 		}
 	}
 	void AMB7600SRTestLibrary::CM_RF_WlanInit(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
@@ -1467,7 +1465,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WlanInit");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_WlanInit");
 
 			//Control Method Compulsory Variable
 			String^ moduleAliasVSG = nullptr;
@@ -1548,7 +1546,7 @@ namespace Functions
 				RF_WlanInitSetup(testSite, moduleAliasVSG, moduleAliasVSA, standardSelection, measureOption_ABGN);
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_WlanInit");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_WlanInit");
 
 #pragma endregion "Test"
 
@@ -1580,7 +1578,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_EvmMeasurementSetup");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_EvmMeasurementSetup");
 
 			//Control Method Compulsory Variable
 			int wlanModulationStandard = 999;
@@ -1672,7 +1670,7 @@ namespace Functions
 
 			RF_WlanEvmMeasurementSetup(testSite, standard, SetWlanSetting, WlanSettings);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_EvmMeasurementSetup");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_EvmMeasurementSetup");
 
 #pragma endregion "Test"
 
@@ -1703,7 +1701,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_SemMeasurementSetup");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_SemMeasurementSetup");
 
 			//Control Method Compulsory Variable
 			int wlanModulationStandard = 999;
@@ -1835,7 +1833,7 @@ namespace Functions
 
 			RF_WlanSemMeasurementSetup(testSite, standard, SetWlanSetting, semAvg, WlanSettings);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_SemMeasurementSetup");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_SemMeasurementSetup");
 
 #pragma endregion "Test"
 
@@ -1866,7 +1864,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_MeasureSetup");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_MeasureSetup");
 
 			//Control Method Compulsory Variable
 			String^ measureChannel = nullptr;
@@ -1937,7 +1935,7 @@ namespace Functions
 			RF_LoadHardwareProfile(testSite);
 			RF_MeasureSetup(testSite, measureChannel, measurePower, measureFreq, filterOption);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_MeasureSetup");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_MeasureSetup");
 
 #pragma endregion "Test"
 
@@ -1968,7 +1966,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_MeasureSetupIQ");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_MeasureSetupIQ");
 
 			//Control Method Compulsory Variable
 			String^ measureChannel = nullptr;
@@ -2061,7 +2059,7 @@ namespace Functions
 			RF_LoadHardwareProfile(testSite);
 			RF_MeasureSetupIQ(testSite, measureChannel, measurePower, measureFreq, sampleRate, sampleSize, filterOption);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_MeasureSetupIQ.\n");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_MeasureSetupIQ.\n");
 
 #pragma endregion "Test"
 
@@ -2092,7 +2090,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_TriggerSigenStartModulation");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_TriggerSigenStartModulation");
 
 			//Control Method Compulsory Variable
 			String^ moduleAliasSigen = nullptr;
@@ -2179,7 +2177,7 @@ namespace Functions
 			//DM_MIPIWriteVector(testSite, "DM483E", "SW3");
 
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_TriggerSigenStartModulation");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_TriggerSigenStartModulation");
 
 #pragma endregion "Test"
 
@@ -2210,7 +2208,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WolferInit");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_WolferInit");
 
 			//To get the desired Wolfer Number in current site
 			int externalModuleNo = 0;
@@ -2306,11 +2304,11 @@ namespace Functions
 				tl->glob->g_txpath[wolferType] = 0;
 				tl->glob->g_rxpath[wolferType] = 0;
 
-				tl->WriteToLogger(testSite, "Done Load " + tl->glob->WolferInfo_Status[testSite].wolferIOFile[wolferType] + " with " + IOControl + ".\n");
+				tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Load " + tl->glob->WolferInfo_Status[testSite].wolferIOFile[wolferType] + " with " + IOControl + ".\n");
 			}
 			else if (IOControl == "DigitalBoard")
 			{
-				tl->WriteToLogger(testSite, "Done Load " + tl->glob->WolferInfo_Status[testSite].wolferIOFile[wolferType] + " with " + IOControl + ".\n");
+				tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Load " + tl->glob->WolferInfo_Status[testSite].wolferIOFile[wolferType] + " with " + IOControl + ".\n");
 			}
 			else
 			{
@@ -2319,7 +2317,7 @@ namespace Functions
 
 			wlfInit(testSite, IOControl);
 
-			tl->WriteToLogger(testSite, "Done Executing Control Method RFCase_WolferInit for " + wolferType + " wolfer.\n");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Control Method RFCase_WolferInit for " + wolferType + " wolfer.\n");
 
 #pragma endregion "Test"
 
@@ -2350,7 +2348,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WolferSelectPath");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_WolferSelectPath");
 
 			//To get the desired Wolfer Number in current site
 			int externalModuleNo = 0;
@@ -2491,7 +2489,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Control Method RFCase_WolferSourcePower");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_WolferSourcePower");
 
 			//To get the desired Wolfer Number in current site
 			int externalModuleNo = 0;
@@ -2639,7 +2637,7 @@ namespace Functions
 							offset2 = coupRef - coupledPout;
 						}
 					}
-					tl->WriteToLogger(testSite, "WolferCoupler Pout = " + coupledPout);
+					tl->WriteToTcrLgr("SITE " + testSite.ToString(), "WolferCoupler Pout = " + coupledPout);
 					tl->glob->WolferCoupler_Pout[testSite] = coupledPout; //Coupler Pout
 
 
@@ -2704,7 +2702,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_MeasureChannel");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_MeasureChannel");
 
 			testParameterCount = 1;
 
@@ -2852,7 +2850,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_MeasureChannel");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_MeasureChannel");
 
 #pragma endregion "Update Test Result"
 		}
@@ -2885,7 +2883,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_MeasureChannelFast");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_MeasureChannelFast");
 
 			testParameterCount = 1;
 
@@ -3034,7 +3032,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_MeasureChannelFast");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_MeasureChannelFast");
 
 #pragma endregion "Update Test Result"
 		}
@@ -3066,7 +3064,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_MeasureChannelIQ");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_MeasureChannelIQ");
 
 			testParameterCount = 1;
 
@@ -3233,7 +3231,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_MeasureChannelIQ");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_MeasureChannelIQ");
 
 #pragma endregion "Update Test Result"
 		}
@@ -3265,7 +3263,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_MeasureBurstPower");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_MeasureBurstPower");
 
 			testParameterCount = 1;
 
@@ -3562,7 +3560,7 @@ namespace Functions
 			}
 
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_MeasureBurstPower");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_MeasureBurstPower");
 
 #pragma endregion "Update Test Result"
 		}
@@ -3596,7 +3594,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_MeasureSwitchingTime");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_MeasureSwitchingTime");
 
 			testParameterCount = 1;
 
@@ -3937,7 +3935,7 @@ namespace Functions
 
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_MeasureSwitchingTime");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_MeasureSwitchingTime");
 
 #pragma endregion "Update Test Result"
 		}
@@ -3971,7 +3969,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_MeasureIIP3");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_MeasureIIP3");
 
 			testParameterCount = 1;
 
@@ -4246,7 +4244,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_MeasureIIP3");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_MeasureIIP3");
 
 
 #pragma endregion "Update Test Result"
@@ -4281,7 +4279,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_MeasureSParam");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_MeasureSParam");
 
 			testParameterCount = 1;
 			//Test Method Compulsory Variable
@@ -4539,7 +4537,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_MeasureSParam");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_MeasureSParam");
 
 #pragma endregion "Update Test Result"
 		}
@@ -4573,7 +4571,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_MeasureSParamIQ");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_MeasureSParamIQ");
 
 			testParameterCount = 1;
 
@@ -4861,7 +4859,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_MeasureSParamIQ");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_MeasureSParamIQ");
 
 #pragma endregion "Update Test Result"
 		}
@@ -4895,7 +4893,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_PowerServo");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_PowerServo");
 
 			testParameterCount = 1;
 
@@ -5187,7 +5185,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_PowerServo");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_PowerServo");
 
 
 #pragma endregion "Update Test Result"
@@ -5222,7 +5220,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_PowerServo_BinarySearch");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_PowerServo_BinarySearch");
 
 			testParameterCount = 1;
 
@@ -5627,7 +5625,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_PowerServo_BinarySearch");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_PowerServo_BinarySearch");
 
 
 #pragma endregion "Update Test Result"
@@ -5662,7 +5660,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_PowerServo_LinearSearch");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_PowerServo_LinearSearch");
 
 			testParameterCount = 1;
 
@@ -6200,7 +6198,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_PowerServo_LinearSearch");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_PowerServo_LinearSearch");
 
 
 #pragma endregion "Update Test Result"
@@ -6235,7 +6233,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_P1dB_BinarySearch");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_P1dB_BinarySearch");
 
 			testParameterCount = 1;
 
@@ -6665,7 +6663,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_P1dB_BinarySearch");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_P1dB_BinarySearch");
 
 
 #pragma endregion "Update Test Result"
@@ -6700,7 +6698,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_P1dB_DirectSearch");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_P1dB_DirectSearch");
 
 			testParameterCount = 1;
 
@@ -6929,7 +6927,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_P1dB_DirectSearch");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_P1dB_DirectSearch");
 
 #pragma endregion "Update Test Result"
 		}
@@ -6963,7 +6961,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_ReadEvm");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_ReadEvm");
 
 			testParameterCount = 1;
 
@@ -6996,7 +6994,7 @@ namespace Functions
 			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_ReadEvm_acax");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_ReadEvm_acax");
 
 #pragma endregion "Update Test Result"
 		}
@@ -7030,7 +7028,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_ReadEvmAsync");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_ReadEvmAsync");
 
 			testParameterCount = 1;
 
@@ -7063,7 +7061,7 @@ namespace Functions
 			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_ReadEvmAsync");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_ReadEvmAsync");
 
 #pragma endregion "Update Test Result"
 		}
@@ -7097,7 +7095,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_ReadSem");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_ReadSem");
 
 			testParameterCount = 1;
 
@@ -7196,7 +7194,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_ReadSem");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_ReadSem");
 
 #pragma endregion "Update Test Result"
 		}
@@ -7230,7 +7228,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_ReadSemAsyn");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_ReadSemAsyn");
 
 			testParameterCount = 1;
 
@@ -7331,7 +7329,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_ReadSemAsyn");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_ReadSemAsyn");
 
 #pragma endregion "Update Test Result"
 		}
@@ -7365,7 +7363,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_WlanPowerServo");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_WlanPowerServo");
 
 			testParameterCount = 1;
 
@@ -7622,7 +7620,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_WlanPowerServo");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_WlanPowerServo");
 
 #pragma endregion "Update Test Result"
 		}
@@ -7654,7 +7652,7 @@ namespace Functions
 		******************************************************************************************************/
 
 		//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-		tl->WriteToLogger(testSite, "Executing Test Method RFCase_WlanResidualEVM");
+		tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_WlanResidualEVM");
 
 		testParameterCount = 1;
 
@@ -8056,7 +8054,7 @@ namespace Functions
 			tl->glob->TestResults[testSite][testParameterNumber] = Result;
 
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_WlanPowerServo");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_WlanPowerServo");
 
 #pragma endregion "Update Test Result"
 
@@ -8096,7 +8094,7 @@ namespace Functions
 		try
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
-			tl->WriteToLogger(testSite, "Executing Test Method RFCase_WolferMeasureChannel");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Test Method RFCase_WolferMeasureChannel");
 
 			testParameterCount = 1;
 
@@ -8469,7 +8467,7 @@ namespace Functions
 				testParameterCount = UserDesiredResult->Length;
 			}
 
-			tl->WriteToLogger(testSite, "Done Executing Test Method RFCase_MeasureChannel");
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Done Executing Test Method RFCase_MeasureChannel");
 
 #pragma endregion "Update Test Result"
 		}

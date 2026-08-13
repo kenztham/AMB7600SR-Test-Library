@@ -1134,7 +1134,7 @@ namespace Functions
 
 				ExternalModuleInfo = nullptr;
 
-				tl->WriteToLogger(tl->glob->Amsrf0Site[index], InfoMessage);
+				tl->WriteToTcrLgr("SITE " + tl->glob->Amsrf0Site[index].ToString(), InfoMessage);
 			}
 		}
 		if (CurrentHeadSite.AMSRFSupported->Contains("AMSRF1"))
@@ -1157,7 +1157,7 @@ namespace Functions
 
 				ExternalModuleInfo = nullptr;
 
-				tl->WriteToLogger(tl->glob->Amsrf1Site[index], "Initialized Aemulus Tester");
+				tl->WriteToTcrLgr("SITE " + tl->glob->Amsrf1Site[index].ToString(), "Initialized Aemulus Tester");
 			}
 		}
 		

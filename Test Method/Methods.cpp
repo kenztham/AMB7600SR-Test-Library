@@ -76,7 +76,7 @@ namespace Functions
 
 		for (int siteIndex = 0; siteIndex < totalSite; siteIndex++)
 		{
-			tl->WriteToLogger(siteIndex, "Initialized Control Methods...");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initialized Control Methods...");
 		}
 	}
 	void AMB7600SRTestLibrary::InitializeTMDicionary(int totalSite)
@@ -115,7 +115,7 @@ namespace Functions
 
 		for (int siteIndex = 0; siteIndex < totalSite; siteIndex++) 
 		{
-			tl->WriteToLogger(siteIndex, "Initialized Test Methods...");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initialized Test Methods...");
 		}
 	}
 
@@ -327,98 +327,107 @@ namespace Functions
 	}
 	void AMB7600SRTestLibrary::TestMethod_Selection(Site ^ site, int testSite, int testMethodSelection, String ^ testParameterName, int  testParameterCount, int % methodTestParameterCount)
 	{
-		switch (testMethodSelection)
-		{
+		try {
+			switch (testMethodSelection)
+			{
 #pragma region DC Case
-		case DCCase_OS:
-			TM_OS(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case DCCase_MeasureCurrent:
-			TM_MeasureCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case DCCase_MeasureVoltage:
-			TM_MeasureVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case DCCase_AMMeasureBurstCurrent:
-			TM_MeasureBurstCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case DCCase_AMMeasureBurstVoltage:
-			TM_MeasureBurstVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case DCCase_DifferentialResult:
-			TM_DifferentialResult(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
+			case DCCase_OS:
+				TM_OS(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case DCCase_MeasureCurrent:
+				TM_MeasureCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case DCCase_MeasureVoltage:
+				TM_MeasureVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case DCCase_AMMeasureBurstCurrent:
+				TM_MeasureBurstCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case DCCase_AMMeasureBurstVoltage:
+				TM_MeasureBurstVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case DCCase_DifferentialResult:
+				TM_DifferentialResult(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
 #pragma endregion
 
 #pragma region DM Case
-		case DMCase_MIPIReadVector:
-			TM_MIPIReadVector(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
+			case DMCase_MIPIReadVector:
+				TM_MIPIReadVector(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
 #pragma endregion
 
 #pragma region RF Case
-		case RFCase_MeasureChannel:
-			TM_RF_MeasureChannel(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureChannelFast:
-			TM_RF_MeasureChannelFast(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureChannelIQ:
-			TM_RF_MeasureChannelIQ(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureIIP3:
-			TM_RF_MeasureIIP3(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureBurstPower:
-			TM_RF_MeasureBurstPower(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureSwitchingTime:
-			TM_RF_MeasureSwitchingTime(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureSParam:
-			TM_RF_MeasureSParam(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_MeasureSParamIQ:
-			TM_RF_MeasureSParamIQ(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_P1dB_BinarySearch:
-			TM_RF_P1dB_BinarySearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_PowerServo:
-			TM_RF_PowerServo(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_PowerServo_BinarySearch:
-			TM_RF_PowerServo_BinarySearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_PowerServo_LinearSearch:
-			TM_RF_PowerServo_LinearSearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_ReadEvm:
-			TM_RF_ReadEvm(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_ReadEvmAsync:
-			TM_RF_ReadEvmAsync(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_ReadSem:
-			TM_RF_ReadSem(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_ReadSemAsync:
-			TM_RF_ReadSemAsync(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_WlanPowerServo:
-			TM_RF_WlanPowerServo(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_WlanResidualEVM:
-			TM_RF_WlanResidualEVM(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
-		case RFCase_WolferMeasureChannel:
-			TM_RF_WolferMeasureChannel(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-			break;
+			case RFCase_MeasureChannel:
+				TM_RF_MeasureChannel(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_MeasureChannelFast:
+				TM_RF_MeasureChannelFast(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_MeasureChannelIQ:
+				TM_RF_MeasureChannelIQ(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_MeasureIIP3:
+				TM_RF_MeasureIIP3(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_MeasureBurstPower:
+				TM_RF_MeasureBurstPower(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_MeasureSwitchingTime:
+				TM_RF_MeasureSwitchingTime(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_MeasureSParam:
+				TM_RF_MeasureSParam(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_MeasureSParamIQ:
+				TM_RF_MeasureSParamIQ(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_P1dB_DirectSearch:
+				TM_RF_P1dB_DirectSearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break; 
+			case RFCase_P1dB_BinarySearch:
+				TM_RF_P1dB_BinarySearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_PowerServo:
+				TM_RF_PowerServo(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_PowerServo_BinarySearch:
+				TM_RF_PowerServo_BinarySearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_PowerServo_LinearSearch:
+				TM_RF_PowerServo_LinearSearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_ReadEvm:
+				TM_RF_ReadEvm(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_ReadEvmAsync:
+				TM_RF_ReadEvmAsync(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_ReadSem:
+				TM_RF_ReadSem(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_ReadSemAsync:
+				TM_RF_ReadSemAsync(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_WlanPowerServo:
+				TM_RF_WlanPowerServo(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_WlanResidualEVM:
+				TM_RF_WlanResidualEVM(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+			case RFCase_WolferMeasureChannel:
+				TM_RF_WolferMeasureChannel(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
 #pragma endregion
 
-		default:
-			tl->glob->TcrLgr.ErrorCode = ER_CONST_InvalidTestMethod;
-			throw gcnew Exception("This Test Method " + tl->glob->ErrorInfo[testSite].TestMethodName + " is not supported.");
+			default:
+				tl->glob->TcrLgr.ErrorCode = ER_CONST_InvalidTestMethod;
+				throw gcnew Exception("This Test Method " + tl->glob->ErrorInfo[testSite].TestMethodName + " is not supported.");
+			}
+		}
+		catch (Exception^ ex)
+		{
+			throw;
 		}
 	}
 }

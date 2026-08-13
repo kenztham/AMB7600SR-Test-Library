@@ -630,7 +630,7 @@ namespace Functions
 		//Global Variable
 		int totalSite;
 
-		Globals ^ glob;
+		//Globals ^ glob;
 
 		//Tracer Logger
 		String^ MainTracer;

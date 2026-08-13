@@ -7,7 +7,8 @@ namespace AMB7600SR_TestLibrary_REV2
 	{
 		
 		//<Info> tl - TestLibrary 
-		tl = gcnew TestFunction(); 
+		tl = gcnew TestFunction();
+		amb7300tl = gcnew AMB7300TestLibrary(tl);
 	}
 
 	// Public Methods
@@ -17,6 +18,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		int siteIndex = 0;
 		tl->glob->RunTimeError = gcnew array<bool>(1);
 		tl->glob->RunTimeError[0] = false;
+		int tfSite = tl->glob->tf.TestSite;
 
 		// ToDo: Write your tester hardware initialization routines here
 		tl->glob->tf.CurrentPhase = site->CurrentPhase->Name;
@@ -25,10 +27,11 @@ namespace AMB7600SR_TestLibrary_REV2
 
 		tl->InitializeProgram(site);
 		amb7600srtl = gcnew AMB7600SRTestLibrary(tl);
+		amb7300tl = gcnew AMB7300TestLibrary(tl);
 
 		for (siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
-			tl->WriteToLogger(siteIndex, ">> Begin " + tl->glob->tf.CurrentPhase + " Phase");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ">> Begin " + tl->glob->tf.CurrentPhase + " Phase");
 		}
 #pragma endregion "Initialize Test Program"
 
@@ -38,8 +41,8 @@ namespace AMB7600SR_TestLibrary_REV2
 
 		for (siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
-			tl->WriteToLogger(siteIndex, "Done Compiled and Load Phase");
-			tl->WriteToLogger(siteIndex, ">> Executed " + tl->glob->tf.CurrentPhase + " Phase");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Done Compiled and Load Phase");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ">> Executed " + tl->glob->tf.CurrentPhase + " Phase");
 		}
 
 #pragma endregion "Tester Initialization"
@@ -83,7 +86,7 @@ namespace AMB7600SR_TestLibrary_REV2
 
 		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
-			tl->WriteToLogger(siteIndex, ">>Executing " + tl->glob->tf.CurrentPhase + " Phase");
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ">>Executing " + tl->glob->tf.CurrentPhase + " Phase");
 		}
 		amb7600srtl->UninitializeTester(site);
 #pragma region "Test Time Profile"
@@ -105,7 +108,17 @@ namespace AMB7600SR_TestLibrary_REV2
 			tl->UnloadRTPlotter(0);
 		}
 
-		tl->KillTracerLogger(tl->glob->tf.NumberOfSites, tl->glob->tf.CurrentPhase);
+#pragma region "Uninitialize File Logger"
+
+		tl->UninitializeFileLogger();
+
+#pragma endregion
+
+#pragma region "Uninitialize Tracer Logger"
+
+		tl->UninitializeTracerLogger();
+
+#pragma endregion
 
 
 		return ret;
@@ -201,7 +214,7 @@ namespace AMB7600SR_TestLibrary_REV2
 
 				for each(Condition ^ controlMethod in testConditionCollection)
 				{
-					if (controlMethod->Name->StartsWith("ControlMethod"))
+					if (controlMethod->Name->StartsWith("MethodName"))
 					{
 						strControlMethod = nullptr;
 						intControlMethod = 0;		
@@ -228,6 +241,7 @@ namespace AMB7600SR_TestLibrary_REV2
 			{
 				testProgramData->Exception = gcnew Exception("Error during exception handling: " + innerEx->ToString() + " || Original Error: " + ex->ToString());
 				testProgramData->ErrorCode = ER_CONST_GENERAL;
+				tl->ErrorHandling(site, testSite, innerEx->ToString());
 			}
 		}
 	}
@@ -302,17 +316,17 @@ namespace AMB7600SR_TestLibrary_REV2
 
 						if (!flowStep->Bypass)
 						{
-							if (testConditionCollection->ContainsKey("ControlMethod"))
+							if (testConditionCollection->ContainsKey("MethodName"))
 							{
 								intControlMethod = 0;
 								//strControlMethod = (String^)tf_TestParameter_ConditionCast(testParameterName, controlMethod->Name);
-								strControlMethod = (String^)tf_FlowStep_ConditionCast(tl->glob->currentSubItemName[testSite], "ControlMethod");
+								strControlMethod = (String^)tf_FlowStep_ConditionCast(tl->glob->currentSubItemName[testSite], "MethodName");
 								tl->glob->ErrorInfo[testSite].ControlMethodName = strControlMethod;
 								amb7600srtl->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 
 								amb7600srtl->ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
 							}
-							else if (!testConditionCollection->ContainsKey("ControlMethod"))
+							else if (!testConditionCollection->ContainsKey("MethodName"))
 							{
 								throw gcnew Exception("ControlMethod is not found.");
 							}
@@ -331,13 +345,13 @@ namespace AMB7600SR_TestLibrary_REV2
 
 						if (!tp->Bypass)
 						{
-							if (testConditionCollection->ContainsKey("TestMethod"))
+							if (testConditionCollection->ContainsKey("MethodName"))
 							{
 								testParameterName = tl->glob->currentSubItemName[testSite];
 								tl->glob->ErrorInfo[testSite].TestParameterName = testParameterName;
 
 								intTestMethod = 0;
-								testMethod = (String^)tf_TestParameter_ConditionCast(testParameterName, "TestMethod");
+								testMethod = (String^)tf_TestParameter_ConditionCast(testParameterName, "MethodName");
 								//testMethod = tl->glob->TestProperty[SiteIndex].MethodName;
 								tl->glob->ErrorInfo[testSite].TestMethodName = testMethod;
 								amb7600srtl->Dictionary_TM->TryGetValue(testMethod, intTestMethod);
@@ -381,7 +395,6 @@ namespace AMB7600SR_TestLibrary_REV2
 			testProgramData->Exception = ex;
 			testProgramData->ErrorCode = ER_CONST_GENERAL;
 			tl->ErrorHandling(site, testSite, ex->ToString());
-			throw ex->Message;
 		}
 	}
 }

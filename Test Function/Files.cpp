@@ -466,7 +466,7 @@ namespace Functions
 			{
 				for (int siteIndex = 0; siteIndex < glob->tf.NumberOfSites; siteIndex++)
 				{
-					WriteToLogger(siteIndex, "Loading BoardLoss.....");
+					WriteToTcrLgr("SITE " + siteIndex.ToString(), "Loading BoardLoss.....");
 				}
 			}
 
@@ -558,7 +558,7 @@ namespace Functions
 
 			for (int siteIndex = 0; siteIndex < glob->tf.NumberOfSites; siteIndex++)
 			{
-				WriteToLogger(siteIndex, "Done Loading BoardLoss.....");
+				WriteToTcrLgr("SITE " + siteIndex.ToString(), "Done Loading BoardLoss.....");
 			}
 		}
 		catch (Exception ^ ex)
