@@ -87,55 +87,55 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="Aemulus.Configuration.AMB7300">
-      <HintPath>..\..\..\..\..\bin\NF4\x64\Aemulus.Configuration.AMB7300.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\NF4\x64\Aemulus.Configuration.AMB7300.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.ACM">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.ACM.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\Aemulus.Hardware.ACM.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.AMB7300">
-      <HintPath>..\..\..\..\..\bin\NF4\x64\Aemulus.Hardware.AMB7300.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\NF4\x64\Aemulus.Hardware.AMB7300.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.CM">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.CM.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\Aemulus.Hardware.CM.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.DIO">
-      <HintPath>..\..\..\..\..\bin\x64\Aemulus.Hardware.DIO.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\x64\Aemulus.Hardware.DIO.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.DM">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.DM.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\Aemulus.Hardware.DM.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.NetworkAnalyzer">
-      <HintPath>..\..\..\..\..\bin\NF4\x64\Aemulus.Hardware.NetworkAnalyzer.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\NF4\x64\Aemulus.Hardware.NetworkAnalyzer.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.ResourceManager">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.ResourceManager.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\Aemulus.Hardware.ResourceManager.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.SMU">
-      <HintPath>..\..\..\..\..\bin\x64\Aemulus.Hardware.SMU.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\x64\Aemulus.Hardware.SMU.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Tech.Controls">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Tech.Controls.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\Aemulus.Tech.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Tech.Flow.AssemblyMap">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Tech.Flow.AssemblyMap.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\Aemulus.Tech.Flow.AssemblyMap.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Tech.Flow.Core">
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\Aemulus.Tech.Flow.Core.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.TestLib.Utility">
-      <HintPath>..\..\..\..\..\bin\x64\Aemulus.TestLib.Utility.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\x64\Aemulus.TestLib.Utility.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.WaferTestLibrary">
-      <HintPath>..\..\..\..\..\bin\Aemulus.WaferTestLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\Aemulus.WaferTestLibrary.dll</HintPath>
     </Reference>
     <Reference Include="libSync">
-      <HintPath>..\..\..\..\..\bin\libSync.dll</HintPath>
+      <HintPath>..\..\..\..\..\Aemulus\techFlow3\bin\libSync.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="Aemulus.Tech.Flow.Core">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Tech.Flow.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AMB7300\AMB7300.h" />
@@ -190,6 +190,7 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     <ClCompile Include="TestProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Module400Series\Readme.txt" />
     <Text Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
