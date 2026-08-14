@@ -297,9 +297,9 @@ namespace Functions
 		int resourceModuleIndexRow = 0;
 		int resourceModuleIndexColoumn = 0;
 
-		XmlLib ^ xmlLib = gcnew XmlLib();
-		SystemConfiguration ^ SystemConfiguration;
-		List<ModuleConfiguration ^> ^  ModuleConfigurations = gcnew List<ModuleConfiguration ^>();
+		Aemulus::Configuration::XmlLib ^ xmlLib = gcnew Aemulus::Configuration::XmlLib();
+		Aemulus::Configuration7600::SystemConfiguration ^ SystemConfiguration;
+		List<Aemulus::Configuration7600::ModuleConfiguration ^> ^  ModuleConfigurations = gcnew List<Aemulus::Configuration7600::ModuleConfiguration ^>();
 
 		xmlLib->Read(ConfigPath, SystemConfiguration);
 		SystemType = SystemConfiguration->type;
@@ -308,7 +308,7 @@ namespace Functions
 		moduleRF = gcnew array<String^, 2>(TotalRfModule, ModuleItemInfo);
 
 		int resourceModuleIndex = 0;
-		for each (ModuleConfiguration ^ resourceModule in ModuleConfigurations)
+		for each (Aemulus::Configuration7600::ModuleConfiguration ^ resourceModule in ModuleConfigurations)
 		{
 			resourceModuleIndexColoumn = 0;
 
@@ -694,7 +694,7 @@ namespace Functions
 			((bool)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["ExecutedMeasureFast"] == true) ||
 			((int)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["MeasureMode"] != 0))// true if channel, measurePower, measureFreq & filterOption is not same as previous
 		{
-			CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(measureChannel, measureLevel, measureFreq, filterOption));
+			tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(measureChannel, measureLevel, measureFreq, filterOption));
 		}
 
 		//State Recording
@@ -732,7 +732,7 @@ namespace Functions
 			((double)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["MeasureSampleRate"] != sampleRate) ||
 			((int)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["MeasureSampleSize"] != sampleSize))// true if channel, measurePower, measureFreq & filterOption is not same as previous
 		{
-			CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetupIQ(measureChannel, measureLevel, measureFreq, sampleRate, sampleSize, filterOption));
+			tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetupIQ(measureChannel, measureLevel, measureFreq, sampleRate, sampleSize, filterOption));
 		}
 
 		//State Recording
@@ -826,7 +826,7 @@ namespace Functions
 			(bool)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["ExecutedSourceFast"] == true ||
 			(int)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"] != 0)
 		{
-			CheckError(testSite, amsrf[testSite]->amsrf->SourceChannel(sourceChannel, sourceLevel, sourceFreq));
+			tl->CheckError(testSite, amsrf[testSite]->amsrf->SourceChannel(sourceChannel, sourceLevel, sourceFreq));
 		}
 
 		//State Recording
@@ -853,7 +853,7 @@ namespace Functions
 			(bool)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["ExecutedSourceFast"] == true ||
 			(int)tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceMode"] != 1)
 		{
-			CheckError(testSite, amsrf[testSite]->amsrf->SourceChannel(sourceChannel, sourceLevel, sourceFreq, attenuation));
+			tl->CheckError(testSite, amsrf[testSite]->amsrf->SourceChannel(sourceChannel, sourceLevel, sourceFreq, attenuation));
 		}
 
 		//State Recording
@@ -960,41 +960,41 @@ namespace Functions
 	{
 		int ret = 0;
 		util->WaitSecond(delay);
-		CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(measureChannel, result));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(measureChannel, result));
 		return ret;
 	}
 	int AMB7600SRTestLibrary::RF_MeasureChannelIQ(int testSite, String^ measureChannel, double delay, double % result)
 	{
 		int ret = 0;
 		util->WaitSecond(delay);
-		CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannelIQ(measureChannel, result));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannelIQ(measureChannel, result));
 		return ret;
 	}
 	int AMB7600SRTestLibrary::RF_MeasureRawIQArray(int testSite, String^ measureChannel, double delay, array <double>^ % iData, array <double>^ % qData)
 	{
 		int ret = 0;
 		util->WaitSecond(delay);
-		CheckError(testSite, amsrf[testSite]->amsrf->MeasureRawIQArray(measureChannel, iData, qData));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureRawIQArray(measureChannel, iData, qData));
 
 		return ret;
 	}
 	int AMB7600SRTestLibrary::RF_GetMeasureFactor(int testSite, String^ measureChannel, double measureLevel, double measureFreq, int filterOption, double  % measureFactor)
 	{
 		int ret = 0;
-		CheckError(testSite, amsrf[testSite]->amsrf->GetMeasureFactor(measureChannel, measureLevel, measureFreq, filterOption, measureFactor));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->GetMeasureFactor(measureChannel, measureLevel, measureFreq, filterOption, measureFactor));
 
 		return ret;
 	}
 	int AMB7600SRTestLibrary::RF_GetSourceFactor(int testSite, String^ sourceChannel, double sourceLevel, double sourceFreq, double % sourceFactor, double  % couplerFactor)
 	{
 		int ret = 0;
-		CheckError(testSite, amsrf[testSite]->amsrf->GetSourceFactor(sourceChannel, sourceLevel, sourceFreq, sourceFactor, couplerFactor));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->GetSourceFactor(sourceChannel, sourceLevel, sourceFreq, sourceFactor, couplerFactor));
 		return ret;
 	}
 	int AMB7600SRTestLibrary::RF_GetSourceFactor(int testSite, String^ sourceChannel, double sourceLevel, double sourceFreq, double sourceAttenuattion, double % sourceFactor, double  % couplerFactor)
 	{
 		int ret = 0;
-		CheckError(testSite, amsrf[testSite]->amsrf->GetSourceFactor(sourceChannel, sourceLevel, sourceFreq, sourceAttenuattion, sourceFactor, couplerFactor));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->GetSourceFactor(sourceChannel, sourceLevel, sourceFreq, sourceAttenuattion, sourceFactor, couplerFactor));
 
 		return ret;
 	}
@@ -1002,21 +1002,21 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, amsrf[testSite]->amsrf->GetSourceAlignFactor(l_SourceChannel, l_SourceLevel, l_SourceFreq, l_RfpmInAtt, l_AlignFactor));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->GetSourceAlignFactor(l_SourceChannel, l_SourceLevel, l_SourceFreq, l_RfpmInAtt, l_AlignFactor));
 
 		return ret;
 	}
 	void AMB7600SRTestLibrary::RF_SourceTwoTone(int testSite, String^ sourceChannel, double sourceLevel0, double sourceFreq0, double sourceLevel1, double sourceFreq1, double attenuation)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->SourceTwoTone(sourceChannel, sourceLevel0, sourceFreq0, sourceLevel1, sourceFreq1, attenuation));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->SourceTwoTone(sourceChannel, sourceLevel0, sourceFreq0, sourceLevel1, sourceFreq1, attenuation));
 	}
 	void AMB7600SRTestLibrary::RF_SourceTwoTone(int testSite, String^ sourceChannel, double sourceLevel0, double sourceFreq0, double sourceLevel1, double sourceFreq1)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->SourceTwoTone(sourceChannel, sourceLevel0, sourceFreq0, sourceLevel1, sourceFreq1));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->SourceTwoTone(sourceChannel, sourceLevel0, sourceFreq0, sourceLevel1, sourceFreq1));
 	}
 	void AMB7600SRTestLibrary::RF_StartModulation(int testSite, String ^ VSG, String ^ modulationFile, int playBackMode)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->StartModulation(VSG, modulationFile, playBackMode));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->StartModulation(VSG, modulationFile, playBackMode));
 		//int ret = 0;
 		//ret = sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_ENABLE_SET(true);
 		//ret = sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_LEVEL_SET(1.0); // +1.0V
@@ -1027,72 +1027,72 @@ namespace Functions
 		//ret = sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_SOURCE_SET(8);
 		//ret = sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_DELAY_SET(0);
 
-		//CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_MODULATION_PLAYBACK_MODE_SET(1));
+		//tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_MODULATION_PLAYBACK_MODE_SET(1));
 
-		//CheckError(testSite, sigGen[testSite]->KtM9420_Apply());
+		//tl->CheckError(testSite, sigGen[testSite]->KtM9420_Apply());
 
-		//CheckError(testSite, sigGen[testSite]->KtM9420_SourceModulationPlayArb(modulationFile, 1));
-		//CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_MODULATION_IQ_ARB_ENABLED_SET(true));
-		//CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_MODULATION_ENABLED_SET(true));
-		//CheckError(testSite, sigGen[testSite]->KtM9420_Apply());
+		//tl->CheckError(testSite, sigGen[testSite]->KtM9420_SourceModulationPlayArb(modulationFile, 1));
+		//tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_MODULATION_IQ_ARB_ENABLED_SET(true));
+		//tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_MODULATION_ENABLED_SET(true));
+		//tl->CheckError(testSite, sigGen[testSite]->KtM9420_Apply());
 
 		tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceSignal"] = 1;
 
 	}
 	void AMB7600SRTestLibrary::RF_LoadModulation(int testSite, String ^ VSG, String ^ modulationFile, int stationNo)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->LoadModulation(VSG, modulationFile, stationNo));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->LoadModulation(VSG, modulationFile, stationNo));
 	}
 
 	void AMB7600SRTestLibrary::RF_StopModulation(int testSite, String ^ VSG)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->StopModulation(VSG));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->StopModulation(VSG));
 
 		tl->glob->AmsrfStateSettingsManager[tl->glob->TestSiteAmsrfType[testSite]]["SourceSignal"] = 0;
 	}
 	void AMB7600SRTestLibrary::RF_SetSourceTriggerOut(int testSite, String ^ VSG, bool enable, int trigDestination, int trigOption)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->SetSourceTriggerOut(VSG, enable, trigDestination, trigOption));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->SetSourceTriggerOut(VSG, enable, trigDestination, trigOption));
 	}
 	void AMB7600SRTestLibrary::RF_SetMeasureTriggerRouting(int testSite, String ^ VSA, bool enable, int trigIn, int trigOut)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->SetMeasureTriggerRouting(VSA, enable, trigIn, trigIn));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->SetMeasureTriggerRouting(VSA, enable, trigIn, trigIn));
 	}
 	void AMB7600SRTestLibrary::RF_SetSourceTriggerRouting(int testSite, String ^ VSG, bool enable, int trigIn, int trigOut)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->SetSourceTriggerRouting(VSG, enable, trigIn, trigIn));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->SetSourceTriggerRouting(VSG, enable, trigIn, trigIn));
 	}
 	void AMB7600SRTestLibrary::RF_SetMeasureTriggerIn(int testSite, String ^ VSA, bool enable, int trigSource, int trigPolarity, double trigDelay)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->SetMeasureTriggerIn(VSA, enable, trigSource, trigPolarity, trigDelay));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->SetMeasureTriggerIn(VSA, enable, trigSource, trigPolarity, trigDelay));
 	}
 	void AMB7600SRTestLibrary::RF_SetSourceTriggerIn(int testSite, String ^ VSG, bool enable, int trigSource, int trigPolarity, double trigDelay)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->SetSourceTriggerIn(VSG, enable, trigSource, trigPolarity, trigDelay));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->SetSourceTriggerIn(VSG, enable, trigSource, trigPolarity, trigDelay));
 	}
 	void AMB7600SRTestLibrary::RF_MeasureSParamSetup(int testSite, array<String^>^ channelArray, double sourcePower, double measurePower, double measurefreq)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->MeasureSParamSetup(channelArray, sourcePower, measurePower, measurefreq));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureSParamSetup(channelArray, sourcePower, measurePower, measurefreq));
 	}
 	void AMB7600SRTestLibrary::RF_MeasureSParamSetup(int testSite, array<String^>^ channelArray, double sourcePower, double measurePower, double measurefreq, bool preampOn, double sampleSize, double sampleRate)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->MeasureSParamSetup(channelArray, sourcePower, measurePower, measurefreq, preampOn, sampleSize, sampleRate));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureSParamSetup(channelArray, sourcePower, measurePower, measurefreq, preampOn, sampleSize, sampleRate));
 	}
 	void AMB7600SRTestLibrary::RF_MeasureSParam(int testSite, array<String^>^ channelArray, SParam_Format format, array<ComplexNumber> ^ % sparamResult)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->MeasureSParam(channelArray, format, sparamResult));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureSParam(channelArray, format, sparamResult));
 	}
 	void AMB7600SRTestLibrary::RF_IsolateAllChannel(int testSite)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->IsolateAllChannels());
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->IsolateAllChannels());
 	}
 	void AMB7600SRTestLibrary::RF_IsolateChannel(int testSite, String ^ channel)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->IsolateSelectedChannels(channel));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->IsolateSelectedChannels(channel));
 	}
 	void AMB7600SRTestLibrary::RF_RunSourceAlignment(int testSite)
 	{
-		CheckError(testSite, amsrf[testSite]->amsrf->RunSourceAlignment());
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->RunSourceAlignment());
 	}
 	void AMB7600SRTestLibrary::RF_LoadHardwareProfile(int testSite)
 	{
@@ -1213,33 +1213,33 @@ namespace Functions
 	//VXT_Low Level (Test Phase)
 	void AMB7600SRTestLibrary::RF_KTM9420_ATTR_RECEIVER_TRIGGERS_EXTERNSL_TRIGGER_TERMINATION_SET(int testSite, int terminationMode)
 	{
-		CheckError(testSite, dig[testSite]->KTM9420_ATTR_RECEIVER_TRIGGERS_EXTERNSL_TRIGGER_TERMINATION_SET(terminationMode)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
+		tl->CheckError(testSite, dig[testSite]->KTM9420_ATTR_RECEIVER_TRIGGERS_EXTERNSL_TRIGGER_TERMINATION_SET(terminationMode)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
 	}
 	void AMB7600SRTestLibrary::RF_KTM9420_ATTR_RECEIVER_RF_POWER_SET(int testSite, double measurePower)
 	{
-		CheckError(testSite, dig[testSite]->KTM9420_ATTR_RECEIVER_RF_POWER_SET(measurePower)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
+		tl->CheckError(testSite, dig[testSite]->KTM9420_ATTR_RECEIVER_RF_POWER_SET(measurePower)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
 	}
 	void AMB7600SRTestLibrary::RF_KTM9420_ATTR_RECEIVER_RF_FREQUENCY_SET(int testSite, double measureFreq)
 	{
-		CheckError(testSite, dig[testSite]->KTM9420_ATTR_RECEIVER_RF_FREQUENCY_SET(measureFreq)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
+		tl->CheckError(testSite, dig[testSite]->KTM9420_ATTR_RECEIVER_RF_FREQUENCY_SET(measureFreq)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
 	}
 	void AMB7600SRTestLibrary::RF_KtM9420_WaitForData(int testSite, double timeOut, bool % status)
 	{
-		CheckError(testSite, dig[testSite]->KtM9420_WaitForData(timeOut, status)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
+		tl->CheckError(testSite, dig[testSite]->KtM9420_WaitForData(timeOut, status)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
 	}
 	void AMB7600SRTestLibrary::RF_KtM9420_ReadPower(int testSite, long captureID, double % result, bool % overLoad)
 	{
-		CheckError(testSite, dig[testSite]->KtM9420_ReadPower(captureID, result, overLoad)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
+		tl->CheckError(testSite, dig[testSite]->KtM9420_ReadPower(captureID, result, overLoad)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
 	}
 	void AMB7600SRTestLibrary::RF_KtM9420_Apply(int testSite)
 	{
-		CheckError(testSite, dig[testSite]->KtM9420_Apply()); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
+		tl->CheckError(testSite, dig[testSite]->KtM9420_Apply()); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
 	}
 	void AMB7600SRTestLibrary::RF_KtM9420_Arm(int testSite)
 	{
 		try
 		{
-			CheckError(testSite, dig[testSite]->KtM9420_Arm());
+			tl->CheckError(testSite, dig[testSite]->KtM9420_Arm());
 		}
 		catch (Exception ^ ex)
 		{
@@ -1278,7 +1278,7 @@ namespace Functions
 			int samples = 0;
 			try
 			{
-				CheckError(testSite, dig[testSite]->KTM9420_ATTR_IQ_ACQUISITION_SAMPLES_GET(samples));
+				tl->CheckError(testSite, dig[testSite]->KTM9420_ATTR_IQ_ACQUISITION_SAMPLES_GET(samples));
 			}
 			catch (Exception ^ ex)
 			{
@@ -1293,7 +1293,7 @@ namespace Functions
 			array<double> ^ l_iqData = gcnew array<double>(actualSamples);
 			try
 			{
-				CheckError(testSite, dig[testSite]->KtM9420_IQAcquisitionReadIQData(0, 0, samples, actualSamples, l_iqData, actualSamples, overload));
+				tl->CheckError(testSite, dig[testSite]->KtM9420_IQAcquisitionReadIQData(0, 0, samples, actualSamples, l_iqData, actualSamples, overload));
 			}
 			catch (Exception ^ ex)
 			{
@@ -1348,46 +1348,46 @@ namespace Functions
 	}
 	void AMB7600SRTestLibrary::RF_KTM9420_ATTR_SOURCE_MODULATION_BASEBAND_POWER_SET(int testSite, double powerLevel)
 	{
-		CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_MODULATION_BASEBAND_POWER_SET(powerLevel)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
+		tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_MODULATION_BASEBAND_POWER_SET(powerLevel)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
 	}
 	void AMB7600SRTestLibrary::RF_KTM9420_ATTR_SOURCE_RF_LEVEL_SET(int testSite, double powerLevel)
 	{
-		CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_RF_LEVEL_SET(powerLevel)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
+		tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_RF_LEVEL_SET(powerLevel)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
 	}
 	void AMB7600SRTestLibrary::RF_KTM9420_ATTR_SOURCE_RF_FREQUENCY_SET(int testSite, double sourceFreq)
 	{
-		CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_RF_FREQUENCY_SET(sourceFreq)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
+		tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_RF_FREQUENCY_SET(sourceFreq)); //KTM9420_VAL_TRIGGER_TERMINATION_HIGH_IMPEDANCE
 	}
 	void AMB7600SRTestLibrary::RF_KTM9420_ATTR_SOURCE_Trigger(int testSite, String ^ VSG, String ^ modulationFile)
 	{
-		CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_ENABLE_SET(true));
-		CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_LEVEL_SET(1.0));			//trigger level
-		CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_MODE_SET(1));				//0 = level | 1 = pulse
-		CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_SLOPE_SET(0));			//0 = positive | 1 = negative
-		CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_SOURCE_SET(0));			//0 = front trigger
-		CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_DELAY_SET(0));			//trigger delay
-		CheckError(testSite, sigGen[testSite]->KtM9420_Apply());
+		tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_ENABLE_SET(true));
+		tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_LEVEL_SET(1.0));			//trigger level
+		tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_MODE_SET(1));				//0 = level | 1 = pulse
+		tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_SLOPE_SET(0));			//0 = positive | 1 = negative
+		tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_SOURCE_SET(0));			//0 = front trigger
+		tl->CheckError(testSite, sigGen[testSite]->KTM9420_ATTR_SOURCE_TRIGGERS_EXTERNALTRIGGER_DELAY_SET(0));			//trigger delay
+		tl->CheckError(testSite, sigGen[testSite]->KtM9420_Apply());
 
 
 		// *** SG still output CW signal at this point
-		//CheckError(testSite, sigGen[testSite]->KtM9420_SourceModulationPlayArb(modulationFile, 1));
+		//tl->CheckError(testSite, sigGen[testSite]->KtM9420_SourceModulationPlayArb(modulationFile, 1));
 
 		// *** SG stop CW signal
 		// *** need to apply dummy Stop & StartModulation API to arm the vxt
 		// *** send external trigger signal
 		// *** waveform start to playback upon triggered
-		CheckError(testSite, amsrf[testSite]->amsrf->StopModulation(VSG));
-		CheckError(testSite, amsrf[testSite]->amsrf->StartModulation(VSG, modulationFile, AMSRF_CONST_MODPLAYBACKMODE_CONT));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->StopModulation(VSG));
+		tl->CheckError(testSite, amsrf[testSite]->amsrf->StartModulation(VSG, modulationFile, AMSRF_CONST_MODPLAYBACKMODE_CONT));
 
 	}
 	//RFM600e_Low Level (Test Phase)
 	void AMB7600SRTestLibrary::RF_RFDM621_SetInputSource(int testSite, int outputPort, int mode)
 	{
-		CheckError(testSite, rfdms[testSite]->SetInputSource(outputPort, mode));
+		tl->CheckError(testSite, rfdms[testSite]->SetInputSource(outputPort, mode));
 	}
 	void AMB7600SRTestLibrary::RF_RFDM621_SetMode(int testSite, int mode)
 	{
-		CheckError(testSite, rfdms[testSite]->SetMode(mode));
+		tl->CheckError(testSite, rfdms[testSite]->SetMode(mode));
 	}
 	void AMB7600SRTestLibrary::MovingAverageUtility(array<double>^ pData_Watt, int movingAverageFactor, array<double>^ % pData_Watt_MA)
 	{
@@ -2907,7 +2907,7 @@ namespace Functions
 
 			sourceLevel = sourceLevelRef;
 
-			CheckError(testSite, amsrf[testSite]->amsrf->SourceChannel(Source_CH, sourceLevel + offset, freq));
+			tl->CheckError(testSite, amsrf[testSite]->amsrf->SourceChannel(Source_CH, sourceLevel + offset, freq));
 			util->WaitSecond(0.0005);
 			//ret += dio[testSite]->DrivePin("DIO0", 1);
 		}
@@ -2957,7 +2957,7 @@ namespace Functions
 
 												   //ret += dio[testSite]->DrivePin("DIO0", 0);
 
-			CheckError(testSite, amsrf[testSite]->amsrf->SourceChannel(Source_CH, sourceLevel + offset, freq, sourceAttenuation));
+			tl->CheckError(testSite, amsrf[testSite]->amsrf->SourceChannel(Source_CH, sourceLevel + offset, freq, sourceAttenuation));
 			util->WaitSecond(0.0005);
 			//ret += dio[testSite]->DrivePin("DIO0", 1);
 		}

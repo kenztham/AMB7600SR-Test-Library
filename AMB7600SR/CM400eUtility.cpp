@@ -182,7 +182,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, cm[testSite]->ConfigurePXES2780_TriggerBusAB(moduleAlias, Enable_AB, AB_Direction));
+		tl->CheckError(testSite, cm[testSite]->ConfigurePXES2780_TriggerBusAB(moduleAlias, Enable_AB, AB_Direction));
 
 		return ret;
 	}
@@ -190,7 +190,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, cm[testSite]->ConfigurePXES2780_TriggerBusBC(moduleAlias, Enable_BC, BC_Direction));
+		tl->CheckError(testSite, cm[testSite]->ConfigurePXES2780_TriggerBusBC(moduleAlias, Enable_BC, BC_Direction));
 
 		return ret;
 	}
@@ -198,7 +198,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, cm[testSite]->DrivePort(moduleAlias, portVal));
+		tl->CheckError(testSite, cm[testSite]->DrivePort(moduleAlias, portVal));
 
 		return ret;
 	}
@@ -206,7 +206,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, cm[testSite]->DrivePin(moduleAlias, pin, pinVal));
+		tl->CheckError(testSite, cm[testSite]->DrivePin(moduleAlias, pin, pinVal));
 
 		return ret;
 	}
@@ -214,7 +214,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, cm[testSite]->SetPortDirection(moduleAlias, portDir));
+		tl->CheckError(testSite, cm[testSite]->SetPortDirection(moduleAlias, portDir));
 
 		return ret;
 	}
@@ -222,7 +222,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, cm[testSite]->MapTriggerInToTriggerOut(moduleAlias, inputTerminal, outputTerminal));
+		tl->CheckError(testSite, cm[testSite]->MapTriggerInToTriggerOut(moduleAlias, inputTerminal, outputTerminal));
 
 		return ret;
 	}
@@ -230,7 +230,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, cm[testSite]->DriveSoftwareTrigger(moduleAlias, select, pulseWidth));
+		tl->CheckError(testSite, cm[testSite]->DriveSoftwareTrigger(moduleAlias, select, pulseWidth));
 
 		return ret;
 	}

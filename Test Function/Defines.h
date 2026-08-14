@@ -2235,6 +2235,15 @@ UUTOffset:		Supported.
 #define RFCase_WolferMeasureChannel			2120
 #pragma endregion "RF_CW_TestMethods"
 
+#pragma region "VNA_ControlMethods"
+#define VNACase_VnaConfig					6001
+#define VNACase_VnaFetch					6002
+#pragma endregion "VNA_ControlMethods"
+
+#pragma region "VNA_TestMethods"
+#define VNACase_VnaDataAnalysis				6101
+#pragma endregion "VNA_TestMethods"
+
 #pragma region "DC_ErrorCode"
 #define DC_TestConditionNotFound			11001
 #pragma endregion "DC_ErrorCode"

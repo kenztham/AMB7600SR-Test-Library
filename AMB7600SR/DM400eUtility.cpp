@@ -1,4 +1,5 @@
-﻿#include "AMB7600SR.h"
+﻿#include "../Test Method/Methods.h"
+#include "AMB7600SR.h"
 
 namespace Functions
 {
@@ -506,19 +507,19 @@ namespace Functions
 				resourceArr[i] = 1;
 			}
 
-			CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, DM_CONST_MAX_VECTOR_SET - 5, resourceArr));
+			tl->CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, DM_CONST_MAX_VECTOR_SET - 5, resourceArr));
 
 			for each (String ^ s in tl->glob->VectorSetNumber->Keys)
 			{
-				CheckError(siteIndex, dm[siteIndex]->DPINVecLoad(ModuleAlias, DM_CONST_BIDIRECTIONAL_IO, tl->glob->VectorSetNumber[s], tl->glob->VectorFileDirectory + "\\" + s + ".vec"));
+				tl->CheckError(siteIndex, dm[siteIndex]->DPINVecLoad(ModuleAlias, DM_CONST_BIDIRECTIONAL_IO, tl->glob->VectorSetNumber[s], tl->glob->VectorFileDirectory + "\\" + s + ".vec"));
 			}
 
-			CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
+			tl->CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
 
 			for (int i = 0; i < tl->glob->TimingSetPeriod[siteIndex]->Length; i++)
 			{
 				double period = (1 / (2 * tl->glob->TimingSetPeriod[siteIndex][i]));
-				CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
+				tl->CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
 			}
 		}
 
@@ -1165,9 +1166,9 @@ namespace Functions
 						intControlMethod = 0;
 						strControlMethod = (String^)tf_ControlItem_ConditionCast(controlMethod->Name);
 						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
-						Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
+						methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
-						ControlMethod_Selection(site, siteIndex, intControlMethod, testConditionCollection);
+						methods->ControlMethod_Selection(this, site, siteIndex, intControlMethod, testConditionCollection);
 						userDMInit[siteIndex] = true;
 					}
 				}
@@ -1286,12 +1287,12 @@ namespace Functions
 						intControlMethod = 0;
 						strControlMethod = (String^)tf_ControlItem_ConditionCast(controlMethod->Name);
 						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
-						Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
+						methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 
 						if (intControlMethod == DMCase_DMCastDPinLevel || intControlMethod == DMCase_DMCastTimingSetPeriod || intControlMethod == DMCase_DMCastPEAttribute || intControlMethod == DMCase_DMLoadVectorFile)
 						{
 							tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
-							ControlMethod_Selection(site, siteIndex, intControlMethod, testConditionCollection);
+							methods->ControlMethod_Selection(this, site, siteIndex, intControlMethod, testConditionCollection);
 						}
 					}
 				}
@@ -1566,7 +1567,7 @@ namespace Functions
 				resourceArr[i] = 1;
 			}
 
-			CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, DM_CONST_MAX_VECTOR_SET - 5, resourceArr));
+			tl->CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, DM_CONST_MAX_VECTOR_SET - 5, resourceArr));
 
 			for each (String ^ s in tl->glob->VectorSetNumber->Keys)
 			{
@@ -2134,14 +2135,14 @@ namespace Functions
 			}
 
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureVectorEngineAttribute(" + ModuleAlias + ", false, false)");
-			CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
+			tl->CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
 
 			for (int i = 0; i < tl->glob->TimingSetPeriod[siteIndex]->Length; i++)
 			{
 				double period = (1 / (2 * tl->glob->TimingSetPeriod[siteIndex][i]));
 
 				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->DPINPeriod(" + ModuleAlias + "," + period.ToString() + " )");
-				CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
+				tl->CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
 			}
 
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Successfully Loaded vector files...");
@@ -2191,7 +2192,7 @@ namespace Functions
 				resourceArr[i] = 1;
 			}
 
-			CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, DM_CONST_MAX_VECTOR_SET - 5, resourceArr));
+			tl->CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, DM_CONST_MAX_VECTOR_SET - 5, resourceArr));
 
 			for each (String ^ s in tl->glob->VectorSetNumber->Keys)
 			{
@@ -2759,14 +2760,14 @@ namespace Functions
 			}
 
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureVectorEngineAttribute(" + ModuleAlias + ", false, false)");
-			CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
+			tl->CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
 
 			for (int i = 0; i < tl->glob->TimingSetPeriod[siteIndex]->Length; i++)
 			{
 				double period = (1 / (2 * tl->glob->TimingSetPeriod[siteIndex][i]));
 
 				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->DPINPeriod(" + ModuleAlias + "," + period.ToString() + " )");
-				CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
+				tl->CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
 			}
 
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Successfully Loaded vector files...");
@@ -2806,12 +2807,12 @@ namespace Functions
 			{
 				moduleStatus = 999;
 
-				CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(moduleAlias, moduleStatus));
+				tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(moduleAlias, moduleStatus));
 				if (ret != 0) return ret; //exit if AcquireVecEngineStatus returns an error code 
 
 				if ((moduleStatus == DM_CONST_VEC_ENG_STAT_DONE))
 				{
-					CheckError(testSite, dm[testSite]->RunVector(moduleAlias, tl->glob->VectorSetNumber[vectorFileName]));
+					tl->CheckError(testSite, dm[testSite]->RunVector(moduleAlias, tl->glob->VectorSetNumber[vectorFileName]));
 					if (ret != 0) return ret; //exit if RunVector returns an error code
 					break;
 				}
@@ -2934,7 +2935,7 @@ namespace Functions
 		int l_count = 0;
 		int moduleStatus = 999;
 
-		CheckError(testSite, dm[testSite]->ConfigureInputChannelDelay(dataPinAlias, channelInputDelay));
+		tl->CheckError(testSite, dm[testSite]->ConfigureInputChannelDelay(dataPinAlias, channelInputDelay));
 
 #pragma region "Run Vector File"
 		if (tl->glob->VectorSetNumber->ContainsKey(VectorFileName))
@@ -2943,12 +2944,12 @@ namespace Functions
 			{
 				moduleStatus = 999;
 
-				CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, moduleStatus));
+				tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, moduleStatus));
 				if (ret != 0) return ret; //exit if AcquireVecEngineStatus returns an error code 
 
 				if ((moduleStatus == DM_CONST_VEC_ENG_STAT_DONE))
 				{
-					CheckError(testSite, dm[testSite]->RunVector(DM_Module_Alias, tl->glob->VectorSetNumber[VectorFileName]));
+					tl->CheckError(testSite, dm[testSite]->RunVector(DM_Module_Alias, tl->glob->VectorSetNumber[VectorFileName]));
 					if (ret != 0) return ret; //exit if RunVector returns an error code
 					break;
 				}
@@ -3013,14 +3014,14 @@ namespace Functions
 					l_Counter = 0;
 					while ((l_Retry_Counter <= 1000) && (l_DM_Status != DM_CONST_VEC_ENG_STAT_DONE))
 					{
-						CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, l_DM_Status));
+						tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, l_DM_Status));
 						if (ret != 0) return ret;
 
 						if ((l_DM_Status == DM_CONST_VEC_ENG_STAT_DONE))
 						{
 							tl->WriteToTcrLgr("SITE " + testSite.ToString(),">> ReadLocation =" + (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z]).ToString() + ",  done");
 
-							CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, l_ReadBack_Vector_Count, tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z], tl->glob->VectorSetNumber[VectorFileName], l_ReadData_Raw_Array));
+							tl->CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, l_ReadBack_Vector_Count, tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z], tl->glob->VectorSetNumber[VectorFileName], l_ReadData_Raw_Array));
 
 							if (ret != 0) return ret;
 							break;
@@ -3093,14 +3094,14 @@ namespace Functions
 						l_Counter = 0;
 						while ((l_Retry_Counter <= 1000) && (l_DM_Status != DM_CONST_VEC_ENG_STAT_DONE))
 						{
-							CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, l_DM_Status));
+							tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, l_DM_Status));
 							if (ret != 0) return ret;
 
 							if ((l_DM_Status == DM_CONST_VEC_ENG_STAT_DONE))
 							{
 								tl->WriteToTcrLgr("SITE " + testSite.ToString(),">> ReadLocation =" + (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z]).ToString() + ",  done");
 
-								CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, l_ReadBack_Vector_Count, tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z], tl->glob->VectorSetNumber[VectorFileName], l_ReadData_Raw_Array));
+								tl->CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, l_ReadBack_Vector_Count, tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z], tl->glob->VectorSetNumber[VectorFileName], l_ReadData_Raw_Array));
 
 								if (ret != 0) return ret;
 								break;
@@ -3145,13 +3146,13 @@ namespace Functions
 				while ((l_Retry_Counter <= 1000) && (l_DM_Status != DM_CONST_VEC_ENG_STAT_DONE))
 				{
 					l_DM_Status = 999;
-					CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, l_DM_Status));
+					tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, l_DM_Status));
 					if (ret != 0) return ret; //sk@20180902 - exit if AcquireVecEngineStatus returns an error code
 
 					if ((l_DM_Status == DM_CONST_VEC_ENG_STAT_DONE))
 					{
-						CheckError(testSite, dm[testSite]->AcquireChannelFirstFailVectorCount(dataPinAlias, l_VectorFirstFail));
-						CheckError(testSite, dm[testSite]->AcquireChannelVectorFailCount(dataPinAlias, l_VectorFailCount));
+						tl->CheckError(testSite, dm[testSite]->AcquireChannelFirstFailVectorCount(dataPinAlias, l_VectorFirstFail));
+						tl->CheckError(testSite, dm[testSite]->AcquireChannelVectorFailCount(dataPinAlias, l_VectorFailCount));
 
 						if (ret != 0) return ret; //sk@20180902 - exit if ReadHistoryRam returns an error code
 						break;
@@ -3238,7 +3239,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASURECURRENT, result));
+		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASURECURRENT, result));
 
 		return ret;
 	}
@@ -3246,7 +3247,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASUREVOLTAGE, result));
+		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASUREVOLTAGE, result));
 
 		return ret;
 	}
@@ -3255,7 +3256,7 @@ namespace Functions
 		int ret = 0;
 
 		util->WaitSecond(delay);
-		CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASURECURRENT, result));
+		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASURECURRENT, result));
 
 		return ret;
 	}
@@ -3264,7 +3265,7 @@ namespace Functions
 		int ret = 0;
 
 		util->WaitSecond(delay);
-		CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASUREVOLTAGE, result));
+		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASUREVOLTAGE, result));
 
 		return ret;
 	}
@@ -3274,7 +3275,7 @@ namespace Functions
 
 		if (nplc != tl->glob->PMUStateSettingsManager[testSite].PMUStateNPLC[PIN])
 		{
-			CheckError(testSite, dm[testSite]->ConfigurePMUSamplingTime(PIN, nplc, DM_CONST_PLC));
+			tl->CheckError(testSite, dm[testSite]->ConfigurePMUSamplingTime(PIN, nplc, DM_CONST_PLC));
 
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateNPLC[PIN] = nplc;
 		}
@@ -3287,7 +3288,7 @@ namespace Functions
 
 		if (function != tl->glob->PMUStateSettingsManager[testSite].PMUStateOutputFunction[PIN])
 		{
-			CheckError(testSite, dm[testSite]->ConfigurePMUOutputFunction(PIN, function));
+			tl->CheckError(testSite, dm[testSite]->ConfigurePMUOutputFunction(PIN, function));
 
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateOutputFunction[PIN] = function;
 		}
@@ -3300,7 +3301,7 @@ namespace Functions
 
 		if (clampValue != tl->glob->PMUStateSettingsManager[testSite].PMUStateClampCurrent[PIN])
 		{
-			CheckError(testSite, dm[testSite]->ConfigurePMUCurrentLimitRange(PIN, clampValue));
+			tl->CheckError(testSite, dm[testSite]->ConfigurePMUCurrentLimitRange(PIN, clampValue));
 
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateClampCurrent[PIN] = clampValue;
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateClampVoltage[PIN] = 0.0;
@@ -3316,15 +3317,15 @@ namespace Functions
 		{
 			if (clampValue >= 2 V && clampValue <= 6 V)
 			{
-				CheckError(testSite, dm[testSite]->ConfigurePMUVoltageLimit(PIN, clampValue, DM_CONST_VMIN));
+				tl->CheckError(testSite, dm[testSite]->ConfigurePMUVoltageLimit(PIN, clampValue, DM_CONST_VMIN));
 			}
 			else if (clampValue > 0 V && clampValue <= 2 V)
 			{
-				CheckError(testSite, dm[testSite]->ConfigurePMUVoltageLimit(PIN, clampValue, -clampValue));
+				tl->CheckError(testSite, dm[testSite]->ConfigurePMUVoltageLimit(PIN, clampValue, -clampValue));
 			}
 			else if (clampValue < 0 V && clampValue >= -2 V)
 			{
-				CheckError(testSite, dm[testSite]->ConfigurePMUVoltageLimit(PIN, DM_CONST_VMIN, clampValue));
+				tl->CheckError(testSite, dm[testSite]->ConfigurePMUVoltageLimit(PIN, DM_CONST_VMIN, clampValue));
 			}
 
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateClampVoltage[PIN] = clampValue;
@@ -3339,7 +3340,7 @@ namespace Functions
 
 		if (driveValue != tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveCurrent[PIN])
 		{
-			CheckError(testSite, dm[testSite]->ConfigurePMUCurrentLevel(PIN, driveValue));
+			tl->CheckError(testSite, dm[testSite]->ConfigurePMUCurrentLevel(PIN, driveValue));
 
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveCurrent[PIN] = driveValue;
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveVoltage[PIN] = 999;
@@ -3352,7 +3353,7 @@ namespace Functions
 
 		if (driveValue != tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveVoltage[PIN])
 		{
-			CheckError(testSite, dm[testSite]->ConfigurePMUVoltageLevel(PIN, driveValue));
+			tl->CheckError(testSite, dm[testSite]->ConfigurePMUVoltageLevel(PIN, driveValue));
 
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveVoltage[PIN] = driveValue;
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveCurrent[PIN] = 999;
@@ -3364,7 +3365,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->DPINOn(PIN));
+		tl->CheckError(testSite, dm[testSite]->DPINOn(PIN));
 
 		return ret;
 	}
@@ -3372,7 +3373,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->DPINOff(PIN));
+		tl->CheckError(testSite, dm[testSite]->DPINOff(PIN));
 
 		return ret;
 	}
@@ -3385,10 +3386,10 @@ namespace Functions
 			switch (sense)
 			{
 			case(0):
-				CheckError(testSite, dm[testSite]->ConfigurePMUSense(PIN, DM_CONST_LOCAL));
+				tl->CheckError(testSite, dm[testSite]->ConfigurePMUSense(PIN, DM_CONST_LOCAL));
 				break;
 			case(1):
-				CheckError(testSite, dm[testSite]->ConfigurePMUSense(PIN, DM_CONST_REMOTE));
+				tl->CheckError(testSite, dm[testSite]->ConfigurePMUSense(PIN, DM_CONST_REMOTE));
 				break;
 			default:
 				break;
@@ -3408,7 +3409,7 @@ namespace Functions
 			switch (mode)
 			{
 			case(0):
-				CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_VECTOR));
+				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_VECTOR));
 				tl->glob->PEStateSettingsManager[testSite].PEStateVIH[PIN] = 999;
 				tl->glob->PEStateSettingsManager[testSite].PEStateVIL[PIN] = 999;
 				tl->glob->PEStateSettingsManager[testSite].PEStateVOH[PIN] = 999;
@@ -3420,7 +3421,7 @@ namespace Functions
 				tl->glob->PEStateSettingsManager[testSite].PEStateVTERM[PIN] = 999;
 				break;
 			case(1):
-				CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_PMU));
+				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_PMU));
 				tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveVoltage[PIN] = 999;
 				tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveCurrent[PIN] = 999;
 				tl->glob->PMUStateSettingsManager[testSite].PMUStateClampVoltage[PIN] = 999;
@@ -3430,7 +3431,7 @@ namespace Functions
 				tl->glob->PMUStateSettingsManager[testSite].PMUStateNPLC[PIN] = 999;
 				break;
 			case(2):
-				CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_DIO));
+				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_DIO));
 				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIH[PIN] = 999;
 				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIL[PIN] = 999;
 				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVOH[PIN] = 999;
@@ -3444,16 +3445,16 @@ namespace Functions
 
 				break;
 			case(3):
-				CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_INPUT_DIR));
+				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_INPUT_DIR));
 				break;
 			case(4):
-				CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_OUTPUT_DIR));
+				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_OUTPUT_DIR));
 				break;
 			case(5):
-				CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_CLOCK));
+				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_CLOCK));
 				break;
 			case(6):
-				CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_INVERTED_CLOCK));
+				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_INVERTED_CLOCK));
 				break;
 			default:
 				break;
@@ -3473,7 +3474,7 @@ namespace Functions
 			|| tl->glob->PEStateSettingsManager[testSite].PEStateVCH[PIN] != VCH || tl->glob->PEStateSettingsManager[testSite].PEStateVCL[PIN] != VCL
 			|| tl->glob->PEStateSettingsManager[testSite].PEStateVTERM[PIN] != VTERM)
 		{
-			CheckError(testSite, dm[testSite]->DPINLevel(PIN, VIH, VIL, VOH, VOL, IOH, IOL, VCH, VCL, VTERM));
+			tl->CheckError(testSite, dm[testSite]->DPINLevel(PIN, VIH, VIL, VOH, VOL, IOH, IOL, VCH, VCL, VTERM));
 
 			tl->glob->PEStateSettingsManager[testSite].PEStateVIH[PIN] = VIH;
 			tl->glob->PEStateSettingsManager[testSite].PEStateVIL[PIN] = VIL;
@@ -3497,7 +3498,7 @@ namespace Functions
 			|| tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVCH[PIN] != VCH || tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVCL[PIN] != VCL
 			|| tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVTERM[PIN] != VTERM)
 		{
-			CheckError(testSite, dm[testSite]->DPINLevel(PIN, VIH, VIL, VOH, VOL, IOH, IOL, VCH, VCL, VTERM));
+			tl->CheckError(testSite, dm[testSite]->DPINLevel(PIN, VIH, VIL, VOH, VOL, IOH, IOL, VCH, VCL, VTERM));
 
 
 			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIH[PIN] = VIH;
@@ -3521,7 +3522,7 @@ namespace Functions
 		if (tl->glob->PEStateSettingsManager[testSite].PEStateInputTermEnable[PIN] != InputTermEnable || tl->glob->PEStateSettingsManager[testSite].PEStateHVEnable[PIN] != HVEnable
 			|| tl->glob->PEStateSettingsManager[testSite].PEStateActiveLoadEnable[PIN] != ActiveLoadEnable || tl->glob->PEStateSettingsManager[testSite].PEStateDifferentialComparatorEnable[PIN] != DifferentialComparatorEnable)
 		{
-			CheckError(testSite, dm[testSite]->ConfigurePEAttribute(PIN, InputTermEnable, HVEnable, ActiveLoadEnable, DifferentialComparatorEnable));
+			tl->CheckError(testSite, dm[testSite]->ConfigurePEAttribute(PIN, InputTermEnable, HVEnable, ActiveLoadEnable, DifferentialComparatorEnable));
 
 			tl->glob->PEStateSettingsManager[testSite].PEStateInputTermEnable[PIN] = InputTermEnable;
 			tl->glob->PEStateSettingsManager[testSite].PEStateHVEnable[PIN] = HVEnable;
@@ -3537,7 +3538,7 @@ namespace Functions
 
 		if (tl->glob->DIO_DMStateSettingsManager[testSite].DIOStatePinValue[PIN] != driveValue)
 		{
-			CheckError(testSite, dm[testSite]->DrivePin(PIN, driveValue));
+			tl->CheckError(testSite, dm[testSite]->DrivePin(PIN, driveValue));
 		}
 		return ret;
 	}
@@ -3545,7 +3546,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->SetPinDirection(PIN, pinDirection));
+		tl->CheckError(testSite, dm[testSite]->SetPinDirection(PIN, pinDirection));
 
 		return ret;
 	}
@@ -3553,7 +3554,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->MapTriggerInToTriggerOut(moduleAlias, inputTerminal, outputTerminal));
+		tl->CheckError(testSite, dm[testSite]->MapTriggerInToTriggerOut(moduleAlias, inputTerminal, outputTerminal));
 
 		return ret;
 	}
@@ -3561,7 +3562,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->DriveSoftwareTrigger(moduleAlias, select, pulseWidth));
+		tl->CheckError(testSite, dm[testSite]->DriveSoftwareTrigger(moduleAlias, select, pulseWidth));
 
 		return ret;
 	}
@@ -3569,7 +3570,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->ConfigureTriggerEdgeLevel(moduleAlias, trigSource, trigMode));
+		tl->CheckError(testSite, dm[testSite]->ConfigureTriggerEdgeLevel(moduleAlias, trigSource, trigMode));
 
 		return ret;
 	}
@@ -3577,7 +3578,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->ConfigureTriggerEdgeLevel(moduleAlias, trigSource, trigMode, ignoreTrigCount));
+		tl->CheckError(testSite, dm[testSite]->ConfigureTriggerEdgeLevel(moduleAlias, trigSource, trigMode, ignoreTrigCount));
 
 		return ret;
 	}
@@ -3585,7 +3586,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->ConfigureInputTriggerSelect(moduleAlias, trigSource, delayAfterTrig));
+		tl->CheckError(testSite, dm[testSite]->ConfigureInputTriggerSelect(moduleAlias, trigSource, delayAfterTrig));
 
 		return ret;
 	}
@@ -3593,7 +3594,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->ConfigureOutputTriggerSelect(moduleAlias, trigOutput0, trigOutput1));
+		tl->CheckError(testSite, dm[testSite]->ConfigureOutputTriggerSelect(moduleAlias, trigOutput0, trigOutput1));
 
 		return ret;
 	}
@@ -3601,7 +3602,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, dm[testSite]->ConfigureReadPin_TriggerOutput(pinAlias, pinStatusSelect));
+		tl->CheckError(testSite, dm[testSite]->ConfigureReadPin_TriggerOutput(pinAlias, pinStatusSelect));
 
 		return ret;
 	}

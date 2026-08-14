@@ -13,11 +13,11 @@ Version	:					1.0.0.0
 #include <vector>
 #include <iostream>
 
-#include "../Test Function/Aemulus.Hardware.DIO.h"
 #include "../Test Function/TestFunction.h"
+#include "../Test Function/Aemulus.Hardware.CM.h"
 #include "../Test Function/Aemulus.Hardware.SMU.h"
 #include "../Test Function/Aemulus.Hardware.DM.h"
-#include "../Test Function/Aemulus.Hardware.CM.h"
+#include "../Test Function/Aemulus.Hardware.DIO.h"
 #include "../Test Function/Aemulus.Hardware.AMSRF.h"
 #include "../AMB7600SR/AMB7600SR.h"
 
@@ -27,24 +27,33 @@ Version	:					1.0.0.0
 
 using namespace System;
 using namespace System::Data;
-using namespace Aemulus::Hardware;
 using namespace System::Reflection;
+using namespace System::Text::RegularExpressions;
+
+using namespace Aemulus::Hardware;
 using namespace Aemulus::Configuration;
 using namespace Aemulus::Configuration7600;
 using namespace Aemulus::TestLib::RF::Utility;
-using namespace System::Text::RegularExpressions;
-
 namespace Functions
 {
 	private enum class rxswpath { rx1, rx2, rx3, rx4, rx5, rx6, rx7, rx8, rx9, rx10, rx11, rx12, rx13, rx14, rx15, rx16, rx17, rx18, rx19, rx20, rx21, rx22, rx23, rx24 };
 	private enum class txswpath { tx1, tx2, tx3, tx4 };
 	private enum class wlfoutsw { wlfoutoff, wlfout1, wlfout2 };
+	
+	//Forward Declaration
+	ref class MethodsBranch;
+	ref class TestFunction;
 
 	public ref class AMB7600SRTestLibrary
 	{
 	public:
 
 #pragma region "Resource Module Object"
+
+#if CM_ENABLE 
+		array<CM ^>^ cm;
+#endif 
+
 #if SMU_ENABLE 
 		array<SMU ^>^ smu;
 #endif 
@@ -57,10 +66,14 @@ namespace Functions
 		array<DIO ^>^ dio;
 #endif 
 
-#if CM_ENABLE 
-		array<CM ^>^ cm;
+
+#if ACM_ENABLE 
+		array<ACM ^>^ acm;
 #endif 
 
+#if TMU_ENABLE 
+		array<TMU ^>^ tm;
+#endif 
 
 #if AMSRF_ENABLE 
 		//Hardware Object
@@ -102,11 +115,13 @@ namespace Functions
 #pragma endregion "Resource Module Object"
 
 		AppDomain ^ currentDomain;
-		AMB7600SRTestLibrary::AMB7600SRTestLibrary(TestFunction ^ TestFunc);
+		AMB7600SRTestLibrary::AMB7600SRTestLibrary(TestFunction ^ TestFunc, MethodsBranch ^ sharedMethods);
 		~AMB7600SRTestLibrary(void);
 
 		TestFunction ^ tl;
 		DateTime^ time = DateTime::Now;
+
+		MethodsBranch ^ methods;
 
 
 #pragma region "Hardware Resource Manager"
@@ -500,10 +515,6 @@ namespace Functions
 
 #pragma region "Test Method Function"
 
-		ConcurrentDictionary<String^, int> ^ Dictionary_TM;
-
-		void InitializeTMDicionary(int totalSite);
-
 		//DC - Test Methods
 		void TM_OS(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount);
 		void TM_MeasureCurrent(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount);
@@ -541,11 +552,6 @@ namespace Functions
 #pragma endregion "Test Method Function"
 
 #pragma region "Control Method Function"
-		void ControlMethod_Selection(Site ^ site, int testSite, int controlMethodSelection, ConditionCollection ^ testConditionCollection);
-		void TestMethod_Selection(Site ^ site, int testSite, int testMethodSelection, String ^ testParameterName, int  testParameterCount, int % methodTestParameterCount);
-		ConcurrentDictionary<String^, int> ^ Dictionary_CM;
-
-		void InitializeCMDictionary(int totalSite);
 
 		//DC - Control Methods
 		void CM_DriveVoltage(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection);
@@ -639,6 +645,7 @@ namespace Functions
 		//Module Resource
 		static String^ resourceAM = "AM430e";
 		static String^ resourceDM = "DM483e";
+
 #pragma region "wolfer DIO"
 
 		//Global Variable for Wolfer
@@ -790,27 +797,7 @@ namespace Functions
 		array<int> ^ diosw36;
 
 #pragma endregion
-		// <summary>
-		// Perform assembly resolve if the loading of .dll/.exe turns out to be unsucessfull
-		// </summary> 
-		Assembly ^ currentDomain_AssemblyResolve(Object^ Sender, ResolveEventArgs^ args)
-		{
-			String^ assemblyPath = String::Empty;
 
-			if (args->Name->Contains("techFlow") == true) {
-				assemblyPath = Path::Combine(Path::Combine(Environment::GetEnvironmentVariable("techFlow"), "bin"), "techFlow.exe");
-			}
-
-			return Assembly::LoadFile(assemblyPath);
-		}
-		void THROWEXCEPTION(int siteIndex, String^ errorMessage, int errorCode, int errorLineNumber, char* fileName);
-#define ThrowException(siteIndex, errorMessage, errorCode) THROWEXCEPTION(siteIndex, errorMessage, errorCode, __LINE__, __FILE__);
-		void THROWEXCEPTION(String^ errorMessage, int errorCode, int errorLineNumber, char* fileName);
-#define ThrowSoftException(errorMessage, errorCode) THROWEXCEPTION(errorMessage, errorCode, __LINE__, __FILE__);
-		int CHECKERROR(int siteIndex, long errorCode, int errorLineNumber, char* fileName);
-#define CheckError(siteIndex, errorCode) CHECKERROR(siteIndex, errorCode, __LINE__, __FILE__);
-		int CHECKERROR(long errorCode, int errorLineNumber, char* fileName);
-#define CheckSoftError(errorCode) CHECKERROR(errorCode, __LINE__, __FILE__);
 	};
 }
 

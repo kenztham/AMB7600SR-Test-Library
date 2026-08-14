@@ -15,6 +15,7 @@
 #include "Test Function/Aemulus.Hardware.CM.h"
 #include "Test Function/Aemulus.Hardware.AMSRF.h"
 #include "Test Method/TestTimeProfiling.h"
+#include "Test Method/Methods.h"
 #include "Test Function/AppLevelException.h"
 
 //<User defines>
@@ -48,6 +49,7 @@ namespace AMB7600SR_TestLibrary_REV2
 	private:
 		TestFunction ^ tl;
 		
+		MethodsBranch ^ methods;
 		AMB7600SRTestLibrary ^ amb7600srtl;
 		AMB7300TestLibrary ^ amb7300tl;
 		Aemulus::TestLib::Utility::Utilities ^ Util;
