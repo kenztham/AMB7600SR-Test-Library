@@ -153,6 +153,7 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     <ClInclude Include="Test Function\AppLevelException.h" />
     <ClInclude Include="Test Function\TestFunction.h" />
     <ClInclude Include="Test Function\TF-Macro.h" />
+    <ClInclude Include="Test Method\Methods.h" />
     <ClInclude Include="Test Method\TestTimeProfiling.h" />
     <ClInclude Include="TestProgram.h" />
     <ClInclude Include="UserDefines.h" />
@@ -181,6 +182,7 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     <ClCompile Include="Test Function\techFlow.cpp" />
     <ClCompile Include="Test Function\TestFunction.cpp" />
     <ClCompile Include="Test Function\Threads.cpp" />
+    <ClCompile Include="Test Method\AMB7300_RF_VNA.cpp" />
     <ClCompile Include="Test Method\AMB7600SR_DC.cpp" />
     <ClCompile Include="Test Method\AMB7600SR_Digital.cpp" />
     <ClCompile Include="Test Method\AMB7600SR_RF_CW.cpp" />

@@ -24,14 +24,22 @@ namespace AMB7600SR_TestLibrary_REV2
 #pragma region "Initialize Test Program"		
 
 		tl->InitializeProgram(site);
-		amb7600srtl = gcnew AMB7600SRTestLibrary(tl);
-		amb7300tl = gcnew AMB7300TestLibrary(tl);
+		methods = gcnew MethodsBranch(tl);
+		amb7600srtl = gcnew AMB7600SRTestLibrary(tl, methods);
+		amb7300tl = gcnew AMB7300TestLibrary(tl, methods);
 
 		for (siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ">> Begin " + tl->glob->tf.CurrentPhase + " Phase");
 		}
 #pragma endregion "Initialize Test Program"
+
+#pragma region "Methods Initialization"
+
+		methods->InitializeCMDictionary(tl->glob->tf.NumberOfSites);
+		methods->InitializeTMDicionary(tl->glob->tf.NumberOfSites);
+
+#pragma endregion "Methods Initialization"
 
 #pragma region "Tester Initialization"
 
@@ -209,10 +217,11 @@ namespace AMB7600SR_TestLibrary_REV2
 						intControlMethod = 0;		
 						strControlMethod = (String^)tf_ControlItem_ConditionCast(controlMethod->Name);
 						tl->glob->ErrorInfo[testSite].ControlMethodName = strControlMethod;
-						amb7600srtl->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
+						methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 
 						//ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
-						amb7600srtl->ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
+						methods->ControlMethod_Selection(amb7600srtl, site, testSite, intControlMethod, testConditionCollection);
+						//methods->ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
 					}
 				}
 			}
@@ -311,9 +320,10 @@ namespace AMB7600SR_TestLibrary_REV2
 								//strControlMethod = (String^)tf_TestParameter_ConditionCast(testParameterName, controlMethod->Name);
 								strControlMethod = (String^)tf_FlowStep_ConditionCast(tl->glob->currentSubItemName[testSite], "MethodName");
 								tl->glob->ErrorInfo[testSite].ControlMethodName = strControlMethod;
-								amb7600srtl->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
+								methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 
-								amb7600srtl->ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
+								methods->ControlMethod_Selection(amb7600srtl,site, testSite, intControlMethod, testConditionCollection);
+								//methods->ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
 							}
 							else if (!testConditionCollection->ContainsKey("MethodName"))
 							{
@@ -343,9 +353,10 @@ namespace AMB7600SR_TestLibrary_REV2
 								testMethod = (String^)tf_TestParameter_ConditionCast(testParameterName, "MethodName");
 								//testMethod = tl->glob->TestProperty[SiteIndex].MethodName;
 								tl->glob->ErrorInfo[testSite].TestMethodName = testMethod;
-								amb7600srtl->Dictionary_TM->TryGetValue(testMethod, intTestMethod);
+								methods->Dictionary_TM->TryGetValue(testMethod, intTestMethod);
 
-								amb7600srtl->TestMethod_Selection(site, testSite, intTestMethod, testParameterName, tpCount, methodTestParameterCount);
+								methods->TestMethod_Selection(amb7600srtl, site, testSite, intTestMethod, testParameterName, tpCount, methodTestParameterCount);
+								//methods->TestMethod_Selection(site, testSite, intTestMethod, testParameterName, tpCount, methodTestParameterCount);
 
 								for (int j = 0; j < methodTestParameterCount; j++)
 								{

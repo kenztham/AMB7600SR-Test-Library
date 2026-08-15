@@ -273,7 +273,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ReadCurrent(PIN, result));
+		tl->CheckError(testSite, smu[testSite]->ReadCurrent(PIN, result));
 
 		return ret;
 	}
@@ -281,7 +281,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ReadVoltage(PIN, result));
+		tl->CheckError(testSite, smu[testSite]->ReadVoltage(PIN, result));
 
 		return ret;
 	}
@@ -290,7 +290,7 @@ namespace Functions
 		int ret = 0;
 
 		util->WaitSecond(delay);
-		CheckError(testSite, smu[testSite]->ReadCurrent(PIN, result));
+		tl->CheckError(testSite, smu[testSite]->ReadCurrent(PIN, result));
 
 		return ret;
 	}
@@ -299,7 +299,7 @@ namespace Functions
 		int ret = 0;
 
 		util->WaitSecond(delay);
-		CheckError(testSite, smu[testSite]->ReadVoltage(PIN, result));
+		tl->CheckError(testSite, smu[testSite]->ReadVoltage(PIN, result));
 
 		return ret;
 	}
@@ -316,7 +316,7 @@ namespace Functions
 		double average = 0.0;
 		double max = 0.0;
 
-		CheckError(testSite, smu[testSite]->ReadCurrentWithAverage(PIN, samplesCount, average, samples));
+		tl->CheckError(testSite, smu[testSite]->ReadCurrentWithAverage(PIN, samplesCount, average, samples));
 
 		if (!ret)
 		{
@@ -379,7 +379,7 @@ namespace Functions
 		double average = 0.0;
 		double max = 0.0;
 
-		CheckError(testSite, smu[testSite]->ReadVoltageWithAverage(PIN, samplesCount, average, samples));
+		tl->CheckError(testSite, smu[testSite]->ReadVoltageWithAverage(PIN, samplesCount, average, samples));
 
 		if (!ret)
 		{
@@ -436,7 +436,7 @@ namespace Functions
 
 		if ( nplc != tl->glob->SMUStateSettingsManager[testSite].SMUStateNPLC[PIN] )
 		{
-			CheckError(testSite, smu[testSite]->SetNPLC(PIN, nplc));
+			tl->CheckError(testSite, smu[testSite]->SetNPLC(PIN, nplc));
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateNPLC[PIN] = nplc;
 		}
 
@@ -452,7 +452,7 @@ namespace Functions
 			{
 				try
 				{
-					CheckError(testSite, smu[testSite]->ConfigureOutputFunction(PIN, AM_CONST_DICV));
+					tl->CheckError(testSite, smu[testSite]->ConfigureOutputFunction(PIN, AM_CONST_DICV));
 				}
 				catch(Exception ^ ex)
 				{
@@ -461,7 +461,7 @@ namespace Functions
 			}
 			else if (function == AM_CONST_DVCI)
 			{
-				CheckError(testSite, smu[testSite]->ConfigureOutputFunction(PIN, AM_CONST_DVCI));
+				tl->CheckError(testSite, smu[testSite]->ConfigureOutputFunction(PIN, AM_CONST_DVCI));
 			}
 
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateClampCurrent[PIN] = 999.99;
@@ -479,7 +479,7 @@ namespace Functions
 
 		if (clampValue != tl->glob->SMUStateSettingsManager[testSite].SMUStateClampCurrent[PIN])
 		{
-			CheckError(testSite, smu[testSite]->ClampCurrent(PIN, clampValue));
+			tl->CheckError(testSite, smu[testSite]->ClampCurrent(PIN, clampValue));
 
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateClampCurrent[PIN] = clampValue;
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateClampVoltage[PIN] = 999.99;
@@ -493,7 +493,7 @@ namespace Functions
 
 		if (clampValue != tl->glob->SMUStateSettingsManager[testSite].SMUStateClampVoltage[PIN])
 		{
-			CheckError(testSite, smu[testSite]->ClampVoltage(PIN, clampValue));
+			tl->CheckError(testSite, smu[testSite]->ClampVoltage(PIN, clampValue));
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateClampVoltage[PIN] = clampValue;
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateClampCurrent[PIN] = 999.99;
 		}
@@ -506,7 +506,7 @@ namespace Functions
 
 		if (driveValue != tl->glob->SMUStateSettingsManager[testSite].SMUStateDriveCurrent[PIN])
 		{
-			CheckError(testSite, smu[testSite]->DriveCurrent(PIN, driveValue));
+			tl->CheckError(testSite, smu[testSite]->DriveCurrent(PIN, driveValue));
 
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateDriveCurrent[PIN] = driveValue;
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateDriveVoltage[PIN] = 999.99;
@@ -520,7 +520,7 @@ namespace Functions
 
 		if (driveValue != tl->glob->SMUStateSettingsManager[testSite].SMUStateDriveVoltage[PIN])
 		{
-			CheckError(testSite, smu[testSite]->DriveVoltage(PIN, driveValue));
+			tl->CheckError(testSite, smu[testSite]->DriveVoltage(PIN, driveValue));
 
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateDriveVoltage[PIN] = driveValue;
 			tl->glob->SMUStateSettingsManager[testSite].SMUStateDriveCurrent[PIN] = 999.99;
@@ -532,7 +532,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->OnSmuPin(PIN, true, false));
+		tl->CheckError(testSite, smu[testSite]->OnSmuPin(PIN, true, false));
 
 		return ret;
 	}
@@ -540,7 +540,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->OffSmuPin(PIN));
+		tl->CheckError(testSite, smu[testSite]->OffSmuPin(PIN));
 
 		return ret;
 	}
@@ -548,7 +548,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->SetBandwidth(PIN, bandwidth));
+		tl->CheckError(testSite, smu[testSite]->SetBandwidth(PIN, bandwidth));
 
 		return ret;
 	}
@@ -556,7 +556,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ConfigureSense(PIN, sense));
+		tl->CheckError(testSite, smu[testSite]->ConfigureSense(PIN, sense));
 
 		return ret;
 	}
@@ -564,7 +564,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ConfigurePLF(PIN, plf));
+		tl->CheckError(testSite, smu[testSite]->ConfigurePLF(PIN, plf));
 
 		return ret;
 	}
@@ -572,7 +572,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->MapTriggerInToTriggerOut(moduleAlias, inputTerminal, outputTerminal));
+		tl->CheckError(testSite, smu[testSite]->MapTriggerInToTriggerOut(moduleAlias, inputTerminal, outputTerminal));
 
 		return ret;
 	}
@@ -580,7 +580,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->DriveSoftwareTrigger(moduleAlias, select, pulseWidth));
+		tl->CheckError(testSite, smu[testSite]->DriveSoftwareTrigger(moduleAlias, select, pulseWidth));
 
 		return ret;
 	}
@@ -588,7 +588,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ConfigureTriggerEdgeLevel(moduleAlias, trigSource, trigMode));
+		tl->CheckError(testSite, smu[testSite]->ConfigureTriggerEdgeLevel(moduleAlias, trigSource, trigMode));
 
 		return ret;
 	}
@@ -596,7 +596,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ConfigureTriggerEdgeLevelExtra(moduleAlias, trigSource, trigMode, ignoreTrigCount));
+		tl->CheckError(testSite, smu[testSite]->ConfigureTriggerEdgeLevelExtra(moduleAlias, trigSource, trigMode, ignoreTrigCount));
 
 		return ret;
 	}
@@ -604,7 +604,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ConfigureInputTriggerSelect(pinAlias, trigSource, delayAfterTrig));
+		tl->CheckError(testSite, smu[testSite]->ConfigureInputTriggerSelect(pinAlias, trigSource, delayAfterTrig));
 
 		return ret;
 	}
@@ -612,7 +612,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ConfigureSMUOutputTriggerMode(pinAlias, mode));
+		tl->CheckError(testSite, smu[testSite]->ConfigureSMUOutputTriggerMode(pinAlias, mode));
 
 		return ret;
 	}
@@ -620,7 +620,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ConfigureSMUOutputTriggerPulseWidth(pinAlias, pulseWidth));
+		tl->CheckError(testSite, smu[testSite]->ConfigureSMUOutputTriggerPulseWidth(pinAlias, pulseWidth));
 
 		return ret;
 	}
@@ -628,7 +628,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ConfigureSMUOutputTriggerDuringSource(pinAlias, level, range, mode, edgeSetting));
+		tl->CheckError(testSite, smu[testSite]->ConfigureSMUOutputTriggerDuringSource(pinAlias, level, range, mode, edgeSetting));
 
 		return ret;
 	}
@@ -636,7 +636,7 @@ namespace Functions
 	{
 		int ret = 0;
 
-		CheckError(testSite, smu[testSite]->ConfigureOutputTriggerSelect(pinAlias, triggerOutput, triggerDelay));
+		tl->CheckError(testSite, smu[testSite]->ConfigureOutputTriggerSelect(pinAlias, triggerOutput, triggerDelay));
 
 		return ret;
 	}

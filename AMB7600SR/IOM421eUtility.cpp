@@ -239,11 +239,11 @@ namespace Functions
 		{
 			if (setting == 0)
 			{
-				CheckError(testSite, dio[testSite]->SetVIO(ModuleAlias, IOM_CONST_OUTPUT_VIO_3_3V));
+				tl->CheckError(testSite, dio[testSite]->SetVIO(ModuleAlias, IOM_CONST_OUTPUT_VIO_3_3V));
 			}
 			else if (setting == 1)
 			{
-				CheckError(testSite, dio[testSite]->SetVIO(ModuleAlias, IOM_CONST_OUTPUT_VIO_5_0V));
+				tl->CheckError(testSite, dio[testSite]->SetVIO(ModuleAlias, IOM_CONST_OUTPUT_VIO_5_0V));
 			}
 			tl->glob->IOMModuleVIOStateSettingsManager[testSite][ModuleAlias] = setting;
 
@@ -283,11 +283,11 @@ namespace Functions
 		{
 			if (dirval == 0)
 			{
-				CheckError(testSite, dio[testSite]->SetPortDirection(portAlias, IOM_CONST_PORT_DIRECTION_INPUT));
+				tl->CheckError(testSite, dio[testSite]->SetPortDirection(portAlias, IOM_CONST_PORT_DIRECTION_INPUT));
 			}
 			else if (dirval == 1)
 			{
-				CheckError(testSite, dio[testSite]->SetPortDirection(portAlias, IOM_CONST_PORT_DIRECTION_OUTPUT));
+				tl->CheckError(testSite, dio[testSite]->SetPortDirection(portAlias, IOM_CONST_PORT_DIRECTION_OUTPUT));
 			}
 
 			tl->glob->IOMPortStateSettingsManager[testSite].PortDirection[portAlias] = dirval;
@@ -301,7 +301,7 @@ namespace Functions
 
 		if (portval != tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias])
 		{
-			CheckError(testSite, dio[testSite]->DrivePort(portAlias, portval));
+			tl->CheckError(testSite, dio[testSite]->DrivePort(portAlias, portval));
 			tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias] = portval;
 
 
@@ -330,11 +330,11 @@ namespace Functions
 		{
 			if (pinval == 0)
 			{
-				CheckError(testSite, dio[testSite]->DrivePin(pinAlias, IOM_CONST_PIN_DRIVE_LOW));
+				tl->CheckError(testSite, dio[testSite]->DrivePin(pinAlias, IOM_CONST_PIN_DRIVE_LOW));
 			}
 			else if (pinval == 1)
 			{
-				CheckError(testSite, dio[testSite]->DrivePin(pinAlias, IOM_CONST_PIN_DRIVE_HIGH));
+				tl->CheckError(testSite, dio[testSite]->DrivePin(pinAlias, IOM_CONST_PIN_DRIVE_HIGH));
 			}
 
 			tl->glob->IOMPinValStateSettingsManager[testSite][pinAlias] = pinval;

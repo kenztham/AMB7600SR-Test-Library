@@ -7,6 +7,7 @@ Version:		v1.0.0.5
 
 
 #include "AMB7300.h"
+#include "../Test Method/Methods.h"
 
 namespace Functions
 {
@@ -15,10 +16,10 @@ namespace Functions
 	**	AMB7300TestLibrary Contsructor and Destructor 
 	**	----------------------------------------------------------------------------------------------------
 	*/
-	AMB7300TestLibrary::AMB7300TestLibrary(TestFunction ^ TestFunc)
+	AMB7300TestLibrary::AMB7300TestLibrary(TestFunction ^ TestFunc, MethodsBranch ^ sharedMethods)
 	{
 		tl = TestFunc;
-
+		methods = sharedMethods;
 	}
 	AMB7300TestLibrary::~AMB7300TestLibrary(void)
 	{
@@ -4161,7 +4162,7 @@ namespace Functions
 			l_TestCode = "TestCode";
 		}
 
-		if (IsRunningProduction(site) == true)
+		if (tl->IsRunningProduction(site) == true)
 		{
 			l_CustLotId = site->FlowEngine->LotManager->LotTUI->PostNewLotInfo["CustLotID"];
 			l_TestCode = site->FlowEngine->LotManager->LotTUI->PostNewLotInfo["TestCode"];
@@ -4438,7 +4439,7 @@ namespace Functions
 					//{
 					//	Current_UUT = 0;
 					//}
-					//if (IsRunningProduction(site) == true)
+					//if (tl->IsRunningProduction(site) == true)
 					//{
 					//	//String ^ X = site->ResultsByOffset[site->UUTOffsetResolver->UUTOffsets[vnaSiteIndex]]->CurrentResult->CustomFieldResults["X"]->Value->ToString();
 					//	//String ^ Y = site->ResultsByOffset[site->UUTOffsetResolver->UUTOffsets[vnaSiteIndex]]->CurrentResult->CustomFieldResults["Y"]->Value->ToString();
@@ -8183,16 +8184,7 @@ namespace Functions
 		// Reset
 		additionalMessage = String::Empty;
 	}
-	bool AMB7300TestLibrary::IsRunningProduction(Site ^ site)
-	{
-		IProductionSystem^ ps = (IProductionSystem^)site->FlowEngine->EngineManager->GetService(IProductionSystem::typeid);
 
-		if (RemotingServices::IsTransparentProxy(ps))
-			return false;
-		else
-			return true;
-	}
-	
 	/*
 	**	----------------------------------------------------------------------------------------------------
 	**	Threaded APIs

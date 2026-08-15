@@ -1374,7 +1374,8 @@ namespace Functions
 		{
 			//>>>>>>>>>>>>>>>>>>>> Local Variables <<<<<<<<<<<<<<<<<<<<
 			tl->WriteToTcrLgr("SITE " + testSite.ToString(), "Executing Control Method RFCase_LoadModulation");
-
+			//tl->WriteToTracerAndFileLogger(testSite, testSite, INFO, "Executing Control Method RFCase_LoadModulation");
+			
 			//Control Method Compulsory Variable
 			String^ moduleAlias = nullptr;
 
@@ -2617,19 +2618,19 @@ namespace Functions
 					{
 						double l_Measure_Level_Coupler = coupRef + 5.0;
 
-						CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(C2_Coupler_CH, l_Measure_Level_Coupler, sourceFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS));
+						tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(C2_Coupler_CH, l_Measure_Level_Coupler, sourceFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS));
 						WlfSource(testSite, wolferType, sourceChannel, (int)wlfoutsw::wlfout1, tl->glob->outIndex[wolferType], tl->glob->g_txpath[wolferType], sourceFreq, sourcePin, offset + offset2, actualSourceLevel);
 						util->WaitSecond(2 mS);
 
 						try
 						{
-							CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
+							tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
 						}
 						catch (Exception ^ ex)
 						{
-							CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(C2_Coupler_CH, l_Measure_Level_Coupler + 15, sourceFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS));
+							tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureSetup(C2_Coupler_CH, l_Measure_Level_Coupler + 15, sourceFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS));
 							util->WaitSecond(2 mS);
-							CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
+							tl->CheckError(testSite, amsrf[testSite]->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
 						}
 
 						if (Math::Abs(coupRef - coupledPout) < 1)
@@ -2648,7 +2649,7 @@ namespace Functions
 						WlfSource(testSite, wolferType, sourceChannel, (int)wlfoutsw::wlfout1, tl->glob->outIndex[wolferType], tl->glob->g_txpath[wolferType], sourceFreq, sourcePin, offset + offset2, actualSourceLevel);
 
 					util->WaitSecond(5 mS);
-					//CheckError(RF, Amsrf0->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
+					//tl->CheckError(RF, Amsrf0->amsrf->MeasureChannel(C2_Coupler_CH, coupledPout));
 
 				}
 				else if (IOControl == "DigitalBoard")
