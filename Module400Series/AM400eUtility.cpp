@@ -1,9 +1,9 @@
-﻿#include "AMB7600SR.h"
+﻿#include "Module400Series.h"
 
 namespace Functions
 {
 	// AM400e Load Phase Initialization 
-	array<String^>^ AMB7600SRTestLibrary::GetAMModuleAlias(Site ^ site, int siteIndex)
+	array<String^>^ Module400Series::GetAMModuleAlias(Site ^ site, int siteIndex)
 	{
 		/*****************************************************************************************************
 		** GetAmModuleAlias
@@ -54,7 +54,7 @@ namespace Functions
 
 		return moduleAlias;
 	}
-	int AMB7600SRTestLibrary::InitAmPinAliasPreviousState(Site ^ site, int siteIndex)
+	int Module400Series::InitAmPinAliasPreviousState(Site ^ site, int siteIndex)
 	{
 		int ret = 0;
 
@@ -73,7 +73,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::InitializeAM400eResource(Site ^site)
+	int Module400Series::InitializeAM400eResource(Site ^site)
 	{
 		int ret = 0;
 		int initOption = tl->glob->AWV.AMInitOption;
@@ -174,7 +174,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::UninitializeAM400eResource(Site ^site)
+	int Module400Series::UninitializeAM400eResource(Site ^site)
 	{
 		int ret = 0;
 		array<array<String^>^>^ moduleAlias = nullptr;
@@ -203,7 +203,7 @@ namespace Functions
 			{
 				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 				tl->CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
-				String^ ErrorMessage = "AMB7600SRTestLibrary:: UninitializeAM400eResource " + "encountered error when performing.";
+				String^ ErrorMessage = "Module400Series:: UninitializeAM400eResource " + "encountered error when performing.";
 				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
 				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 			}
@@ -213,7 +213,7 @@ namespace Functions
 	}
 
 	//AM400e Helper Function
-	int AMB7600SRTestLibrary::ConfigureSMU(int testSite, String^ PIN, int Mode, int bandwidth, double compliance, double nplc, double powerLineFreq)
+	int Module400Series::ConfigureSMU(int testSite, String^ PIN, int Mode, int bandwidth, double compliance, double nplc, double powerLineFreq)
 	{
 		/*****************************************************************************************************
 		** ConfigureSMU
@@ -255,7 +255,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_MeasureOS(int testSite, String ^ PIN, double driveCurrent, double clampVoltage, double delay,double % result)
+	int Module400Series::SMU_MeasureOS(int testSite, String ^ PIN, double driveCurrent, double clampVoltage, double delay,double % result)
 	{
 		int ret = 0;
 
@@ -269,7 +269,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_MeasureCurrent(int testSite, String ^ PIN,double % result)
+	int Module400Series::SMU_MeasureCurrent(int testSite, String ^ PIN,double % result)
 	{
 		int ret = 0;
 
@@ -277,7 +277,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_MeasureVoltage(int testSite, String ^ PIN, double % result)
+	int Module400Series::SMU_MeasureVoltage(int testSite, String ^ PIN, double % result)
 	{
 		int ret = 0;
 
@@ -285,7 +285,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_MeasureCurrent(int testSite, String ^ PIN,double delay, double % result)
+	int Module400Series::SMU_MeasureCurrent(int testSite, String ^ PIN,double delay, double % result)
 	{
 		int ret = 0;
 
@@ -294,7 +294,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_MeasureVoltage(int testSite, String ^ PIN, double delay, double % result)
+	int Module400Series::SMU_MeasureVoltage(int testSite, String ^ PIN, double delay, double % result)
 	{
 		int ret = 0;
 
@@ -303,7 +303,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_MeasureBurstCurrent(int testSite, String ^ PIN, double duration, double peakPercentage, double % result)
+	int Module400Series::SMU_MeasureBurstCurrent(int testSite, String ^ PIN, double duration, double peakPercentage, double % result)
 	{
 		int ret = 0;
 
@@ -366,7 +366,7 @@ namespace Functions
 		}
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_MeasureBurstVoltage(int testSite, String ^ PIN, double duration, double peakPercentage, double % result)
+	int Module400Series::SMU_MeasureBurstVoltage(int testSite, String ^ PIN, double duration, double peakPercentage, double % result)
 	{
 		int ret = 0;
 
@@ -430,7 +430,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_NplcSetting(int testSite, String ^ PIN, double nplc)
+	int Module400Series::SMU_NplcSetting(int testSite, String ^ PIN, double nplc)
 	{
 		int ret = 0;
 
@@ -442,7 +442,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigureOutputFunction(int testSite, String ^ PIN, int function)
+	int Module400Series::SMU_ConfigureOutputFunction(int testSite, String ^ PIN, int function)
 	{
 		int ret = 0;
 
@@ -473,7 +473,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ClampCurrent(int testSite, String ^ PIN, double clampValue)
+	int Module400Series::SMU_ClampCurrent(int testSite, String ^ PIN, double clampValue)
 	{
 		int ret = 0;
 
@@ -487,7 +487,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ClampVoltage(int testSite, String ^ PIN, double clampValue)
+	int Module400Series::SMU_ClampVoltage(int testSite, String ^ PIN, double clampValue)
 	{
 		int ret = 0;
 
@@ -500,7 +500,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_DriveCurrent(int testSite, String ^ PIN, double driveValue)
+	int Module400Series::SMU_DriveCurrent(int testSite, String ^ PIN, double driveValue)
 	{
 		int ret = 0;
 
@@ -514,7 +514,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_DriveVoltage(int testSite, String ^ PIN, double driveValue)
+	int Module400Series::SMU_DriveVoltage(int testSite, String ^ PIN, double driveValue)
 	{
 		int ret = 0;
 
@@ -528,7 +528,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_OnSMU(int testSite, String ^ PIN)
+	int Module400Series::SMU_OnSMU(int testSite, String ^ PIN)
 	{
 		int ret = 0;
 
@@ -536,7 +536,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_OffSMU(int testSite, String ^ PIN)
+	int Module400Series::SMU_OffSMU(int testSite, String ^ PIN)
 	{
 		int ret = 0;
 
@@ -544,7 +544,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_SetBandwidth(int testSite, String ^ PIN, int bandwidth)
+	int Module400Series::SMU_SetBandwidth(int testSite, String ^ PIN, int bandwidth)
 	{
 		int ret = 0;
 
@@ -552,7 +552,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigureSense(int testSite, String ^ PIN, int sense)
+	int Module400Series::SMU_ConfigureSense(int testSite, String ^ PIN, int sense)
 	{
 		int ret = 0;
 
@@ -560,7 +560,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigurePowerLineFreq(int testSite, String ^ PIN, double plf)
+	int Module400Series::SMU_ConfigurePowerLineFreq(int testSite, String ^ PIN, double plf)
 	{
 		int ret = 0;
 
@@ -568,7 +568,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias, int inputTerminal, int outputTerminal)
+	int Module400Series::SMU_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias, int inputTerminal, int outputTerminal)
 	{
 		int ret = 0;
 
@@ -576,7 +576,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_DriveSoftwareTrigger(int testSite, String ^ moduleAlias, int select, double pulseWidth)
+	int Module400Series::SMU_DriveSoftwareTrigger(int testSite, String ^ moduleAlias, int select, double pulseWidth)
 	{
 		int ret = 0;
 
@@ -584,7 +584,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigureTriggerEdgeLevel(int testSite, String ^ moduleAlias, int trigSource, int trigMode)
+	int Module400Series::SMU_ConfigureTriggerEdgeLevel(int testSite, String ^ moduleAlias, int trigSource, int trigMode)
 	{
 		int ret = 0;
 
@@ -592,7 +592,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigureTriggerEdgeLevelExtra(int testSite, String ^ moduleAlias, int trigSource, int trigMode, int ignoreTrigCount)
+	int Module400Series::SMU_ConfigureTriggerEdgeLevelExtra(int testSite, String ^ moduleAlias, int trigSource, int trigMode, int ignoreTrigCount)
 	{
 		int ret = 0;
 
@@ -600,7 +600,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigureInputTriggerSelect(int testSite, String ^ pinAlias, int trigSource, double delayAfterTrig)
+	int Module400Series::SMU_ConfigureInputTriggerSelect(int testSite, String ^ pinAlias, int trigSource, double delayAfterTrig)
 	{
 		int ret = 0;
 
@@ -608,7 +608,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigureSMUOutputTriggerMode(int testSite, String ^ pinAlias, int mode)
+	int Module400Series::SMU_ConfigureSMUOutputTriggerMode(int testSite, String ^ pinAlias, int mode)
 	{
 		int ret = 0;
 
@@ -616,7 +616,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigureSMUOutputTriggerPulseWidth(int testSite, String ^ pinAlias, double pulseWidth)
+	int Module400Series::SMU_ConfigureSMUOutputTriggerPulseWidth(int testSite, String ^ pinAlias, double pulseWidth)
 	{
 		int ret = 0;
 
@@ -624,7 +624,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigureSMUOutputTriggerDuringSource(int testSite, String ^ pinAlias, double level, double range, int mode, int edgeSetting)
+	int Module400Series::SMU_ConfigureSMUOutputTriggerDuringSource(int testSite, String ^ pinAlias, double level, double range, int mode, int edgeSetting)
 	{
 		int ret = 0;
 
@@ -632,7 +632,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::SMU_ConfigureOutputTriggerSelect(int testSite, String ^ pinAlias, int triggerOutput, double triggerDelay)
+	int Module400Series::SMU_ConfigureOutputTriggerSelect(int testSite, String ^ pinAlias, int triggerOutput, double triggerDelay)
 	{
 		int ret = 0;
 

@@ -27,12 +27,14 @@ namespace AMB7600SR_TestLibrary_REV2
 		methods = gcnew MethodsBranch(tl);
 		amb7600srtl = gcnew AMB7600SRTestLibrary(tl);
 		amb7300tl = gcnew AMB7300TestLibrary(tl);
+		module400series = gcnew Module400Series(tl);
 
 		//Reference object to each other to sync variables
 		methods->amb7600srtl = amb7600srtl;
 		methods->amb7300tl = amb7300tl;
+		methods->module400series = module400series;
 
-		amb7600srtl->methods = methods;
+		module400series->methods = methods;
 
 		for (siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{

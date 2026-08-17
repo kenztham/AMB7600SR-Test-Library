@@ -3,7 +3,7 @@
 namespace Functions
 {
 	//DM-Control Methods
-	void AMB7600SRTestLibrary::CM_DMInit(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DMInit(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DMInit
@@ -80,7 +80,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_WriteVector(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_WriteVector(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		{
 			/*****************************************************************************************************
@@ -156,7 +156,7 @@ namespace Functions
 			}
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DMConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DMConfigureInputTriggerSelect
@@ -246,7 +246,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMConfigureOutputTriggerSelect(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DMConfigureOutputTriggerSelect(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DMConfigureOutputTriggerSelect
@@ -336,7 +336,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMConfigureReadPin_TriggerOutput(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DMConfigureReadPin_TriggerOutput(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_MIPIWriteVector
@@ -410,7 +410,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMConfigurePinToPMU(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_DMConfigurePinToPMU(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DriveVoltage
@@ -619,7 +619,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMConfigurePinToVector(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_DMConfigurePinToVector(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DriveVoltage
@@ -799,7 +799,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMConfigurePinToDIO(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_DMConfigurePinToDIO(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DriveVoltage
@@ -982,7 +982,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMDioModeDrivePin(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DMDioModeDrivePin(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -1079,7 +1079,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMCastDPinLevel(Site ^ site, int testSite, ConditionCollection^testConditionCollection)
+	void Module400Series::CM_DMCastDPinLevel(Site ^ site, int testSite, ConditionCollection^testConditionCollection)
 	{
 		try
 		{
@@ -1222,7 +1222,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMCastTimingSetPeriod(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DMCastTimingSetPeriod(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -1308,7 +1308,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMCastPEAttribute(Site ^ site, int testSite, ConditionCollection^testConditionCollection)
+	void Module400Series::CM_DMCastPEAttribute(Site ^ site, int testSite, ConditionCollection^testConditionCollection)
 	{
 		try
 		{
@@ -1458,7 +1458,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DMLoadVectorFile(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DMLoadVectorFile(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -1541,7 +1541,7 @@ namespace Functions
 	}
 
 	//IOM-Control Methods
-	void AMB7600SRTestLibrary::CM_DIODrivePin(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DIODrivePin(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -1649,7 +1649,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DIODrivePort(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DIODrivePort(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -1756,7 +1756,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DIOSetModuleVIO(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DIOSetModuleVIO(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -1874,7 +1874,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DIOSetPortDirection(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_DIOSetPortDirection(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -1983,7 +1983,7 @@ namespace Functions
 	}
 
 	//CM-Control Methods
-	void AMB7600SRTestLibrary::CM_CMDrivePin(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_CMDrivePin(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -2161,7 +2161,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_CMDrivePort(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_CMDrivePort(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -2267,7 +2267,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_CMSetPortDirection(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_CMSetPortDirection(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -2376,7 +2376,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_CMConfigurePXES2780_TriggerBus(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_CMConfigurePXES2780_TriggerBus(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DIODrivePin
@@ -2576,7 +2576,7 @@ namespace Functions
 	}
 
 	//DM_Test Methods
-	void AMB7600SRTestLibrary::TM_MIPIReadVector(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	void Module400Series::TM_MIPIReadVector(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
 	{
 		/*****************************************************************************************************
 		** TM_MIPIReadVector

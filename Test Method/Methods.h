@@ -38,6 +38,7 @@ namespace Functions
 	//Forward Declaration
 	ref class AMB7600SRTestLibrary;
 	ref class AMB7300TestLibrary;
+	ref class Module400Series;
 	ref class TestFunction;
 
 	public ref class MethodsBranch
@@ -50,15 +51,14 @@ namespace Functions
 
 		AMB7600SRTestLibrary ^ amb7600srtl;
 		AMB7300TestLibrary ^ amb7300tl;
+		Module400Series ^ module400series;
 
 		ConcurrentDictionary<String^, int> ^ Dictionary_CM;
 		ConcurrentDictionary<String^, int> ^ Dictionary_TM;
 		void InitializeCMDictionary(int totalSite);
 		void InitializeTMDicionary(int totalSite);
 		
-		void ControlMethod_Selection(AMB7600SRTestLibrary ^ lib, Site ^ site, int testSite, int controlMethodSelection, ConditionCollection ^ testConditionCollection);
 		void ControlMethod_Selection(Site ^ site, int testSite, int controlMethodSelection, ConditionCollection ^ testConditionCollection);
-		void TestMethod_Selection(AMB7600SRTestLibrary ^ lib, Site ^ site, int testSite, int testMethodSelection, String ^ testParameterName, int  testParameterCount, int % methodTestParameterCount);
 		void TestMethod_Selection(Site ^ site, int testSite, int testMethodSelection, String ^ testParameterName, int  testParameterCount, int % methodTestParameterCount);
 	};
 }

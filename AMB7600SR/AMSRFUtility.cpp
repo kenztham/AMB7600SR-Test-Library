@@ -2658,18 +2658,18 @@ namespace Functions
 		ret += dio[testSite]->ResetPort("DIO_PORT2");
 		ret += dio[testSite]->ResetPort("DIO_PORT3");
 		ret += dio[testSite]->ResetPort("DIO_PORT4");
-		DIO_SetVIO(testSite, moduleAlias, 1);		//5V
-		DIO_SetPortDirection(testSite, "DIO_PORT0", 1); // 1 output. 0 input
-		DIO_SetPortDirection(testSite, "DIO_PORT1", 1);
-		DIO_SetPortDirection(testSite, "DIO_PORT2", 1);
-		DIO_SetPortDirection(testSite, "DIO_PORT3", 1);
-		DIO_SetPortDirection(testSite, "DIO_PORT4", 1);
+		module400series->DIO_SetVIO(testSite, moduleAlias, 1);		//5V
+		module400series->DIO_SetPortDirection(testSite, "DIO_PORT0", 1); // 1 output. 0 input
+		module400series->DIO_SetPortDirection(testSite, "DIO_PORT1", 1);
+		module400series->DIO_SetPortDirection(testSite, "DIO_PORT2", 1);
+		module400series->DIO_SetPortDirection(testSite, "DIO_PORT3", 1);
+		module400series->DIO_SetPortDirection(testSite, "DIO_PORT4", 1);
 		ret += dio[testSite]->PowerOnOff(moduleAlias, 0, 0); // turn off 5V, turn off 12V
-		DIO_DrivePort(testSite, "DIO_PORT0", 0); // 0 driving low, 1 driving high
-		DIO_DrivePort(testSite, "DIO_PORT1", 0);
-		DIO_DrivePort(testSite, "DIO_PORT2", 0);
-		DIO_DrivePort(testSite, "DIO_PORT3", 0);
-		DIO_DrivePort(testSite, "DIO_PORT4", 0);
+		module400series->DIO_DrivePort(testSite, "DIO_PORT0", 0); // 0 driving low, 1 driving high
+		module400series->DIO_DrivePort(testSite, "DIO_PORT1", 0);
+		module400series->DIO_DrivePort(testSite, "DIO_PORT2", 0);
+		module400series->DIO_DrivePort(testSite, "DIO_PORT3", 0);
+		module400series->DIO_DrivePort(testSite, "DIO_PORT4", 0);
 
 		return ret;
 	}

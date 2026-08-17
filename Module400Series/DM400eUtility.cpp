@@ -1,10 +1,10 @@
 ﻿#include "../Test Method/Methods.h"
-#include "AMB7600SR.h"
+#include "Module400Series.h"
 
 namespace Functions
 {
 	// DM400e Load Phase Initialization 
-	array<String^>^ AMB7600SRTestLibrary::GetDMModuleAlias(Site ^ site, int siteIndex)
+	array<String^>^ Module400Series::GetDMModuleAlias(Site ^ site, int siteIndex)
 	{
 		/*****************************************************************************************************
 		** GetDmModuleAlias
@@ -54,7 +54,7 @@ namespace Functions
 
 		return moduleAlias;
 	}
-	int AMB7600SRTestLibrary::InitDmPinAliasPreviousState(Site ^ site, int siteIndex)
+	int Module400Series::InitDmPinAliasPreviousState(Site ^ site, int siteIndex)
 	{
 		int ret = 0;
 
@@ -101,7 +101,7 @@ namespace Functions
 
 		return ret;
 	}
-	bool AMB7600SRTestLibrary::CheckingAnyDmModuleRunVector(Site ^ site, int siteIndex, array<String ^>^ moduleAlias, array<String ^>^ % moduleAliasRunVector, array<String ^>^ % communicationProtocol)
+	bool Module400Series::CheckingAnyDmModuleRunVector(Site ^ site, int siteIndex, array<String ^>^ moduleAlias, array<String ^>^ % moduleAliasRunVector, array<String ^>^ % communicationProtocol)
 	{
 		bool RunVector = false;
 
@@ -176,7 +176,7 @@ namespace Functions
 
 		return RunVector;
 	}
-	int AMB7600SRTestLibrary::CastTimingSetPeriodControlItem(Site ^ site, int siteIndex)
+	int Module400Series::CastTimingSetPeriodControlItem(Site ^ site, int siteIndex)
 	{
 
 		int testSite = 0;
@@ -231,7 +231,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::CastDpinLevelControlItem(Site ^ site, int siteIndex)
+	int Module400Series::CastDpinLevelControlItem(Site ^ site, int siteIndex)
 	{
 		int ret = 0;
 		int Count = 0;
@@ -342,7 +342,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::CastPEAttributeControlItem(Site ^ site, int siteIndex)
+	int Module400Series::CastPEAttributeControlItem(Site ^ site, int siteIndex)
 	{
 		int ret = 0;
 		int Count = 0;
@@ -460,7 +460,7 @@ namespace Functions
 		}
 		return ret;
 	}
-	int AMB7600SRTestLibrary::GetVectorFiles(Site ^ site)
+	int Module400Series::GetVectorFiles(Site ^ site)
 	{
 		int ret = 0;
 
@@ -494,7 +494,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DMLoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias)
+	int Module400Series::DMLoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias)
 	{
 		int ret = 0;
 
@@ -531,7 +531,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::VectorFilesInfo(Site ^ site, int siteIndex)
+	int Module400Series::VectorFilesInfo(Site ^ site, int siteIndex)
 	{
 		int ret = 0;
 		int count = 0;
@@ -1117,7 +1117,7 @@ namespace Functions
 		return ret;
 	}
 
-	int AMB7600SRTestLibrary::InitializeDM400eResource(Site ^ site)
+	int Module400Series::InitializeDM400eResource(Site ^ site)
 	{
 		int ret = 0;
 		int count = 0;
@@ -1168,7 +1168,7 @@ namespace Functions
 						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
 						methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
-						methods->ControlMethod_Selection(this, site, siteIndex, intControlMethod, testConditionCollection);
+						methods->ControlMethod_Selection(site, siteIndex, intControlMethod, testConditionCollection);
 						userDMInit[siteIndex] = true;
 					}
 				}
@@ -1292,7 +1292,7 @@ namespace Functions
 						if (intControlMethod == DMCase_DMCastDPinLevel || intControlMethod == DMCase_DMCastTimingSetPeriod || intControlMethod == DMCase_DMCastPEAttribute || intControlMethod == DMCase_DMLoadVectorFile)
 						{
 							tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
-							methods->ControlMethod_Selection(this, site, siteIndex, intControlMethod, testConditionCollection);
+							methods->ControlMethod_Selection(site, siteIndex, intControlMethod, testConditionCollection);
 						}
 					}
 				}
@@ -1316,7 +1316,7 @@ namespace Functions
 #pragma endregion "Set Default to PMU Mode"
 		return ret;
 	}
-	int AMB7600SRTestLibrary::UninitializeDM400eResource(Site ^ site)
+	int Module400Series::UninitializeDM400eResource(Site ^ site)
 	{
 		int ret = 0;
 		int count = 0;
@@ -1348,7 +1348,7 @@ namespace Functions
 			{
 				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 				tl->CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
-				String^ ErrorMessage = "AMB7600SRTestLibrary:: UninitializeDM400eResource " + "encountered error when performing.";
+				String^ ErrorMessage = "Module400Series:: UninitializeDM400eResource " + "encountered error when performing.";
 				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
 				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 			}
@@ -1357,7 +1357,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::InitializeDM400eResource_ORI(Site ^ site)
+	int Module400Series::InitializeDM400eResource_ORI(Site ^ site)
 	{
 		int ret = 0;
 		int initOption = 0xf;
@@ -1535,7 +1535,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::LoadVectorFiles_ORI(Site ^ site, int siteIndex, String ^ ModuleAlias)
+	int Module400Series::LoadVectorFiles_ORI(Site ^ site, int siteIndex, String ^ ModuleAlias)
 	{
 		int ret = 0;
 		int count = 0;
@@ -2160,7 +2160,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::LoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias)
+	int Module400Series::LoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias)
 	{
 		int ret = 0;
 		int count = 0;
@@ -2787,7 +2787,7 @@ namespace Functions
 	}
 
 	// DM400e Helper Function 
-	int AMB7600SRTestLibrary::DM_Init(int testSite, int dpinGroup)
+	int Module400Series::DM_Init(int testSite, int dpinGroup)
 	{
 		int ret = 0;
 
@@ -2795,7 +2795,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_MIPIWriteVector(int testSite, String ^ moduleAlias, String ^ vectorFileName)
+	int Module400Series::DM_MIPIWriteVector(int testSite, String ^ moduleAlias, String ^ vectorFileName)
 	{
 		int ret = 0;
 		int l_count = 0;
@@ -2827,7 +2827,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::API_Read_Single_VectorStateFile_SingleLine(array<String^> ^  Reader_Value, String^ % Mode, int % USID, int % RegAddr, int % RegData, String^ % Operation, String^ % Speed, bool % Read_VectorStateFileBasic_Success, String^ % Read_VectorStateFileBasic_ErrorMessage)
+	int Module400Series::API_Read_Single_VectorStateFile_SingleLine(array<String^> ^  Reader_Value, String^ % Mode, int % USID, int % RegAddr, int % RegData, String^ % Operation, String^ % Speed, bool % Read_VectorStateFileBasic_Success, String^ % Read_VectorStateFileBasic_ErrorMessage)
 	{
 		int ret = 0;
 
@@ -2928,7 +2928,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::API_MIPI_Vector_Read(Site ^ site, int testSite, String ^ dataPinAlias, String ^ DM_Module_Alias, double channelInputDelay, String ^ VectorFileName, bool sweepOperation, array<int> ^ % ReadHistoryRam_Data, int % VectorFailCount, int % VectorFirstFail)
+	int Module400Series::API_MIPI_Vector_Read(Site ^ site, int testSite, String ^ dataPinAlias, String ^ DM_Module_Alias, double channelInputDelay, String ^ VectorFileName, bool sweepOperation, array<int> ^ % ReadHistoryRam_Data, int % VectorFailCount, int % VectorFirstFail)
 	{
 		int ret = 0;
 
@@ -3175,7 +3175,7 @@ namespace Functions
 		ReadHistoryRam_Fail:
 						   return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureDigitalPinToPMU(int testSite, String^ PIN, int measureMode, int senseMode, double compliance, double driveValue, double nplc)
+	int Module400Series::DM_ConfigureDigitalPinToPMU(int testSite, String^ PIN, int measureMode, int senseMode, double compliance, double driveValue, double nplc)
 	{
 		int ret = 0;
 
@@ -3200,7 +3200,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureDigitalPinToVector(int testSite, String^ PIN, int DPinLevelSet, int PEAttSet)
+	int Module400Series::DM_ConfigureDigitalPinToVector(int testSite, String^ PIN, int DPinLevelSet, int PEAttSet)
 	{
 		int ret = 0;
 
@@ -3210,7 +3210,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureDigitalPinToDIO(int testSite, String^ PIN, int DPinLevelSet, int pinDirection)
+	int Module400Series::DM_ConfigureDigitalPinToDIO(int testSite, String^ PIN, int DPinLevelSet, int pinDirection)
 	{
 		int ret = 0;
 
@@ -3220,7 +3220,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_MeasureOS(int testSite, String ^ PIN, double driveCurrent, double clampVoltage, double delay, double % result)
+	int Module400Series::DM_MeasureOS(int testSite, String ^ PIN, double driveCurrent, double clampVoltage, double delay, double % result)
 	{
 		int ret = 0;
 
@@ -3235,7 +3235,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_MeasureCurrent(int testSite, String ^ PIN, double % result)
+	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double % result)
 	{
 		int ret = 0;
 
@@ -3243,7 +3243,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_MeasureVoltage(int testSite, String ^ PIN, double % result)
+	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double % result)
 	{
 		int ret = 0;
 
@@ -3251,7 +3251,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_MeasureCurrent(int testSite, String ^ PIN, double delay, double % result)
+	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double delay, double % result)
 	{
 		int ret = 0;
 
@@ -3260,7 +3260,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_MeasureVoltage(int testSite, String ^ PIN, double delay, double % result)
+	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double delay, double % result)
 	{
 		int ret = 0;
 
@@ -3269,7 +3269,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_NplcSetting(int testSite, String ^ PIN, double nplc)
+	int Module400Series::DM_NplcSetting(int testSite, String ^ PIN, double nplc)
 	{
 		int ret = 0;
 
@@ -3282,7 +3282,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureOutputFunction(int testSite, String ^ PIN, int function)
+	int Module400Series::DM_ConfigureOutputFunction(int testSite, String ^ PIN, int function)
 	{
 		int ret = 0;
 
@@ -3295,7 +3295,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ClampCurrent(int testSite, String ^ PIN, double clampValue)
+	int Module400Series::DM_ClampCurrent(int testSite, String ^ PIN, double clampValue)
 	{
 		int ret = 0;
 
@@ -3309,7 +3309,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ClampVoltage(int testSite, String ^ PIN, double clampValue)
+	int Module400Series::DM_ClampVoltage(int testSite, String ^ PIN, double clampValue)
 	{
 		int ret = 0;
 
@@ -3334,7 +3334,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_DriveCurrent(int testSite, String ^ PIN, double driveValue)
+	int Module400Series::DM_DriveCurrent(int testSite, String ^ PIN, double driveValue)
 	{
 		int ret = 0;
 
@@ -3347,7 +3347,7 @@ namespace Functions
 		}
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_DriveVoltage(int testSite, String ^ PIN, double driveValue)
+	int Module400Series::DM_DriveVoltage(int testSite, String ^ PIN, double driveValue)
 	{
 		int ret = 0;
 
@@ -3361,7 +3361,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_OnDMpin(int testSite, String ^ PIN)
+	int Module400Series::DM_OnDMpin(int testSite, String ^ PIN)
 	{
 		int ret = 0;
 
@@ -3369,7 +3369,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_OffDMpin(int testSite, String ^ PIN)
+	int Module400Series::DM_OffDMpin(int testSite, String ^ PIN)
 	{
 		int ret = 0;
 
@@ -3377,7 +3377,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureSense(int testSite, String ^ PIN, int sense)
+	int Module400Series::DM_ConfigureSense(int testSite, String ^ PIN, int sense)
 	{
 		int ret = 0;
 
@@ -3400,7 +3400,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_OperationMode(int testSite, String ^ PIN, int mode)
+	int Module400Series::DM_OperationMode(int testSite, String ^ PIN, int mode)
 	{
 		int ret = 0;
 
@@ -3464,7 +3464,7 @@ namespace Functions
 		}
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureDPINLevelVector(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM)
+	int Module400Series::DM_ConfigureDPINLevelVector(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM)
 	{
 		int ret = 0;
 
@@ -3488,7 +3488,7 @@ namespace Functions
 		}
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureDPINLevelDIO(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM)
+	int Module400Series::DM_ConfigureDPINLevelDIO(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM)
 	{
 		int ret = 0;
 
@@ -3515,7 +3515,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigurePEAttribute(int testSite, String ^ PIN, bool InputTermEnable, bool HVEnable, bool ActiveLoadEnable, bool DifferentialComparatorEnable)
+	int Module400Series::DM_ConfigurePEAttribute(int testSite, String ^ PIN, bool InputTermEnable, bool HVEnable, bool ActiveLoadEnable, bool DifferentialComparatorEnable)
 	{
 		int ret = 0;
 
@@ -3532,7 +3532,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_DioModeDrivePin(int testSite, String ^ PIN, int driveValue)
+	int Module400Series::DM_DioModeDrivePin(int testSite, String ^ PIN, int driveValue)
 	{
 		int ret = 0;
 
@@ -3542,7 +3542,7 @@ namespace Functions
 		}
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_DioModeSetPinDirection(int testSite, String ^ PIN, int pinDirection)
+	int Module400Series::DM_DioModeSetPinDirection(int testSite, String ^ PIN, int pinDirection)
 	{
 		int ret = 0;
 
@@ -3550,7 +3550,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias,int inputTerminal, int outputTerminal)
+	int Module400Series::DM_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias,int inputTerminal, int outputTerminal)
 	{
 		int ret = 0;
 
@@ -3558,7 +3558,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_DriveSoftwareTrigger(int testSite, String ^ moduleAlias, int select, double pulseWidth)
+	int Module400Series::DM_DriveSoftwareTrigger(int testSite, String ^ moduleAlias, int select, double pulseWidth)
 	{
 		int ret = 0;
 
@@ -3566,7 +3566,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureTriggerEdgeLevel(int testSite, String ^ moduleAlias, int trigSource, int trigMode)
+	int Module400Series::DM_ConfigureTriggerEdgeLevel(int testSite, String ^ moduleAlias, int trigSource, int trigMode)
 	{
 		int ret = 0;
 
@@ -3574,7 +3574,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureTriggerEdgeLevelExtra(int testSite, String ^ moduleAlias, int trigSource, int trigMode, int ignoreTrigCount)
+	int Module400Series::DM_ConfigureTriggerEdgeLevelExtra(int testSite, String ^ moduleAlias, int trigSource, int trigMode, int ignoreTrigCount)
 	{
 		int ret = 0;
 
@@ -3582,7 +3582,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureInputTriggerSelect(int testSite, String ^ moduleAlias, int trigSource, double delayAfterTrig)
+	int Module400Series::DM_ConfigureInputTriggerSelect(int testSite, String ^ moduleAlias, int trigSource, double delayAfterTrig)
 	{
 		int ret = 0;
 
@@ -3590,7 +3590,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureOutputTriggerSelect(int testSite, String ^ moduleAlias, int trigOutput0, int trigOutput1)
+	int Module400Series::DM_ConfigureOutputTriggerSelect(int testSite, String ^ moduleAlias, int trigOutput0, int trigOutput1)
 	{
 		int ret = 0;
 
@@ -3598,7 +3598,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DM_ConfigureReadPin_TriggerOutput(int testSite, String ^ pinAlias, int pinStatusSelect)
+	int Module400Series::DM_ConfigureReadPin_TriggerOutput(int testSite, String ^ pinAlias, int pinStatusSelect)
 	{
 		int ret = 0;
 

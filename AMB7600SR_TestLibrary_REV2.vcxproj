@@ -146,6 +146,7 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
   <ItemGroup>
     <ClInclude Include="AMB7300\AMB7300.h" />
     <ClInclude Include="AMB7600SR\AMB7600SR.h" />
+    <ClInclude Include="Module400Series\Module400Series.h" />
     <ClInclude Include="Test Function\Aemulus.Hardware.ACM.h" />
     <ClInclude Include="Test Function\Aemulus.Hardware.AMSRF.h" />
     <ClInclude Include="Test Function\Aemulus.Hardware.CM.h" />
@@ -175,14 +176,15 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     <ClCompile Include="AMB7300\IOM400Utility.cpp" />
     <ClCompile Include="AMB7300\KeysightVnaUtility.cpp" />
     <ClCompile Include="AMB7300\TM400Utility.cpp" />
-    <ClCompile Include="AMB7600SR\AM400eUtility.cpp" />
+    <ClCompile Include="Module400Series\AM400eUtility.cpp" />
     <ClCompile Include="AMB7600SR\AMB7600SR.cpp" />
     <ClCompile Include="AMB7600SR\AMSRFUtility.cpp" />
-    <ClCompile Include="AMB7600SR\CM400eUtility.cpp" />
-    <ClCompile Include="AMB7600SR\DM400eUtility.cpp" />
-    <ClCompile Include="AMB7600SR\IOM421eUtility.cpp" />
+    <ClCompile Include="Module400Series\CM400eUtility.cpp" />
+    <ClCompile Include="Module400Series\DM400eUtility.cpp" />
+    <ClCompile Include="Module400Series\IOM421eUtility.cpp" />
     <ClCompile Include="AMB7600SR\RFSiteConfig.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Module400Series\Module400Series.cpp" />
     <ClCompile Include="Test Function\Files.cpp" />
     <ClCompile Include="Test Function\Globals.cpp" />
     <ClCompile Include="Test Function\techFlow.cpp" />

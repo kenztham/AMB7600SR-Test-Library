@@ -1,9 +1,9 @@
-﻿#include "AMB7600SR.h"
+﻿#include "Module400Series.h"
 
 namespace Functions
 {
 	// IOM421e Load Phase Initialization
-	array<String^>^ AMB7600SRTestLibrary::GetDIOModuleAlias(Site ^ site, int siteIndex)
+	array<String^>^ Module400Series::GetDIOModuleAlias(Site ^ site, int siteIndex)
 	{
 		/*****************************************************************************************************
 		** GetDIOModuleAlias
@@ -54,7 +54,7 @@ namespace Functions
 
 		return moduleAlias;
 	}
-	int AMB7600SRTestLibrary::InitIOMModuleAliasPreviousState(Site ^ site, int siteIndex, array<String^> ^ ModuleAlias)
+	int Module400Series::InitIOMModuleAliasPreviousState(Site ^ site, int siteIndex, array<String^> ^ ModuleAlias)
 	{
 		int ret = 0;
 
@@ -65,7 +65,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::InitIOMPortAliasPreviousState(Site ^ site, int siteIndex)
+	int Module400Series::InitIOMPortAliasPreviousState(Site ^ site, int siteIndex)
 	{
 		int ret = 0;
 
@@ -78,7 +78,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::InitIOMPinAliasPreviousState(Site ^ site, int siteIndex)
+	int Module400Series::InitIOMPinAliasPreviousState(Site ^ site, int siteIndex)
 	{
 		int ret = 0;
 
@@ -90,7 +90,7 @@ namespace Functions
 		return ret;
 	}
 
-	int AMB7600SRTestLibrary::InitializeIOM421eResource(Site ^ site)
+	int Module400Series::InitializeIOM421eResource(Site ^ site)
 	{
 		int ret = 0;
 		int initOption = tl->glob->AWV.IOMInitOption;
@@ -188,7 +188,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::UninitializeIOM421eResource(Site ^ site)
+	int Module400Series::UninitializeIOM421eResource(Site ^ site)
 	{
 		int ret = 0;
 		array<array<String^>^>^ moduleAlias = nullptr;
@@ -220,7 +220,7 @@ namespace Functions
 			{
 				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 				tl->CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
-				String^ ErrorMessage = "AMB7600SRTestLibrary:: UninitializeIOM421eResource " + "encountered error when performing.";
+				String^ ErrorMessage = "Module400Series:: UninitializeIOM421eResource " + "encountered error when performing.";
 				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
 				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 			}
@@ -231,7 +231,7 @@ namespace Functions
 	}
 
 	//IOM421e Helper Function
-	int AMB7600SRTestLibrary::DIO_SetVIO(int testSite, String ^ ModuleAlias, int setting)
+	int Module400Series::DIO_SetVIO(int testSite, String ^ ModuleAlias, int setting)
 	{
 		int ret = 0;
 
@@ -275,7 +275,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DIO_SetPortDirection(int testSite, String ^ portAlias, int dirval)
+	int Module400Series::DIO_SetPortDirection(int testSite, String ^ portAlias, int dirval)
 	{
 		int ret = 0;
 
@@ -295,7 +295,7 @@ namespace Functions
 		}
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DIO_DrivePort(int testSite, String ^ portAlias, int portval)
+	int Module400Series::DIO_DrivePort(int testSite, String ^ portAlias, int portval)
 	{
 		int ret = 0;
 
@@ -322,7 +322,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::DIO_DrivePin(int testSite, String ^ pinAlias, int pinval)
+	int Module400Series::DIO_DrivePin(int testSite, String ^ pinAlias, int pinval)
 	{
 		int ret = 0;
 

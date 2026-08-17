@@ -2172,7 +2172,7 @@ namespace Functions
 
 			RF_StopModulation(testSite, moduleAliasSigen);
 			RF_StartModulation(testSite, moduleAliasSigen, PathModulationFile, playBackMode);
-			DM_MIPIWriteVector(testSite, moduleAliasDM, vectorFileName);
+			module400series->DM_MIPIWriteVector(testSite, moduleAliasDM, vectorFileName);
 
 			//RF_KTM9420_ATTR_SOURCE_Trigger(testSite, "VSG1", tl->glob->ModulationFile[testSite]["WLAN_11AC_80MHz_MCS9.awf"]);
 			//DM_MIPIWriteVector(testSite, "DM483E", "SW3");
@@ -3440,13 +3440,13 @@ namespace Functions
 			array<double> ^ pwrData_watt = gcnew array<double>(sampleSize);
 			array<double> ^ pwrData_dBm = gcnew array<double>(sampleSize);
 
-			DM_MIPIWriteVector(testSite, dmModuleAlias, initVectorFileName);
+			module400series->DM_MIPIWriteVector(testSite, dmModuleAlias, initVectorFileName);
 			RF_KTM9420_ATTR_RECEIVER_TRIGGERS_EXTERNSL_TRIGGER_TERMINATION_SET(testSite, 0);
 			RF_GetMeasureFactor(testSite, measureChannel, measurePower + MeasureLevelBuffer, measureFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS, MeasureFactor);
 			RF_MeasureSetupIQ(testSite, measureChannel, measurePower + MeasureLevelBuffer, measureFreq, sampleRate, sampleSize, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS);
 			RF_KtM9420_Arm(testSite);
 			util->WaitSecond(delayAfterInitVector);
-			DM_MIPIWriteVector(testSite, dmModuleAlias, triggerVectorFileName);
+			module400series->DM_MIPIWriteVector(testSite, dmModuleAlias, triggerVectorFileName);
 			RF_KtM9420_GetIQData(testSite, iData, qData);
 
 			for (int i = 0; i < sampleSize; i++)
@@ -3846,13 +3846,13 @@ namespace Functions
 			}
 
 		RETEST:
-			DM_MIPIWriteVector(testSite, dmModuleAlias, initVectorFileName);
+			module400series->DM_MIPIWriteVector(testSite, dmModuleAlias, initVectorFileName);
 			RF_KTM9420_ATTR_RECEIVER_TRIGGERS_EXTERNSL_TRIGGER_TERMINATION_SET(testSite, 0);
 			RF_GetMeasureFactor(testSite, measureChannel, measurePower + MeasureLevelBuffer, measureFreq, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS, MeasureFactor);
 			RF_MeasureSetupIQ(testSite, measureChannel, measurePower + MeasureLevelBuffer, measureFreq, sampleRate, sampleSize, AMSRF_CONST_MEASURESETUP_FILTOPT_BYPASS);
 			RF_KtM9420_Arm(testSite);
 			util->WaitSecond(delayAfterInitVector);
-			DM_MIPIWriteVector(testSite, dmModuleAlias, triggerVectorFileName);
+			module400series->DM_MIPIWriteVector(testSite, dmModuleAlias, triggerVectorFileName);
 			RF_KtM9420_GetIQData(testSite, iData, qData);
 			//CalculateSwitchingTime(SwitchMode, iData, qData, sampleRate, startCapture, stopCapture, numberAveragingInit, numberAveragingFinal, digitizerTriggerDelay, MeasureFactor + outputBoardLoss + outputExtAtt, thresholdUncertainty, Timing);
 			CalculateSwitchingTime(SwitchMode, iData, qData, movingAveragingOption, movingAveragingFactor, sampleRate, startCapture, stopCapture, numberAveragingInit, numberAveragingFinal, digitizerTriggerDelay, MeasureFactor + outputBoardLoss + outputExtAtt, thresholdUncertainty, Timing, pData_Watt);
@@ -6007,11 +6007,11 @@ namespace Functions
 
 				if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
 				{
-					DM_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
+					module400series->DM_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
 				}
 				else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
 				{
-					SMU_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
+					module400series->SMU_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
 				}
 			}
 
@@ -6023,11 +6023,11 @@ namespace Functions
 
 				if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
 				{
-					DM_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
+					module400series->DM_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
 				}
 				else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
 				{
-					SMU_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
+					module400series->SMU_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
 				}
 			}
 
@@ -6126,11 +6126,11 @@ namespace Functions
 
 							if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
 							{
-								DM_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
+								module400series->DM_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
 							}
 							else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
 							{
-								SMU_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
+								module400series->SMU_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
 							}
 
 							sweepResult[count++] = currentMeasurementResult[i];
@@ -6145,11 +6145,11 @@ namespace Functions
 
 							if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
 							{
-								DM_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
+								module400series->DM_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
 							}
 							else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
 							{
-								SMU_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
+								module400series->SMU_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
 							}
 
 							sweepResult[count++] = voltageMeasurementResult[i];
@@ -8385,11 +8385,11 @@ namespace Functions
 
 				if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
 				{
-					DM_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
+					module400series->DM_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
 				}
 				else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
 				{
-					SMU_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
+					module400series->SMU_MeasureCurrent(testSite, currentMeasurementPin[i], currentMeasurementDelay[i], currentMeasurementResult[i]);
 				}
 			}
 
@@ -8401,11 +8401,11 @@ namespace Functions
 
 				if (HardwareRsrc->Hierarchy[0]->StartsWith("DM") == true)
 				{
-					DM_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
+					module400series->DM_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
 				}
 				else if (HardwareRsrc->Hierarchy[0]->StartsWith("AM") == true)
 				{
-					SMU_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
+					module400series->SMU_MeasureVoltage(testSite, voltageMeasurementPin[i], voltageMeasurementDelay[i], voltageMeasurementResult[i]);
 				}
 			}
 

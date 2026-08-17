@@ -117,12 +117,6 @@ namespace Functions
 
 #pragma region "Hardware Initialization"
 
-			//DC Resource
-			InitializeDM400eResource(site);
-			InitializeAM400eResource(site);
-			InitializeIOM421eResource(site);
-			InitializeCM400eResource(site);
-
 			//RF Resource
 			if (CurrentHeadSite.AMSRFSupported != "NA")
 			{
@@ -156,11 +150,6 @@ namespace Functions
 		{
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Uninitializing Aemulus Tester...");
 		}
-
-		UninitializeDM400eResource(site);
-		UninitializeAM400eResource(site);
-		UninitializeIOM421eResource(site);
-		UninitializeCM400eResource(site);
 
 		if (CurrentHeadSite.AMSRFSupported != "NA")
 		{

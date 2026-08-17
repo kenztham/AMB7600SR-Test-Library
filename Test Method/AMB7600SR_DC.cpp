@@ -1,4 +1,4 @@
-﻿#include "../AMB7600SR/AMB7600SR.h"
+﻿#include "../Module400Series/Module400Series.h"
 using namespace Aemulus::TestLib::Utility;
 
 namespace Functions
@@ -8,7 +8,7 @@ namespace Functions
 
 #pragma region "AM400 DM400 CM400"
 	
-	void AMB7600SRTestLibrary::CM_MapTriggerIntToTriggerOut(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
+	void Module400Series::CM_MapTriggerIntToTriggerOut(Site ^ site, int testSite, ConditionCollection^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_MIPIWriteVector
@@ -113,7 +113,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DriveSoftwareTrigger(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_DriveSoftwareTrigger(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_MIPIWriteVector
@@ -225,7 +225,7 @@ namespace Functions
 
 #pragma region "AM400 DM400"
 	
-	void AMB7600SRTestLibrary::CM_ConfigureTriggerEdgeLevel(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_ConfigureTriggerEdgeLevel(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_MIPIWriteVector
@@ -347,7 +347,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DriveVoltage(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_DriveVoltage(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DriveVoltage
@@ -505,7 +505,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_DriveCurrent(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_DriveCurrent(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DriveCurrent
@@ -662,7 +662,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_ClampVoltage(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_ClampVoltage(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_ClampVoltage
@@ -821,7 +821,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_ClampCurrent(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_ClampCurrent(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_ClampCurrent
@@ -979,7 +979,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_SetNPLC(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_SetNPLC(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DriveVoltage
@@ -1135,7 +1135,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_SetPinOnOff(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_SetPinOnOff(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DriveVoltage
@@ -1317,7 +1317,7 @@ namespace Functions
 
 #pragma region "AM400"
 
-	void AMB7600SRTestLibrary::CM_AMConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_AMConfigureInputTriggerSelect(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_MIPIWriteVector
@@ -1403,7 +1403,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_AMConfigureSMUOutputTriggerMode(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_AMConfigureSMUOutputTriggerMode(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_MIPIWriteVector
@@ -1480,7 +1480,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_AMConfigureSMUOutputTriggerPulseWidth(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_AMConfigureSMUOutputTriggerPulseWidth(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_MIPIWriteVector
@@ -1557,7 +1557,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_AMConfigureSMUOutputTriggerDuringSource(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_AMConfigureSMUOutputTriggerDuringSource(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_MIPIWriteVector
@@ -1672,7 +1672,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].ControlMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_AMConfigureOutputTriggerSelect(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_AMConfigureOutputTriggerSelect(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_MIPIWriteVector
@@ -1762,7 +1762,7 @@ namespace Functions
 
 #pragma endregion
 
-	void AMB7600SRTestLibrary::TM_DifferentialResult(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	void Module400Series::TM_DifferentialResult(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
 	{
 		try
 		{
@@ -1934,7 +1934,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::CM_WaitSecond(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
+	void Module400Series::CM_WaitSecond(Site ^ site, int testSite, ConditionCollection ^ testConditionCollection)
 	{
 		/*****************************************************************************************************
 		** CM_DriveVoltage
@@ -2006,7 +2006,7 @@ namespace Functions
 
 #pragma region "AM400 DM400"
 
-	void AMB7600SRTestLibrary::TM_OS(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	void Module400Series::TM_OS(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
 	{
 		/*****************************************************************************************************
 		** TM_OS_Test
@@ -2120,7 +2120,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::TM_MeasureCurrent(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	void Module400Series::TM_MeasureCurrent(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
 	{
 		try
 		{
@@ -2207,7 +2207,7 @@ namespace Functions
 		}
 
 	}
-	void AMB7600SRTestLibrary::TM_MeasureVoltage(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	void Module400Series::TM_MeasureVoltage(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
 	{
 		try
 		{
@@ -2300,7 +2300,7 @@ namespace Functions
 #pragma endregion
 
 #pragma region "AM400"
-	void AMB7600SRTestLibrary::TM_MeasureBurstCurrent(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	void Module400Series::TM_MeasureBurstCurrent(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
 	{
 		/*****************************************************************************************************
 		** TM_OS_Test
@@ -2404,7 +2404,7 @@ namespace Functions
 			tl->ErrorHandling(site, testSite, (methodType + tl->glob->ErrorInfo[testSite].TestMethodName), tl->glob->TcrLgr.GlobalErrorMessage);
 		}
 	}
-	void AMB7600SRTestLibrary::TM_MeasureBurstVoltage(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
+	void Module400Series::TM_MeasureBurstVoltage(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount)
 	{
 		/*****************************************************************************************************
 		** TM_OS_Test

@@ -1,6 +1,7 @@
 ﻿#include "../Test Method/Methods.h"
 #include "../AMB7600SR/AMB7600SR.h"
 #include "../AMB7300/AMB7300.h"
+#include "../Module400Series/Module400Series.h"
 
 namespace Functions
 {
@@ -141,120 +142,120 @@ namespace Functions
 			{
 #pragma region DC Case
 			case DCCase_DriveVoltage:
-				amb7600srtl->CM_DriveVoltage(site, testSite, testConditionCollection);
+				module400series->CM_DriveVoltage(site, testSite, testConditionCollection);
 				break;
 			case DCCase_DriveCurrent:
-				amb7600srtl->CM_DriveCurrent(site, testSite, testConditionCollection);
+				module400series->CM_DriveCurrent(site, testSite, testConditionCollection);
 				break;
 			case DCCase_ClampVoltage:
-				amb7600srtl->CM_ClampVoltage(site, testSite, testConditionCollection);
+				module400series->CM_ClampVoltage(site, testSite, testConditionCollection);
 				break;
 			case DCCase_ClampCurrent:
-				amb7600srtl->CM_ClampCurrent(site, testSite, testConditionCollection);
+				module400series->CM_ClampCurrent(site, testSite, testConditionCollection);
 				break;
 			case DCCase_SetNPLC:
-				amb7600srtl->CM_SetNPLC(site, testSite, testConditionCollection);
+				module400series->CM_SetNPLC(site, testSite, testConditionCollection);
 				break;
 			case DCCase_SetPinOnOff:
-				amb7600srtl->CM_SetPinOnOff(site, testSite, testConditionCollection);
+				module400series->CM_SetPinOnOff(site, testSite, testConditionCollection);
 				break;
 			case DCCase_ConfigureTriggerEdgeLevel:
-				amb7600srtl->CM_ConfigureTriggerEdgeLevel(site, testSite, testConditionCollection);
+				module400series->CM_ConfigureTriggerEdgeLevel(site, testSite, testConditionCollection);
 				break;
 			case DCCase_MapTriggerIntToTriggerOut:
-				amb7600srtl->CM_MapTriggerIntToTriggerOut(site, testSite, testConditionCollection);
+				module400series->CM_MapTriggerIntToTriggerOut(site, testSite, testConditionCollection);
 				break;
 			case DCCase_DriveSoftwareTrigger:
-				amb7600srtl->CM_DriveSoftwareTrigger(site, testSite, testConditionCollection);
+				module400series->CM_DriveSoftwareTrigger(site, testSite, testConditionCollection);
 				break;
 			case DCCase_AMConfigureInputTriggerSelect:
-				amb7600srtl->CM_AMConfigureInputTriggerSelect(site, testSite, testConditionCollection);
+				module400series->CM_AMConfigureInputTriggerSelect(site, testSite, testConditionCollection);
 				break;
 			case DCCase_AMConfigureSMUOutputTriggerPulseWidth:
-				amb7600srtl->CM_AMConfigureSMUOutputTriggerPulseWidth(site, testSite, testConditionCollection);
+				module400series->CM_AMConfigureSMUOutputTriggerPulseWidth(site, testSite, testConditionCollection);
 				break;
 			case DCCase_AMConfigureSMUOutputTriggerDuringSource:
-				amb7600srtl->CM_AMConfigureSMUOutputTriggerDuringSource(site, testSite, testConditionCollection);
+				module400series->CM_AMConfigureSMUOutputTriggerDuringSource(site, testSite, testConditionCollection);
 				break;
 			case DCCase_AMConfigureSMUOutputTriggerMode:
-				amb7600srtl->CM_AMConfigureSMUOutputTriggerMode(site, testSite, testConditionCollection);
+				module400series->CM_AMConfigureSMUOutputTriggerMode(site, testSite, testConditionCollection);
 				break;
 			case DCCase_AMConfigureOutputTriggerSelect:
-				amb7600srtl->CM_AMConfigureOutputTriggerSelect(site, testSite, testConditionCollection);
+				module400series->CM_AMConfigureOutputTriggerSelect(site, testSite, testConditionCollection);
 				break;
 			case DCCase_WaitSecond:
-				amb7600srtl->CM_WaitSecond(site, testSite, testConditionCollection);
+				module400series->CM_WaitSecond(site, testSite, testConditionCollection);
 				break;
 #pragma endregion
 
 #pragma region DM Case
 			case DMCase_DMInit:
-				amb7600srtl->CM_DMInit(site, testSite, testConditionCollection);
+				module400series->CM_DMInit(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMConfigurePinToVector:
-				amb7600srtl->CM_DMConfigurePinToVector(site, testSite, testConditionCollection);
+				module400series->CM_DMConfigurePinToVector(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMConfigurePinToPMU:
-				amb7600srtl->CM_DMConfigurePinToPMU(site, testSite, testConditionCollection);
+				module400series->CM_DMConfigurePinToPMU(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMConfigurePinToDIO:
-				amb7600srtl->CM_DMConfigurePinToDIO(site, testSite, testConditionCollection);
+				module400series->CM_DMConfigurePinToDIO(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMLoadVectorFile:
-				amb7600srtl->CM_DMLoadVectorFile(site, testSite, testConditionCollection);
+				module400series->CM_DMLoadVectorFile(site, testSite, testConditionCollection);
 				break;
 			case DMCase_WriteVector:
-				amb7600srtl->CM_WriteVector(site, testSite, testConditionCollection);
+				module400series->CM_WriteVector(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMDioModeDrivePin:
-				amb7600srtl->CM_DMDioModeDrivePin(site, testSite, testConditionCollection);
+				module400series->CM_DMDioModeDrivePin(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMConfigureInputTriggerSelect:
-				amb7600srtl->CM_DMConfigureInputTriggerSelect(site, testSite, testConditionCollection);
+				module400series->CM_DMConfigureInputTriggerSelect(site, testSite, testConditionCollection);
 			case DMCase_DMConfigureOutputTriggerSelect:
-				amb7600srtl->CM_DMConfigureOutputTriggerSelect(site, testSite, testConditionCollection);
+				module400series->CM_DMConfigureOutputTriggerSelect(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMConfigureReadPin_TriggerOutput:
-				amb7600srtl->CM_DMConfigureReadPin_TriggerOutput(site, testSite, testConditionCollection);
+				module400series->CM_DMConfigureReadPin_TriggerOutput(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMCastDPinLevel:
-				amb7600srtl->CM_DMCastDPinLevel(site, testSite, testConditionCollection);
+				module400series->CM_DMCastDPinLevel(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMCastTimingSetPeriod:
-				amb7600srtl->CM_DMCastTimingSetPeriod(site, testSite, testConditionCollection);
+				module400series->CM_DMCastTimingSetPeriod(site, testSite, testConditionCollection);
 				break;
 			case DMCase_DMCastPEAttribute:
-				amb7600srtl->CM_DMCastPEAttribute(site, testSite, testConditionCollection);
+				module400series->CM_DMCastPEAttribute(site, testSite, testConditionCollection);
 				break;
 #pragma endregion
 
 #pragma region IOM Case
 			case IOMCase_DIODrivePin:
-				amb7600srtl->CM_DIODrivePin(site, testSite, testConditionCollection);
+				module400series->CM_DIODrivePin(site, testSite, testConditionCollection);
 				break;
 			case IOMCase_DIODrivePort:
-				amb7600srtl->CM_DIODrivePort(site, testSite, testConditionCollection);
+				module400series->CM_DIODrivePort(site, testSite, testConditionCollection);
 				break;
 			case IOMCase_DIOSetModuleVIO:
-				amb7600srtl->CM_DIOSetModuleVIO(site, testSite, testConditionCollection);
+				module400series->CM_DIOSetModuleVIO(site, testSite, testConditionCollection);
 				break;
 			case IOMCase_DIOSetPortDirection:
-				amb7600srtl->CM_DIOSetPortDirection(site, testSite, testConditionCollection);
+				module400series->CM_DIOSetPortDirection(site, testSite, testConditionCollection);
 				break;
 #pragma endregion
 
 #pragma region CM Case
 			case CMCase_CMDrivePin:
-				amb7600srtl->CM_CMDrivePin(site, testSite, testConditionCollection);
+				module400series->CM_CMDrivePin(site, testSite, testConditionCollection);
 				break;
 			case CMCase_CMDrivePort:
-				amb7600srtl->CM_CMDrivePort(site, testSite, testConditionCollection);
+				module400series->CM_CMDrivePort(site, testSite, testConditionCollection);
 				break;
 			case CMCase_CMConfigurePXES2780_TriggerBus:
-				amb7600srtl->CM_CMConfigurePXES2780_TriggerBus(site, testSite, testConditionCollection);
+				module400series->CM_CMConfigurePXES2780_TriggerBus(site, testSite, testConditionCollection);
 				break;
 			case CMCase_CMSetPortDirection:
-				amb7600srtl->CM_CMSetPortDirection(site, testSite, testConditionCollection);
+				module400series->CM_CMSetPortDirection(site, testSite, testConditionCollection);
 				break;
 #pragma endregion
 
@@ -356,28 +357,28 @@ namespace Functions
 			{
 #pragma region DC Case
 			case DCCase_OS:
-				amb7600srtl->TM_OS(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				module400series->TM_OS(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 				break;
 			case DCCase_MeasureCurrent:
-				amb7600srtl->TM_MeasureCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				module400series->TM_MeasureCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 				break;
 			case DCCase_MeasureVoltage:
-				amb7600srtl->TM_MeasureVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				module400series->TM_MeasureVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 				break;
 			case DCCase_AMMeasureBurstCurrent:
-				amb7600srtl->TM_MeasureBurstCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				module400series->TM_MeasureBurstCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 				break;
 			case DCCase_AMMeasureBurstVoltage:
-				amb7600srtl->TM_MeasureBurstVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				module400series->TM_MeasureBurstVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 				break;
 			case DCCase_DifferentialResult:
-				amb7600srtl->TM_DifferentialResult(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				module400series->TM_DifferentialResult(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 				break;
 #pragma endregion
 
 #pragma region DM Case
 			case DMCase_MIPIReadVector:
-				amb7600srtl->TM_MIPIReadVector(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				module400series->TM_MIPIReadVector(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
 				break;
 #pragma endregion
 
@@ -460,321 +461,4 @@ namespace Functions
 			throw;
 		}
 	}
-	
-	void MethodsBranch::ControlMethod_Selection(AMB7600SRTestLibrary ^ lib, Site ^ site, int testSite, int controlMethodSelection, ConditionCollection ^ testConditionCollection)
-	{
-		try {
-			switch (controlMethodSelection)
-			{
-#pragma region DC Case
-			case DCCase_DriveVoltage:
-				lib->CM_DriveVoltage(site, testSite, testConditionCollection);
-				break;
-			case DCCase_DriveCurrent:
-				lib->CM_DriveCurrent(site, testSite, testConditionCollection);
-				break;
-			case DCCase_ClampVoltage:
-				lib->CM_ClampVoltage(site, testSite, testConditionCollection);
-				break;
-			case DCCase_ClampCurrent:
-				lib->CM_ClampCurrent(site, testSite, testConditionCollection);
-				break;
-			case DCCase_SetNPLC:
-				lib->CM_SetNPLC(site, testSite, testConditionCollection);
-				break;
-			case DCCase_SetPinOnOff:
-				lib->CM_SetPinOnOff(site, testSite, testConditionCollection);
-				break;
-			case DCCase_ConfigureTriggerEdgeLevel:
-				lib->CM_ConfigureTriggerEdgeLevel(site, testSite, testConditionCollection);
-				break;
-			case DCCase_MapTriggerIntToTriggerOut:
-				lib->CM_MapTriggerIntToTriggerOut(site, testSite, testConditionCollection);
-				break;
-			case DCCase_DriveSoftwareTrigger:
-				lib->CM_DriveSoftwareTrigger(site, testSite, testConditionCollection);
-				break;
-			case DCCase_AMConfigureInputTriggerSelect:
-				lib->CM_AMConfigureInputTriggerSelect(site, testSite, testConditionCollection);
-				break;
-			case DCCase_AMConfigureSMUOutputTriggerPulseWidth:
-				lib->CM_AMConfigureSMUOutputTriggerPulseWidth(site, testSite, testConditionCollection);
-				break;
-			case DCCase_AMConfigureSMUOutputTriggerDuringSource:
-				lib->CM_AMConfigureSMUOutputTriggerDuringSource(site, testSite, testConditionCollection);
-				break;
-			case DCCase_AMConfigureSMUOutputTriggerMode:
-				lib->CM_AMConfigureSMUOutputTriggerMode(site, testSite, testConditionCollection);
-				break;
-			case DCCase_AMConfigureOutputTriggerSelect:
-				lib->CM_AMConfigureOutputTriggerSelect(site, testSite, testConditionCollection);
-				break;
-			case DCCase_WaitSecond:
-				lib->CM_WaitSecond(site, testSite, testConditionCollection);
-				break;
-#pragma endregion
-
-#pragma region DM Case
-			case DMCase_DMInit:
-				lib->CM_DMInit(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMConfigurePinToVector:
-				lib->CM_DMConfigurePinToVector(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMConfigurePinToPMU:
-				lib->CM_DMConfigurePinToPMU(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMConfigurePinToDIO:
-				lib->CM_DMConfigurePinToDIO(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMLoadVectorFile:
-				lib->CM_DMLoadVectorFile(site, testSite, testConditionCollection);
-				break;
-			case DMCase_WriteVector:
-				lib->CM_WriteVector(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMDioModeDrivePin:
-				lib->CM_DMDioModeDrivePin(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMConfigureInputTriggerSelect:
-				lib->CM_DMConfigureInputTriggerSelect(site, testSite, testConditionCollection);
-			case DMCase_DMConfigureOutputTriggerSelect:
-				lib->CM_DMConfigureOutputTriggerSelect(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMConfigureReadPin_TriggerOutput:
-				lib->CM_DMConfigureReadPin_TriggerOutput(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMCastDPinLevel:
-				lib->CM_DMCastDPinLevel(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMCastTimingSetPeriod:
-				lib->CM_DMCastTimingSetPeriod(site, testSite, testConditionCollection);
-				break;
-			case DMCase_DMCastPEAttribute:
-				lib->CM_DMCastPEAttribute(site, testSite, testConditionCollection);
-				break;
-#pragma endregion
-
-#pragma region IOM Case
-			case IOMCase_DIODrivePin:
-				lib->CM_DIODrivePin(site, testSite, testConditionCollection);
-				break;
-			case IOMCase_DIODrivePort:
-				lib->CM_DIODrivePort(site, testSite, testConditionCollection);
-				break;
-			case IOMCase_DIOSetModuleVIO:
-				lib->CM_DIOSetModuleVIO(site, testSite, testConditionCollection);
-				break;
-			case IOMCase_DIOSetPortDirection:
-				lib->CM_DIOSetPortDirection(site, testSite, testConditionCollection);
-				break;
-#pragma endregion
-
-#pragma region CM Case
-			case CMCase_CMDrivePin:
-				lib->CM_CMDrivePin(site, testSite, testConditionCollection);
-				break;
-			case CMCase_CMDrivePort:
-				lib->CM_CMDrivePort(site, testSite, testConditionCollection);
-				break;
-			case CMCase_CMConfigurePXES2780_TriggerBus:
-				lib->CM_CMConfigurePXES2780_TriggerBus(site, testSite, testConditionCollection);
-				break;
-			case CMCase_CMSetPortDirection:
-				lib->CM_CMSetPortDirection(site, testSite, testConditionCollection);
-				break;
-#pragma endregion
-
-#pragma region RF Case
-			case RFCase_SourcePower:
-				lib->CM_RF_SourcePower(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SourcePowerFast:
-				lib->CM_RF_SourcePowerFast(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SourcePowerLow:
-				lib->CM_RF_SourcePowerLow(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SourceTwoTone:
-				lib->CM_RF_SourceTwoTone(site, testSite, testConditionCollection);
-				break;
-			case RFCase_IsolateChannel:
-				lib->CM_RF_IsolateChannel(site, testSite, testConditionCollection);
-				break;
-			case RFCase_StartModulation:
-				lib->CM_RF_StartModulation(site, testSite, testConditionCollection);
-				break;
-			case RFCase_StopModulation:
-				lib->CM_RF_StopModulation(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SetSourceTriggerRouting:
-				lib->CM_RF_SetSourceTriggerRouting(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SetSourceTriggerIn:
-				lib->CM_RF_SetSourceTriggerIn(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SetSourceTriggerOut:
-				lib->CM_RF_SetSourceTriggerOut(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SetMeasureTriggerRouting:
-				lib->CM_RF_SetMeasureTriggerRouting(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SetMeasureTriggerIn:
-				lib->CM_RF_SetMeasureTriggerIn(site, testSite, testConditionCollection);
-				break;
-			case RFCase_RunSourceAlignment:
-				lib->CM_RF_RunSourceAlignment(site, testSite, testConditionCollection);
-				break;
-			case RFCase_LoadModulation:
-				lib->CM_RF_LoadModulation(site, testSite, testConditionCollection);
-				break;
-			case RFCase_WlanInit:
-				lib->CM_RF_WlanInit(site, testSite, testConditionCollection);
-				break;
-			case RFCase_EvmMeasurementSetup:
-				lib->CM_RF_EvmMeasurementSetup(site, testSite, testConditionCollection);
-				break;
-			case RFCase_SemMeasurementSetup:
-				lib->CM_RF_SemMeasurementSetup(site, testSite, testConditionCollection);
-				break;
-			case RFCase_MeasureSetup:
-				lib->CM_RF_MeasureSetup(site, testSite, testConditionCollection);
-				break;
-			case RFCase_MeasureSetupIQ:
-				lib->CM_RF_MeasureSetupIQ(site, testSite, testConditionCollection);
-				break;
-			case RFCase_TriggerSigenStartModulation:
-				lib->CM_RF_TriggerSigenStartModulation(site, testSite, testConditionCollection);
-				break;
-			case RFCase_WolferInit:
-				lib->CM_RF_WolferInit(site, testSite, testConditionCollection);
-				break;
-			case RFCase_WolferSelectPath:
-				lib->CM_RF_WolferSelectPath(site, testSite, testConditionCollection);
-				break;
-			case RFCase_WolferSourcePower:
-				lib->CM_RF_WolferSourcePower(site, testSite, testConditionCollection);
-				break;
-#pragma endregion
-				/*
-				#pragma region "VNA Case"
-				case VNACase_VnaConfig:
-				CM_VNA_VnaConfig(site, testSite, testConditionCollection);
-				break;
-				#pragma endregion "VNA Case"*/
-			default:
-				tl->glob->TcrLgr.ErrorCode = ER_CONST_InvalidControlMethod;
-				throw gcnew Exception("This Control Method " + tl->glob->ErrorInfo[testSite].ControlMethodName + " is not supported.");
-			}
-		}
-		catch (Exception^ ex)
-		{
-			throw;
-		}
 	}
-	void MethodsBranch::TestMethod_Selection(AMB7600SRTestLibrary ^ lib, Site ^ site, int testSite, int testMethodSelection, String ^ testParameterName, int  testParameterCount, int % methodTestParameterCount)
-	{
-		try {
-			switch (testMethodSelection)
-			{
-#pragma region DC Case
-			case DCCase_OS:
-				lib->TM_OS(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case DCCase_MeasureCurrent:
-				lib->TM_MeasureCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case DCCase_MeasureVoltage:
-				lib->TM_MeasureVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case DCCase_AMMeasureBurstCurrent:
-				lib->TM_MeasureBurstCurrent(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case DCCase_AMMeasureBurstVoltage:
-				lib->TM_MeasureBurstVoltage(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case DCCase_DifferentialResult:
-				lib->TM_DifferentialResult(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-#pragma endregion
-
-#pragma region DM Case
-			case DMCase_MIPIReadVector:
-				lib->TM_MIPIReadVector(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-#pragma endregion
-
-#pragma region RF Case
-			case RFCase_MeasureChannel:
-				lib->TM_RF_MeasureChannel(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_MeasureChannelFast:
-				lib->TM_RF_MeasureChannelFast(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_MeasureChannelIQ:
-				lib->TM_RF_MeasureChannelIQ(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_MeasureIIP3:
-				lib->TM_RF_MeasureIIP3(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_MeasureBurstPower:
-				lib->TM_RF_MeasureBurstPower(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_MeasureSwitchingTime:
-				lib->TM_RF_MeasureSwitchingTime(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_MeasureSParam:
-				lib->TM_RF_MeasureSParam(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_MeasureSParamIQ:
-				lib->TM_RF_MeasureSParamIQ(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_P1dB_DirectSearch:
-				lib->TM_RF_P1dB_DirectSearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_P1dB_BinarySearch:
-				lib->TM_RF_P1dB_BinarySearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_PowerServo:
-				lib->TM_RF_PowerServo(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_PowerServo_BinarySearch:
-				lib->TM_RF_PowerServo_BinarySearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_PowerServo_LinearSearch:
-				lib->TM_RF_PowerServo_LinearSearch(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_ReadEvm:
-				lib->TM_RF_ReadEvm(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_ReadEvmAsync:
-				lib->TM_RF_ReadEvmAsync(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_ReadSem:
-				lib->TM_RF_ReadSem(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_ReadSemAsync:
-				lib->TM_RF_ReadSemAsync(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_WlanPowerServo:
-				lib->TM_RF_WlanPowerServo(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_WlanResidualEVM:
-				lib->TM_RF_WlanResidualEVM(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-			case RFCase_WolferMeasureChannel:
-				lib->TM_RF_WolferMeasureChannel(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
-				break;
-#pragma endregion
-
-			default:
-				tl->glob->TcrLgr.ErrorCode = ER_CONST_InvalidTestMethod;
-				throw gcnew Exception("This Test Method " + tl->glob->ErrorInfo[testSite].TestMethodName + " is not supported.");
-			}
-		}
-		catch (Exception^ ex)
-		{
-			throw;
-		}
-	}
-}

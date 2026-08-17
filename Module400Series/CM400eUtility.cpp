@@ -1,9 +1,9 @@
-﻿#include "AMB7600SR.h"
+﻿#include "Module400Series.h"
 
 namespace Functions
 {
 	// CM400e Load Phase Initialization
-	array<String^>^ AMB7600SRTestLibrary::GetCMModuleAlias(Site ^ site, int siteIndex)
+	array<String^>^ Module400Series::GetCMModuleAlias(Site ^ site, int siteIndex)
 	{
 		/*****************************************************************************************************
 		** GetDIOModuleAlias
@@ -54,7 +54,7 @@ namespace Functions
 
 		return moduleAlias;
 	}
-	int AMB7600SRTestLibrary::InitializeCM400eResource(Site ^ site)
+	int Module400Series::InitializeCM400eResource(Site ^ site)
 	{
 		int ret = 0;
 		int initOption = tl->glob->AWV.CMInitOption;
@@ -139,7 +139,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::UninitializeCM400eResource(Site ^ site)
+	int Module400Series::UninitializeCM400eResource(Site ^ site)
 	{
 		int ret = 0;
 		array<array<String^>^>^ moduleAlias = nullptr;
@@ -167,7 +167,7 @@ namespace Functions
 			{
 				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
 				tl->CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
-				String^ ErrorMessage = "AMB7600SRTestLibrary:: UninitializeCM400eResource " + "encountered error when performing.";
+				String^ ErrorMessage = "Module400Series:: UninitializeCM400eResource " + "encountered error when performing.";
 				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
 				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 			}
@@ -178,7 +178,7 @@ namespace Functions
 	}
 
 	//CM400e Helper Function
-	int AMB7600SRTestLibrary::CM_ConfigurePXES2780_TriggerBusAB(int testSite, String^ moduleAlias, int Enable_AB, int AB_Direction)
+	int Module400Series::CM_ConfigurePXES2780_TriggerBusAB(int testSite, String^ moduleAlias, int Enable_AB, int AB_Direction)
 	{
 		int ret = 0;
 
@@ -186,7 +186,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::CM_ConfigurePXES2780_TriggerBusBC(int testSite, String^ moduleAlias, int Enable_BC, int BC_Direction)
+	int Module400Series::CM_ConfigurePXES2780_TriggerBusBC(int testSite, String^ moduleAlias, int Enable_BC, int BC_Direction)
 	{
 		int ret = 0;
 
@@ -194,7 +194,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::CM_DrivePort(int testSite, String^ moduleAlias, int portVal)
+	int Module400Series::CM_DrivePort(int testSite, String^ moduleAlias, int portVal)
 	{
 		int ret = 0;
 
@@ -202,7 +202,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::CM_DrivePin(int testSite, String^ moduleAlias, int pin, int pinVal)
+	int Module400Series::CM_DrivePin(int testSite, String^ moduleAlias, int pin, int pinVal)
 	{
 		int ret = 0;
 
@@ -210,7 +210,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::CM_SetPortDirection(int testSite, String^ moduleAlias, int portDir)
+	int Module400Series::CM_SetPortDirection(int testSite, String^ moduleAlias, int portDir)
 	{
 		int ret = 0;
 
@@ -218,7 +218,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::CM_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias, int inputTerminal, int outputTerminal)
+	int Module400Series::CM_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias, int inputTerminal, int outputTerminal)
 	{
 		int ret = 0;
 
@@ -226,7 +226,7 @@ namespace Functions
 
 		return ret;
 	}
-	int AMB7600SRTestLibrary::CM_DriveSoftwareTrigger(int testSite, String ^ moduleAlias, int select, double pulseWidth)
+	int Module400Series::CM_DriveSoftwareTrigger(int testSite, String ^ moduleAlias, int select, double pulseWidth)
 	{
 		int ret = 0;
 

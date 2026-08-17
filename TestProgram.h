@@ -8,6 +8,7 @@
 #include "Test Function/Globals.h"
 #include "AMB7600SR/AMB7600SR.h"
 #include "AMB7300/AMB7300.h"
+#include "Module400Series/Module400Series.h"
 
 //<Test Resources>
 #include "Test Function/Aemulus.Hardware.SMU.h"
@@ -52,6 +53,8 @@ namespace AMB7600SR_TestLibrary_REV2
 		MethodsBranch ^ methods;
 		AMB7600SRTestLibrary ^ amb7600srtl;
 		AMB7300TestLibrary ^ amb7300tl;
+		Module400Series ^ module400series;
+
 		Aemulus::TestLib::Utility::Utilities ^ Util;
 		AppDomain ^ currentDomain;
 
