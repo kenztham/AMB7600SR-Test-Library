@@ -87,55 +87,61 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="Aemulus.Configuration.AMB7300">
-      <HintPath>..\..\..\..\..\bin\NF4\x64\Aemulus.Configuration.AMB7300.dll</HintPath>
+      <HintPath>..\..\..\..\bin\NF4\x64\Aemulus.Configuration.AMB7300.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.ACM">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.ACM.dll</HintPath>
+      <HintPath>..\..\..\..\bin\Aemulus.Hardware.ACM.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.AMB7300">
-      <HintPath>..\..\..\..\..\bin\NF4\x64\Aemulus.Hardware.AMB7300.dll</HintPath>
+      <HintPath>..\..\..\..\bin\NF4\x64\Aemulus.Hardware.AMB7300.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Hardware.AMSRF">
+      <HintPath>..\..\..\..\bin\NF4\x64\Aemulus.Hardware.AMSRF.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.CM">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.CM.dll</HintPath>
+      <HintPath>..\..\..\..\bin\Aemulus.Hardware.CM.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.DIO">
-      <HintPath>..\..\..\..\..\bin\x64\Aemulus.Hardware.DIO.dll</HintPath>
+      <HintPath>..\..\..\..\bin\x64\Aemulus.Hardware.DIO.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.DM">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.DM.dll</HintPath>
+      <HintPath>..\..\..\..\bin\Aemulus.Hardware.DM.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.NetworkAnalyzer">
-      <HintPath>..\..\..\..\..\bin\NF4\x64\Aemulus.Hardware.NetworkAnalyzer.dll</HintPath>
+      <HintPath>..\..\..\..\bin\NF4\x64\Aemulus.Hardware.NetworkAnalyzer.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.ResourceManager">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Hardware.ResourceManager.dll</HintPath>
+      <HintPath>..\..\..\..\bin\Aemulus.Hardware.ResourceManager.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Hardware.SMU">
-      <HintPath>..\..\..\..\..\bin\x64\Aemulus.Hardware.SMU.dll</HintPath>
+      <HintPath>..\..\..\..\bin\x64\Aemulus.Hardware.SMU.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Tech.Controls">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Tech.Controls.dll</HintPath>
+      <HintPath>..\..\..\..\bin\Aemulus.Tech.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.Tech.Flow.AssemblyMap">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Tech.Flow.AssemblyMap.dll</HintPath>
+      <HintPath>..\..\..\..\bin\Aemulus.Tech.Flow.AssemblyMap.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Tech.Flow.ControlLibrary">
+      <HintPath>..\..\..\..\bin\Aemulus.Tech.Flow.ControlLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Aemulus.Tech.Flow.Core">
+      <HintPath>..\..\..\..\bin\Aemulus.Tech.Flow.Core.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.TestLib.Utility">
-      <HintPath>..\..\..\..\..\bin\x64\Aemulus.TestLib.Utility.dll</HintPath>
+      <HintPath>..\..\..\..\bin\Aemulus.TestLib.Utility.dll</HintPath>
     </Reference>
     <Reference Include="Aemulus.WaferTestLibrary">
-      <HintPath>..\..\..\..\..\bin\Aemulus.WaferTestLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\bin\Aemulus.WaferTestLibrary.dll</HintPath>
     </Reference>
     <Reference Include="libSync">
-      <HintPath>..\..\..\..\..\bin\libSync.dll</HintPath>
+      <HintPath>..\..\..\..\bin\libSync.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="Aemulus.Tech.Flow.Core">
-      <HintPath>..\..\..\..\..\bin\Aemulus.Tech.Flow.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AMB7300\AMB7300.h" />

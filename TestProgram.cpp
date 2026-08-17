@@ -25,8 +25,14 @@ namespace AMB7600SR_TestLibrary_REV2
 
 		tl->InitializeProgram(site);
 		methods = gcnew MethodsBranch(tl);
-		amb7600srtl = gcnew AMB7600SRTestLibrary(tl, methods);
-		amb7300tl = gcnew AMB7300TestLibrary(tl, methods);
+		amb7600srtl = gcnew AMB7600SRTestLibrary(tl);
+		amb7300tl = gcnew AMB7300TestLibrary(tl);
+
+		//Reference object to each other to sync variables
+		methods->amb7600srtl = amb7600srtl;
+		methods->amb7300tl = amb7300tl;
+
+		amb7600srtl->methods = methods;
 
 		for (siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
@@ -43,7 +49,35 @@ namespace AMB7600SR_TestLibrary_REV2
 
 #pragma region "Tester Initialization"
 
-		ret = amb7600srtl->InitializeTester(site, tl->glob->tf.NumberOfSites, tl->glob->HardwareProfile, tl->glob->tf.TestHead);
+		String^ message = "Please select the RF Test Platform for this program:\n\n" +
+			"Click 'Yes' for AMB7300\n" +
+			"Click 'No' for AMB7600SR";
+
+		DialogResult result = MessageBox::Show(
+			message, 
+			TITLE_CONST_PLATFORM_SELECTION, 
+			MessageBoxButtons::YesNo, 
+			MessageBoxIcon::Question
+		);
+
+		PlatformSelection = result;
+
+#pragma region "SiteConfiguration"
+
+		amb7600srtl->SiteConfiguration(site);
+
+#pragma endregion "SiteConfiguration"
+
+		if (PlatformSelection == AMB7300_PLATFORM)
+		{
+			// User selected AMB7300
+			ret = amb7300tl->InitializeTester(site);
+		}
+		else if (PlatformSelection == AMB7600SR_PLATFORM)
+		{
+			// User selected AMB7600SR
+			ret = amb7600srtl->InitializeTester(site, tl->glob->tf.NumberOfSites, tl->glob->HardwareProfile, tl->glob->tf.TestHead);
+		}
 
 		for (siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
@@ -94,7 +128,17 @@ namespace AMB7600SR_TestLibrary_REV2
 		{
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ">>Executing " + tl->glob->tf.CurrentPhase + " Phase");
 		}
-		amb7600srtl->UninitializeTester(site);
+
+		if (PlatformSelection == AMB7300_PLATFORM)
+		{
+			// User selected AMB7300
+			amb7300tl->UninitializeTester(site);
+		}
+		else if (PlatformSelection == AMB7600SR_PLATFORM)
+		{
+			amb7600srtl->UninitializeTester(site);
+		}
+
 #pragma region "Test Time Profile"
 
 		if (tl->glob->AWV.Debug == 1)
@@ -188,7 +232,7 @@ namespace AMB7600SR_TestLibrary_REV2
 
 		tl->ThreadingInfo(site, tl->TestItem_RF_ResourceNeeded(site));
 		ret = tl->DoThreadHardware(gcnew ParameterizedThreadStart(this, &TestProgram::AMB7600SR_TestLibrary_ControlMethod_TestMethod), site);
-
+		
 		return ret;
 	}
 
@@ -220,8 +264,8 @@ namespace AMB7600SR_TestLibrary_REV2
 						methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 
 						//ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
-						methods->ControlMethod_Selection(amb7600srtl, site, testSite, intControlMethod, testConditionCollection);
-						//methods->ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
+						//methods->ControlMethod_Selection(amb7600srtl, site, testSite, intControlMethod, testConditionCollection);
+						methods->ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
 					}
 				}
 			}
@@ -322,8 +366,8 @@ namespace AMB7600SR_TestLibrary_REV2
 								tl->glob->ErrorInfo[testSite].ControlMethodName = strControlMethod;
 								methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 
-								methods->ControlMethod_Selection(amb7600srtl,site, testSite, intControlMethod, testConditionCollection);
-								//methods->ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
+								//methods->ControlMethod_Selection(amb7600srtl,site, testSite, intControlMethod, testConditionCollection);
+								methods->ControlMethod_Selection(site, testSite, intControlMethod, testConditionCollection);
 							}
 							else if (!testConditionCollection->ContainsKey("MethodName"))
 							{
@@ -355,8 +399,8 @@ namespace AMB7600SR_TestLibrary_REV2
 								tl->glob->ErrorInfo[testSite].TestMethodName = testMethod;
 								methods->Dictionary_TM->TryGetValue(testMethod, intTestMethod);
 
-								methods->TestMethod_Selection(amb7600srtl, site, testSite, intTestMethod, testParameterName, tpCount, methodTestParameterCount);
-								//methods->TestMethod_Selection(site, testSite, intTestMethod, testParameterName, tpCount, methodTestParameterCount);
+								//methods->TestMethod_Selection(amb7600srtl, site, testSite, intTestMethod, testParameterName, tpCount, methodTestParameterCount);
+								methods->TestMethod_Selection(site, testSite, intTestMethod, testParameterName, tpCount, methodTestParameterCount);
 
 								for (int j = 0; j < methodTestParameterCount; j++)
 								{

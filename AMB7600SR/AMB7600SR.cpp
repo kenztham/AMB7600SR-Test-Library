@@ -4,10 +4,9 @@
 namespace Functions
 {
 	// AMB5600TestLibrary Contsructor and Destructor 
-	AMB7600SRTestLibrary::AMB7600SRTestLibrary(TestFunction ^ TestFunc, MethodsBranch ^ sharedMethods)
+	AMB7600SRTestLibrary::AMB7600SRTestLibrary(TestFunction ^ TestFunc)
 	{
 		tl = TestFunc;
-		methods = sharedMethods;
 		////Instanstiates value struc 
 		/*iCISSetting = gcnew array<ImageCISSetting>(tl->glob->tf.NumberOfSites);
 		DM500xSett = gcnew array<DM500xSetting>(tl->glob->tf.NumberOfSites);
@@ -115,12 +114,6 @@ namespace Functions
 
 
 #pragma endregion "Resource Manager"
-
-#pragma region "SiteConfiguration"
-
-			SiteConfiguration(site);
-
-#pragma endregion "SiteConfiguration"
 
 #pragma region "Hardware Initialization"
 

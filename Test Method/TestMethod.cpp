@@ -170,6 +170,50 @@ namespace AMB7600SR_TestLibrary_REV2
 
 #pragma endregion
 
+	//Control Item: PreProcessing
+#pragma region ".xml file -> Control Item -> PreProcessing"
+
+	/// <summary> PreProcessing
+	/// <list type="ControlItem" name="PreProcessing" category="PreProcessing" group="Items" conditiontype="splitbysemicolon" methodname="PreProcessing">
+	/// <item attribute="name">PreProcessing</item>
+	/// <item attribute="displayas">PreProcessing</item>
+	/// <item attribute="description">The is 'PreProcessing' item, which is to reload offsest file and spare for pre-test control.</item>
+	/// <list type="ItemCondition">
+	/// <item attribute="name">CorrFactorDirectory</item>
+	/// <item attribute="description">Specifies the directory of CorrFactor file.</item>
+	/// <item attribute="value">C:\Aemulus\techFlow3\Projects\TestRecipes\SampleProfile\AMB7300_TestLibrary_REV2P0_Beta\FixedOffsetFileFolder\AMB7300SR_AMB7300_TestLibrary_REV2P0_Beta_CorrFactor_S0.csv</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// </list>
+	/// </summary>
+	/// <param name="site">This is techFlow site object.</param>
+
+#pragma endregion
+
+	//Control Item: PostProcessing
+#pragma region ".xml file -> Control Item -> PostProcessing"
+
+	/// <summary> PostProcessing
+	/// <list type="ControlItem" name="PostProcessing" category="PostProcessing" group="Items" conditiontype="splitbysemicolon" methodname="PostProcessing">
+	/// <item attribute="name">PostProcessing</item>
+	/// <item attribute="displayas">PostProcessing</item>
+	/// <item attribute="description">The is 'PostProcessing' item, which spare for use of post-testing action.</item>
+	/// <list type="ItemCondition">
+	/// <item attribute="name">Condition</item>
+	/// <item attribute="description">Specifies the condition description.</item>
+	/// <item attribute="value">1</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Int32</item>
+	/// </list>
+	/// </list>
+	/// </summary>
+	/// <param name="site">This is techFlow site object.</param>
+
+#pragma endregion
+
 	//Control Step
 #pragma region "AM400e & DM400e ControlStep.xml"
 	// AM400e DM400e
@@ -3633,6 +3677,201 @@ namespace AMB7600SR_TestLibrary_REV2
 	}
 
 #pragma endregion
+
+#pragma region "VNACase ControlStep.xml"
+
+	/*
+	**	----------------------------------------------------------------------------------------------------
+	**	Control Step: VnaConfig
+	**	----------------------------------------------------------------------------------------------------
+	*/
+#pragma region ".xml file -> Control Step -> VnaConfig"
+
+	/// <summary> VnaConfig
+	/// <list type="ControlStep" name="TestLib_ControlStep_VnaConfig" category="VnaConfig" group="Items" conditiontype="splitbycomma" methodname="seq_TestMethod">
+	/// <item attribute="name">VnaConfig</item>
+	/// <item attribute="displayas">VnaConfig</item>
+	/// <item attribute="description">The is 'VnaConfig' item, which is to configure vna segment setting.</item>
+	/// <list type="StepCondition">
+	/// <item attribute="name">SweepType</item>
+	/// <item attribute="description">Specifies the vna sweep type.</item>
+	/// <item attribute="value">SharedMemoryTransfer</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">ChannelNum</item>
+	/// <item attribute="description">Specifies Channel to be configured.</item>
+	/// <item attribute="value">1</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Int32</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">StartFreq</item>
+	/// <item attribute="description">Specifies the start frequency of the target segment.</item>
+	/// <item attribute="value">1000</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">StopFreq</item>
+	/// <item attribute="description">Specifies the stop frequency of the target segment.</item>
+	/// <item attribute="value">3000</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">Points</item>
+	/// <item attribute="description">Specifies the number of points of the target segment.</item>
+	/// <item attribute="value">201</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Int32</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">Ifbw</item>
+	/// <item attribute="description">Specifies the ifbw of the target segment.</item>
+	/// <item attribute="value">1</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">Power</item>
+	/// <item attribute="description">Specifies the power level of the target segment.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit">dBm</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">Delay</item>
+	/// <item attribute="description">Specifies the delay of the target segment.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit">sec</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">SNP</item>
+	/// <item attribute="description">Specifies the file type to override the config auto SNP file.</item>
+	/// <item attribute="value">NA</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// </list>
+	/// <param name="site">This is techFlow site object.</param>
+	/// </summary>
+
+#pragma endregion 
+	int TestProgram::TestLib_ControlStep_VnaConfig(Site ^ site)
+	{
+		/*
+		** Dummy control step function.
+		** To generate Project Library's control step item, and let techFlow3 user to drag into the test recipes editor.
+		** Only applicable for techFlow3 user (using test recipes editor).
+		** It will link to the all-in-one generic Test Method --> seq_TestMethod()
+		*/
+
+		// Local variable
+		int ret = 0;
+
+		ret = seq_TestMethod(site);
+		if (ret != 0) goto EndOfTest;
+
+	EndOfTest:
+		return ret;
+	}
+
+	/*
+	**	----------------------------------------------------------------------------------------------------
+	**	Control Step: VnaFetch
+	**	----------------------------------------------------------------------------------------------------
+	*/
+#pragma region ".xml file -> Control Step -> VnaFetch"
+
+	/// <summary> VnaFetch
+	/// <list type="ControlStep" name="TestLib_ControlStep_VnaFetch" category="VnaFetch" group="Items" conditiontype="nosplit" methodname="seq_TestMethod">
+	/// <item attribute="name">VnaFetch</item>
+	/// <item attribute="displayas">VnaFetch</item>
+	/// <item attribute="description">The is 'VnaFetch' item, which is to configure vna trace setting and then fetch data.</item>
+	/// <list type="StepCondition">
+	/// <item attribute="name">MeasurePortPair</item>
+	/// <item attribute="description">Specifies the mpex port pair to perform the measurement. The alias must exist in the resource planner, and the port alias must follow the label on the mpex hardware. The group pair must exist in the mapping file as well.</item>
+	/// <item attribute="value">OUT1,OUT17</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">TraceCount</item>
+	/// <item attribute="description">Specifies the total trace count to activate in the target channel. The trace count must match with the 'TraceMeasurementFormat' setting.</item>
+	/// <item attribute="value">4</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Int32</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">TraceMeasurementFormat</item>
+	/// <item attribute="description">Specifies the measurement parameter and format for each trace.</item>
+	/// <item attribute="value">S11/LogMag,S21/LogMag,S12/LogMag,S22/LogMag</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="StepCondition">
+	/// <item attribute="name">AveragingSetting</item>
+	/// <item attribute="description">To enable averaging on the target channel. | Specifies the averaging factor.</item>
+	/// <item attribute="value">AveOff/10</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/*/// <list type="StepCondition">
+	/// <item attribute="name">ChannelNum</item>
+	/// <item attribute="description">Only applicable for Keysight DIRECT Config, S4P1D/S6P1D.</item>
+	/// <item attribute="value">2</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Int32</item>
+	/// </list>*/
+	/// <list type="StepCondition">
+	/// <item attribute="name">SaveSnpData</item>
+	/// <item attribute="description">To enable snp data generation for current TestParameter.</item>
+	/// <item attribute="value">False</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Boolean</item>
+	/// </list>
+	/// </list>
+	/// <param name="site">This is techFlow site object.</param>
+	/// </summary>
+
+#pragma endregion 
+	int TestProgram::TestLib_ControlStep_VnaFetch(Site ^ site)
+	{
+		/*
+		** Dummy control step function.
+		** To generate Project Library's control step item, and let techFlow3 user to drag into the test recipes editor.
+		** Only applicable for techFlow3 user (using test recipes editor).
+		** It will link to the all-in-one generic Test Method --> seq_TestMethod()
+		*/
+
+		// Local variable
+		int ret = 0;
+
+		ret = seq_TestMethod(site);
+		if (ret != 0) goto EndOfTest;
+
+	EndOfTest:
+		return ret;
+	}
+#pragma endregion "VNACase ControlStep.xml"
 
 	//Control Item
 #pragma region "AM400e & DM400e ControlItem.xml"
@@ -10287,6 +10526,385 @@ namespace AMB7600SR_TestLibrary_REV2
 	}
 
 #pragma endregion
+
+#pragma region "VNACase Test Step.xml"
+
+	/*
+	**	----------------------------------------------------------------------------------------------------
+	**	Test Parameter: VnaDataAnalysis
+	**	----------------------------------------------------------------------------------------------------
+	*/
+#pragma region ".xml file -> Test Parameter -> VnaDataAnalysis"
+
+	/// <summary> VnaDataAnalysis
+	/// <list type="TestItem" name="TestLib_TestParameter_VnaDataAnalysis" category="VnaDataAnalysis" group="Items" conditiontype="splitbysemicoloncomma" methodname="seq_TestMethod">
+	/// <item attribute="name">VnaDataAnalysis_TestItemName</item>
+	/// <item attribute="displayas">VnaDataAnalysis_TestItemName</item>
+	/// <item attribute="description">This is 'VnaDataAnalysis' item with the combination of test item and test parameter, which is to execute test function and return result to test parameter.</item>
+	/// <list type="TestParameter" name="TestLib_TestParameter_VnaDataAnalysis" category="VnaDataAnalysis" group="Items">
+	/// <item attribute="name">VnaDataAnalysis_TestParameterName_S11</item>
+	/// <item attribute="displayas">VnaDataAnalysis_TestParameterName_S11</item>
+	/// <item attribute="description">VnaDataAnalysis</item>
+	/// <item attribute="datatype">Double</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit">dB</item>
+	/// <item attribute="evalmode">Between_IncludeMinAndMax</item>
+	/// <item attribute="lolimit">-999</item>
+	/// <item attribute="lolimitprefix">None</item>
+	/// <item attribute="hilimit">999</item>        
+	/// <item attribute="hilimitprefix">None</item>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">TraceIndex</item>
+	/// <item attribute="description">Specifies the target trace for this particular measurement.</item>
+	/// <item attribute="value">1</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Int32</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">Function</item>
+	/// <item attribute="description">Specifies the test function to perform the data analysis.</item>
+	/// <item attribute="value">TraceData</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">AnalysisSetting</item>
+	/// <item attribute="description">Specifies the settings for the specific data analysis function. Refer to the user manual for more information.| Remain empty if it is using default setting or not applicable.</item>
+	/// <item attribute="value"></item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">SmoothingSetting</item>
+	/// <item attribute="description">To enable the smoothing on the target trace. | Specifies the smoothing aperture.</item>
+	/// <item attribute="value">SmoOff/1</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">Freq</item>
+	/// <item attribute="description">Specifies the single test frequency or single marker frequency. | Remain 0 if not applicable.</item>
+	/// <item attribute="value">1000</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">FreqRangeStart</item>
+	/// <item attribute="description">Specifies the start frequency (freq range start). | Remain 0 if not applicable.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">FreqRangeStop</item>
+	/// <item attribute="description">Specifies the stop frequency (freq range stop). | Remain 0 if not applicable.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">OutputType</item>
+	/// <item attribute="description">Specifies the result output type. Refer to user manual for more information. | Remain empty if not applicable.</item>
+	/// <item attribute="value">Data</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">OutputFormat</item>
+	/// <item attribute="description">Specifies the result output format. Refer to user manual for more information. | Remain empty if not applicable.</item>
+	/// <item attribute="value">Real</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// </list>
+	/// <list type="TestParameter" name="TestLib_TestParameter_VnaDataAnalysis" category="VnaDataAnalysis" group="Items">
+	/// <item attribute="name">VnaDataAnalysis_TestParameterName_S21</item>
+	/// <item attribute="displayas">VnaDataAnalysis_TestParameterName_S21</item>
+	/// <item attribute="description">VnaDataAnalysis</item>
+	/// <item attribute="datatype">Double</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit">dB</item>
+	/// <item attribute="evalmode">Between_IncludeMinAndMax</item>
+	/// <item attribute="lolimit">-999</item>
+	/// <item attribute="lolimitprefix">None</item>
+	/// <item attribute="hilimit">999</item>        
+	/// <item attribute="hilimitprefix">None</item>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">TraceIndex</item>
+	/// <item attribute="description">Specifies the target trace for this particular measurement.</item>
+	/// <item attribute="value">2</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Int32</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">Function</item>
+	/// <item attribute="description">Specifies the test function to perform the data analysis.</item>
+	/// <item attribute="value">TraceData</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">AnalysisSetting</item>
+	/// <item attribute="description">Specifies the settings for the specific data analysis function. Refer to the user manual for more information.| Remain empty if it is using default setting or not applicable.</item>
+	/// <item attribute="value"></item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">SmoothingSetting</item>
+	/// <item attribute="description">To enable the smoothing on the target trace. | Specifies the smoothing aperture.</item>
+	/// <item attribute="value">SmoOff/1</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">Freq</item>
+	/// <item attribute="description">Specifies the single test frequency or single marker frequency. | Remain 0 if not applicable.</item>
+	/// <item attribute="value">1000</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">FreqRangeStart</item>
+	/// <item attribute="description">Specifies the start frequency (freq range start). | Remain 0 if not applicable.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">FreqRangeStop</item>
+	/// <item attribute="description">Specifies the stop frequency (freq range stop). | Remain 0 if not applicable.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">OutputType</item>
+	/// <item attribute="description">Specifies the result output type. Refer to user manual for more information. | Remain empty if not applicable.</item>
+	/// <item attribute="value">Data</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">OutputFormat</item>
+	/// <item attribute="description">Specifies the result output format. Refer to user manual for more information. | Remain empty if not applicable.</item>
+	/// <item attribute="value">Real</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// </list>
+	/// <list type="TestParameter" name="TestLib_TestParameter_VnaDataAnalysis" category="VnaDataAnalysis" group="Items">
+	/// <item attribute="name">VnaDataAnalysis_TestParameterName_S12</item>
+	/// <item attribute="displayas">VnaDataAnalysis_TestParameterName_S12</item>
+	/// <item attribute="description">VnaDataAnalysis</item>
+	/// <item attribute="datatype">Double</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit">dB</item>
+	/// <item attribute="evalmode">Between_IncludeMinAndMax</item>
+	/// <item attribute="lolimit">-999</item>
+	/// <item attribute="lolimitprefix">None</item>
+	/// <item attribute="hilimit">999</item>        
+	/// <item attribute="hilimitprefix">None</item>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">TraceIndex</item>
+	/// <item attribute="description">Specifies the target trace for this particular measurement.</item>
+	/// <item attribute="value">3</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Int32</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">Function</item>
+	/// <item attribute="description">Specifies the test function to perform the data analysis.</item>
+	/// <item attribute="value">TraceData</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">AnalysisSetting</item>
+	/// <item attribute="description">Specifies the settings for the specific data analysis function. Refer to the user manual for more information.| Remain empty if it is using default setting or not applicable.</item>
+	/// <item attribute="value"></item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">SmoothingSetting</item>
+	/// <item attribute="description">To enable the smoothing on the target trace. | Specifies the smoothing aperture.</item>
+	/// <item attribute="value">SmoOff/1</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">Freq</item>
+	/// <item attribute="description">Specifies the single test frequency or single marker frequency. | Remain 0 if not applicable.</item>
+	/// <item attribute="value">1000</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">FreqRangeStart</item>
+	/// <item attribute="description">Specifies the start frequency (freq range start). | Remain 0 if not applicable.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">FreqRangeStop</item>
+	/// <item attribute="description">Specifies the stop frequency (freq range stop). | Remain 0 if not applicable.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">OutputType</item>
+	/// <item attribute="description">Specifies the result output type. Refer to user manual for more information. | Remain empty if not applicable.</item>
+	/// <item attribute="value">Data</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">OutputFormat</item>
+	/// <item attribute="description">Specifies the result output format. Refer to user manual for more information. | Remain empty if not applicable.</item>
+	/// <item attribute="value">Real</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// </list>
+	/// <list type="TestParameter" name="TestLib_TestParameter_VnaDataAnalysis" category="VnaDataAnalysis" group="Items">
+	/// <item attribute="name">VnaDataAnalysis_TestParameterName_S22</item>
+	/// <item attribute="displayas">VnaDataAnalysis_TestParameterName_S22</item>
+	/// <item attribute="description">VnaDataAnalysis</item>
+	/// <item attribute="datatype">Double</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit">dB</item>
+	/// <item attribute="evalmode">Between_IncludeMinAndMax</item>
+	/// <item attribute="lolimit">-999</item>
+	/// <item attribute="lolimitprefix">None</item>
+	/// <item attribute="hilimit">999</item>        
+	/// <item attribute="hilimitprefix">None</item>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">TraceIndex</item>
+	/// <item attribute="description">Specifies the target trace for this particular measurement.</item>
+	/// <item attribute="value">4</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">Int32</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">Function</item>
+	/// <item attribute="description">Specifies the test function to perform the data analysis.</item>
+	/// <item attribute="value">TraceData</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">AnalysisSetting</item>
+	/// <item attribute="description">Specifies the settings for the specific data analysis function. Refer to the user manual for more information.| Remain empty if it is using default setting or not applicable.</item>
+	/// <item attribute="value"></item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">SmoothingSetting</item>
+	/// <item attribute="description">To enable the smoothing on the target trace. | Specifies the smoothing aperture.</item>
+	/// <item attribute="value">SmoOff/1</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">Freq</item>
+	/// <item attribute="description">Specifies the single test frequency or single marker frequency. | Remain 0 if not applicable.</item>
+	/// <item attribute="value">1000</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">FreqRangeStart</item>
+	/// <item attribute="description">Specifies the start frequency (freq range start). | Remain 0 if not applicable.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition" excelname="">
+	/// <item attribute="name">FreqRangeStop</item>
+	/// <item attribute="description">Specifies the stop frequency (freq range stop). | Remain 0 if not applicable.</item>
+	/// <item attribute="value">0</item>
+	/// <item attribute="prefix">Mega</item>
+	/// <item attribute="unit">Hz</item>
+	/// <item attribute="datatype">Double</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">OutputType</item>
+	/// <item attribute="description">Specifies the result output type. Refer to user manual for more information. | Remain empty if not applicable.</item>
+	/// <item attribute="value">Data</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">OutputFormat</item>
+	/// <item attribute="description">Specifies the result output format. Refer to user manual for more information. | Remain empty if not applicable.</item>
+	/// <item attribute="value">Real</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// </list>
+	/// </list>
+	/// </summary>
+	/// <param name="site">This is techFlow site object.</param>
+
+#pragma endregion
+	int TestProgram::TestLib_TestParameter_VnaDataAnalysis(Site ^ site)
+	{
+		/* 
+		** Dummy test parameter function.
+		** To generate Project Library's test parameter item, and let techFlow3 user to drag into the test recipes editor.
+		** Only applicable for techFlow3 user (using test recipes editor).
+		** It will link to the all-in-one generic Test Method --> seq_TestMethod() 
+		*/
+
+		// Local variable
+		int ret = 0;
+
+		ret = seq_TestMethod(site);
+		if (ret != 0) goto EndOfTest;
+
+	EndOfTest:
+		return ret;
+	}
+#pragma endregion "VNACase Test Step.xml"
 
 }
 

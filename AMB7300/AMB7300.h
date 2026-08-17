@@ -74,7 +74,7 @@ namespace Functions
 		array<TMU ^>^ tm;
 #endif 
 
-		AMB7300TestLibrary::AMB7300TestLibrary(TestFunction ^ TestFunc, MethodsBranch ^ sharedMethods);
+		AMB7300TestLibrary::AMB7300TestLibrary(TestFunction ^ TestFunc);
 		~AMB7300TestLibrary(void);
 
 		TestFunction ^ tl;
@@ -2007,6 +2007,64 @@ namespace Functions
 
 #pragma endregion "TM400Utility.cpp"
 
+#pragma region "AMB7300Utility.cpp"
+
+		int TestLib_ControlStep_VnaConfig_CastCondition(Site ^ site, int tfSite, int siteIndex, int segmentSetCount);
+
+		int TestLib_ControlStep_VnaFetch_CastCondition(Site ^ site, int tfSite, int siteIndex);
+
+		int TestLib_TestParameter_VnaDataAnalysis_CastCondition(Site ^ site, int tfSite, int siteIndex);
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Validate condition value input ---> VnaConfig
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int ValidateConditionValueInput_VnaConfig(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw, int vnaConfigSegmentCount);
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Validate condition value input ---> VnaFetch
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int ValidateConditionValueInput_VnaFetch(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw);
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Validate condition value input ---> VnaDataAnalysis
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int ValidateConditionValueInput_VnaDataAnalysis(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw);
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Validate condition value input ---> VnaDataAnalysis
+		**	----------------------------------------------------------------------------------------------------
+		*/
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Check condition change ---> VnaConfig
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int CheckConditionChange_VnaConfig(Site ^ site, int tfSite, int siteIndex, int segmentSetCount);
+
+#pragma endregion "AMB7300Utility.cpp"
+
+#pragma region "Test Method Function"
+
+		//RF(VNA) - Test Methods
+		//void TM_RF_MeasureChannel(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount);
+		void TM_VNA_VnaDataAnalysis(Site ^ site, int testSite, String^ testParameterName, int testParameterNumber, int % testParameterCount);
+
+#pragma endregion "Test Method Function"
+
+#pragma region "Control Method Function"
+
+		
+		////RF(VNA) - Control Methods
+		//void CM_RF_SourcePower(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
+		void CM_VNA_VnaConfig(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
+		void CM_VNA_VnaFetch(Site ^ site, int testSite, ConditionCollection^ testConditionCollection);
+
+#pragma endregion "Control Method Function"
 	};
 }
 

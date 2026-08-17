@@ -16,10 +16,9 @@ namespace Functions
 	**	AMB7300TestLibrary Contsructor and Destructor 
 	**	----------------------------------------------------------------------------------------------------
 	*/
-	AMB7300TestLibrary::AMB7300TestLibrary(TestFunction ^ TestFunc, MethodsBranch ^ sharedMethods)
+	AMB7300TestLibrary::AMB7300TestLibrary(TestFunction ^ TestFunc)
 	{
 		tl = TestFunc;
-		methods = sharedMethods;
 	}
 	AMB7300TestLibrary::~AMB7300TestLibrary(void)
 	{
@@ -203,100 +202,6 @@ namespace Functions
 			ret = InitializeVna(tfSite, siteIndex);
 			if (ret != 0) goto EndOfTest;
 		}
-
-#pragma endregion
-
-#pragma region "Init CM400e Series Hardware"
-			
-		//// [Future Enchancement] Implement CM module function.
-		//if (tl->glob->RsrcManager.hardwareStatus_CM->Length != 0)
-		//{
-		//	cm = gcnew array<CM ^>(tl->glob->tf.NumberOfTestSites);
-		//	
-		//	for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
-		//	{
-		//		ret = InitializeCmSeriesResource(tfSite, siteIndex);
-		//		if (ret != 0) goto EndOfTest;
-		//	}
-		//}
-
-#pragma endregion
-
-#pragma region "Init AM400e Series Hardware"
-
-		if (tl->glob->RsrcManager.hardwareStatus_AM->Length != 0)
-		{
-			smu = gcnew array<SMU ^>(tl->glob->tf.NumberOfTestSites);
-			
-			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
-			{
-				ret = InitializeAmSeriesResource(tfSite, siteIndex);
-				if (ret != 0) goto EndOfTest;
-			}
-		}
-
-#pragma endregion
-
-#pragma region "Init DM400e Series Hardware"
-
-		if (tl->glob->RsrcManager.hardwareStatus_DM->Length != 0)
-		{
-			dm = gcnew array<DM ^>(tl->glob->tf.NumberOfTestSites);
-		
-			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
-			{
-				ret = InitializeDmSeriesResource(tfSite, siteIndex);
-				if (ret != 0) goto EndOfTest;
-			}
-		}
-
-#pragma endregion
-
-#pragma region "Init IOM400e Series Hardware"
-
-		// [Future Enchancement] Implement IOM module function.
-		//if (tl->glob->RsrcManager.hardwareStatus_IOM->Length != 0)
-		//{
-		//	iom = gcnew array<DIO ^>(tl->glob->tf.NumberOfTestSites);
-		//	
-		//	for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
-		//	{
-		//		ret = InitializeIomSeriesResource(tfSite, siteIndex);
-		//		if (ret != 0) goto EndOfTest;
-		//	}
-		//}
-
-#pragma endregion
-
-#pragma region "Init ACM400e Series Hardware"
-
-		//// [Future Enchancement] Implement ACM module function.
-		//if (tl->glob->RsrcManager.hardwareStatus_ACM->Length != 0)
-		//{
-		//	acm = gcnew array<ACM ^>(tl->glob->tf.NumberOfTestSites);
-		//	
-		//	for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
-		//	{
-		//		ret = InitializeAcmSeriesResource(tfSite, siteIndex);
-		//		if (ret != 0) goto EndOfTest;
-		//	}
-		//}
-
-#pragma endregion
-
-#pragma region "Init TM400e Series Hardware"
-
-		//// [Future Enchancement] Implement TM module function.
-		//if (tl->glob->RsrcManager.hardwareStatus_TM->Length != 0)
-		//{
-		//	tm = gcnew array<TM ^>(tl->glob->tf.NumberOfTestSites);
-		//
-		//	for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
-		//	{
-		//		ret = InitializeTmSeriesResource(tfSite, siteIndex);
-		//		if (ret != 0) goto EndOfTest;
-		//	}
-		//}
 
 #pragma endregion
 

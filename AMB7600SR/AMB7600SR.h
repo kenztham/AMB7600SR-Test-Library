@@ -115,7 +115,7 @@ namespace Functions
 #pragma endregion "Resource Module Object"
 
 		AppDomain ^ currentDomain;
-		AMB7600SRTestLibrary::AMB7600SRTestLibrary(TestFunction ^ TestFunc, MethodsBranch ^ sharedMethods);
+		AMB7600SRTestLibrary::AMB7600SRTestLibrary(TestFunction ^ TestFunc);
 		~AMB7600SRTestLibrary(void);
 
 		TestFunction ^ tl;

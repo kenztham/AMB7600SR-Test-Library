@@ -58,7 +58,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		// Private Methods
 		void AMB7600SR_TestLibrary_ControlMethod(Object ^ object);
 		void AMB7600SR_TestLibrary_ControlMethod_TestMethod(Object ^ object);
-
+		
 #pragma region "Global Variable"
 
 		/*
@@ -79,6 +79,7 @@ namespace AMB7600SR_TestLibrary_REV2
 		int lineNUM;
 		String ^ timerFilename;
 
+		DialogResult PlatformSelection;
 #pragma endregion
 
 	public:
@@ -297,7 +298,7 @@ namespace AMB7600SR_TestLibrary_REV2
 #pragma region "AMB7300"
 		//void SaveSnpToBinAfterCommitResults(Site^ site);
 
-#pragma region "AMB7300Utility.cpp -> Cast Conditions & Value Validate"
+#pragma region "AMB7300Utility.cpp -> Cast Conditions"
 
 		/*
 		**	----------------------------------------------------------------------------------------------------
@@ -308,119 +309,22 @@ namespace AMB7600SR_TestLibrary_REV2
 
 		/*
 		**	----------------------------------------------------------------------------------------------------
-		**	Control Step: DcControl
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int TestLib_ControlStep_DcControl(Site ^ site);
-		int TestLib_ControlStep_DcControl_CastCondition(Site ^ site, int tfSite, int siteIndex);
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Test Parameter: DcTest
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int TestLib_TestParameter_DcTest(Site ^ site);
-		int TestLib_TestParameter_DcTest_CastCondition(Site ^ site, int tfSite, int siteIndex);
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Control Step: PatternControl
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int TestLib_ControlStep_PatternControl(Site ^ site);
-		int TestLib_ControlStep_PatternControl_CastCondition(Site ^ site, int tfSite, int siteIndex);
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Test Parameter: PatternTest
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int TestLib_TestParameter_PatternTest(Site ^ site);
-		int TestLib_TestParameter_PatternTest_CastCondition(Site ^ site, int tfSite, int siteIndex);
-		/*
-		**	----------------------------------------------------------------------------------------------------
 		**	Control Step: VnaConfig
 		**	----------------------------------------------------------------------------------------------------
 		*/
 		int TestLib_ControlStep_VnaConfig(Site ^ site);
-		int TestLib_ControlStep_VnaConfig_CastCondition(Site ^ site, int tfSite, int siteIndex, int segmentSetCount);
 		/*
 		**	----------------------------------------------------------------------------------------------------
 		**	Control Step: VnaFetch
 		**	----------------------------------------------------------------------------------------------------
 		*/
 		int TestLib_ControlStep_VnaFetch(Site ^ site);
-		int TestLib_ControlStep_VnaFetch_CastCondition(Site ^ site, int tfSite, int siteIndex);
 		/*
 		**	----------------------------------------------------------------------------------------------------
 		**	Test Parameter: VnaDataAnalysis
 		**	----------------------------------------------------------------------------------------------------
 		*/
 		int TestLib_TestParameter_VnaDataAnalysis(Site ^ site);
-		int TestLib_TestParameter_VnaDataAnalysis_CastCondition(Site ^ site, int tfSite, int siteIndex);
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Test Parameter: Math
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int TestLib_TestParameter_Math(Site ^ site);
-		int TestLib_TestParameter_Math_CastCondition(Site ^ site, int tfSite, int siteIndex);
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Validate condition value input ---> DcControl
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int ValidateConditionValueInput_DcControl(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw, int totalConfigurationSets);
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Validate condition value input ---> DcTest
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int ValidateConditionValueInput_DcTest(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw);
-
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Validate condition value input ---> PatternControl
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int ValidateConditionValueInput_PatternControl(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw);
-
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Validate condition value input ---> PatternTest
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int ValidateConditionValueInput_PatternTest(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw);
-
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Validate condition value input ---> VnaConfig
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int TestProgram::ValidateConditionValueInput_VnaConfig(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw, int vnaConfigSegmentCount);
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Validate condition value input ---> VnaFetch
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int TestProgram::ValidateConditionValueInput_VnaFetch(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw);
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Validate condition value input ---> VnaDataAnalysis
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int ValidateConditionValueInput_VnaDataAnalysis(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw);
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Validate condition value input ---> VnaDataAnalysis
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int ValidateConditionValueInput_Math(int tfSite, int siteIndex, String ^ conditionName, array<String^> ^ conditionValueRaw);
-
-		/*
-		**	----------------------------------------------------------------------------------------------------
-		**	Check condition change ---> VnaConfig
-		**	----------------------------------------------------------------------------------------------------
-		*/
-		int CheckConditionChange_VnaConfig(Site ^ site, int tfSite, int siteIndex, int segmentSetCount);
-
 		/*
 		**	----------------------------------------------------------------------------------------------------
 		**	Threading Helper Function

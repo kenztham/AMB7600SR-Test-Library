@@ -329,12 +329,16 @@ namespace Functions
 				amb7600srtl->CM_RF_WolferSourcePower(site, testSite, testConditionCollection);
 				break;
 #pragma endregion
-				/*
-				#pragma region "VNA Case"
+				
+#pragma region "VNA Case"
 				case VNACase_VnaConfig:
-				CM_VNA_VnaConfig(site, testSite, testConditionCollection);
+				amb7300tl->CM_VNA_VnaConfig(site, testSite, testConditionCollection);
 				break;
-				#pragma endregion "VNA Case"*/
+				case VNACase_VnaFetch:
+				amb7300tl->CM_VNA_VnaFetch(site, testSite, testConditionCollection);
+				break;
+#pragma endregion "VNA Case"
+
 			default:
 				tl->glob->TcrLgr.ErrorCode = ER_CONST_InvalidControlMethod;
 				throw gcnew Exception("This Control Method " + tl->glob->ErrorInfo[testSite].ControlMethodName + " is not supported.");
@@ -440,6 +444,12 @@ namespace Functions
 				break;
 #pragma endregion
 
+#pragma region "VNA Case"
+			case VNACase_VnaDataAnalysis:
+				amb7300tl->TM_VNA_VnaDataAnalysis(site, testSite, testParameterName, testParameterCount, methodTestParameterCount);
+				break;
+#pragma endregion "VNA Case"
+
 			default:
 				tl->glob->TcrLgr.ErrorCode = ER_CONST_InvalidTestMethod;
 				throw gcnew Exception("This Test Method " + tl->glob->ErrorInfo[testSite].TestMethodName + " is not supported.");
@@ -450,6 +460,7 @@ namespace Functions
 			throw;
 		}
 	}
+	
 	void MethodsBranch::ControlMethod_Selection(AMB7600SRTestLibrary ^ lib, Site ^ site, int testSite, int controlMethodSelection, ConditionCollection ^ testConditionCollection)
 	{
 		try {

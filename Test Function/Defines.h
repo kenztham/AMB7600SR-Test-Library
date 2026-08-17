@@ -3293,6 +3293,9 @@ UUTOffset:		Supported.
 #define TITLE_CONST_INVALID_APPWIDE_VARIABLE_NOT_FOUND					"APPWIDE VARIABLE NOT FOUND"
 #define TITLE_CONST_INVALID_APPWIDE_VARIABLE_INPUT_VALUE				"INVALID APPWIDE VARIABLE INPUT VALUE"
 #define TITLE_CONST_CHANNEL_NUMBER_NOT_MATCH							"CHANNEL NUMBER NOT MATCH"
+#define TITLE_CONST_PLATFORM_SELECTION									"PLATFORM SELECTION"
+#define AMB7300_PLATFORM												DialogResult::Yes
+#define AMB7600SR_PLATFORM												DialogResult::No
 /*
 **	----------------------------------------------------------------------------------------------------
 **	Header Name
