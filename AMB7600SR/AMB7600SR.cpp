@@ -337,7 +337,6 @@ namespace Functions
 			tl->ErrorHandling(site, tl->glob->TcrLgr.GlobalErrorMessage);
 			//String^ ErrorMessage = "Error: Encountered error during casting informations from RFSiteConfigInfo.xml [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
 			//tl->FileLogging(0, LOGGER_ERROR_TYPE, ErrorMessage);
-			//tl->WriteToFileLogger(0, ErrorMessage);
 			//tl->CheckError(0, ER_CONST_RFSiteConfigInfo);
 		}
 	}

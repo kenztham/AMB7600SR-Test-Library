@@ -61,7 +61,8 @@ namespace AMB7600SR_TestLibrary_REV2
 		// Private Methods
 		void AMB7600SR_TestLibrary_ControlMethod(Object ^ object);
 		void AMB7600SR_TestLibrary_ControlMethod_TestMethod(Object ^ object);
-		
+
+		void SaveSnpToBinAfterCommitResults(Site^ site);
 #pragma region "Global Variable"
 
 		/*

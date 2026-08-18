@@ -170,7 +170,6 @@ namespace Functions
 		{
 			ret = ER_CONST_INIT_KEYSIGHT_VNA_HARDWARE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> KeysightVnaUtility -> InitializeVna_Keysight] Fail to initialize Keysight VNA hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> KeysightVnaUtility -> InitializeVna_Keysight] Fail to initialize Keysight VNA hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -214,7 +213,6 @@ namespace Functions
 		{
 			ret = ER_CONST_UNINIT_KEYSIGHT_VNA_HARDWARE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> KeysightVnaUtility -> UninitializeVna_Keysight] Fail to uninitialize Keysight VNA hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> KeysightVnaUtility -> UninitializeVna_Keysight] Fail to uninitialize Keysight VNA hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -271,7 +269,6 @@ namespace Functions
 			//tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureMpexPortPairSwitching_Keysight] Fail to configure MPEX port pair switching." + "\n" +
 			//	"Please check the port pair (AMAP) if existed in the Mapping File." + "\n" +
 			//	" | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			//tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureMpexPortPairSwitching_Keysight] Fail to configure MPEX port pair switching." + "\n" +
 			//	"Please check the port pair (AMAP) if existed in the Mapping File." + "\n" +
 			//	" | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			return ret;
@@ -316,9 +313,6 @@ namespace Functions
 		{
 			ret = ER_CONST_CONFIGURE_MPEX_PORT_PAIR_SWITCHING_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureMpexPortPairSwitching_Keysight] Fail to configure MPEX port pair switching." + "\n" +
-				"Please check the port pair (AMAP) if existed in the Mapping File." + "\n" +
-				" | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureMpexPortPairSwitching_Keysight] Fail to configure MPEX port pair switching." + "\n" +
 				"Please check the port pair (AMAP) if existed in the Mapping File." + "\n" +
 				" | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			return ret;
@@ -414,9 +408,6 @@ namespace Functions
 		{
 			ret = ER_CONST_SET_PORT_MATCHING_CIRCUIT_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SetPortMatchingCircuit_Keysight] Fail to set Port Matching circuit." + "\n" +
-				"Please check the provided App-Wide Variable." + "\n" +
-				" | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SetPortMatchingCircuit_Keysight] Fail to set Port Matching circuit." + "\n" +
 				"Please check the provided App-Wide Variable." + "\n" +
 				" | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			return ret;
@@ -629,7 +620,6 @@ namespace Functions
 		{
 			ret = ER_CONST_CONFIGURE_SEGMENT_SETTING_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureSegmentSetting_Keysight] Fail to configure segment setting at the active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureSegmentSetting_Keysight] Fail to configure segment setting at the active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -714,7 +704,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GET_TOTAL_ACTIVE_CHANNEL_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetChannelandTraceSetting_Keysight] Fail to get total active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetChannelandTraceSetting_Keysight] Fail to get total active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -782,8 +771,6 @@ namespace Functions
 		{
 			ret = ER_CONST_SHARE_MEMORY_GET_CHANNEL_FREQ_POINT_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetChannelandTraceSetting_Keysight] Fail to get frequency point from channel." + "\n" +
-				" | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetChannelandTraceSetting_Keysight] Fail to get frequency point from channel." + "\n" +
 				" | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			return ret;
 		}
@@ -861,7 +848,6 @@ namespace Functions
 		{
 			ret = ER_CONST_CONFIGURE_POWERSWEEP_SETTING_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigurePowerSweepSetting_Keysight] Fail to configure power sweep setting at the active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigurePowerSweepSetting_Keysight] Fail to configure power sweep setting at the active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -901,7 +887,6 @@ namespace Functions
 		{
 			ret = ER_CONST_CONFIGURE_TRIGGER_SOURCE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureTriggerSource_Keysight] Fail to configure trigger source." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureTriggerSource_Keysight] Fail to configure trigger source." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -932,7 +917,6 @@ namespace Functions
 		{
 			ret = ER_CONST_CONFIGURE_TRIGGER_SCOPE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureTriggerScope_Keysight] Fail to configure trigger scope." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureTriggerScope_Keysight] Fail to configure trigger scope." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -984,7 +968,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GETFROMSTATEFILE_CONFIGURE_SINGLE_TRIGGER_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_Keysight] Fail to configure single trigger for GetFromStateFile type." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_Keysight] Fail to configure single trigger for GetFromStateFile type." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -1019,7 +1002,6 @@ namespace Functions
 		{
 			ret = ER_CONST_CONFIGURE_TRIGGER_ARM_WAIT_FOR_DATA_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureActiveChannelAndSingleTrigger_Keysight] Fail to configure active channel, arm and wait for data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureActiveChannelAndSingleTrigger_Keysight] Fail to configure active channel, arm and wait for data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -1415,7 +1397,6 @@ namespace Functions
 		{
 			ret = ER_CONST_CONFIGURE_TRACE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureTraces_Keysight] Fail to configure trace setting at the active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureTraces_Keysight] Fail to configure trace setting at the active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -1580,7 +1561,6 @@ namespace Functions
 			{
 				ret = ER_CONST_GET_TRACE_FORMAT_DATA_FAIL;
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetTraceFormatData_Keysight] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetTraceFormatData_Keysight] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
 
@@ -1814,7 +1794,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GET_TRACE_FORMAT_DATA_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetTraceFormatData_Keysight] Fail to get trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetTraceFormatData_Keysight] Fail to get trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -1900,7 +1879,6 @@ namespace Functions
 							markerSearchSetting[i]->_search_Stop = 0.0 MHz;
 							ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSMINMAX_FAIL;
 							tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msMinMax] If enable SearchRangeOn, FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msMinMax] If enable SearchRangeOn, FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							goto EndOfTest;
 						}
 					}
@@ -2039,7 +2017,6 @@ namespace Functions
 				{
 					ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSMINMAX_FAIL;
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msMinMax] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msMinMax] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					goto EndOfTest;
 				}
 			}
@@ -2142,7 +2119,6 @@ namespace Functions
 						msSetting[vnaSiteIndex].ms_SearchStop[i] = 0.0 MHz;
 						ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSPEAK_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msPeak] For marker search peak, Freq & FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart. Freq must within FreqRangeStart and FreqRangeStop." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msPeak] For marker search peak, Freq & FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart. Freq must within FreqRangeStart and FreqRangeStop." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 
@@ -2260,7 +2236,6 @@ namespace Functions
 					{
 						ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSPEAK_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msPeak] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msPeak] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 				}
@@ -2370,7 +2345,6 @@ namespace Functions
 						msSetting[vnaSiteIndex].ms_SearchStop[i] = 0.0 MHz;
 						ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSTARGET_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msTarget] For marker search target, Freq & FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart. Freq must within FreqRangeStart and FreqRangeStop." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msTarget] For marker search target, Freq & FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart. Freq must within FreqRangeStart and FreqRangeStop." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 
@@ -2483,7 +2457,6 @@ namespace Functions
 					{
 						ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSTARGET_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msTarget] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msTarget] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 				}
@@ -2614,7 +2587,6 @@ namespace Functions
 					//	msSetting[vnaSiteIndex].ms_SearchStop[i] = 0.0 MHz;
 					//	ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSTARGET_FAIL;
 					//	tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msTarget] For marker search target, Freq & FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart. Freq must within FreqRangeStart and FreqRangeStop." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					//	tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msTarget] For marker search target, Freq & FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart. Freq must within FreqRangeStart and FreqRangeStop." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					//	goto EndOfTest;
 					//}
 
@@ -2727,7 +2699,6 @@ namespace Functions
 					{
 						ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSTARGET_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msTarget] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msTarget] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 				}
@@ -2737,7 +2708,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight] Fail to get marker search format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight] Fail to get marker search format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -2823,7 +2793,6 @@ namespace Functions
 							markerMathSetting[i]->Marker2 = 0.0 MHz;
 							ret = ER_CONST_GET_MARKER_MATH_FORMAT_DATA_MMSTATISTICS_FAIL;
 							tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmStatistics] If enable StatisticsRangeOn, FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmStatistics] If enable StatisticsRangeOn, FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							goto EndOfTest;
 						}
 					}
@@ -2879,7 +2848,6 @@ namespace Functions
 				{
 					ret = ER_CONST_GET_MARKER_MATH_FORMAT_DATA_MMSTATISTICS_FAIL;
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmStatistics] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmStatistics] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					goto EndOfTest;
 				}
 			}
@@ -2951,7 +2919,6 @@ namespace Functions
 							markerMathSetting[i]->Marker1 = 0.0 MHz;
 							ret = ER_CONST_GET_MARKER_MATH_FORMAT_DATA_MMBWSEARCH_FAIL;
 							tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmBwSearch] If enable SearchRefMarker, Freq cannot remain 0Hz." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmBwSearch] If enable SearchRefMarker, Freq cannot remain 0Hz." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							goto EndOfTest;
 						}
 
@@ -3059,7 +3026,6 @@ namespace Functions
 				{
 					ret = ER_CONST_GET_MARKER_MATH_FORMAT_DATA_MMBWSEARCH_FAIL;
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmBwSearch] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmBwSearch] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					goto EndOfTest;
 				}
 			}
@@ -3108,7 +3074,6 @@ namespace Functions
 						markerMathSetting[i]->Marker2 = 0.0 MHz;
 						ret = ER_CONST_GET_MARKER_MATH_FORMAT_DATA_MMFLATNESS_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmFlatness] For marker math flatness, FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmFlatness] For marker math flatness, FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 				}
@@ -3158,7 +3123,6 @@ namespace Functions
 				{
 					ret = ER_CONST_GET_MARKER_MATH_FORMAT_DATA_MMFLATNESS_FAIL;
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmFlatness] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight -> mmFlatness] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					goto EndOfTest;
 				}
 			}
@@ -3167,7 +3131,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GET_MARKER_MATH_FORMAT_DATA_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Fail to get marker math format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Fail to get marker math format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -3236,7 +3199,6 @@ namespace Functions
 					markerSearchSetting[i]->_search_Stop = 0.0 MHz;
 					ret = ER_CONST_GET_MARKER_SEARCH_MIN_MAX_RIPPLE_FAIL;
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					goto EndOfTest;
 				}
 			}
@@ -3329,7 +3291,6 @@ namespace Functions
 			{
 				ret = ER_CONST_GET_MARKER_SEARCH_MIN_MAX_RIPPLE_FAIL;
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				goto EndOfTest;
 			}
 		}
@@ -3337,7 +3298,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GET_MARKER_SEARCH_MIN_MAX_RIPPLE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Fail to get marker search min max ripple data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Fail to get marker search min max ripple data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -3426,7 +3386,6 @@ namespace Functions
 					//		markerSearchSetting[i]->_search_Stop = 0.0 MHz;
 					//		ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSMINMAX_FAIL;
 					//		tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msMinMax] If enable SearchRangeOn, FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					//		tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msMinMax] If enable SearchRangeOn, FreqRangeStart & FreqRangeStop cannot remain 0Hz. FreqRangeStop cannot less than FreqRangeStart." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					//		goto EndOfTest;
 					//	}
 					//}
@@ -3543,7 +3502,6 @@ namespace Functions
 				//{
 				//	ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_MSMINMAX_FAIL;
 				//	tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msMinMax] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				//	tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight -> msMinMax] Fail to read marker data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				//	goto EndOfTest;
 				//}
 			}
@@ -3553,7 +3511,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GET_MARKER_SEARCH_FORMAT_DATA_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight] Fail to get marker search format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight] Fail to get marker search format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -3618,7 +3575,6 @@ namespace Functions
 		{
 			ret = ER_CONST_CONFIGURE_AVERAGING_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureAveraging_Keysight] Fail to configure averaging setting at the active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureAveraging_Keysight] Fail to configure averaging setting at the active channel." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -3678,7 +3634,6 @@ namespace Functions
 		{
 			ret = ER_CONST_CONFIGURE_SMOOTHING_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureSmoothing_Keysight] Fail to configure smoothing setting at the active trace." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> ConfigureSmoothing_Keysight] Fail to configure smoothing setting at the active trace." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -3726,7 +3681,6 @@ namespace Functions
 		{
 			ret = ER_CONST_SOURCE_LOW_SETTING_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[PostProcessing -> PostProcessingTester -> KeysightVnaUtility -> SourceLowVna_Keysight] Fail to source low Keysight VNA hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[PostProcessing -> PostProcessingTester -> KeysightVnaUtility -> SourceLowVna_Keysight] Fail to source low Keysight VNA hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -3795,7 +3749,6 @@ namespace Functions
 		{
 			ret = ER_CONST_SAVE_TRACE_DATA_TO_TOUCHSTONE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SaveTraceDataToTouchstoneFile_Keysight] Fail to save trace data to touchstone file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SaveTraceDataToTouchstoneFile_Keysight] Fail to save trace data to touchstone file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -3820,7 +3773,6 @@ namespace Functions
 		{
 			ret = ER_CONST_SHARE_MEMORY_INIT_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_Initilaize] Fail to initialize Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_Initilaize] Fail to initialize Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -3957,7 +3909,6 @@ namespace Functions
 		{
 			ret = ER_CONST_SHARE_MEMORY_FETCH_DATA_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_FetchData] Fail to fetch Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_FetchData] Fail to fetch Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -4148,7 +4099,6 @@ namespace Functions
 		{
 			ret = ER_CONST_SHARE_MEMORY_POST_PROC_DATA_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_Initilaize] Fail to get the correct analysis of the Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_Initilaize] Fail to get the correct analysis of the Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -4219,7 +4169,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GET_MARKER_SEARCH_MIN_MAX_RIPPLE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Fail to get marker search min max ripple data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Fail to get marker search min max ripple data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -4398,7 +4347,6 @@ namespace Functions
 		{
 			ret = ER_CONST_SHARE_MEMORY_FETCH_DATA_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_FetchData] Fail to fetch Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_FetchData] Fail to fetch Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -4727,7 +4675,6 @@ namespace Functions
 		{
 			ret = ER_CONST_SHARE_MEMORY_POST_PROC_DATA_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, testSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_Initilaize] Fail to get the correct analysis of the Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, testSiteIndex, ERROR, "[KeysightVnaUtility -> SharedMemoryTransfer_Initilaize] Fail to get the correct analysis of the Shared Memory Data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -4844,7 +4791,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GET_MARKER_SEARCH_MIN_MAX_RIPPLE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Fail to get marker search min max ripple data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Fail to get marker search min max ripple data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 

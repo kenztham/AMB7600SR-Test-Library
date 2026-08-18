@@ -45,6 +45,7 @@ namespace Functions
 {
 	//Forward Declaration
 	ref class MethodsBranch;
+	ref class TestProgram;
 
 	public ref class AMB7300TestLibrary
 	{
@@ -77,6 +78,7 @@ namespace Functions
 		AMB7300TestLibrary::AMB7300TestLibrary(TestFunction ^ TestFunc);
 		~AMB7300TestLibrary(void);
 
+		TestProgram ^ tprgm;
 		TestFunction ^ tl;
 		Aemulus::TestLib::Utility::Utilities ^ Util;
 		int lineNUM;
@@ -1507,7 +1509,7 @@ namespace Functions
 		int PostProcessingTester(Site ^ site);
 		int VNA_Lock(Site^ site);
 		int VNA_Unlock(Site^ site);
-		
+
 		/*
 		**	----------------------------------------------------------------------------------------------------
 		**	AMB7300 VNA Global Object & Variable

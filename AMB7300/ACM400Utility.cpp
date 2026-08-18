@@ -44,7 +44,6 @@ namespace Functions
 		{
 			ret = ER_CONST_INIT_ACM_HARDWARE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> ACM400Utility -> InitializeAcm] Fail to initialize ACM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> ACM400Utility -> InitializeAcm] Fail to initialize ACM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -76,7 +75,6 @@ namespace Functions
 		{
 			ret = ER_CONST_UNINIT_ACM_HARDWARE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> ACM400Utility -> UninitializeAcm] Fail to uninitialize ACM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> ACM400Utility -> UninitializeAcm] Fail to uninitialize ACM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 

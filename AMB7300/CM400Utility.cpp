@@ -44,7 +44,6 @@ namespace Functions
 		{
 			ret = ER_CONST_INIT_CM_HARDWARE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> CM400Utility -> InitializeCm] Fail to initialize CM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> CM400Utility -> InitializeCm] Fail to initialize CM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -76,7 +75,6 @@ namespace Functions
 		{
 			ret = ER_CONST_UNINIT_CM_HARDWARE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> CM400Utility -> UninitializeCm] Fail to uninitialize CM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> CM400Utility -> UninitializeCm] Fail to uninitialize CM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 

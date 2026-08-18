@@ -1587,7 +1587,6 @@ namespace Functions
 				{
 					startCounting = true;
 					iStart = i;
-					//tl->WriteToFileLogger(0, "RiseFall: " optionRiseFall.ToString());
 				}
 
 				if (startCounting == true)

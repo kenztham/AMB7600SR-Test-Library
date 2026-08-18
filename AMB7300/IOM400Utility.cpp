@@ -44,7 +44,6 @@ namespace Functions
 		{
 			ret = ER_CONST_INIT_IOM_HARDWARE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> IOM400Utility -> InitializeIom] Fail to initialize IOM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeTester -> IOM400Utility -> InitializeIom] Fail to initialize IOM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -76,7 +75,6 @@ namespace Functions
 		{
 			ret = ER_CONST_UNINIT_IOM_HARDWARE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> IOM400Utility -> UninitializeIom] Fail to uninitialize IOM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[Unload -> UninitializeTester -> IOM400Utility -> UninitializeIom] Fail to uninitialize IOM series hardware." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 

@@ -50,7 +50,6 @@ namespace Functions
 			ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_SweepType);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SweepType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SweepType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 		
@@ -114,7 +113,6 @@ namespace Functions
 			/*ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_ChannelNum);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;*/
 		}
 
@@ -188,7 +186,6 @@ namespace Functions
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_StratFreq);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StartFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StartFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 #pragma endregion
@@ -208,7 +205,6 @@ namespace Functions
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_StopFreq);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StopFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'StopFreq' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 #pragma endregion
@@ -228,7 +224,6 @@ namespace Functions
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_Points);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Points' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Points' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 #pragma endregion
@@ -248,7 +243,6 @@ namespace Functions
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_Ifbw);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Ifbw' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Ifbw' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 #pragma endregion
@@ -268,7 +262,6 @@ namespace Functions
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_Power);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Power' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Power' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 #pragma endregion
@@ -288,7 +281,6 @@ namespace Functions
 					ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_Delay);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Delay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'Delay' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 #pragma endregion
@@ -373,7 +365,6 @@ namespace Functions
 		//	ret = ER_CONST_VNACONFIG_CONDITION_NAME_NOT_FOUND;
 		//	ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaConfigConditionName_SNP);
 		//	tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SNP' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-		//	tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition name verification] 'SNP' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 		//	return ret;
 		//}
 
@@ -442,7 +433,6 @@ namespace Functions
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_MeasurePortPair);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'MeasurePortPair' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'MeasurePortPair' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -501,7 +491,6 @@ namespace Functions
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_TraceCount);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceCount' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceCount' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -524,7 +513,6 @@ namespace Functions
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_TraceMeasurementFormat);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceMeasurementFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'TraceMeasurementFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -662,7 +650,6 @@ namespace Functions
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_AveragingSetting);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'AveragingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'AveragingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -690,7 +677,6 @@ namespace Functions
 											"Example: AveOn/10 --> meaning enable averaging, apply 10 averaging factor.";
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_AveragingSetting, additionalMessage);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -725,7 +711,6 @@ namespace Functions
 		//		/*ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 		//		ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_ChannelNum);
 		//		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-		//		tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'ChannelNum' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 		//		return ret;*/
 		//	}
 
@@ -766,7 +751,6 @@ namespace Functions
 			ret = ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaFetchConditionName_SnpDataFilePath);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'SnpDataFilePathway' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition name verification] 'SnpDataFilePathway' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -815,7 +799,6 @@ namespace Functions
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_TraceIndex);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'TraceIndex' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'TraceIndex' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -837,7 +820,6 @@ namespace Functions
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_Function);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Function' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Function' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -893,7 +875,6 @@ namespace Functions
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_Freq);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Freq' or 'Freq_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Freq' or 'Freq_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -911,7 +892,6 @@ namespace Functions
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_FreqRangeStart);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStart' or 'FreqRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStart' or 'FreqRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -929,7 +909,6 @@ namespace Functions
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_FreqRangeStop);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStop' or 'FreqRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'FreqRangeStop' or 'FreqRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -942,7 +921,6 @@ namespace Functions
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Freq);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Freq', 'FreqRangeStart', 'FreqRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Freq', 'FreqRangeStart', 'FreqRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -998,7 +976,6 @@ namespace Functions
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_Power);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Power' or 'Power_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Power' or 'Power_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -1016,7 +993,6 @@ namespace Functions
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_PowerRangeStart);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStart' or 'PowerRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStart' or 'PowerRangeStart_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -1034,7 +1010,6 @@ namespace Functions
 					ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_PowerRangeStop);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStop' or 'PowerRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'PowerRangeStop' or 'PowerRangeStop_x' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1047,7 +1022,6 @@ namespace Functions
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Power);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Power', 'PowerRangeStart', 'PowerRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition set verification] 'Power', 'PowerRangeStart', 'PowerRangeStop' condition name set amount invalid. Should have the same condition name set amount." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -1074,7 +1048,6 @@ namespace Functions
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_AnalysisSetting);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'AnalysisSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'AnalysisSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -1122,7 +1095,6 @@ namespace Functions
 													"Example: SearchRangeOn/Max --> meaning enable marker search range, searching for maximum value.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1158,7 +1130,6 @@ namespace Functions
 													"Example: SearchPeak/1/Positive --> meaning select search peak type, apply 1dB peak excursion, select positive peak polarity.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msPeak' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msPeak' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1194,7 +1165,6 @@ namespace Functions
 													"Example: SearchTarget/-10/Positive --> meaning select search target, apply 10dB target value, select positive target transition.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1226,7 +1196,6 @@ namespace Functions
 													"Example: StatisticsRangeOn --> meaning enable statistics range.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmStatistics' mode is invalid. It should contain 1x value parameter, without a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmStatistics' mode is invalid. It should contain 1x value parameter, without a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1270,7 +1239,6 @@ namespace Functions
 													"Example: Bandpass/Marker/-3 --> meaning select bandpass type, select marker as search reference, apply -3dB bandwidth value.\n";           
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1314,7 +1282,6 @@ namespace Functions
 						"Example: Bandpass/Marker/-3 --> meaning select bandpass type, select marker as search reference, apply -3dB bandwidth value.\n";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'mmBwSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1355,7 +1322,6 @@ namespace Functions
 						"Example: SearchRangeOn/Max --> meaning enable marker search range, searching for maximum value.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1391,7 +1357,6 @@ namespace Functions
 						"Example: SearchTarget/-10/Positive --> meaning select search target, apply 10dB target value, select positive target transition.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataTarget' mode is invalid. It should contain 4x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1437,7 +1402,6 @@ namespace Functions
 						"Example: SearchRangeOff/Bandpass/Marker/-3 --> meaning select bandpass type, select marker as search reference, apply -3dB bandwidth value.\n";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1483,7 +1447,6 @@ namespace Functions
 						"Example: SearchRangeOff/Bandpass/Marker/-3 --> meaning select bandpass type, select marker as search reference, apply -3dB bandwidth value.\n";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'SharedMemoryDataBWSearch' mode is invalid. It should contain 3x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1507,7 +1470,6 @@ namespace Functions
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_SmoothingSetting);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'SmoothingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'SmoothingSetting' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -1535,7 +1497,6 @@ namespace Functions
 											"Example: SmoOn/5 --> meaning enable smoothing, apply 5% smoothing aperture.";
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_SmoothingSetting, additionalMessage);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -1555,7 +1516,6 @@ namespace Functions
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_OutputType);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputType' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -1577,7 +1537,6 @@ namespace Functions
 			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_OutputFormat);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'OutputFormat' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			return ret;
 		}
 
@@ -1599,7 +1558,6 @@ namespace Functions
 //			ret = ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND;
 //			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, VnaDataAnalysisConditionName_Threshold);
 //			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Threshold' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-//			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition name verification] 'Threshold' condition name not found." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 //			return ret;
 //		}
 //
@@ -1657,7 +1615,6 @@ namespace Functions
 					"-> SharedMemoryTransfer";
 				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_SweepType, additionalMessage);
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SweepType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SweepType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
 		}
@@ -1684,7 +1641,6 @@ namespace Functions
 					"-> 1 ~ 16";
 				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_ChannelNum, additionalMessage);
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
 			else if (match_flag == false)
@@ -1700,7 +1656,6 @@ namespace Functions
 					
 				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_ChannelNum, additionalMessage);
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
 		}
@@ -1724,7 +1679,6 @@ namespace Functions
 														"-> 300.0 kHz ~ 9000.0 MHz";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 
@@ -1736,7 +1690,6 @@ namespace Functions
 														"-> 300.0 kHz ~ 9000.0 MHz";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StopFreq, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -1750,7 +1703,6 @@ namespace Functions
 														"-> 9.0 kHz ~ 20000.0 MHz";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 
@@ -1762,7 +1714,6 @@ namespace Functions
 														"-> 9.0 kHz ~ 20000.0 MHz";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StopFreq, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -1784,7 +1735,6 @@ namespace Functions
 					String ^ additionalMessage = "'StartFreq' & 'StopFreq' cannot have the same frequency condition value.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq + " & " + VnaConfigConditionName_StopFreq, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' & 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''StartFreq' & StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1805,7 +1755,6 @@ namespace Functions
 					String ^ additionalMessage = "Segment frequency cannot overlap with other segment frequency.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq + " & " + VnaConfigConditionName_StopFreq, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' & 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''StartFreq' & StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1826,7 +1775,6 @@ namespace Functions
 					String ^ additionalMessage = "'StartFreq' & 'StopFreq' must exist in a valid range (StartFreq must < StopFreq).";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_StratFreq + " & " + VnaConfigConditionName_StopFreq, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'StartFreq' & 'StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''StartFreq' & StopFreq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -1851,7 +1799,6 @@ namespace Functions
 														"-> 2 ~ 100001";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Ifbw, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -1865,7 +1812,6 @@ namespace Functions
 														"-> 1 ~ 100003";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Ifbw, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Points' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -1890,7 +1836,6 @@ namespace Functions
 														"-> 1.0 Hz ~ 1.0 MHz";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Ifbw, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -1904,7 +1849,6 @@ namespace Functions
 														"-> 1.0 Hz ~ 15.0 MHz";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Ifbw, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Ifbw' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -1929,7 +1873,6 @@ namespace Functions
 														"-> -50.0 dBm ~ +15.0 dBm";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Power, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -1943,7 +1886,6 @@ namespace Functions
 														"-> -100.0 dBm ~ +20.0 dBm";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Power, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -1968,7 +1910,6 @@ namespace Functions
 														"-> 0.0 sec ~ 100.0 sec";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Delay, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -1982,7 +1923,6 @@ namespace Functions
 														"-> -86400 sec ~ 86400.0 sec";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_Delay, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''Delay' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2008,7 +1948,6 @@ namespace Functions
 							"-> S3P\n";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_SNP, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2023,7 +1962,6 @@ namespace Functions
 						"-> S3P\n";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_SNP, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] ''SNP' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 					}
 				}
@@ -2082,7 +2020,6 @@ namespace Functions
 															"Port2 name only available in: P2";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2104,7 +2041,6 @@ namespace Functions
 															"Port2 name only available in: OUT5, OUT6, OUT7, OUT8";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2134,7 +2070,6 @@ namespace Functions
 															"Port2 name only available in: OUT9, OUT10, OUT11, OUT12, OUT13, OUT14, OUT15, OUT16";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2164,7 +2099,6 @@ namespace Functions
 															"Port2 name only available in: OUT1, OUT2, OUT3, OUT4, OUT5, OUT6, OUT7, OUT8";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2186,7 +2120,6 @@ namespace Functions
 															"Port2 name only available in: OUT1, OUT2, OUT3, OUT4";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2218,7 +2151,6 @@ namespace Functions
 															"Port2 name only available in: OUT17, OUT18";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2230,7 +2162,6 @@ namespace Functions
 														"For example: system configuration A5 only able to measure S2P ('MeasurePortPair' = OUT1,OUT17), unable to measure S3P ('MeasurePortPair' = OUT1,OUT2,OUT3).";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2253,7 +2184,6 @@ namespace Functions
 															"Port3 name only available in: OUT5, OUT6";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2271,7 +2201,6 @@ namespace Functions
 															"Port3 name only available in: OUT3";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2283,7 +2212,6 @@ namespace Functions
 														"For example: system configuration A5 only able to measure S2P ('MeasurePortPair' = OUT1,OUT17), unable to measure S3P ('MeasurePortPair' = OUT1,OUT2,OUT3).";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2309,7 +2237,6 @@ namespace Functions
 															"Port4 name only available in: OUT7, OUT8";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2329,7 +2256,6 @@ namespace Functions
 															"Port4 name only available in: OUT4";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2341,7 +2267,6 @@ namespace Functions
 														"For example: system configuration A5 only able to measure S2P ('MeasurePortPair' = OUT1,OUT17), unable to measure S3P ('MeasurePortPair' = OUT1,OUT2,OUT3).";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2356,7 +2281,6 @@ namespace Functions
 													"Example: OUT1,OUT2,OUT3,OUT4 --> S4P 4-port measurement.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -2375,7 +2299,6 @@ namespace Functions
 															"Port1 name only available in: P1, P2";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2392,7 +2315,6 @@ namespace Functions
 															"Port1 name only available in: P1, P2, P3, P4";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2411,7 +2333,6 @@ namespace Functions
 															"Port1 name only available in: P1, P2, P3, P4, P5, P6";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2447,7 +2368,6 @@ namespace Functions
 								"Port1 name only available in: P1A, P2A, P3A up to P22A";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2459,7 +2379,6 @@ namespace Functions
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2477,7 +2396,6 @@ namespace Functions
 															"Port2 name only available in: P2";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2499,7 +2417,6 @@ namespace Functions
 															"Port2 name only available in: P2, P2, P3, P4";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2525,7 +2442,6 @@ namespace Functions
 															"Port2 name only available in: P2, P2, P3, P4, P5, P6";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2583,7 +2499,6 @@ namespace Functions
 								"Port2 name only available in: OUT1~OUT18, P3, P4, P5, P6";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2605,7 +2520,6 @@ namespace Functions
 								"Port2 name only available in: OUT1, OUT2, OUT3, OUT4";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2617,7 +2531,6 @@ namespace Functions
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2646,7 +2559,6 @@ namespace Functions
 															"Port3 name only available in: P2, P2, P3, P4";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2679,7 +2591,6 @@ namespace Functions
 															"Port3 name only available in: P2, P2, P3, P4, P5, P6";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2697,7 +2608,6 @@ namespace Functions
 								"Port3 name only available in: OUT3";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2709,7 +2619,6 @@ namespace Functions
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2743,7 +2652,6 @@ namespace Functions
 															"Port4 name only available in: P2, P2, P3, P4";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2783,7 +2691,6 @@ namespace Functions
 															"Port4 name only available in: P2, P2, P3, P4, P5, P6";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2803,7 +2710,6 @@ namespace Functions
 								"Port4 name only available in: OUT4";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2815,7 +2721,6 @@ namespace Functions
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2864,7 +2769,6 @@ namespace Functions
 															"Port5 name only available in: P2, P2, P3, P4, P5, P6";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2876,7 +2780,6 @@ namespace Functions
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2932,7 +2835,6 @@ namespace Functions
 															"Port6 name only available in: P2, P2, P3, P4, P5, P6";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -2944,7 +2846,6 @@ namespace Functions
 														"For example: system configuration S4P1D only able to measure S1P/S2P/S3P/S4P ('MeasurePortPair' = P1,P2,P3,P4), unable to measure S6P ('MeasurePortPair' = P1,P2,P3,P4,P5,P6).";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -2959,7 +2860,6 @@ namespace Functions
 													"Example: OUT1,OUT2,OUT3,OUT4 --> S4P 4-port measurement.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_MeasurePortPair, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'MeasurePortPair' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -2979,7 +2879,6 @@ namespace Functions
 												"-> 1 ~ 16";
 				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceCount, additionalMessage);
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceCount' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceCount' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
 		}
@@ -3045,7 +2944,6 @@ namespace Functions
 										"-> S22 / A22 / B22";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3057,7 +2955,6 @@ namespace Functions
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
 						}
@@ -3105,7 +3002,6 @@ namespace Functions
 																	"-> S44 / A44 / B44";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3117,7 +3013,6 @@ namespace Functions
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
 						}
@@ -3165,7 +3060,6 @@ namespace Functions
 																	"-> S44 / A44 / B44";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3177,7 +3071,6 @@ namespace Functions
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
 						}
@@ -3189,7 +3082,6 @@ namespace Functions
 															"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 
@@ -3231,7 +3123,6 @@ namespace Functions
 															"-> PolarReIm";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -3256,7 +3147,6 @@ namespace Functions
 																	"-> S22 / A22 / B22";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3285,7 +3175,6 @@ namespace Functions
 																	"-> S44 / A44 / B44";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3322,7 +3211,6 @@ namespace Functions
 																	"-> S66 / A66 / B66";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3334,7 +3222,6 @@ namespace Functions
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
 						}
@@ -3365,7 +3252,6 @@ namespace Functions
 																	"-> S22 / A22 / B22";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3410,7 +3296,6 @@ namespace Functions
 																	"-> S44 / A44 / B44";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3495,7 +3380,6 @@ namespace Functions
 																	"-> S66 / A66 / B66";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3580,7 +3464,6 @@ namespace Functions
 																	"-> S66 / A66 / B66";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3601,7 +3484,6 @@ namespace Functions
 										"-> S22 / A22 / B22 ";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3613,7 +3495,6 @@ namespace Functions
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
 						}
@@ -3660,7 +3541,6 @@ namespace Functions
 																	"-> S44 / A44 / B44";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3745,7 +3625,6 @@ namespace Functions
 																	"-> S66 / A66 / B66";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3776,7 +3655,6 @@ namespace Functions
 										"-> S33 / A33 / B33";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3788,7 +3666,6 @@ namespace Functions
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
 						}
@@ -3835,7 +3712,6 @@ namespace Functions
 																	"-> S44 / A44 / B44";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3920,7 +3796,6 @@ namespace Functions
 																	"-> S66 / A66 / B66";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3965,7 +3840,6 @@ namespace Functions
 										"-> S44 / A44 / B44";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -3977,7 +3851,6 @@ namespace Functions
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
 						}
@@ -4064,7 +3937,6 @@ namespace Functions
 																	"-> S66 / A66 / B66";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -4076,7 +3948,6 @@ namespace Functions
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
 						}
@@ -4163,7 +4034,6 @@ namespace Functions
 																	"-> S66 / A66 / B66";
 									ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 									tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-									tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 									return ret;
 								}
 							}
@@ -4175,7 +4045,6 @@ namespace Functions
 																"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 								ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 								tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								return ret;
 							}
 						}
@@ -4187,7 +4056,6 @@ namespace Functions
 															"For example: system configuration A5 only able to set measurement parameter S11/S12/S21/S22, unable to set S13,S23,S31,S33.";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 
@@ -4229,7 +4097,6 @@ namespace Functions
 															"-> PolarReIm";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -4245,7 +4112,6 @@ namespace Functions
 													"Example: S11/SWR,S21/LogMag --> trace#1 measure 'S11' parameter with 'SWR' format, trace#2 measure 'S21' parameter with 'LogMag' format.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceMeasurementFormat, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'TraceMeasurementFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4266,7 +4132,6 @@ namespace Functions
 												"-> AveOff";
 				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_AveragingSetting, additionalMessage);
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
 
@@ -4284,7 +4149,6 @@ namespace Functions
 													"-> 1 ~ 999";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_AveragingSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4298,7 +4162,6 @@ namespace Functions
 													"-> 1 ~ 65535";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_AveragingSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'AveragingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4325,7 +4188,6 @@ namespace Functions
 		//			"-> 1 ~ 16";
 		//		ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaFetchConditionName_TraceCount, additionalMessage);
 		//		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-		//		tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaFetch' condition value verification] 'ChannelNum' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 		//		return ret;
 		//	}
 		//}
@@ -4371,7 +4233,6 @@ namespace Functions
 												"-> 1 ~ 16";
 				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_TraceIndex, additionalMessage);
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
 
@@ -4381,7 +4242,6 @@ namespace Functions
 				String ^ additionalMessage = "Selected trace index must exists in 'TraceCount' at 'VnaFetch'.";
 				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_TraceIndex, additionalMessage);
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'TraceIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
 		}
@@ -4425,7 +4285,6 @@ namespace Functions
 													"-> P1dB";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Function, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 				if (vnaDataAnalysisTPC.function == Cond_Function_SharedMemoryDataBWSearch) 
@@ -4484,7 +4343,6 @@ namespace Functions
 													"-> P1dB";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Function, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Function' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4514,7 +4372,6 @@ namespace Functions
 													"-> SearchRangeOff";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4528,7 +4385,6 @@ namespace Functions
 													"-> Min";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4548,7 +4404,6 @@ namespace Functions
 													"-> SearchPeakRight";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4561,7 +4416,6 @@ namespace Functions
 													"-> -500.0 dB ~ +500.0 dB";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4577,7 +4431,6 @@ namespace Functions
 													"-> Both";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4590,7 +4443,6 @@ namespace Functions
 						"-> -500.0 dB ~ +500.0 dB";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}*/
 
@@ -4610,7 +4462,6 @@ namespace Functions
 													"-> SearchTargetRight";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4623,7 +4474,6 @@ namespace Functions
 													"-> -500.0 dB ~ +500.0 dB";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4639,7 +4489,6 @@ namespace Functions
 													"-> Both";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4655,7 +4504,6 @@ namespace Functions
 				//											"-> TargetLineOff";
 				//			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 				//			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				//			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				//			return ret;
 				//		}
 				//	}
@@ -4674,7 +4522,6 @@ namespace Functions
 													"-> StatisticsRangeOff";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4691,7 +4538,6 @@ namespace Functions
 													"-> Notch";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4709,7 +4555,6 @@ namespace Functions
 														"-> Min";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -4724,7 +4569,6 @@ namespace Functions
 														"-> Peak";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -4738,7 +4582,6 @@ namespace Functions
 													"-> -500.0 dB ~ +500.0 dB";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4755,7 +4598,6 @@ namespace Functions
 						"-> Notch";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4773,7 +4615,6 @@ namespace Functions
 							"-> Min";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -4788,7 +4629,6 @@ namespace Functions
 							"-> Peak";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -4802,7 +4642,6 @@ namespace Functions
 						"-> -500.0 dB ~ +500.0 dB";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4834,7 +4673,6 @@ namespace Functions
 						"-> SearchRangeOff";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4848,7 +4686,6 @@ namespace Functions
 						"-> Min";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4865,7 +4702,6 @@ namespace Functions
 						"-> SearchRangeOff";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4878,7 +4714,6 @@ namespace Functions
 						"-> -500.0 dB ~ +500.0 dB";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4894,7 +4729,6 @@ namespace Functions
 						"-> Both";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -4912,7 +4746,6 @@ namespace Functions
 						"-> SearchRangeOff";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4926,7 +4759,6 @@ namespace Functions
 						"-> Notch";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4944,7 +4776,6 @@ namespace Functions
 							"-> Min";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -4959,7 +4790,6 @@ namespace Functions
 							"-> Peak";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -4973,7 +4803,6 @@ namespace Functions
 						"-> -500.0 dB ~ +500.0 dB";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 
@@ -4995,7 +4824,6 @@ namespace Functions
 												"-> SmoOff";
 				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_SmoothingSetting, additionalMessage);
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
 			}
 
@@ -5009,7 +4837,6 @@ namespace Functions
 													"-> 0.01 ~ 20.0";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_SmoothingSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -5023,7 +4850,6 @@ namespace Functions
 													"-> 0.0 ~ 25.0";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_SmoothingSetting, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'SmoothingSetting' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -5053,7 +4879,6 @@ namespace Functions
 								"-> 300.0 kHz ~ 9000.0 MHz";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Freq, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -5067,7 +4892,6 @@ namespace Functions
 								"-> 9.0 kHz ~ 20000.0 MHz";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Freq, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Freq' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -5078,7 +4902,6 @@ namespace Functions
 						String ^ additionalMessage = "'FreqRangeStart' is unavailable for '" + vnaDataAnalysisTPC.function + "' function, please remain the condition value as 0.0 MHz.";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_FreqRangeStart, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 
@@ -5088,7 +4911,6 @@ namespace Functions
 						String ^ additionalMessage = "'FreqRangeStop' is unavailable for '" + vnaDataAnalysisTPC.function + "' function, please remain the condition value as 0.0 MHz.";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_FreqRangeStop, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'FreqRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -5161,7 +4983,6 @@ namespace Functions
 								"-> -50 dBm ~ 15 dBm";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Power, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -5175,7 +4996,6 @@ namespace Functions
 								"-> -100 dBm ~ 20 dBm";
 							ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_Power, additionalMessage);
 							tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'Power' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							return ret;
 						}
 					}
@@ -5186,7 +5006,6 @@ namespace Functions
 						String ^ additionalMessage = "'PowerRangeStart' is unavailable for 'TraceData' function, please remain the condition value as 0.0 MHz.";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_PowerRangeStart, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStart' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 
@@ -5196,7 +5015,6 @@ namespace Functions
 						String ^ additionalMessage = "'PowerRangeStop' is unavailable for 'TraceData' function, please remain the condition value as 0.0 MHz.";
 						ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_PowerRangeStop, additionalMessage);
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'PowerRangeStop' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						return ret;
 					}
 				}
@@ -5227,7 +5045,6 @@ namespace Functions
 													"-> Data";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -5244,7 +5061,6 @@ namespace Functions
 													"-> PeakToPeak";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -5269,7 +5085,6 @@ namespace Functions
 													"-> Loss";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -5286,7 +5101,6 @@ namespace Functions
 													"-> Flat";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -5299,7 +5113,6 @@ namespace Functions
 													"-> Data";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputType, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -5341,7 +5154,6 @@ namespace Functions
 													"-> Susceptance";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputFormat, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}
@@ -5358,7 +5170,6 @@ namespace Functions
 					String ^ additionalMessage =	"'OutputFormat' is unavailable for 'mmStatistics', 'mmBwSearch', 'mmFlatness', 'SharedMemoryDataBWSearch' function, please remain the condition value empty.";
 					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_OutputFormat, additionalMessage);
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'OutputFormat' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					return ret;
 				}
 			}

@@ -70,10 +70,28 @@ namespace AMB7600SR_TestLibrary_REV2
 
 #pragma endregion "SiteConfiguration"
 
+		// Initialize DC modules first
+		ret = module400series->InitializeTester(site, tl->glob->tf.NumberOfSites, tl->glob->HardwareProfile, tl->glob->tf.TestHead);
+
 		if (PlatformSelection == AMB7300_PLATFORM)
 		{
 			// User selected AMB7300
 			ret = amb7300tl->InitializeTester(site);
+
+#pragma region "Committing Result"
+			site->CommittingResult += gcnew CommitResult(this, &TestProgram::SaveSnpToBinAfterCommitResults);
+#pragma endregion
+
+#pragma region "HighPwrTest - Source Low on Load"
+			if (tl->glob->AWV.HighPwrTest_EN == true)
+			{
+				tl->LoadAppsCalFile(tfSite, tl->glob->AWV.HighPwrTest_AppsCalFile);
+				for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfTestSites; siteIndex++)
+				{
+					ret = amb7300tl->HighPwrTest_VNASourceLow(tfSite, siteIndex);
+				}
+			}
+#pragma endregion
 		}
 		else if (PlatformSelection == AMB7600SR_PLATFORM)
 		{
@@ -131,13 +149,22 @@ namespace AMB7600SR_TestLibrary_REV2
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ">>Executing " + tl->glob->tf.CurrentPhase + " Phase");
 		}
 
+		// Uninitialize DC modules first
+		ret = module400series->UninitializeTester(site);
+
 		if (PlatformSelection == AMB7300_PLATFORM)
 		{
+
+#pragma region "Committing Result"
+			site->CommittingResult -= gcnew CommitResult(this, &TestProgram::SaveSnpToBinAfterCommitResults);
+#pragma endregion
+
 			// User selected AMB7300
 			amb7300tl->UninitializeTester(site);
 		}
 		else if (PlatformSelection == AMB7600SR_PLATFORM)
 		{
+			// User selected AMB7600SR
 			amb7600srtl->UninitializeTester(site);
 		}
 
@@ -185,12 +212,33 @@ namespace AMB7600SR_TestLibrary_REV2
 			tl->glob->GlobalResult[siteIndex]->Clear();
 		}
 
-		//Reload CorrFactor
-		tl->corrFactorLoad(site);
+		if (PlatformSelection == AMB7300_PLATFORM)
+		{
+			int tfSite = tl->glob->tf.TestSite;
 
-		//Reload BoardLoss
-		tl->boardLossFileLoad(site);
+			String^ CorrFactorDirectory;
 
+			ret = amb7300tl->PreProcessingTester(site);
+
+			if (tf_ControlItem_ConditionExist(PreProcessing_CorrFactorDirectory))
+			{
+				CorrFactorDirectory = (String^)tf_ControlItem_ConditionCast(PreProcessing_CorrFactorDirectory);
+			}
+			else
+			{
+				CorrFactorDirectory = tl->glob->tf.RecipeFilePathDirectory + "\\" + FILENAME_CONST_PROJECT_FIXEDOFFSETFILEFOLDER + "\\" + tl->glob->TesterId + "_" + tl->glob->tf.ProjectName + "_CorrFactor_S" + tfSite.ToString() + ".csv";
+			}
+
+			tl->LoadFixedOffsetFile(tfSite, CorrFactorDirectory);
+		}
+		else if (PlatformSelection == AMB7600SR_PLATFORM)
+		{
+			//Reload CorrFactor
+			tl->corrFactorLoad(site);
+
+			//Reload BoardLoss
+			tl->boardLossFileLoad(site);
+		}
 		//Execute Control Method if any
 		tl->ThreadingInfo(site, tl->ControlItem_RF_ResourceNeeded(site));
 		ret = tl->DoThreadHardware(gcnew ParameterizedThreadStart(this, &TestProgram::AMB7600SR_TestLibrary_ControlMethod), site);
@@ -201,7 +249,14 @@ namespace AMB7600SR_TestLibrary_REV2
 	{
 		int ret = 0;
 
-		ret = amb7600srtl->PostProcessing_RF(site);
+		if (PlatformSelection == AMB7300_PLATFORM)
+		{
+			ret = amb7300tl->PostProcessingTester(site);
+		}
+		else if (PlatformSelection == AMB7600SR_PLATFORM)
+		{
+			ret = amb7600srtl->PostProcessing_RF(site);
+		}
 
 		tl->ThreadingInfo(site, tl->ControlItem_RF_ResourceNeeded(site));
 		ret = tl->DoThreadHardware(gcnew ParameterizedThreadStart(this, &TestProgram::AMB7600SR_TestLibrary_ControlMethod), site);
@@ -441,6 +496,168 @@ namespace AMB7600SR_TestLibrary_REV2
 			testProgramData->Exception = ex;
 			testProgramData->ErrorCode = ER_CONST_GENERAL;
 			tl->ErrorHandling(site, testSite, ex->ToString());
+		}
+	}
+
+
+	void TestProgram::SaveSnpToBinAfterCommitResults(Site^ site)
+	{
+		int current_site = 0;
+
+		if (tl->glob->AWV.EnableSaveSnpData && tl->glob->AWV.isSaveBinFolder && amb7300tl->vnaDataAnalysisTPC.saveSnpData == true)
+		{
+			for each(ResultPerDUTCollection ^ resultCollection in site->ResultsByOffset)
+			{
+				for each (ResultPerDUT ^ dutResult in resultCollection)
+				{
+					if (dutResult->Active)
+					{
+
+#pragma region "Generate touchstoneFolder\\Bin[bin] folder if create_S2PpathByBin_flag not flagged"
+
+						if (!tl->glob->tf.create_S2PpathByBin_flag)
+						{
+							array<String^>^ touchstoneFolder_HardBin = gcnew array<String^>(tl->glob->tf.HardBinCount);
+
+							for (int i = 0; i < tl->glob->tf.HardBinCount; i++)
+							{
+								touchstoneFolder_HardBin[i] = amb7300tl->saveRecallSetting->touchstoneFolder + "\\" + "Bin" + tl->glob->tf.str_arrHBin[i];
+
+								// Create S2Ppath > [bin] folder if not exist
+								if (!(Directory::Exists(touchstoneFolder_HardBin[i])))
+								{
+									Directory::CreateDirectory(touchstoneFolder_HardBin[i]);
+								}
+
+								// Store S2Ppath_Bin folder path to BinString_by_BinPath Dictionary
+								if (tl->glob->tf.BinString_by_BinPath->ContainsKey(tl->glob->tf.str_arrHBin[i]))
+								{
+									tl->glob->tf.BinString_by_BinPath[tl->glob->tf.str_arrHBin[i]] = touchstoneFolder_HardBin[i];
+								}
+								else
+								{
+									tl->glob->tf.BinString_by_BinPath->Add(tl->glob->tf.str_arrHBin[i], touchstoneFolder_HardBin[i]);
+								}
+							}
+							tl->glob->tf.create_S2PpathByBin_flag = true;
+						}
+#pragma endregion
+
+#pragma region "Move failed S2P file to respective BinFolder"
+						array<String^>^ arr_Failed_TiTpName = gcnew array<String^>(0);
+						array<String^>^ arrSeparator_F = gcnew array<String^>(1);
+						arrSeparator_F[0] = ".";
+
+						int arr_FailedTP_TotalCount = dutResult->FailedTestParameters->Count;
+
+						String^ FailedTi = String::Empty;
+						String^ FailedTp = String::Empty;
+						int FailTp_Hbin = -9999;
+						String^ FailTi_S2PFilename = String::Empty;
+						String^ BinPath_FailedTiBySite_Folder = String::Empty;
+						String^ temp_S2P_FullFilePath = String::Empty;
+
+
+						for each (String^ Failed_TiTpName in dutResult->FailedTestParameters)	// Failed_TiTpName = testItem.testParameter
+						{
+
+							arr_Failed_TiTpName = Failed_TiTpName->Split(arrSeparator_F, StringSplitOptions::None);
+
+							if (FailedTi != arr_Failed_TiTpName[0])
+							{
+								FailedTi = arr_Failed_TiTpName[0];
+
+								if (tl->glob->tf.Ti_by_S2PFilename->ContainsKey(FailedTi + "_S" + current_site))
+								{
+									if (amb7300tl->sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
+									{
+										// Get snp file name from Ti_by_S2PFilename Dictionary
+										FailTi_S2PFilename = tl->glob->tf.Ti_by_S2PFilename[FailedTi + "_S" + current_site] + ".s2p";
+									}
+									else if (amb7300tl->sysConfigInfo.moduleConfigurationName == VnaModel_Keysight_M9804A)
+									{
+										// Get snp file name from Ti_by_S2PFilename Dictionary
+										FailTi_S2PFilename = tl->glob->tf.Ti_by_S2PFilename[FailedTi + "_S" + current_site];// +".s2p";
+									}
+
+									// Update selected S2P file path
+									temp_S2P_FullFilePath = amb7300tl->saveRecallSetting->touchstoneFolder + "\\" + FailTi_S2PFilename;
+
+									// Get HardBin number from TiTpRule_by_HBin Dictionary
+									FailTp_Hbin						= tl->glob->tf.TiTpRule_by_HBin[Failed_TiTpName];
+
+									// Create snp folder by HBin and FailedTi
+									BinPath_FailedTiBySite_Folder	= tl->glob->tf.BinString_by_BinPath[FailTp_Hbin.ToString()] + "\\" + FailedTi + "_S" + current_site;
+
+									if (!(Directory::Exists(BinPath_FailedTiBySite_Folder)))
+									{
+										Directory::CreateDirectory(BinPath_FailedTiBySite_Folder);
+									}
+
+									// Move respective S2P file to failed HardBin Folder
+									File::Move(temp_S2P_FullFilePath, BinPath_FailedTiBySite_Folder + "\\" + FailTi_S2PFilename);
+								}
+							}
+						}
+#pragma endregion
+
+#pragma region "Move remaining S2P file to respective Pass HardBin Folder"
+
+						int Pass_SNPFiles_count = 0;
+						int split_SNPFilePath_count = 0;
+						//int FailTp_count = dutResult->FailedTestParameters->Count;
+
+						array<String^>^ Separator1 = gcnew array<String^>(1);
+						Separator1[0] = "\\";
+						array<String^>^ Separator2 = gcnew array<String^>(1);
+						Separator2[0] = "_";
+
+						String^ S2PFile_ItemName = String::Empty;
+						String^ mod_Pass_SNPFilepath_byBin1 = String::Empty;
+
+						Pass_SNPFiles_count = Directory::GetFiles(amb7300tl->saveRecallSetting->touchstoneFolder, "*.s2p")->Length;
+						array<String^> ^ arr_Pass_SNPFilePath = gcnew array<String^>(Pass_SNPFiles_count);
+						array<String^>^ arr_spilt_SNPFile = gcnew array<String^>(0);
+						array<String^>^ SNPFileName = gcnew array<String^>(Pass_SNPFiles_count);
+
+						arr_Pass_SNPFilePath = Directory::GetFiles(amb7300tl->saveRecallSetting->touchstoneFolder, "*.s2p");	// e.g. "C:\\snp\\ProjectName\\LOTID\\WaferID\\abc1234.s2p"
+
+						for (int j = 0; j < Pass_SNPFiles_count; j++)
+						{
+							arr_spilt_SNPFile = arr_Pass_SNPFilePath[j]->Split(Separator1, StringSplitOptions::None);	// e.g. arr_spilt_SNPFile = {"C:","snp","ProjectName","LOTID","WaferID","abc1234.s2p"}
+
+							split_SNPFilePath_count = arr_spilt_SNPFile->Length;
+
+							SNPFileName[j] = arr_spilt_SNPFile[split_SNPFilePath_count - 1];							//e.g. "abc1234.s2p"
+
+																														// Move to Bin1 folder only if Bin1 exist in BinSorter
+							if (tl->glob->tf.BinString_by_BinPath->ContainsKey("1"))
+							{
+								//if (FailTp_count > 0)
+								//{
+								//	mod_Pass_SNPFilepath_byBin1 = tl->glob->tf.BinString_by_BinPath["1.1"] + "\\" + S2PFile_ItemName;
+								//	if (!(Directory::Exists(mod_Pass_SNPFilepath_byBin1)))
+								//	{
+								//		Directory::CreateDirectory(mod_Pass_SNPFilepath_byBin1);
+								//	}
+								//	File::Move(arr_Pass_SNPFilePath[j], mod_Pass_SNPFilepath_byBin1 + "\\" + SNPFileName[j]);
+								//}
+								//else
+								{
+									File::Move(arr_Pass_SNPFilePath[j], tl->glob->tf.BinString_by_BinPath["1"] + "\\" + SNPFileName[j]);
+								}
+							}
+							else
+							{
+								// Do nothing because Bin1 is not set in BinSorter
+							}
+						}
+#pragma endregion
+
+					}
+				}
+				current_site++;
+			}
 		}
 	}
 }

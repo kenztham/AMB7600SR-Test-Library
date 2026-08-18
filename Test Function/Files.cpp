@@ -745,8 +745,7 @@ namespace Functions
 					if (arrStr[1] != glob->tf.DeviceName)
 					{
 						ret = ER_CONST_PROJECT_BOARDLOSSFILE_HEADER_VALUE_INVALID;
-						WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						ret = 0;
 						glob->BoardLoss.isCreateNewBoardLossFile = true;
 						goto EndOfTest;
@@ -761,8 +760,7 @@ namespace Functions
 					//if (arrStr[1] != glob->tf.ProgramName)
 					//{
 					//	ret = ER_CONST_PROJECT_BOARDLOSSFILE_HEADER_VALUE_INVALID;
-					//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					//	ret = 0;
 					//	glob->BoardLoss.isCreateNewBoardLossFile = true;
 					//	goto EndOfTest;
@@ -777,8 +775,7 @@ namespace Functions
 					//if (arrStr[1] != glob->tf.ProgramRevision)
 					//{
 					//	ret = ER_CONST_PROJECT_BOARDLOSSFILE_HEADER_VALUE_INVALID;
-					//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					//	ret = 0;
 					//	glob->BoardLoss.isCreateNewBoardLossFile = true;
 					//	goto EndOfTest;
@@ -799,8 +796,7 @@ namespace Functions
 					if (arrStr[1] != glob->TesterId)
 					{
 						ret = ER_CONST_PROJECT_BOARDLOSSFILE_HEADER_VALUE_INVALID;
-						WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						ret = 0;
 						glob->BoardLoss.isCreateNewBoardLossFile = true;
 						goto EndOfTest;
@@ -828,8 +824,7 @@ namespace Functions
 			(isHeaderIndexCorrect == false))
 		{
 			ret = ER_CONST_PROJECT_BOARDLOSSFILE_HEADER_NAME_INVALID;
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header name inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header name inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] Invalid header name inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			ret = 0;
 			glob->BoardLoss.isCreateNewBoardLossFile = true;
 			goto EndOfTest;
@@ -965,8 +960,7 @@ namespace Functions
 					reader->Close();
 					reader = nullptr;
 					ret = ER_CONST_PROJECT_BOARDLOSSFILE_HEADER_NAME_INVALID;
-					WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] tF UUT offet count does not match with the UUT offset count inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-					WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] tF UUT offet count does not match with the UUT offset count inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+					WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeBoardLossFileFolder -> CheckExistingBoardLossFileContent] tF UUT offet count does not match with the UUT offset count inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty boardloss factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 					ret = 0;
 					glob->BoardLoss.isCreateNewBoardLossFile = true;
 					goto EndOfTest;
@@ -1494,8 +1488,7 @@ namespace Functions
 			glob->DeviceStateFileTemplate.stateFileDirectory_csa = String::Empty;
 
 			ret = ER_CONST_PROJECT_DEVICESTATEFILETEMPLATE_STATEFILE_NOT_FOUND;
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder -> LoadDeviceStateFileTemplate] Device state file (.sta type) should not exist more than 1x or empty in the '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder -> LoadDeviceStateFileTemplate] Device state file (.sta type) should not exist more than 1x or empty in the '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder -> LoadDeviceStateFileTemplate] Device state file (.sta type) should not exist more than 1x or empty in the '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			ret = 0;
 		}
 		else
@@ -1514,8 +1507,7 @@ namespace Functions
 			glob->DeviceStateFileTemplate.stateFileDirectory_sta = String::Empty;
 
 			ret = ER_CONST_PROJECT_DEVICESTATEFILETEMPLATE_STATEFILE_NOT_FOUND;
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder -> LoadDeviceStateFileTemplate] Device state file (.sta type) should not exist more than 1x or empty in the '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder -> LoadDeviceStateFileTemplate] Device state file (.sta type) should not exist more than 1x or empty in the '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder -> LoadDeviceStateFileTemplate] Device state file (.sta type) should not exist more than 1x or empty in the '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			ret = 0;
 		}
 		else
@@ -1534,8 +1526,7 @@ namespace Functions
 			glob->DeviceStateFileTemplate.mappingFileDirectory = String::Empty;
 
 			ret = ER_CONST_PROJECT_DEVICESTATEFILETEMPLATE_MAPPINGFILE_NOT_FOUND;
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder -> LoadDeviceStateFileTemplate] Device mapping file (.xml type) should not exist more than 1x or empty in the '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder -> LoadDeviceStateFileTemplate] Device mapping file (.xml type) should not exist more than 1x or empty in the '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeDeviceStateFileTemplateFolder -> LoadDeviceStateFileTemplate] Device mapping file (.xml type) should not exist more than 1x or empty in the '" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			ret = 0;
 		}
 		else
@@ -1601,8 +1592,7 @@ namespace Functions
 					if (arrStr[1] != glob->tf.DeviceName)
 					{
 						ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_HEADER_VALUE_INVALID;
-						WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						ret = 0;
 						glob->FixedOffset.isCreateNewFixedOffsetFile = true;
 						goto EndOfTest;
@@ -1617,8 +1607,7 @@ namespace Functions
 					//if (arrStr[1] != glob->tf.ProgramName)
 					//{
 					//	ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_HEADER_VALUE_INVALID;
-					//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					//	ret = 0;
 					//	glob->FixedOffset.isCreateNewFixedOffsetFile = true;
 					//	goto EndOfTest;
@@ -1633,8 +1622,7 @@ namespace Functions
 					//if (arrStr[1] != glob->tf.ProgramRevision)
 					//{
 					//	ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_HEADER_VALUE_INVALID;
-					//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					//	ret = 0;
 					//	glob->FixedOffset.isCreateNewFixedOffsetFile = true;
 					//	goto EndOfTest;
@@ -1655,8 +1643,7 @@ namespace Functions
 					if (arrStr[1] != glob->TesterId)
 					{
 						ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_HEADER_VALUE_INVALID;
-						WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header value inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						ret = 0;
 						glob->FixedOffset.isCreateNewFixedOffsetFile = true;
 						goto EndOfTest;
@@ -1684,8 +1671,7 @@ namespace Functions
 			(isHeaderIndexCorrect == false))
 		{
 			ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_HEADER_NAME_INVALID;
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header name inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header name inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Invalid header name inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			ret = 0;
 			glob->FixedOffset.isCreateNewFixedOffsetFile = true;
 			goto EndOfTest;
@@ -1825,8 +1811,7 @@ namespace Functions
 					reader->Close();
 					reader = nullptr;
 					ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_HEADER_NAME_INVALID;
-					WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] tF UUT offet count does not match with the UUT offset count inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-					WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] tF UUT offet count does not match with the UUT offset count inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
+					WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] tF UUT offet count does not match with the UUT offset count inside the '" + csvFileName + "' file. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 					ret = 0;
 					glob->FixedOffset.isCreateNewFixedOffsetFile = true;
 					goto EndOfTest;
@@ -1868,8 +1853,7 @@ namespace Functions
 							if (glob->FixedOffset.testItem[offsetIndex] != testItemName)
 							{
 								ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_TEST_ITEM_NAME_NOT_MATCH;
-								WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Test item name inside the '" + csvFileName + "' file does not match with the test item name inside the project recipes. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Test item name inside the '" + csvFileName + "' file does not match with the test item name inside the project recipes. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Test item name inside the '" + csvFileName + "' file does not match with the test item name inside the project recipes. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								ret = 0;
 								glob->FixedOffset.isCreateNewFixedOffsetFile = true;
 								goto EndOfTest;
@@ -1879,8 +1863,7 @@ namespace Functions
 							if (glob->FixedOffset.testParameter[offsetIndex] != testParameterName)
 							{
 								ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_TEST_PARAMETER_NAME_NOT_MATCH;
-								WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Test parameter name inside the '" + csvFileName + "' file does not match with the test parameter name inside the project recipes. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-								WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Test parameter name inside the '" + csvFileName + "' file does not match with the test parameter name inside the project recipes. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+								WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Test parameter name inside the '" + csvFileName + "' file does not match with the test parameter name inside the project recipes. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 								ret = 0;
 								glob->FixedOffset.isCreateNewFixedOffsetFile = true;
 								goto EndOfTest;
@@ -1891,8 +1874,7 @@ namespace Functions
 						catch (Exception^ ex)
 						{
 							ret = ER_CONST_PROJECT_FIXEDOFFSETFILE_TEST_PARAMETER_NAME_NOT_MATCH;
-							WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Test parameter name inside the '" + csvFileName + "' file does not match with the test parameter name inside the project recipes. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-							WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Test parameter name inside the '" + csvFileName + "' file does not match with the test parameter name inside the project recipes. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+							WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeProgram -> InitializeFixedOffsetFileFolder -> CheckExistingFixedOffsetFileContent] Test parameter name inside the '" + csvFileName + "' file does not match with the test parameter name inside the project recipes. A new '" + csvFileName + "' file will be generated in the target folder (with empty fixed offset factor)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 							ret = 0;
 							glob->FixedOffset.isCreateNewFixedOffsetFile = true;
 							goto EndOfTest;
@@ -2382,8 +2364,7 @@ namespace Functions
 		//		glob->ModulationFile.awfTypeFileName[j] = glob->ModulationFile.awfTypeFileName[j]->Replace(".awf", "");
 		//	}
 
-		//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.awf type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->ModulationFile.totalAwfTypeFileExist.ToString() + ".");
-		//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.awf type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->ModulationFile.totalAwfTypeFileExist.ToString() + ".");
+		//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.awf type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->ModulationFile.totalAwfTypeFileExist.ToString() + ".");
 
 		//	String ^ loggerMessage = "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] ";
 		//	loggerMessage += "\n" + "\t" + "Modulation file available (.awf type): ";
@@ -2391,15 +2372,13 @@ namespace Functions
 		//	{
 		//		loggerMessage += "\n" + "\t" + glob->ModulationFile.awfTypeFileName[j] + ".awf";
 		//	}
-		//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
-		//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
+		//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
 		//}
 		//else
 		//{
 		//	glob->ModulationFile.awfTypeFilePathList = gcnew array<String^>(0);
 		//	glob->ModulationFile.awfTypeFileName = gcnew array<String^>(0);
-		//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.awf type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
-		//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.awf type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
+		//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.awf type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
 		//}
 
 		//// Get modulation file list (.wfm)
@@ -2424,8 +2403,7 @@ namespace Functions
 		//		glob->ModulationFile.wfmTypeFileName[j] = glob->ModulationFile.wfmTypeFileName[j]->Replace(".wfm", "");
 		//	}
 
-		//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.wfm type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->ModulationFile.totalWfmTypeFileExist.ToString() + ".");
-		//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.wfm type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->ModulationFile.totalWfmTypeFileExist.ToString() + ".");
+		//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.wfm type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->ModulationFile.totalWfmTypeFileExist.ToString() + ".");
 
 		//	String ^ loggerMessage = "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] ";
 		//	loggerMessage += "\n" + "\t" + "Modulation file available (.wfm type): ";
@@ -2433,15 +2411,13 @@ namespace Functions
 		//	{
 		//		loggerMessage += "\n" + "\t" + glob->ModulationFile.wfmTypeFileName[j] + ".wfm";
 		//	}
-		//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
-		//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
+		//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
 		//}
 		//else
 		//{
 		//	glob->ModulationFile.wfmTypeFilePathList = gcnew array<String^>(0);
 		//	glob->ModulationFile.wfmTypeFileName = gcnew array<String^>(0);
-		//	WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.wfm type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
-		//	WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total modulation file (.wfm type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
+		//	WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeModulationFileFolder -> LoadModulationFile] Total Modulation file (.wfm type) exist in the '" + FILENAME_CONST_PROJECT_MODULATIONFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
 		//}
 	}
 
@@ -2483,8 +2459,7 @@ namespace Functions
 				glob->VectorFile.vecFileNumber[j] = j;
 			}
 
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorFileFolder -> LoadVectorFile] Total vector file exist in the '" + FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->VectorFile.totalVecFileExist.ToString() + ".");
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorFileFolder -> LoadVectorFile] Total vector file exist in the '" + FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->VectorFile.totalVecFileExist.ToString() + ".");
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorFileFolder -> LoadVectorFile] Total vector file exist in the '" + FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->VectorFile.totalVecFileExist.ToString() + ".");
 
 			String ^ loggerMessage = "[Load -> InitializeProgram -> InitializeVectorFileFolder -> LoadVectorFile] ";
 			loggerMessage += "\n" + "\t" + "Vector file available (.vec type): ";
@@ -2492,16 +2467,14 @@ namespace Functions
 			{
 				loggerMessage += "\n" + "\t" + glob->VectorFile.vecFileName[j] + ".vec";
 			}
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
 		}
 		else
 		{
 			glob->VectorFile.vecFilePathList = gcnew array<String^>(0);
 			glob->VectorFile.vecFileName = gcnew array<String^>(0);
 			glob->VectorFile.vecFileNumber = gcnew array<int>(0);
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorFileFolder -> LoadVectorFile] Total vector file exist in the '" + FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorFileFolder -> LoadVectorFile] Total vector file exist in the '" + FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorFileFolder -> LoadVectorFile] Total vector file exist in the '" + FILENAME_CONST_PROJECT_VECTORFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
 		}
 	}
 
@@ -2542,8 +2515,7 @@ namespace Functions
 				glob->VectorStateFile.vecStateFileName[j] = glob->VectorStateFile.vecStateFileName[j]->Replace(".csv", "");
 			}
 
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorStateFileFolder -> LoadVectorStateFile] Total vector state file exist in the '" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->VectorStateFile.totalVecStateFileExist.ToString() + ".");
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorStateFileFolder -> LoadVectorStateFile] Total vector state file exist in the '" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->VectorStateFile.totalVecStateFileExist.ToString() + ".");
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorStateFileFolder -> LoadVectorStateFile] Total vector state file exist in the '" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString() + "' folder: " + glob->VectorStateFile.totalVecStateFileExist.ToString() + ".");
 
 			String ^ loggerMessage = "[Load -> InitializeProgram -> InitializeVectorStateFileFolder -> LoadVectorStateFile] ";
 			loggerMessage += "\n" + "\t" + "Vector state file available (.csv type): ";
@@ -2551,16 +2523,14 @@ namespace Functions
 			{
 				loggerMessage += "\n" + "\t" + glob->VectorStateFile.vecStateFileName[j] + ".csv";
 			}
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, loggerMessage);
 		}
 		else
 		{
 			glob->VectorStateFile.vecStateFilePathList = gcnew array<String^>(0);
 			glob->VectorStateFile.vecStateFileName = gcnew array<String^>(0);
 			glob->VectorStateFile.vecStateFileNumber = gcnew array<int>(0);
-			WriteToTracerLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorStateFileFolder -> LoadVectorStateFile] Total vector state file exist in the '" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
-			WriteToFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorStateFileFolder -> LoadVectorStateFile] Total vector state file exist in the '" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
+			WriteToTracerAndFileLogger(tfSite, glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeProgram -> InitializeVectorStateFileFolder -> LoadVectorStateFile] Total vector state file exist in the '" + FILENAME_CONST_PROJECT_VECTORSTATEFILEFOLDER + "Site" + tfSite.ToString() + "' folder: 0.");
 		}
 	}
 

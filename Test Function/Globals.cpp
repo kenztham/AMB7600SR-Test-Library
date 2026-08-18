@@ -3440,21 +3440,22 @@ namespace Functions
 			}
 		}
 	}
-	void TestFunction::WriteToTcrLgr(String ^ TracerTabName, String ^ LogMessage)
+	void TestFunction::WriteToTcrLgr(String ^ tracerTabName, String ^ message)
 	{
 		/*****************************************************************************************************
 		** WriteToTcrLgr
-		** Arguments:
-		**		TracerTabName	- The tracer tab name used is LOGGER_WARNING_TYPE "[INFO]".
-		**		LogMessage		- Specific log/ debug message to be display on tracer window.
+		**		tracerTabName	- This is tracer window's tab name.
+		**		message			- This is message to display.
+		**
 		** Descriptions:
-		**		This method is to wrap the "glob->TcrLgr.TracerLog->WriteToTracer" action to ease the end-user
-		**		when intended to write the debug message to tracer window. Only Enable when debug mode.
+		**		This is a function to write the detail/message to the tracer window.
+		**		This is to ease the user in debugging process.
+		**		Only applicable in debug mode.
 		******************************************************************************************************/
 
-		if (glob->AWV.Debug == 1 /*&& glob->AutoGUCal.AutoGUCalToolActive == false*/)
+		if (glob->AWV.Debug == 1)
 		{
-			glob->TcrLgr.TracerLog->WriteToTracer(TracerTabName, LOGGER_INFO_TYPE + glob->TimeNow + ":  " + LogMessage);
+			glob->TcrLgr.TracerLog->WriteToTracer(tracerTabName, message);
 		}
 	}
 	int TestFunction::UninitializeTracerLogger()
@@ -3685,8 +3686,7 @@ namespace Functions
 
 	void TestFunction::WRITETOTRACERANDFILELOGGER(int tfSite, int siteIndex, String ^ messageType, String ^ message)
 	{
-		WriteToTracerLogger(tfSite, siteIndex, messageType, message);
-		WriteToFileLogger(tfSite, siteIndex, messageType, message);
+		WriteToTracerAndFileLogger(tfSite, siteIndex, messageType, message);
 	}
 
 	void TestFunction::ErrorHandling(Site ^ site, int siteIndex, String^ methodName, String ^ ErrorMessage)
