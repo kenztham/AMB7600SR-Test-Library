@@ -140,6 +140,7 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
   <ItemGroup>
     <ClInclude Include="AMB7300\AMB7300.h" />
     <ClInclude Include="AMB7600SR\AMB7600SR.h" />
+    <ClInclude Include="Module400Series\DM400.h" />
     <ClInclude Include="Test Function\Aemulus.Hardware.ACM.h" />
     <ClInclude Include="Test Function\Aemulus.Hardware.AMSRF.h" />
     <ClInclude Include="Test Function\Aemulus.Hardware.CM.h" />
@@ -176,6 +177,7 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     <ClCompile Include="AMB7600SR\IOM421eUtility.cpp" />
     <ClCompile Include="AMB7600SR\RFSiteConfig.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Module400Series\DM400.cpp" />
     <ClCompile Include="Test Function\Files.cpp" />
     <ClCompile Include="Test Function\Globals.cpp" />
     <ClCompile Include="Test Function\techFlow.cpp" />
