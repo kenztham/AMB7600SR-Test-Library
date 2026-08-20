@@ -1,26 +1,14 @@
 ﻿#include "../Test Method/Methods.h"
-#include "Module400Series.h"
+#include "Module400Series.h"CM_Wait
 
 namespace Functions
 {
-	// DM400e Load Phase Initialization 
+
 	array<String^>^ Module400Series::GetDMModuleAlias(Site ^ site, int siteIndex)
 	{
-		/*****************************************************************************************************
-		** GetDmModuleAlias
-		******************************************************************************************************
-		** Descriptions:
-		**		Usage: Get module alias for specified DM resource
-		**
-		** Parameters:
-		**		dm		- DM resource
-		**
-		** Return value:
-		**		Module alias
-		******************************************************************************************************/
-
+		// [7600 original architecture] Scans hardware resource hierarchy for DM482e / DM483e modules
 		int moduleCount = 0;
-		
+
 		for each (String ^ Rsrc in ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->MapNames)
 		{
 			ResourceManagerSett[siteIndex].HardwareRsrc = ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->ResolveResource(Rsrc)[0];
@@ -54,11 +42,11 @@ namespace Functions
 
 		return moduleAlias;
 	}
+
 	int Module400Series::InitDmPinAliasPreviousState(Site ^ site, int siteIndex)
 	{
+		// [7600 original architecture] Populates PE, PMU, and DIO state settings managers with default values (999/false)
 		int ret = 0;
-
-		// Only hardware resources that have string values begin with "DM" will be added into global variables initialization
 
 		for each (KeyValuePair<String^, int>^ pinAlias in ResourceManagerSett[siteIndex].DMResourceAlias)
 		{
@@ -96,19 +84,19 @@ namespace Functions
 			tl->glob->PMUStateSettingsManager[siteIndex].PMUStateNPLC->Add(pinAlias->Key, 999);
 
 			tl->glob->DMStateSettingsManager[siteIndex].DMStateOperationMode->Add(pinAlias->Key, 999);
-
 		}
 
 		return ret;
 	}
+
 	bool Module400Series::CheckingAnyDmModuleRunVector(Site ^ site, int siteIndex, array<String ^>^ moduleAlias, array<String ^>^ % moduleAliasRunVector, array<String ^>^ % communicationProtocol)
 	{
+		// [7600 original architecture] Scans control condition list to see if DM vector mode is configured
 		bool RunVector = false;
 
 		ConditionCollection ^ ControlConditionCollection = gcnew ConditionCollection();
 		ControlConditionCollection = tf_ControlItem_ConditionList();
 
-		//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control Method <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		int moduleAliasRunVectorCount = 0;
 		int count = 0;
 		moduleAliasRunVector = nullptr;
@@ -143,7 +131,6 @@ namespace Functions
 				}
 			}
 
-			//Checking the availablility of the ModuleAlias at Amap
 			for (int i = 0; i < moduleAlias->Length; i++)
 			{
 				for (int j = 0; j < moduleAliasRunVector->Length; j++)
@@ -173,26 +160,21 @@ namespace Functions
 			RunVector = false;
 		}
 
-
 		return RunVector;
 	}
+
 	int Module400Series::CastTimingSetPeriodControlItem(Site ^ site, int siteIndex)
 	{
-
-		int testSite = 0;
+		// [7600 original architecture] Dynamically parses timing set period control items from Test Flow conditions
 		int ret = 0;
-		int setCount = 0;
 		String^ ErrorMessage = nullptr;
-
 
 		try
 		{
 			ConditionCollection ^ ControlConditionCollection = gcnew ConditionCollection();
 			ControlConditionCollection = tf_ControlItem_ConditionList();
 
-			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control Method <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			int count = 0;
-			int timingset = 0;
 
 			for each(Condition ^ controlCondition in ControlConditionCollection)
 			{
@@ -231,8 +213,10 @@ namespace Functions
 
 		return ret;
 	}
+
 	int Module400Series::CastDpinLevelControlItem(Site ^ site, int siteIndex)
 	{
+		// [7600 original architecture] Dynamically casts DPin level conditions (VIH, VIL, VOH, etc.) from Test Flow
 		int ret = 0;
 		int Count = 0;
 		int DPinset = 0;
@@ -259,10 +243,8 @@ namespace Functions
 			ConditionCollection ^ ControlConditionCollection = gcnew ConditionCollection();
 			ControlConditionCollection = tf_ControlItem_ConditionList();
 
-			//Get the number of DPin Set
 			while (StatusPass)
 			{
-				//Reset the Variable
 				Count = 0;
 				for (int i = 0; i < TotalDPinCondition; i++)
 				{
@@ -287,7 +269,6 @@ namespace Functions
 					}
 				}
 
-				//Checking the availability of the test condition
 				if (Count != 0)
 				{
 					for (int i = 0; i < TotalDPinCondition; i++)
@@ -300,7 +281,6 @@ namespace Functions
 					}
 				}
 
-				//Get the StatusPass
 				if (Count != TotalDPinCondition)
 				{
 					StatusPass = false;
@@ -312,14 +292,12 @@ namespace Functions
 				}
 			}
 
-			//Initialize the the Dictionary variable
 			DPinConditionVal = gcnew array<Dictionary<String^, double>^>(DPinset);
 			for (int i = 0; i < DPinset; i++)
 			{
 				DPinConditionVal[i] = gcnew Dictionary<String^, double>();
 			}
 
-			//Cast Value and key to the Dictionary
 			for (int i = 0; i < DPinset; i++)
 			{
 				for (int j = 0; j < TotalDPinCondition; j++)
@@ -342,15 +320,16 @@ namespace Functions
 
 		return ret;
 	}
+
 	int Module400Series::CastPEAttributeControlItem(Site ^ site, int siteIndex)
 	{
+		// [7600 original architecture] Dynamically casts PE attributes (InputTerm, HVEnable, etc.) from Test Flow
 		int ret = 0;
 		int Count = 0;
 		int PEAttset = 0;
 		int TotalPEAttCondition = 4;
 		bool StatusPass = true;
 		String ^ ErrorMessage = nullptr;
-
 
 		array<String^>^ PEAttCondition = gcnew array<String^>(TotalPEAttCondition);
 		array<bool>^ PEAttConditionExist = gcnew array<bool>(TotalPEAttCondition);
@@ -366,10 +345,8 @@ namespace Functions
 			ConditionCollection ^ ControlConditionCollection = gcnew ConditionCollection();
 			ControlConditionCollection = tf_ControlItem_ConditionList();
 
-			//Get the number of PEAttset Set
 			while (StatusPass)
 			{
-				//Reset the Variable
 				Count = 0;
 				for (int i = 0; i < TotalPEAttCondition; i++)
 				{
@@ -393,7 +370,6 @@ namespace Functions
 					}
 				}
 
-				//Checking the availability of the test condition
 				if (PEAttset == 0)
 				{
 					for (int i = 0; i < TotalPEAttCondition; i++)
@@ -420,7 +396,6 @@ namespace Functions
 					}
 				}
 
-				//Get the StatusPass
 				if (Count != TotalPEAttCondition)
 				{
 					StatusPass = false;
@@ -432,7 +407,6 @@ namespace Functions
 				}
 			}
 
-			//Initialize the the Dictionary variable
 			PEAttConditionVal = gcnew array<Dictionary<String^, bool>^>(PEAttset);
 
 			for (int i = 0; i < PEAttset; i++)
@@ -440,7 +414,6 @@ namespace Functions
 				PEAttConditionVal[i] = gcnew Dictionary<String^, bool>();
 			}
 
-			//Cast Value 
 			for (int i = 0; i < PEAttset; i++)
 			{
 				for (int j = 0; j < TotalPEAttCondition; j++)
@@ -460,8 +433,10 @@ namespace Functions
 		}
 		return ret;
 	}
+
 	int Module400Series::GetVectorFiles(Site ^ site)
 	{
+		// [7600 original architecture] Discovers .vec files from directory and populates vector lookup map
 		int ret = 0;
 
 		try
@@ -483,9 +458,7 @@ namespace Functions
 					tl->glob->VectorSetNumber->Add(vectorFiles[i], i);
 				}
 			}
-
 		}
-
 		catch (Exception ^ ex)
 		{
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
@@ -494,622 +467,38 @@ namespace Functions
 
 		return ret;
 	}
-	int Module400Series::DMLoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias)
+
+
+	
+	//VECTOR LOADING ARCHITECTURE (from 7300) Lightweight and isolated routine that purely allocates hardware memory and loads.vec files.
+	int Module400Series::DMLoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias) 
 	{
 		int ret = 0;
 
 		try
 		{
-			array<int>^ resourceArr = gcnew array<int>(DM_CONST_MAX_VECTOR_SET);
-
-			for (int i = 0; i < DM_CONST_MAX_VECTOR_SET; i++)
+			// Setup resource array cleanly from 7300
+			array<int>^ resourceArr = gcnew array<int>(tl->glob->VectorFile.totalVecFileExist);
+			for (int i = 0; i < tl->glob->VectorFile.totalVecFileExist; i++)
 			{
 				resourceArr[i] = 1;
 			}
 
-			tl->CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, DM_CONST_MAX_VECTOR_SET - 5, resourceArr));
+			tl->CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, tl->glob->VectorFile.totalVecFileExist, resourceArr));
 
-			for each (String ^ s in tl->glob->VectorSetNumber->Keys)
+			// Load vector files into DM hardware memory
+			for (int i = 0; i < tl->glob->VectorFile.totalVecFileExist; i++)
 			{
-				tl->CheckError(siteIndex, dm[siteIndex]->DPINVecLoad(ModuleAlias, DM_CONST_BIDIRECTIONAL_IO, tl->glob->VectorSetNumber[s], tl->glob->VectorFileDirectory + "\\" + s + ".vec"));
+				tl->CheckError(siteIndex, dm[siteIndex]->DPINVecLoad(ModuleAlias, DM_CONST_DIRECTION_BIDIRECTIONAL_IO, tl->glob->VectorFile.vecFileNumber[i], tl->glob->VectorFile.vecFilePathList[i]));
 			}
 
-			tl->CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
-
-			for (int i = 0; i < tl->glob->TimingSetPeriod[siteIndex]->Length; i++)
-			{
-				double period = (1 / (2 * tl->glob->TimingSetPeriod[siteIndex][i]));
-				tl->CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
-			}
+			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "[DMLoadVectorFiles] Successfully loaded " + tl->glob->VectorFile.totalVecFileExist.ToString() + " vector files to " + ModuleAlias);
 		}
-
 		catch (Exception ^ ex)
 		{
+			ret = ER_CONST_LOAD_VECTOR_FILE_FAIL;
 			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			tl->ErrorHandling(site, tl->glob->TcrLgr.GlobalErrorMessage);
-		}
-
-		return ret;
-	}
-	int Module400Series::VectorFilesInfo(Site ^ site, int siteIndex)
-	{
-		int ret = 0;
-		int count = 0;
-		int found = 0;
-		int vectorCount = 0;
-		String^ ErrorMessage = nullptr;
-
-		try
-		{
-			for each (String ^ s in tl->glob->VectorSetNumber->Keys)
-			{
-#pragma region "Read VectorStateFile"
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Check file exist <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				String ^ l_VectorStateFolder_Path = tl->glob->tf.RecipeFilePathDirectory + "\\" + "VectorStateFileFolder";
-				String ^ l_VectorFile_Path = l_VectorStateFolder_Path + "\\" + s + ".csv";
-
-				if (!File::Exists(l_VectorFile_Path))
-				{
-					ErrorMessage = l_VectorFile_Path + " file is not exist.";
-					throw gcnew Exception(ErrorMessage);
-				}
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get total factor <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				String ^ line = String::Empty;
-				int l_Line_Number = 0;
-				array<String ^> ^ ArrStr = gcnew array<String ^>(0);
-				int l_Factor_Count = 0;
-				StreamReader ^ sr = gcnew StreamReader(l_VectorFile_Path);
-
-				while ((line = sr->ReadLine()) != nullptr)
-				{
-					l_Line_Number++;
-
-					if (l_Line_Number >= 6)
-					{
-						l_Factor_Count++;
-					}
-				}
-
-				sr->Close();
-				sr = nullptr;
-				line = String::Empty;
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Setup Storage <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				int l_MIPI_SetCount = 0;
-				array<String^> ^ l_Mode = gcnew array<String^>(l_Factor_Count);
-				array<double> ^ l_USID = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegAddr = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData1 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData2 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData3 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData4 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData5 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData6 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData7 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData8 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData9 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData10 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData11 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData12 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData13 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData14 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData15 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData16 = gcnew array<double>(l_Factor_Count);
-				array<String^> ^ l_Operation = gcnew array<String^>(l_Factor_Count);
-				array<String^> ^ l_Speed = gcnew array<String^>(l_Factor_Count);
-				array<int> ^ l_MIPI_RegDataSetCount = gcnew array<int>(l_Factor_Count);
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get VectorStateFile Content <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				array<String ^> ^ Separator = gcnew array<String ^>(1);
-				Separator[0] = ",";
-				int l_Single_MIPI_Set = 0;
-				int l_Read_Operation_Counter = 0;
-
-				bool Read_VectorStateFileExtended_Success = false;
-				String ^ Read_VectorStateFileExtended_ErrorMessage = "-";
-				bool Read_VectorStateFileBasic_Success = false;
-				String ^ Read_VectorStateFileBasic_ErrorMessage = "-";
-				bool isFirstExtended = true;
-				int Temp_Extended_RegData_Count = 0;
-				int Previous_Extended_USID = 0;
-				int Previous_Extended_RegAddr = 0;
-				String ^ Previous_Extended_Operation = String::Empty;
-				String ^ Previous_Extended_Speed = String::Empty;
-				String ^ Temp_Mode = String::Empty;
-				int Temp_USID = 0;
-				int Temp_RegAddr = 0;
-				int Temp_RegData = 0;
-				int SCLKChannel = 0;
-				int SDATAChannel = 0;
-				int VectorTimingSet = 0;
-				int DM_DPinGroup = 0;
-				String ^ Temp_Operation = String::Empty;
-				String ^ Temp_Speed = String::Empty;
-
-				l_Line_Number = 0;
-				sr = gcnew StreamReader(l_VectorFile_Path);
-				while ((line = sr->ReadLine()) != nullptr)
-				{
-					if (l_Line_Number < 6)
-					{
-						ArrStr = line->Split(Separator, StringSplitOptions::None);
-						if (ArrStr[0] == "DM_DPinGroup")
-							tl->glob->VectorFileManager[siteIndex].DM_DPinGroup[s] = Convert::ToInt32(ArrStr[1]);
-						if (ArrStr[0] == "SCLK_Channel")
-							tl->glob->VectorFileManager[siteIndex].SCLKChannel[s] = Convert::ToInt32(ArrStr[1]);
-						if (ArrStr[0] == "SDATA_Channel")
-							tl->glob->VectorFileManager[siteIndex].SDATAChannel[s] = Convert::ToInt32(ArrStr[1]);
-						if (ArrStr[0] == "VectorTimingSet")
-							tl->glob->VectorFileManager[siteIndex].VectorTimingSet[s] = Convert::ToInt32(ArrStr[1]);
-					}
-					l_Line_Number++;
-
-					if (l_Line_Number >= 6)
-					{
-						ArrStr = line->Split(Separator, StringSplitOptions::None);
-
-						if ((ArrStr[0] == "EXTENDED") || (ArrStr[0] == "Extended") || (ArrStr[0] == "extended"))
-						{
-							//Read single vector state file & single line
-							API_Read_Single_VectorStateFile_SingleLine(ArrStr, Temp_Mode, Temp_USID, Temp_RegAddr, Temp_RegData, Temp_Operation, Temp_Speed, Read_VectorStateFileExtended_Success, Read_VectorStateFileExtended_ErrorMessage);
-
-							if (isFirstExtended == true) //first occur extended RegAddr no need comapare
-							{
-								Previous_Extended_USID = Temp_USID;
-								Previous_Extended_RegAddr = Temp_RegAddr;
-								Previous_Extended_Operation = Temp_Operation;
-								Previous_Extended_Speed = Temp_Speed;
-
-								isFirstExtended = false;
-
-								l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-								l_USID[l_Single_MIPI_Set] = Temp_USID;
-								l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-								l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-								l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-								l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-								l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //First set extended start from 1
-
-								Temp_Extended_RegData_Count++;
-							}
-							else    //The other extended RegAddr need to compare with previous RegAddr
-							{
-								//If USID & Operation still same
-								if ((Previous_Extended_USID == Temp_USID) && (Previous_Extended_Operation == Temp_Operation) && (Previous_Extended_Speed == Temp_Speed))
-								{
-									//If current RegAddr is the increament of the previous RegAddr, use extended format multiple byte RegData
-									if (Temp_RegAddr == (Previous_Extended_RegAddr + 1))
-									{
-										if (Temp_Extended_RegData_Count == 1)
-											l_RegData2[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 2)
-											l_RegData3[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 3)
-											l_RegData4[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 4)
-											l_RegData5[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 5)
-											l_RegData6[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 6)
-											l_RegData7[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 7)
-											l_RegData8[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 8)
-											l_RegData9[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 9)
-											l_RegData10[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 10)
-											l_RegData11[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 11)
-											l_RegData12[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 12)
-											l_RegData13[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 13)
-											l_RegData14[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 14)
-											l_RegData15[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 15)
-											l_RegData16[l_Single_MIPI_Set] = Temp_RegData;
-
-										//RegDataByteCount ++
-										l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = l_MIPI_RegDataSetCount[l_Single_MIPI_Set] + 1;
-
-										//RegData count increament
-										Temp_Extended_RegData_Count++;
-
-										//Replace current item to previous item if still continue compare the followng 
-										Previous_Extended_USID = Temp_USID;
-										Previous_Extended_RegAddr = Temp_RegAddr;
-										Previous_Extended_Operation = Temp_Operation;
-										Previous_Extended_Speed = Temp_Speed;
-									}
-									//If USID & Operation still same, but RegAddr diff / no more increament follow the previous sequence
-									else
-									{
-										//Next MIPI set
-										l_MIPI_SetCount++;
-										l_Single_MIPI_Set++;
-
-										//Reset compare item and ready for next compare
-										Temp_Extended_RegData_Count = 0;
-										Previous_Extended_USID = Temp_USID;
-										Previous_Extended_RegAddr = Temp_RegAddr;
-										Previous_Extended_Operation = Temp_Operation;
-										Previous_Extended_Speed = Temp_Speed;
-
-										l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-										l_USID[l_Single_MIPI_Set] = Temp_USID;
-										l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-										l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-										l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-										l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-										l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-
-										Temp_Extended_RegData_Count++;
-									}
-								}
-								//If USID | Operation changed
-								else
-								{
-									//Next MIPI set
-									l_MIPI_SetCount++;
-									l_Single_MIPI_Set++;
-
-									//Reset compare item and ready for next compare
-									Temp_Extended_RegData_Count = 0;
-									Previous_Extended_USID = Temp_USID;
-									Previous_Extended_RegAddr = Temp_RegAddr;
-									Previous_Extended_Operation = Temp_Operation;
-									Previous_Extended_Speed = Temp_Speed;
-
-									l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-									l_USID[l_Single_MIPI_Set] = Temp_USID;
-									l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-									l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-									l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-									l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-									l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-
-									Temp_Extended_RegData_Count++;
-								}
-							}
-						}
-						else if ((ArrStr[0] == "BASIC") || (ArrStr[0] == "Basic") || (ArrStr[0] == "basic"))
-						{
-							//If StateFile first line is Basic operation
-							if (isFirstExtended == true)
-							{
-								isFirstExtended = false;
-
-								//Read single vector state file & single line
-								API_Read_Single_VectorStateFile_SingleLine(ArrStr, Temp_Mode, Temp_USID, Temp_RegAddr, Temp_RegData, Temp_Operation, Temp_Speed, Read_VectorStateFileBasic_Success, Read_VectorStateFileBasic_ErrorMessage);
-
-								l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-								l_USID[l_Single_MIPI_Set] = Temp_USID;
-								l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-								l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-								l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-								l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-								l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-							}
-							//The rest of the line that related to Basic operation
-							else
-							{
-								//Next MIPI set
-								l_MIPI_SetCount++;
-								l_Single_MIPI_Set++;
-
-								//Force reset when change to basic mode
-								Temp_Extended_RegData_Count = 0;
-								Previous_Extended_USID = 0;
-								Previous_Extended_RegAddr = 0;
-								Previous_Extended_Operation = "NA";
-
-								//Read single vector state file & single line
-								API_Read_Single_VectorStateFile_SingleLine(ArrStr, Temp_Mode, Temp_USID, Temp_RegAddr, Temp_RegData, Temp_Operation, Temp_Speed, Read_VectorStateFileBasic_Success, Read_VectorStateFileBasic_ErrorMessage);
-
-								l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-								l_USID[l_Single_MIPI_Set] = Temp_USID;
-								l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-								l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-								l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-								l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-								l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-							}
-						}
-					}
-				}
-
-				sr->Close();
-				sr = nullptr;
-				line = String::Empty;
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get actual MIPI set array size <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				int l_Actual_MIPI_Set_in_VectorFile = 0;
-				for (int i = 0; i < l_Factor_Count; i++)
-				{
-					if (l_USID[i] == 0)
-					{
-						break;
-					}
-					else
-					{
-						l_Actual_MIPI_Set_in_VectorFile++;
-
-						//Get total READ operation in a VectorFile
-						if ((l_Operation[i] == "READ") || (l_Operation[i] == "Read") || (l_Operation[i] == "read"))
-						{
-							if ((l_Mode[i] == "EXTENDED") || (l_Mode[i] == "Extended") || (l_Mode[i] == "extended"))
-							{
-								l_Read_Operation_Counter += l_MIPI_RegDataSetCount[i];
-							}
-							else if ((l_Mode[i] == "BASIC") || (l_Mode[i] == "Basic") || (l_Mode[i] == "basic"))
-							{
-								l_Read_Operation_Counter++;
-							}
-						}
-					}
-				}
-
-#pragma endregion
-
-#pragma region "Count Vector Start Read Location"
-				tl->glob->VectorFileManager[siteIndex].l_Read_Operation_Counter[s] = l_Read_Operation_Counter;
-				array<int> ^ l_Start_Read_Location_Single_VectorFile = gcnew array<int>(l_Read_Operation_Counter);
-				array<String^> ^ l_Start_Read_Location_Speed = gcnew array<String^>(l_Read_Operation_Counter);
-
-				l_Single_MIPI_Set = 0;
-				int l_Count_AddUp = 0;
-				int x = 0;
-
-				int l_BasicCount_BufferLine = 2;
-				int l_BasicCount_Parity = 2;
-				int l_BasicCount_BusPark = 2;
-				int l_BasicCount_SSC = 4;
-				int l_BasicCount_SA = 8;
-				int l_BasicCount_Operation = 6;
-				int l_BasicCount_RegAddr = 10;
-				int l_BasicCount_RegData = 16;
-
-				int l_ExtendedCount_BufferLine = 2;
-				int l_ExtendedCount_Parity = 2;
-				int l_ExtendedCount_BusPark = 2;
-				int l_ExtendedCount_SSC = 4;
-				int l_ExtendedCount_SA = 8;
-				int l_ExtendedCount_Operation = 8;
-				int l_ExtendedCount_BC = 8;
-				int l_ExtendedCount_RegAddr = 16;
-				int l_ExtendedCount_RegData = 16;
-
-				for (l_Single_MIPI_Set = 0; l_Single_MIPI_Set < l_Actual_MIPI_Set_in_VectorFile; l_Single_MIPI_Set++)
-				{
-					if ((l_Mode[l_Single_MIPI_Set] == "BASIC") || (l_Mode[l_Single_MIPI_Set] == "Basic") || (l_Mode[l_Single_MIPI_Set] == "basic"))
-					{
-						if ((l_Operation[l_Single_MIPI_Set] == "WRITE") || (l_Operation[l_Single_MIPI_Set] == "Write") || (l_Operation[l_Single_MIPI_Set] == "write"))
-						{
-							//Record MIPI set total line
-							l_Count_AddUp += l_BasicCount_SSC + l_BasicCount_SA + l_BasicCount_Operation + l_BasicCount_RegAddr + l_BasicCount_Parity + l_BasicCount_RegData + l_BasicCount_Parity + l_BasicCount_BusPark;
-
-							if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-							{
-								//one MIPI set have front and back buffer line
-								l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-							}
-							else
-							{
-								//last MIPI set only have front buffer line
-								l_Count_AddUp += l_BasicCount_BufferLine;
-							}
-						}
-						else if ((l_Operation[l_Single_MIPI_Set] == "READ") || (l_Operation[l_Single_MIPI_Set] == "Read") || (l_Operation[l_Single_MIPI_Set] == "read"))
-						{
-							if ((l_Speed[l_Single_MIPI_Set] == "FULL") || (l_Speed[l_Single_MIPI_Set] == "Full") || (l_Speed[l_Single_MIPI_Set] == "full"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_BasicCount_SSC + l_BasicCount_SA + l_BasicCount_Operation + l_BasicCount_RegAddr + l_BasicCount_Parity + l_BasicCount_BusPark + l_BasicCount_RegData + l_BasicCount_Parity + l_BasicCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - l_BasicCount_RegData - l_BasicCount_Parity - l_BasicCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-								else
-								{
-									//last MIPI set only have front buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - l_BasicCount_RegData - l_BasicCount_Parity - l_BasicCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-							}
-							else if ((l_Speed[l_Single_MIPI_Set] == "HALF") || (l_Speed[l_Single_MIPI_Set] == "Half") || (l_Speed[l_Single_MIPI_Set] == "half"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_BasicCount_SSC + l_BasicCount_SA + l_BasicCount_Operation + l_BasicCount_RegAddr + l_BasicCount_Parity + l_BasicCount_BusPark + (l_BasicCount_RegData * 2) + (l_BasicCount_Parity * 2) + l_BasicCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_BasicCount_RegData * 2) - (l_BasicCount_Parity * 2) - l_BasicCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-								else
-								{
-									//last MIPI set only have front buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_BasicCount_RegData * 2) - (l_BasicCount_Parity * 2) - l_BasicCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-							}
-							else
-							{
-								ErrorMessage = l_Speed[l_Single_MIPI_Set] + " is invalid as only FULL and HALF is supported.";
-								throw gcnew Exception(ErrorMessage);
-							}
-							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Speed->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Speed[x]);
-							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Single_VectorFile[x]);
-							//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "VectorFile: " + s + " , Read_Location_Single_VectorFile =" + (tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[s]]).ToString() + ",  done");
-							//Only ++ when have READ operation
-							//x++;
-						}
-						else
-						{
-							ErrorMessage = l_Operation[l_Single_MIPI_Set] + " is invalid as only Write and Read operation is supported.";
-							throw gcnew Exception(ErrorMessage);
-						}
-					}
-					else if ((l_Mode[l_Single_MIPI_Set] == "EXTENDED") || (l_Mode[l_Single_MIPI_Set] == "Extended") || (l_Mode[l_Single_MIPI_Set] == "extended"))
-					{
-						if ((l_Operation[l_Single_MIPI_Set] == "WRITE") || (l_Operation[l_Single_MIPI_Set] == "Write") || (l_Operation[l_Single_MIPI_Set] == "write"))
-						{
-							//Record MIPI set total line
-							l_Count_AddUp += l_ExtendedCount_SSC + l_ExtendedCount_SA + l_ExtendedCount_Operation + l_ExtendedCount_BC + l_ExtendedCount_Parity + l_ExtendedCount_RegAddr + l_ExtendedCount_Parity + (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + l_ExtendedCount_BusPark;
-
-							if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-							{
-								//one MIPI set have front and back buffer line
-								l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-							}
-							else
-							{
-								//last MIPI set only have front buffer line
-								l_Count_AddUp += l_BasicCount_BufferLine;
-							}
-						}
-						else if ((l_Operation[l_Single_MIPI_Set] == "READ") || (l_Operation[l_Single_MIPI_Set] == "Read") || (l_Operation[l_Single_MIPI_Set] == "read"))
-						{
-							if ((l_Speed[l_Single_MIPI_Set] == "FULL") || (l_Speed[l_Single_MIPI_Set] == "Full") || (l_Speed[l_Single_MIPI_Set] == "full"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_ExtendedCount_SSC + l_ExtendedCount_SA + l_ExtendedCount_Operation + l_ExtendedCount_BC + l_ExtendedCount_Parity + l_ExtendedCount_RegAddr + l_ExtendedCount_Parity + l_ExtendedCount_BusPark + (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + l_ExtendedCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - l_ExtendedCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 18;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-								else
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - l_ExtendedCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 18;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-							}
-							else if ((l_Speed[l_Single_MIPI_Set] == "HALF") || (l_Speed[l_Single_MIPI_Set] == "Half") || (l_Speed[l_Single_MIPI_Set] == "half"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_ExtendedCount_SSC + l_ExtendedCount_SA + l_ExtendedCount_Operation + l_ExtendedCount_BC + l_ExtendedCount_Parity + l_ExtendedCount_RegAddr + l_ExtendedCount_Parity + l_ExtendedCount_BusPark + (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) + (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) + l_ExtendedCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - l_ExtendedCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 36;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-								else
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - l_ExtendedCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 36;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-							}
-							else
-							{
-								ErrorMessage = l_Speed[l_Single_MIPI_Set] + " is invalid as only FULL and HALF is supported.";
-								throw gcnew Exception(ErrorMessage);
-							}
-
-						}
-						else
-						{
-							ErrorMessage = l_Operation[l_Single_MIPI_Set] + " is invalid as only Write and Read operation is supported.";
-							throw gcnew Exception(ErrorMessage);
-						}
-					}
-					else
-					{
-						ErrorMessage = l_Mode[l_Single_MIPI_Set] + " is invalid as only Basic and Extended is supported.";
-						throw gcnew Exception(ErrorMessage);
-					}
-				}
-
-				tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Speed->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Speed);
-				tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Single_VectorFile);
-#pragma endregion
-				vectorCount++;
-				if (ret != 0) return ret;
-			}
-		}
-
-		catch (Exception ^ ex)
-		{
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			String^ ErrorMessage = "Site " + siteIndex + ":: [LoadVectorFiles at Load Phase] encountered error [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
+			String^ ErrorMessage = "Site " + siteIndex + ":: [DMLoadVectorFiles] Fail to load VectorFile. | Error Code: " + ret.ToString() + " | Detail: " + ex->Message;
 			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 		}
@@ -1117,7 +506,16 @@ namespace Functions
 		return ret;
 	}
 
-	int Module400Series::InitializeDM400eResource(Site ^ site)
+	int Module400Series::LoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias)
+	{
+		
+		return DMLoadVectorFiles(site, siteIndex, ModuleAlias);
+	}
+
+
+	
+	//SYSTEM INITIALIZATION from (7600) Integrates directly with test flow conditions (DMCase_DMInit) and multi-site lockdowns
+	int Module400Series::InitializeDM400eResource(Site ^ site) 
 	{
 		int ret = 0;
 		int count = 0;
@@ -1133,9 +531,6 @@ namespace Functions
 		array <bool>^ userDMInit = gcnew array <bool>(tl->glob->tf.NumberOfSites);
 		dm = gcnew array<DM ^>(tl->glob->tf.NumberOfSites);
 
-		
-#pragma region "DM module at Resource AMAP"
-		//Checking any DM module at Resource AMAP
 		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
 			moduleAlias[siteIndex] = GetDMModuleAlias(site, siteIndex);
@@ -1146,10 +541,7 @@ namespace Functions
 				ResourceManagerSett[siteIndex].DM_HardwareStatus = true;
 			}
 		}
-#pragma endregion "DM module at Resource AMAP"
-		
-#pragma region "DM Initialization"
-		//DM Initialization	
+
 		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
 			userDMInit[siteIndex] = false;
@@ -1181,9 +573,6 @@ namespace Functions
 				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] initialized");
 			}
 		}
-#pragma endregion "DM Initialization"	
-
-#pragma region "PowerLineFreq MultiSiteMode"
 
 		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
@@ -1195,254 +584,6 @@ namespace Functions
 					IsModuleAlias = false;
 
 					if (((HardwareRsrc->Hierarchy[0]->StartsWith("DM483e") == true) || (HardwareRsrc->Hierarchy[0]->StartsWith("DM482e") == true)) &&
-						(ResourceManagerSett[siteIndex].ResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false) &&
-						(ResourceManagerSett[siteIndex].DMResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false))
-					//if ((HardwareRsrc->Hierarchy[0]->StartsWith("DM4") == true)&&
-					//	(ResourceManagerSett[siteIndex].ResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false) &&
-					//	(ResourceManagerSett[siteIndex].DMResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false) && Rsrc != "DigitalPin")
-					{
-						for (count = 0; count < moduleCount[siteIndex]; count++)
-						{
-							if (Rsrc == moduleAlias[siteIndex][count])
-							{
-								IsModuleAlias = true;								
-							}
-						}
-
-						if (IsModuleAlias == false)
-						{
-							ResourceManagerSett[siteIndex].DMResourceAlias->Add(Rsrc, 1);
-						}
-
-						ResourceManagerSett[siteIndex].ResourceAlias->Add(HardwareRsrc->Alias->ToString(), 1);
-					}
-				}
-
-				//Configure module alias only 
-				for (count = 0; count < moduleCount[siteIndex]; count++)
-				{
-					/* 1. In multi site mode, DLL do lock down resource to prevent other thread from accessing it thus allowing every thread to function properly but it incurs more test time.
-					* 2. In single site mode, DLL do not lock down resource so it incurs lesser test time..
-					*
-					*	0 : DM_CONST_SINGLE_SITE
-					*	1 : DM_CONST_MULTI_SITE*/
-
-					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", DM_CONST_MULTI_SITE)");
-					tl->CheckError(siteIndex, dm[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], DM_CONST_MULTI_SITE));
-
-					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigurePowerLineFrequency(" + moduleAlias[siteIndex][count] + "," + tl->glob->AWV.PowerLineFreq.ToString() + " )");
-					tl->CheckError(siteIndex, dm[siteIndex]->ConfigurePowerLineFrequency(moduleAlias[siteIndex][count], tl->glob->AWV.PowerLineFreq));
-				}
-
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing DM400e Related Global Variables for Previous States...");
-				InitDmPinAliasPreviousState(site, siteIndex);//initialize DM modules related global variables to store previous states
-
-			}
-			else if (moduleCount[siteIndex] == 0)
-			{
-				ResourceManagerSett[siteIndex].DM_HardwareStatus = false;
-			}
-		}
-
-#pragma endregion "PowerLineFreq MultiSiteMode"
-
-#pragma region "Vector"
-		//Checking any DM module use to Run Vector
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
-		{
-			if (ResourceManagerSett[siteIndex].DM_HardwareStatus)
-			{
-				////Dpin Level use for Vector or DIO operation mode for DM
-				//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the Dpin Level.");
-				//CastDpinLevelControlItem(site, siteIndex);
-
-				//if (CheckingAnyDmModuleRunVector(site, siteIndex, moduleAlias[siteIndex], moduleAliasRunVector, communicationProtocol))
-				//{
-				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the Timing Set Period.");
-				//	CastTimingSetPeriodControlItem(site, siteIndex);
-
-				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the PE Attribute.");
-				//	CastPEAttributeControlItem(site, siteIndex);
-
-				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] getting the vector file.");
-				//	GetVectorFiles(site);
-
-				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] obtaining the vector files' information.");
-				//	VectorFilesInfo(site, siteIndex);
-
-				//	tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] loading vector file to Module Alias.");
-				//	for (int i = 0; i < moduleAliasRunVector->Length; i++)
-				//	{
-				//		DMLoadVectorFiles(site, siteIndex, moduleAliasRunVector[i]);
-				//		tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + " ,Module Alias: " + moduleAliasRunVector[i] + " ,Communiation Protocol: " + communicationProtocol[i] + "] is loading vector");
-				//	}
-
-				//}
-
-				for each(Condition ^ controlMethod in testConditionCollection)
-				{
-					if (controlMethod->Name->StartsWith("ControlMethod"))
-					{
-						strControlMethod = nullptr;
-						intControlMethod = 0;
-						strControlMethod = (String^)tf_ControlItem_ConditionCast(controlMethod->Name);
-						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
-						methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
-
-						if (intControlMethod == DMCase_DMCastDPinLevel || intControlMethod == DMCase_DMCastTimingSetPeriod || intControlMethod == DMCase_DMCastPEAttribute || intControlMethod == DMCase_DMLoadVectorFile)
-						{
-							tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
-							methods->ControlMethod_Selection(site, siteIndex, intControlMethod, testConditionCollection);
-						}
-					}
-				}
-
-			}
-		}
-#pragma endregion "Vector"
-
-#pragma region "Set Default to PMU Mode"
-		//Default Setting: Set all DM Pin Alias to PMU Mode
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
-		{
-			if (ResourceManagerSett[siteIndex].DM_HardwareStatus)
-			{
-				for each (KeyValuePair<String^, int>^ pinAlias in ResourceManagerSett[siteIndex].DMResourceAlias)
-				{
-					DM_ConfigureDigitalPinToPMU(siteIndex, pinAlias->Key, DM_CONST_DVCI, DM_CONST_LOCAL /*DM_CONST_REMOTE*/, DM_CONST_200UA_RANGE, 0.0 V, DM_CONST_PLC);
-				}
-			}
-		}
-#pragma endregion "Set Default to PMU Mode"
-		return ret;
-	}
-	int Module400Series::UninitializeDM400eResource(Site ^ site)
-	{
-		int ret = 0;
-		int count = 0;
-		array<array<String^>^>^ moduleAlias = nullptr;
-		array<int>^ moduleCount = gcnew array<int>(tl->glob->tf.NumberOfSites);
-		moduleAlias = gcnew array<array<String^>^>(tl->glob->tf.NumberOfSites);
-
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
-		{
-			moduleAlias[siteIndex] = GetDMModuleAlias(site, siteIndex);
-			moduleCount[siteIndex] = moduleAlias[siteIndex]->Length;
-
-			try
-			{
-				if (ResourceManagerSett[siteIndex].DM_HardwareStatus == true)
-				{
-					for (int count = 0; count < moduleCount[siteIndex]; count++)
-					{
-						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
-						tl->CheckError(siteIndex, dm[siteIndex]->Reset(moduleAlias[siteIndex][count]));
-
-						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Close(" + moduleAlias[siteIndex][count] + ")");
-						tl->CheckError(siteIndex, dm[siteIndex]->Close(moduleAlias[siteIndex][count]));
-
-					}
-				}
-			}
-			catch (Exception ^ ex)
-			{
-				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-				tl->CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
-				String^ ErrorMessage = "Module400Series:: UninitializeDM400eResource " + "encountered error when performing.";
-				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
-			}
-		}
-
-
-		return ret;
-	}
-	int Module400Series::InitializeDM400eResource_ORI(Site ^ site)
-	{
-		int ret = 0;
-		int initOption = 0xf;
-		int count = 0;
-		bool IsModuleAlias = false;
-		array<int>^ moduleCount = gcnew array<int>(tl->glob->tf.NumberOfSites);
-		array<String^>^moduleAliasRunVector = nullptr;
-		array<String ^>^communicationProtocol = nullptr;
-		array<array<String^>^>^ moduleAlias = gcnew array<array<String^>^>(tl->glob->tf.NumberOfSites);
-		dm = gcnew array<DM ^>(tl->glob->tf.NumberOfSites);
-
-		//	pinGroup : Specifies the pin group to be turned on or activated.
-		//	pin Group = 1, DPin group 0 (PIN0 to PIN5) and trigout0
-		//	pin Group = 2, DPin group 1 (PIN6 to PIN11) and trigout1
-		//	pin Group = 3, DPin group 0 and 1 (PIN0 to PIN11), trigout0 and trigout1
-		//	pinGroup setting is for multi site or single site parallel operation purpose.
-		//
-		//	init_options :
-		//	bit[0] = reset the module during initialization.
-		//	bit[1] = reset command FIFO during initialization.
-		//	bit[2] = reset result FIFO during initialization.
-		//	bit[3] = reset lock status during initialization.
-		//	bit[5] = To bypass calibration data loading process.	
-
-		//Checking any DM module at Resource AMAP
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
-		{
-			moduleAlias[siteIndex] = GetDMModuleAlias(site, siteIndex);
-			moduleCount[siteIndex] = moduleAlias[siteIndex]->Length;
-
-			if (moduleCount[siteIndex] > 0)
-			{
-				ResourceManagerSett[siteIndex].DM_HardwareStatus = true;
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing DM400e System Resources...");
-			}
-		}
-
-		//DM Initialization
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
-		{
-			if (ResourceManagerSett[siteIndex].DM_HardwareStatus)
-			{
-				if (tl->glob->AWV.DMPinGroup == 0)  //Dpin Group 0 and 1 (All)
-				{
-					dm[siteIndex] = gcnew DM(tl->glob->HardwareProfile, 3, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
-				}
-				else if (tl->glob->AWV.DMPinGroup == 1)
-				{
-					if ((tl->glob->tf.TestSite + 1) % 2 != 0) //Odd Techflow Site
-					{
-						if ((siteIndex + 1) % 2 != 0)  //Odd Test Site
-						{
-							dm[siteIndex] = gcnew DM(tl->glob->HardwareProfile, 1, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
-						}
-						else if ((siteIndex + 1) % 2 == 0)  //Even Test Site
-						{
-							dm[siteIndex] = gcnew DM(tl->glob->HardwareProfile, 2, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
-						}
-					}
-					else if ((tl->glob->tf.TestSite + 1) % 2 == 0) //Even Techflow Site
-					{
-						if (tl->glob->tf.NumberOfSites == 1)
-						{
-							dm[siteIndex] = gcnew DM(tl->glob->HardwareProfile, 2, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
-						}
-						else
-						{
-							if ((siteIndex + 1) % 2 != 0)  //Odd Test Site
-							{
-								dm[siteIndex] = gcnew DM(tl->glob->HardwareProfile, 1, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
-							}
-							else if ((siteIndex + 1) % 2 == 0)  //Even Test Site
-							{
-								dm[siteIndex] = gcnew DM(tl->glob->HardwareProfile, 2, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
-							}
-						}
-					}
-				}
-
-				for each (String ^ Rsrc in ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->MapNames)
-				{
-					Resource ^ HardwareRsrc = ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->ResolveResource(Rsrc)[0];
-					IsModuleAlias = false;
-
-					if ((HardwareRsrc->Hierarchy[0]->StartsWith("DM483e") == true) || (HardwareRsrc->Hierarchy[0]->StartsWith("DM482e") == true) &&
 						(ResourceManagerSett[siteIndex].ResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false) &&
 						(ResourceManagerSett[siteIndex].DMResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false))
 					{
@@ -1463,18 +604,8 @@ namespace Functions
 					}
 				}
 
-				//Configure module alias only 
 				for (count = 0; count < moduleCount[siteIndex]; count++)
 				{
-					//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
-					//tl->CheckError(siteIndex, dm[siteIndex]->Reset(moduleAlias[siteIndex][count]));
-
-					/* 1. In multi site mode, DLL do lock down resource to prevent other thread from accessing it thus allowing every thread to function properly but it incurs more test time.
-					* 2. In single site mode, DLL do not lock down resource so it incurs lesser test time..
-					*
-					*	0 : DM_CONST_SINGLE_SITE
-					*	1 : DM_CONST_MULTI_SITE*/
-
 					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", DM_CONST_MULTI_SITE)");
 					tl->CheckError(siteIndex, dm[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], DM_CONST_MULTI_SITE));
 
@@ -1483,9 +614,7 @@ namespace Functions
 				}
 
 				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing DM400e Related Global Variables for Previous States...");
-				InitDmPinAliasPreviousState(site, siteIndex);//initialize DM modules related global variables to store previous states
-
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] initialized");
+				InitDmPinAliasPreviousState(site, siteIndex);
 			}
 			else if (moduleCount[siteIndex] == 0)
 			{
@@ -1493,1826 +622,470 @@ namespace Functions
 			}
 		}
 
-		//Checking any DM module use to Run Vector
 		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
 			if (ResourceManagerSett[siteIndex].DM_HardwareStatus)
 			{
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the Dpin Level.");
-				CastDpinLevelControlItem(site, siteIndex);
-
-				if (CheckingAnyDmModuleRunVector(site, siteIndex, moduleAlias[siteIndex], moduleAliasRunVector, communicationProtocol))
+				for each(Condition ^ controlMethod in testConditionCollection)
 				{
-					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the Timing Set Period.");
-					CastTimingSetPeriodControlItem(site, siteIndex);
-					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] casting the PE Attribute.");
-					CastPEAttributeControlItem(site, siteIndex);
-					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] loading vector file.");
-
-					for (int i = 0; i < moduleAliasRunVector->Length; i++)
+					if (controlMethod->Name->StartsWith("ControlMethod"))
 					{
-						LoadVectorFiles(site, siteIndex, moduleAliasRunVector[i]);
-						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + " ,Module Alias: " + moduleAliasRunVector[i] + " ,Communiation Protocol: " + communicationProtocol[i] + "] is loading vector");
+						strControlMethod = nullptr;
+						intControlMethod = 0;
+						strControlMethod = (String^)tf_ControlItem_ConditionCast(controlMethod->Name);
+						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
+						methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
+
+						if (intControlMethod == DMCase_DMCastDPinLevel || intControlMethod == DMCase_DMCastTimingSetPeriod || intControlMethod == DMCase_DMCastPEAttribute || intControlMethod == DMCase_DMLoadVectorFile)
+						{
+							tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
+							methods->ControlMethod_Selection(site, siteIndex, intControlMethod, testConditionCollection);
+						}
 					}
-
-					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] done loading vector file.");
-
 				}
 			}
 		}
 
-		//Default Setting: Set all DM Pin Alias to PMU Mode
 		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
 			if (ResourceManagerSett[siteIndex].DM_HardwareStatus)
 			{
 				for each (KeyValuePair<String^, int>^ pinAlias in ResourceManagerSett[siteIndex].DMResourceAlias)
 				{
-					DM_ConfigureDigitalPinToPMU(siteIndex, pinAlias->Key, DM_CONST_DVCI, DM_CONST_REMOTE, DM_CONST_200UA_RANGE, 0.0 V, DM_CONST_PLC);
+					DM_ConfigureDigitalPinToPMU(siteIndex, pinAlias->Key, DM_CONST_DVCI, DM_CONST_LOCAL, DM_CONST_200UA_RANGE, 0.0 V, DM_CONST_PLC);
 				}
 			}
 		}
-
 		return ret;
 	}
-	int Module400Series::LoadVectorFiles_ORI(Site ^ site, int siteIndex, String ^ ModuleAlias)
+
+	int Module400Series::UninitializeDM400eResource(Site ^ site) //UNINITIALIZATION (from 7600)
 	{
 		int ret = 0;
-		int count = 0;
-		int found = 0;
-		int vectorCount = 0;
-		String^ ErrorMessage = nullptr;
+		array<array<String^>^>^ moduleAlias = nullptr;
+		array<int>^ moduleCount = gcnew array<int>(tl->glob->tf.NumberOfSites);
+		moduleAlias = gcnew array<array<String^>^>(tl->glob->tf.NumberOfSites);
 
-		tl->glob->VectorSetNumber = gcnew Dictionary <String ^, int>();
-		tl->glob->VectorFileDirectory = tl->glob->tf.RecipeFilePathDirectory + "\\" + "VectorFileFolder";
-
-		try
+		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
-			int totalVectorFiles = Directory::GetFiles(tl->glob->VectorFileDirectory, "*.vec")->Length;
-			array<String^> ^ vectorFiles = gcnew array<String^>(totalVectorFiles);
+			moduleAlias[siteIndex] = GetDMModuleAlias(site, siteIndex);
+			moduleCount[siteIndex] = moduleAlias[siteIndex]->Length;
 
-			vectorFiles = Directory::GetFiles(tl->glob->VectorFileDirectory, "*.vec");
-
-			for (int i = 0; i < totalVectorFiles; i++)
+			try
 			{
-				vectorFiles[i] = vectorFiles[i]->Replace(tl->glob->VectorFileDirectory + "\\", "");
-				vectorFiles[i] = vectorFiles[i]->Replace(".vec", "");
-				tl->glob->VectorSetNumber->Add(vectorFiles[i], i);
+				if (ResourceManagerSett[siteIndex].DM_HardwareStatus == true)
+				{
+					for (int count = 0; count < moduleCount[siteIndex]; count++)
+					{
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
+						tl->CheckError(siteIndex, dm[siteIndex]->Reset(moduleAlias[siteIndex][count]));
+
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->Close(" + moduleAlias[siteIndex][count] + ")");
+						tl->CheckError(siteIndex, dm[siteIndex]->Close(moduleAlias[siteIndex][count]));
+					}
+				}
 			}
-
-			array<int>^ resourceArr = gcnew array<int>(DM_CONST_MAX_VECTOR_SET);
-
-			for (int i = 0; i < DM_CONST_MAX_VECTOR_SET; i++)
+			catch (Exception ^ ex)
 			{
-				resourceArr[i] = 1;
+				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+				tl->CheckError(siteIndex, ER_CONST_ERRROR_CATCH);
+				String^ ErrorMessage = "Module400Series:: UninitializeDM400eResource encountered error when performing.";
+				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 			}
-
-			tl->CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, DM_CONST_MAX_VECTOR_SET - 5, resourceArr));
-
-			for each (String ^ s in tl->glob->VectorSetNumber->Keys)
-			{
-				ret = dm[siteIndex]->DPINVecLoad(ModuleAlias, DM_CONST_BIDIRECTIONAL_IO, tl->glob->VectorSetNumber[s], tl->glob->VectorFileDirectory + "\\" + s + ".vec");
-#pragma region "Read VectorStateFile"
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Check file exist <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				String ^ l_VectorStateFolder_Path = tl->glob->tf.RecipeFilePathDirectory + "\\" + "VectorStateFileFolder";
-				String ^ l_VectorFile_Path = l_VectorStateFolder_Path + "\\" + s + ".csv";
-
-				if (!File::Exists(l_VectorFile_Path))
-				{
-					ErrorMessage = l_VectorFile_Path + " file is not exist.";
-					throw gcnew Exception(ErrorMessage);
-				}
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get total factor <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				String ^ line = String::Empty;
-				int l_Line_Number = 0;
-				array<String ^> ^ ArrStr = gcnew array<String ^>(0);
-				int l_Factor_Count = 0;
-				StreamReader ^ sr = gcnew StreamReader(l_VectorFile_Path);
-
-				while ((line = sr->ReadLine()) != nullptr)
-				{
-					l_Line_Number++;
-
-					if (l_Line_Number >= 6)
-					{
-						l_Factor_Count++;
-					}
-				}
-
-				sr->Close();
-				sr = nullptr;
-				line = String::Empty;
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Setup Storage <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				int l_MIPI_SetCount = 0;
-				array<String^> ^ l_Mode = gcnew array<String^>(l_Factor_Count);
-				array<double> ^ l_USID = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegAddr = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData1 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData2 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData3 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData4 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData5 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData6 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData7 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData8 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData9 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData10 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData11 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData12 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData13 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData14 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData15 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData16 = gcnew array<double>(l_Factor_Count);
-				array<String^> ^ l_Operation = gcnew array<String^>(l_Factor_Count);
-				array<String^> ^ l_Speed = gcnew array<String^>(l_Factor_Count);
-				array<int> ^ l_MIPI_RegDataSetCount = gcnew array<int>(l_Factor_Count);
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get VectorStateFile Content <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				array<String ^> ^ Separator = gcnew array<String ^>(1);
-				Separator[0] = ",";
-				int l_Single_MIPI_Set = 0;
-				int l_Read_Operation_Counter = 0;
-
-				bool Read_VectorStateFileExtended_Success = false;
-				String ^ Read_VectorStateFileExtended_ErrorMessage = "-";
-				bool Read_VectorStateFileBasic_Success = false;
-				String ^ Read_VectorStateFileBasic_ErrorMessage = "-";
-				bool isFirstExtended = true;
-				int Temp_Extended_RegData_Count = 0;
-				int Previous_Extended_USID = 0;
-				int Previous_Extended_RegAddr = 0;
-				String ^ Previous_Extended_Operation = String::Empty;
-				String ^ Previous_Extended_Speed = String::Empty;
-				String ^ Temp_Mode = String::Empty;
-				int Temp_USID = 0;
-				int Temp_RegAddr = 0;
-				int Temp_RegData = 0;
-				int SCLKChannel = 0;
-				int SDATAChannel = 0;
-				int VectorTimingSet = 0;
-				int DM_DPinGroup = 0;
-				String ^ Temp_Operation = String::Empty;
-				String ^ Temp_Speed = String::Empty;
-
-				l_Line_Number = 0;
-				sr = gcnew StreamReader(l_VectorFile_Path);
-				while ((line = sr->ReadLine()) != nullptr)
-				{
-					if (l_Line_Number < 6)
-					{
-						ArrStr = line->Split(Separator, StringSplitOptions::None);
-						if (ArrStr[0] == "DM_DPinGroup")
-							tl->glob->VectorFileManager[siteIndex].DM_DPinGroup[s] = Convert::ToInt32(ArrStr[1]);
-						if (ArrStr[0] == "SCLK_Channel")
-							tl->glob->VectorFileManager[siteIndex].SCLKChannel[s] = Convert::ToInt32(ArrStr[1]);
-						if (ArrStr[0] == "SDATA_Channel")
-							tl->glob->VectorFileManager[siteIndex].SDATAChannel[s] = Convert::ToInt32(ArrStr[1]);
-						if (ArrStr[0] == "VectorTimingSet")
-							tl->glob->VectorFileManager[siteIndex].VectorTimingSet[s] = Convert::ToInt32(ArrStr[1]);
-					}
-					l_Line_Number++;
-
-					if (l_Line_Number >= 6)
-					{
-						ArrStr = line->Split(Separator, StringSplitOptions::None);
-
-						if ((ArrStr[0] == "EXTENDED") || (ArrStr[0] == "Extended") || (ArrStr[0] == "extended"))
-						{
-							//Read single vector state file & single line
-							API_Read_Single_VectorStateFile_SingleLine(ArrStr, Temp_Mode, Temp_USID, Temp_RegAddr, Temp_RegData, Temp_Operation, Temp_Speed, Read_VectorStateFileExtended_Success, Read_VectorStateFileExtended_ErrorMessage);
-
-							if (isFirstExtended == true) //first occur extended RegAddr no need comapare
-							{
-								Previous_Extended_USID = Temp_USID;
-								Previous_Extended_RegAddr = Temp_RegAddr;
-								Previous_Extended_Operation = Temp_Operation;
-								Previous_Extended_Speed = Temp_Speed;
-
-								isFirstExtended = false;
-
-								l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-								l_USID[l_Single_MIPI_Set] = Temp_USID;
-								l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-								l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-								l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-								l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-								l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //First set extended start from 1
-
-								Temp_Extended_RegData_Count++;
-							}
-							else    //The other extended RegAddr need to compare with previous RegAddr
-							{
-								//If USID & Operation still same
-								if ((Previous_Extended_USID == Temp_USID) && (Previous_Extended_Operation == Temp_Operation) && (Previous_Extended_Speed == Temp_Speed))
-								{
-									//If current RegAddr is the increament of the previous RegAddr, use extended format multiple byte RegData
-									if (Temp_RegAddr == (Previous_Extended_RegAddr + 1))
-									{
-										if (Temp_Extended_RegData_Count == 1)
-											l_RegData2[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 2)
-											l_RegData3[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 3)
-											l_RegData4[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 4)
-											l_RegData5[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 5)
-											l_RegData6[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 6)
-											l_RegData7[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 7)
-											l_RegData8[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 8)
-											l_RegData9[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 9)
-											l_RegData10[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 10)
-											l_RegData11[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 11)
-											l_RegData12[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 12)
-											l_RegData13[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 13)
-											l_RegData14[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 14)
-											l_RegData15[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 15)
-											l_RegData16[l_Single_MIPI_Set] = Temp_RegData;
-
-										//RegDataByteCount ++
-										l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = l_MIPI_RegDataSetCount[l_Single_MIPI_Set] + 1;
-
-										//RegData count increament
-										Temp_Extended_RegData_Count++;
-
-										//Replace current item to previous item if still continue compare the followng 
-										Previous_Extended_USID = Temp_USID;
-										Previous_Extended_RegAddr = Temp_RegAddr;
-										Previous_Extended_Operation = Temp_Operation;
-										Previous_Extended_Speed = Temp_Speed;
-									}
-									//If USID & Operation still same, but RegAddr diff / no more increament follow the previous sequence
-									else
-									{
-										//Next MIPI set
-										l_MIPI_SetCount++;
-										l_Single_MIPI_Set++;
-
-										//Reset compare item and ready for next compare
-										Temp_Extended_RegData_Count = 0;
-										Previous_Extended_USID = Temp_USID;
-										Previous_Extended_RegAddr = Temp_RegAddr;
-										Previous_Extended_Operation = Temp_Operation;
-										Previous_Extended_Speed = Temp_Speed;
-
-										l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-										l_USID[l_Single_MIPI_Set] = Temp_USID;
-										l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-										l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-										l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-										l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-										l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-
-										Temp_Extended_RegData_Count++;
-									}
-								}
-								//If USID | Operation changed
-								else
-								{
-									//Next MIPI set
-									l_MIPI_SetCount++;
-									l_Single_MIPI_Set++;
-
-									//Reset compare item and ready for next compare
-									Temp_Extended_RegData_Count = 0;
-									Previous_Extended_USID = Temp_USID;
-									Previous_Extended_RegAddr = Temp_RegAddr;
-									Previous_Extended_Operation = Temp_Operation;
-									Previous_Extended_Speed = Temp_Speed;
-
-									l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-									l_USID[l_Single_MIPI_Set] = Temp_USID;
-									l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-									l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-									l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-									l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-									l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-
-									Temp_Extended_RegData_Count++;
-								}
-							}
-						}
-						else if ((ArrStr[0] == "BASIC") || (ArrStr[0] == "Basic") || (ArrStr[0] == "basic"))
-						{
-							//If StateFile first line is Basic operation
-							if (isFirstExtended == true)
-							{
-								isFirstExtended = false;
-
-								//Read single vector state file & single line
-								API_Read_Single_VectorStateFile_SingleLine(ArrStr, Temp_Mode, Temp_USID, Temp_RegAddr, Temp_RegData, Temp_Operation, Temp_Speed, Read_VectorStateFileBasic_Success, Read_VectorStateFileBasic_ErrorMessage);
-
-								l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-								l_USID[l_Single_MIPI_Set] = Temp_USID;
-								l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-								l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-								l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-								l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-								l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-							}
-							//The rest of the line that related to Basic operation
-							else
-							{
-								//Next MIPI set
-								l_MIPI_SetCount++;
-								l_Single_MIPI_Set++;
-
-								//Force reset when change to basic mode
-								Temp_Extended_RegData_Count = 0;
-								Previous_Extended_USID = 0;
-								Previous_Extended_RegAddr = 0;
-								Previous_Extended_Operation = "NA";
-
-								//Read single vector state file & single line
-								API_Read_Single_VectorStateFile_SingleLine(ArrStr, Temp_Mode, Temp_USID, Temp_RegAddr, Temp_RegData, Temp_Operation, Temp_Speed, Read_VectorStateFileBasic_Success, Read_VectorStateFileBasic_ErrorMessage);
-
-								l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-								l_USID[l_Single_MIPI_Set] = Temp_USID;
-								l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-								l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-								l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-								l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-								l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-							}
-						}
-					}
-				}
-
-				sr->Close();
-				sr = nullptr;
-				line = String::Empty;
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get actual MIPI set array size <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				int l_Actual_MIPI_Set_in_VectorFile = 0;
-				for (int i = 0; i < l_Factor_Count; i++)
-				{
-					if (l_USID[i] == 0)
-					{
-						break;
-					}
-					else
-					{
-						l_Actual_MIPI_Set_in_VectorFile++;
-
-						//Get total READ operation in a VectorFile
-						if ((l_Operation[i] == "READ") || (l_Operation[i] == "Read") || (l_Operation[i] == "read"))
-						{
-							if ((l_Mode[i] == "EXTENDED") || (l_Mode[i] == "Extended") || (l_Mode[i] == "extended"))
-							{
-								l_Read_Operation_Counter += l_MIPI_RegDataSetCount[i];
-							}
-							else if ((l_Mode[i] == "BASIC") || (l_Mode[i] == "Basic") || (l_Mode[i] == "basic"))
-							{
-								l_Read_Operation_Counter++;
-							}
-						}
-					}
-				}
-
-#pragma endregion
-
-#pragma region "Count Vector Start Read Location"
-				tl->glob->VectorFileManager[siteIndex].l_Read_Operation_Counter[s] = l_Read_Operation_Counter;
-				array<int> ^ l_Start_Read_Location_Single_VectorFile = gcnew array<int>(l_Read_Operation_Counter);
-				array<String^> ^ l_Start_Read_Location_Speed = gcnew array<String^>(l_Read_Operation_Counter);
-
-				l_Single_MIPI_Set = 0;
-				int l_Count_AddUp = 0;
-				int x = 0;
-
-				int l_BasicCount_BufferLine = 2;
-				int l_BasicCount_Parity = 2;
-				int l_BasicCount_BusPark = 2;
-				int l_BasicCount_SSC = 4;
-				int l_BasicCount_SA = 8;
-				int l_BasicCount_Operation = 6;
-				int l_BasicCount_RegAddr = 10;
-				int l_BasicCount_RegData = 16;
-
-				int l_ExtendedCount_BufferLine = 2;
-				int l_ExtendedCount_Parity = 2;
-				int l_ExtendedCount_BusPark = 2;
-				int l_ExtendedCount_SSC = 4;
-				int l_ExtendedCount_SA = 8;
-				int l_ExtendedCount_Operation = 8;
-				int l_ExtendedCount_BC = 8;
-				int l_ExtendedCount_RegAddr = 16;
-				int l_ExtendedCount_RegData = 16;
-
-				for (l_Single_MIPI_Set = 0; l_Single_MIPI_Set < l_Actual_MIPI_Set_in_VectorFile; l_Single_MIPI_Set++)
-				{
-					if ((l_Mode[l_Single_MIPI_Set] == "BASIC") || (l_Mode[l_Single_MIPI_Set] == "Basic") || (l_Mode[l_Single_MIPI_Set] == "basic"))
-					{
-						if ((l_Operation[l_Single_MIPI_Set] == "WRITE") || (l_Operation[l_Single_MIPI_Set] == "Write") || (l_Operation[l_Single_MIPI_Set] == "write"))
-						{
-							//Record MIPI set total line
-							l_Count_AddUp += l_BasicCount_SSC + l_BasicCount_SA + l_BasicCount_Operation + l_BasicCount_RegAddr + l_BasicCount_Parity + l_BasicCount_RegData + l_BasicCount_Parity + l_BasicCount_BusPark;
-
-							if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-							{
-								//one MIPI set have front and back buffer line
-								l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-							}
-							else
-							{
-								//last MIPI set only have front buffer line
-								l_Count_AddUp += l_BasicCount_BufferLine;
-							}
-						}
-						else if ((l_Operation[l_Single_MIPI_Set] == "READ") || (l_Operation[l_Single_MIPI_Set] == "Read") || (l_Operation[l_Single_MIPI_Set] == "read"))
-						{
-							if ((l_Speed[l_Single_MIPI_Set] == "FULL") || (l_Speed[l_Single_MIPI_Set] == "Full") || (l_Speed[l_Single_MIPI_Set] == "full"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_BasicCount_SSC + l_BasicCount_SA + l_BasicCount_Operation + l_BasicCount_RegAddr + l_BasicCount_Parity + l_BasicCount_BusPark + l_BasicCount_RegData + l_BasicCount_Parity + l_BasicCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - l_BasicCount_RegData - l_BasicCount_Parity - l_BasicCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-								else
-								{
-									//last MIPI set only have front buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - l_BasicCount_RegData - l_BasicCount_Parity - l_BasicCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-							}
-							else if ((l_Speed[l_Single_MIPI_Set] == "HALF") || (l_Speed[l_Single_MIPI_Set] == "Half") || (l_Speed[l_Single_MIPI_Set] == "half"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_BasicCount_SSC + l_BasicCount_SA + l_BasicCount_Operation + l_BasicCount_RegAddr + l_BasicCount_Parity + l_BasicCount_BusPark + (l_BasicCount_RegData * 2) + (l_BasicCount_Parity * 2) + l_BasicCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_BasicCount_RegData * 2) - (l_BasicCount_Parity * 2) - l_BasicCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-								else
-								{
-									//last MIPI set only have front buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_BasicCount_RegData * 2) - (l_BasicCount_Parity * 2) - l_BasicCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-							}
-							else
-							{
-								ErrorMessage = l_Speed[l_Single_MIPI_Set] + " is invalid as only FULL and HALF is supported.";
-								throw gcnew Exception(ErrorMessage);
-							}
-							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Speed->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Speed[x]);
-							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Single_VectorFile[x]);
-							//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "VectorFile: " + s + " , Read_Location_Single_VectorFile =" + (tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[s]]).ToString() + ",  done");
-							//Only ++ when have READ operation
-							//x++;
-						}
-						else
-						{
-							ErrorMessage = l_Operation[l_Single_MIPI_Set] + " is invalid as only Write and Read operation is supported.";
-							throw gcnew Exception(ErrorMessage);
-						}
-					}
-					else if ((l_Mode[l_Single_MIPI_Set] == "EXTENDED") || (l_Mode[l_Single_MIPI_Set] == "Extended") || (l_Mode[l_Single_MIPI_Set] == "extended"))
-					{
-						if ((l_Operation[l_Single_MIPI_Set] == "WRITE") || (l_Operation[l_Single_MIPI_Set] == "Write") || (l_Operation[l_Single_MIPI_Set] == "write"))
-						{
-							//Record MIPI set total line
-							l_Count_AddUp += l_ExtendedCount_SSC + l_ExtendedCount_SA + l_ExtendedCount_Operation + l_ExtendedCount_BC + l_ExtendedCount_Parity + l_ExtendedCount_RegAddr + l_ExtendedCount_Parity + (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + l_ExtendedCount_BusPark;
-
-							if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-							{
-								//one MIPI set have front and back buffer line
-								l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-							}
-							else
-							{
-								//last MIPI set only have front buffer line
-								l_Count_AddUp += l_BasicCount_BufferLine;
-							}
-						}
-						else if ((l_Operation[l_Single_MIPI_Set] == "READ") || (l_Operation[l_Single_MIPI_Set] == "Read") || (l_Operation[l_Single_MIPI_Set] == "read"))
-						{
-							if ((l_Speed[l_Single_MIPI_Set] == "FULL") || (l_Speed[l_Single_MIPI_Set] == "Full") || (l_Speed[l_Single_MIPI_Set] == "full"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_ExtendedCount_SSC + l_ExtendedCount_SA + l_ExtendedCount_Operation + l_ExtendedCount_BC + l_ExtendedCount_Parity + l_ExtendedCount_RegAddr + l_ExtendedCount_Parity + l_ExtendedCount_BusPark + (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + l_ExtendedCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - l_ExtendedCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 18;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-								else
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - l_ExtendedCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 18;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-							}
-							else if ((l_Speed[l_Single_MIPI_Set] == "HALF") || (l_Speed[l_Single_MIPI_Set] == "Half") || (l_Speed[l_Single_MIPI_Set] == "half"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_ExtendedCount_SSC + l_ExtendedCount_SA + l_ExtendedCount_Operation + l_ExtendedCount_BC + l_ExtendedCount_Parity + l_ExtendedCount_RegAddr + l_ExtendedCount_Parity + l_ExtendedCount_BusPark + (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) + (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) + l_ExtendedCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - l_ExtendedCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 36;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-								else
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - l_ExtendedCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 36;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-							}
-							else
-							{
-								ErrorMessage = l_Speed[l_Single_MIPI_Set] + " is invalid as only FULL and HALF is supported.";
-								throw gcnew Exception(ErrorMessage);
-							}
-
-						}
-						else
-						{
-							ErrorMessage = l_Operation[l_Single_MIPI_Set] + " is invalid as only Write and Read operation is supported.";
-							throw gcnew Exception(ErrorMessage);
-						}
-					}
-					else
-					{
-						ErrorMessage = l_Mode[l_Single_MIPI_Set] + " is invalid as only Basic and Extended is supported.";
-						throw gcnew Exception(ErrorMessage);
-					}
-				}
-
-				tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Speed->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Speed);
-				tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Single_VectorFile);
-#pragma endregion
-				vectorCount++;
-				if (ret != 0) return ret;
-			}
-
-			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureVectorEngineAttribute(" + ModuleAlias + ", false, false)");
-			tl->CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
-
-			for (int i = 0; i < tl->glob->TimingSetPeriod[siteIndex]->Length; i++)
-			{
-				double period = (1 / (2 * tl->glob->TimingSetPeriod[siteIndex][i]));
-
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->DPINPeriod(" + ModuleAlias + "," + period.ToString() + " )");
-				tl->CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
-			}
-
-			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Successfully Loaded vector files...");
-			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Directory: " + tl->glob->VectorFileDirectory + "...");
-
-		}
-
-		catch (Exception ^ ex)
-		{
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			String^ ErrorMessage = "Site " + siteIndex + ":: [LoadVectorFiles at Load Phase] encountered error [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
-			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
-			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
-		}
-
-		return ret;
-	}
-	int Module400Series::LoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias)
-	{
-		int ret = 0;
-		int count = 0;
-		int found = 0;
-		int vectorCount = 0;
-		String^ ErrorMessage = nullptr;
-
-		tl->glob->VectorSetNumber = gcnew Dictionary <String ^, int>();
-		tl->glob->VectorFileDirectory = tl->glob->tf.RecipeFilePathDirectory + "\\" + "VectorFileFolder";
-
-		try
-		{
-			int totalVectorFiles = Directory::GetFiles(tl->glob->VectorFileDirectory, "*.vec")->Length;
-			array<String^> ^ vectorFiles = gcnew array<String^>(totalVectorFiles);
-
-			vectorFiles = Directory::GetFiles(tl->glob->VectorFileDirectory, "*.vec");
-
-			for (int i = 0; i < totalVectorFiles; i++)
-			{
-				vectorFiles[i] = vectorFiles[i]->Replace(tl->glob->VectorFileDirectory + "\\", "");
-				vectorFiles[i] = vectorFiles[i]->Replace(".vec", "");
-				tl->glob->VectorSetNumber->Add(vectorFiles[i], i);
-			}
-
-			array<int>^ resourceArr = gcnew array<int>(DM_CONST_MAX_VECTOR_SET);
-
-			for (int i = 0; i < DM_CONST_MAX_VECTOR_SET; i++)
-			{
-				resourceArr[i] = 1;
-			}
-
-			tl->CheckError(siteIndex, dm[siteIndex]->DPINVectorResourceAllocation(ModuleAlias, DM_CONST_MAX_VECTOR_SET - 5, resourceArr));
-
-			for each (String ^ s in tl->glob->VectorSetNumber->Keys)
-			{
-				ret = dm[siteIndex]->DPINVecLoad(ModuleAlias, DM_CONST_BIDIRECTIONAL_IO, tl->glob->VectorSetNumber[s], tl->glob->VectorFileDirectory + "\\" + s + ".vec");
-#pragma region "Read VectorStateFile"
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Check file exist <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				String ^ l_VectorStateFolder_Path = tl->glob->tf.RecipeFilePathDirectory + "\\" + "VectorStateFileFolder";
-				String ^ l_VectorFile_Path = l_VectorStateFolder_Path + "\\" + s + ".csv";
-
-				if (!File::Exists(l_VectorFile_Path))
-				{
-					ErrorMessage = l_VectorFile_Path + " file is not exist.";
-					throw gcnew Exception(ErrorMessage);
-				}
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get total factor <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				String ^ line = String::Empty;
-				int l_Line_Number = 0;
-				array<String ^> ^ ArrStr = gcnew array<String ^>(0);
-				int l_Factor_Count = 0;
-				StreamReader ^ sr = gcnew StreamReader(l_VectorFile_Path);
-
-				while ((line = sr->ReadLine()) != nullptr)
-				{
-					l_Line_Number++;
-
-					if (l_Line_Number >= 6)
-					{
-						l_Factor_Count++;
-					}
-				}
-
-				sr->Close();
-				sr = nullptr;
-				line = String::Empty;
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Setup Storage <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				int l_MIPI_SetCount = 0;
-				array<String^> ^ l_Mode = gcnew array<String^>(l_Factor_Count);
-				array<double> ^ l_USID = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegAddr = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData1 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData2 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData3 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData4 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData5 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData6 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData7 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData8 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData9 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData10 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData11 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData12 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData13 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData14 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData15 = gcnew array<double>(l_Factor_Count);
-				array<double> ^ l_RegData16 = gcnew array<double>(l_Factor_Count);
-				array<String^> ^ l_Operation = gcnew array<String^>(l_Factor_Count);
-				array<String^> ^ l_Speed = gcnew array<String^>(l_Factor_Count);
-				array<int> ^ l_MIPI_RegDataSetCount = gcnew array<int>(l_Factor_Count);
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get VectorStateFile Content <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				array<String ^> ^ Separator = gcnew array<String ^>(1);
-				Separator[0] = ",";
-				int l_Single_MIPI_Set = 0;
-				int l_Read_Operation_Counter = 0;
-
-				bool Read_VectorStateFileExtended_Success = false;
-				String ^ Read_VectorStateFileExtended_ErrorMessage = "-";
-				bool Read_VectorStateFileBasic_Success = false;
-				String ^ Read_VectorStateFileBasic_ErrorMessage = "-";
-				bool isFirstExtended = true;
-				int Temp_Extended_RegData_Count = 0;
-				int Previous_Extended_USID = 0;
-				int Previous_Extended_RegAddr = 0;
-				String ^ Previous_Extended_Operation = String::Empty;
-				String ^ Previous_Extended_Speed = String::Empty;
-				String ^ Temp_Mode = String::Empty;
-				int Temp_USID = 0;
-				int Temp_RegAddr = 0;
-				int Temp_RegData = 0;
-				int SCLKChannel = 0;
-				int SDATAChannel = 0;
-				int VectorTimingSet = 0;
-				int DM_DPinGroup = 0;
-				String ^ Temp_Operation = String::Empty;
-				String ^ Temp_Speed = String::Empty;
-
-				l_Line_Number = 0;
-				sr = gcnew StreamReader(l_VectorFile_Path);
-				while ((line = sr->ReadLine()) != nullptr)
-				{
-					if (l_Line_Number < 6)
-					{
-						ArrStr = line->Split(Separator, StringSplitOptions::None);
-						if (ArrStr[0] == "DM_DPinGroup")
-							tl->glob->VectorFileManager[siteIndex].DM_DPinGroup[s] = Convert::ToInt32(ArrStr[1]);
-						if (ArrStr[0] == "SCLK_Channel")
-							tl->glob->VectorFileManager[siteIndex].SCLKChannel[s] = Convert::ToInt32(ArrStr[1]);
-						if (ArrStr[0] == "SDATA_Channel")
-							tl->glob->VectorFileManager[siteIndex].SDATAChannel[s] = Convert::ToInt32(ArrStr[1]);
-						if (ArrStr[0] == "VectorTimingSet")
-							tl->glob->VectorFileManager[siteIndex].VectorTimingSet[s] = Convert::ToInt32(ArrStr[1]);
-					}
-					l_Line_Number++;
-
-					if (l_Line_Number >= 6)
-					{
-						ArrStr = line->Split(Separator, StringSplitOptions::None);
-
-						if ((ArrStr[0] == "EXTENDED") || (ArrStr[0] == "Extended") || (ArrStr[0] == "extended"))
-						{
-							//Read single vector state file & single line
-							API_Read_Single_VectorStateFile_SingleLine(ArrStr, Temp_Mode, Temp_USID, Temp_RegAddr, Temp_RegData, Temp_Operation, Temp_Speed, Read_VectorStateFileExtended_Success, Read_VectorStateFileExtended_ErrorMessage);
-
-							if (isFirstExtended == true) //first occur extended RegAddr no need comapare
-							{
-								Previous_Extended_USID = Temp_USID;
-								Previous_Extended_RegAddr = Temp_RegAddr;
-								Previous_Extended_Operation = Temp_Operation;
-								Previous_Extended_Speed = Temp_Speed;
-
-								isFirstExtended = false;
-
-								l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-								l_USID[l_Single_MIPI_Set] = Temp_USID;
-								l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-								l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-								l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-								l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-								l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //First set extended start from 1
-
-								Temp_Extended_RegData_Count++;
-							}
-							else    //The other extended RegAddr need to compare with previous RegAddr
-							{
-								//If USID & Operation still same
-								if ((Previous_Extended_USID == Temp_USID) && (Previous_Extended_Operation == Temp_Operation) && (Previous_Extended_Speed == Temp_Speed))
-								{
-									//If current RegAddr is the increament of the previous RegAddr, use extended format multiple byte RegData
-									if (Temp_RegAddr == (Previous_Extended_RegAddr + 1))
-									{
-										if (Temp_Extended_RegData_Count == 1)
-											l_RegData2[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 2)
-											l_RegData3[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 3)
-											l_RegData4[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 4)
-											l_RegData5[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 5)
-											l_RegData6[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 6)
-											l_RegData7[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 7)
-											l_RegData8[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 8)
-											l_RegData9[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 9)
-											l_RegData10[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 10)
-											l_RegData11[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 11)
-											l_RegData12[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 12)
-											l_RegData13[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 13)
-											l_RegData14[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 14)
-											l_RegData15[l_Single_MIPI_Set] = Temp_RegData;
-										else if (Temp_Extended_RegData_Count == 15)
-											l_RegData16[l_Single_MIPI_Set] = Temp_RegData;
-
-										//RegDataByteCount ++
-										l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = l_MIPI_RegDataSetCount[l_Single_MIPI_Set] + 1;
-
-										//RegData count increament
-										Temp_Extended_RegData_Count++;
-
-										//Replace current item to previous item if still continue compare the followng 
-										Previous_Extended_USID = Temp_USID;
-										Previous_Extended_RegAddr = Temp_RegAddr;
-										Previous_Extended_Operation = Temp_Operation;
-										Previous_Extended_Speed = Temp_Speed;
-									}
-									//If USID & Operation still same, but RegAddr diff / no more increament follow the previous sequence
-									else
-									{
-										//Next MIPI set
-										l_MIPI_SetCount++;
-										l_Single_MIPI_Set++;
-
-										//Reset compare item and ready for next compare
-										Temp_Extended_RegData_Count = 0;
-										Previous_Extended_USID = Temp_USID;
-										Previous_Extended_RegAddr = Temp_RegAddr;
-										Previous_Extended_Operation = Temp_Operation;
-										Previous_Extended_Speed = Temp_Speed;
-
-										l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-										l_USID[l_Single_MIPI_Set] = Temp_USID;
-										l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-										l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-										l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-										l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-										l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-
-										Temp_Extended_RegData_Count++;
-									}
-								}
-								//If USID | Operation changed
-								else
-								{
-									//Next MIPI set
-									l_MIPI_SetCount++;
-									l_Single_MIPI_Set++;
-
-									//Reset compare item and ready for next compare
-									Temp_Extended_RegData_Count = 0;
-									Previous_Extended_USID = Temp_USID;
-									Previous_Extended_RegAddr = Temp_RegAddr;
-									Previous_Extended_Operation = Temp_Operation;
-									Previous_Extended_Speed = Temp_Speed;
-
-									l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-									l_USID[l_Single_MIPI_Set] = Temp_USID;
-									l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-									l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-									l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-									l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-									l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-
-									Temp_Extended_RegData_Count++;
-								}
-							}
-						}
-						else if ((ArrStr[0] == "BASIC") || (ArrStr[0] == "Basic") || (ArrStr[0] == "basic"))
-						{
-							//If StateFile first line is Basic operation
-							if (isFirstExtended == true)
-							{
-								isFirstExtended = false;
-
-								//Read single vector state file & single line
-								API_Read_Single_VectorStateFile_SingleLine(ArrStr, Temp_Mode, Temp_USID, Temp_RegAddr, Temp_RegData, Temp_Operation, Temp_Speed, Read_VectorStateFileBasic_Success, Read_VectorStateFileBasic_ErrorMessage);
-
-								l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-								l_USID[l_Single_MIPI_Set] = Temp_USID;
-								l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-								l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-								l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-								l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-								l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-							}
-							//The rest of the line that related to Basic operation
-							else
-							{
-								//Next MIPI set
-								l_MIPI_SetCount++;
-								l_Single_MIPI_Set++;
-
-								//Force reset when change to basic mode
-								Temp_Extended_RegData_Count = 0;
-								Previous_Extended_USID = 0;
-								Previous_Extended_RegAddr = 0;
-								Previous_Extended_Operation = "NA";
-
-								//Read single vector state file & single line
-								API_Read_Single_VectorStateFile_SingleLine(ArrStr, Temp_Mode, Temp_USID, Temp_RegAddr, Temp_RegData, Temp_Operation, Temp_Speed, Read_VectorStateFileBasic_Success, Read_VectorStateFileBasic_ErrorMessage);
-
-								l_Mode[l_Single_MIPI_Set] = Temp_Mode;
-								l_USID[l_Single_MIPI_Set] = Temp_USID;
-								l_RegAddr[l_Single_MIPI_Set] = Temp_RegAddr;
-								l_RegData1[l_Single_MIPI_Set] = Temp_RegData;
-								l_Operation[l_Single_MIPI_Set] = Temp_Operation;
-								l_Speed[l_Single_MIPI_Set] = Temp_Speed;
-								l_MIPI_RegDataSetCount[l_Single_MIPI_Set] = 1;    //new MIPI set RegDataByteCount strat from 1
-							}
-						}
-					}
-				}
-
-				sr->Close();
-				sr = nullptr;
-				line = String::Empty;
-
-				//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get actual MIPI set array size <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-				int l_Actual_MIPI_Set_in_VectorFile = 0;
-				for (int i = 0; i < l_Factor_Count; i++)
-				{
-					if (l_USID[i] == 0)
-					{
-						break;
-					}
-					else
-					{
-						l_Actual_MIPI_Set_in_VectorFile++;
-
-						//Get total READ operation in a VectorFile
-						if ((l_Operation[i] == "READ") || (l_Operation[i] == "Read") || (l_Operation[i] == "read"))
-						{
-							if ((l_Mode[i] == "EXTENDED") || (l_Mode[i] == "Extended") || (l_Mode[i] == "extended"))
-							{
-								l_Read_Operation_Counter += l_MIPI_RegDataSetCount[i];
-							}
-							else if ((l_Mode[i] == "BASIC") || (l_Mode[i] == "Basic") || (l_Mode[i] == "basic"))
-							{
-								l_Read_Operation_Counter++;
-							}
-						}
-					}
-				}
-
-#pragma endregion
-
-#pragma region "Count Vector Start Read Location"
-				tl->glob->VectorFileManager[siteIndex].l_Read_Operation_Counter[s] = l_Read_Operation_Counter;
-				array<int> ^ l_Start_Read_Location_Single_VectorFile = gcnew array<int>(l_Read_Operation_Counter);
-				array<String^> ^ l_Start_Read_Location_Speed = gcnew array<String^>(l_Read_Operation_Counter);
-
-				l_Single_MIPI_Set = 0;
-				int l_Count_AddUp = 0;
-				int x = 0;
-
-				int l_BasicCount_BufferLine = 2;
-				int l_BasicCount_Parity = 2;
-				int l_BasicCount_BusPark = 2;
-				int l_BasicCount_SSC = 4;
-				int l_BasicCount_SA = 8;
-				int l_BasicCount_Operation = 6;
-				int l_BasicCount_RegAddr = 10;
-				int l_BasicCount_RegData = 16;
-
-				int l_ExtendedCount_BufferLine = 2;
-				int l_ExtendedCount_Parity = 2;
-				int l_ExtendedCount_BusPark = 2;
-				int l_ExtendedCount_SSC = 4;
-				int l_ExtendedCount_SA = 8;
-				int l_ExtendedCount_Operation = 8;
-				int l_ExtendedCount_BC = 8;
-				int l_ExtendedCount_RegAddr = 16;
-				int l_ExtendedCount_RegData = 16;
-
-				for (l_Single_MIPI_Set = 0; l_Single_MIPI_Set < l_Actual_MIPI_Set_in_VectorFile; l_Single_MIPI_Set++)
-				{
-					if ((l_Mode[l_Single_MIPI_Set] == "BASIC") || (l_Mode[l_Single_MIPI_Set] == "Basic") || (l_Mode[l_Single_MIPI_Set] == "basic"))
-					{
-						if ((l_Operation[l_Single_MIPI_Set] == "WRITE") || (l_Operation[l_Single_MIPI_Set] == "Write") || (l_Operation[l_Single_MIPI_Set] == "write"))
-						{
-							//Record MIPI set total line
-							l_Count_AddUp += l_BasicCount_SSC + l_BasicCount_SA + l_BasicCount_Operation + l_BasicCount_RegAddr + l_BasicCount_Parity + l_BasicCount_RegData + l_BasicCount_Parity + l_BasicCount_BusPark;
-
-							if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-							{
-								//one MIPI set have front and back buffer line
-								l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-							}
-							else
-							{
-								//last MIPI set only have front buffer line
-								l_Count_AddUp += l_BasicCount_BufferLine;
-							}
-						}
-						else if ((l_Operation[l_Single_MIPI_Set] == "READ") || (l_Operation[l_Single_MIPI_Set] == "Read") || (l_Operation[l_Single_MIPI_Set] == "read"))
-						{
-							if ((l_Speed[l_Single_MIPI_Set] == "FULL") || (l_Speed[l_Single_MIPI_Set] == "Full") || (l_Speed[l_Single_MIPI_Set] == "full"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_BasicCount_SSC + l_BasicCount_SA + l_BasicCount_Operation + l_BasicCount_RegAddr + l_BasicCount_Parity + l_BasicCount_BusPark + l_BasicCount_RegData + l_BasicCount_Parity + l_BasicCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - l_BasicCount_RegData - l_BasicCount_Parity - l_BasicCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-								else
-								{
-									//last MIPI set only have front buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - l_BasicCount_RegData - l_BasicCount_Parity - l_BasicCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-							}
-							else if ((l_Speed[l_Single_MIPI_Set] == "HALF") || (l_Speed[l_Single_MIPI_Set] == "Half") || (l_Speed[l_Single_MIPI_Set] == "half"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_BasicCount_SSC + l_BasicCount_SA + l_BasicCount_Operation + l_BasicCount_RegAddr + l_BasicCount_Parity + l_BasicCount_BusPark + (l_BasicCount_RegData * 2) + (l_BasicCount_Parity * 2) + l_BasicCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_BasicCount_RegData * 2) - (l_BasicCount_Parity * 2) - l_BasicCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-								else
-								{
-									//last MIPI set only have front buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_BasicCount_RegData * 2) - (l_BasicCount_Parity * 2) - l_BasicCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-								}
-							}
-							else
-							{
-								ErrorMessage = l_Speed[l_Single_MIPI_Set] + " is invalid as only FULL and HALF is supported.";
-								throw gcnew Exception(ErrorMessage);
-							}
-							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Speed->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Speed[x]);
-							//tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Single_VectorFile[x]);
-							//tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "VectorFile: " + s + " , Read_Location_Single_VectorFile =" + (tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[s]]).ToString() + ",  done");
-							//Only ++ when have READ operation
-							//x++;
-						}
-						else
-						{
-							ErrorMessage = l_Operation[l_Single_MIPI_Set] + " is invalid as only Write and Read operation is supported.";
-							throw gcnew Exception(ErrorMessage);
-						}
-					}
-					else if ((l_Mode[l_Single_MIPI_Set] == "EXTENDED") || (l_Mode[l_Single_MIPI_Set] == "Extended") || (l_Mode[l_Single_MIPI_Set] == "extended"))
-					{
-						if ((l_Operation[l_Single_MIPI_Set] == "WRITE") || (l_Operation[l_Single_MIPI_Set] == "Write") || (l_Operation[l_Single_MIPI_Set] == "write"))
-						{
-							//Record MIPI set total line
-							l_Count_AddUp += l_ExtendedCount_SSC + l_ExtendedCount_SA + l_ExtendedCount_Operation + l_ExtendedCount_BC + l_ExtendedCount_Parity + l_ExtendedCount_RegAddr + l_ExtendedCount_Parity + (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + l_ExtendedCount_BusPark;
-
-							if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-							{
-								//one MIPI set have front and back buffer line
-								l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-							}
-							else
-							{
-								//last MIPI set only have front buffer line
-								l_Count_AddUp += l_BasicCount_BufferLine;
-							}
-						}
-						else if ((l_Operation[l_Single_MIPI_Set] == "READ") || (l_Operation[l_Single_MIPI_Set] == "Read") || (l_Operation[l_Single_MIPI_Set] == "read"))
-						{
-							if ((l_Speed[l_Single_MIPI_Set] == "FULL") || (l_Speed[l_Single_MIPI_Set] == "Full") || (l_Speed[l_Single_MIPI_Set] == "full"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_ExtendedCount_SSC + l_ExtendedCount_SA + l_ExtendedCount_Operation + l_ExtendedCount_BC + l_ExtendedCount_Parity + l_ExtendedCount_RegAddr + l_ExtendedCount_Parity + l_ExtendedCount_BusPark + (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) + l_ExtendedCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - l_ExtendedCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 18;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-								else
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set]) - l_ExtendedCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 18;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-							}
-							else if ((l_Speed[l_Single_MIPI_Set] == "HALF") || (l_Speed[l_Single_MIPI_Set] == "Half") || (l_Speed[l_Single_MIPI_Set] == "half"))
-							{
-								//Record MIPI set total line
-								l_Count_AddUp += l_ExtendedCount_SSC + l_ExtendedCount_SA + l_ExtendedCount_Operation + l_ExtendedCount_BC + l_ExtendedCount_Parity + l_ExtendedCount_RegAddr + l_ExtendedCount_Parity + l_ExtendedCount_BusPark + (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) + (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) + l_ExtendedCount_BusPark;
-
-								if (l_Single_MIPI_Set < (l_Actual_MIPI_Set_in_VectorFile - 1))
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += (l_BasicCount_BufferLine * 2);
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - l_ExtendedCount_BusPark - l_BasicCount_BufferLine + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 36;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-								else
-								{
-									//one MIPI set have front and back buffer line
-									l_Count_AddUp += l_BasicCount_BufferLine;
-									//Record Start Read Location
-									l_Start_Read_Location_Single_VectorFile[x] = l_Count_AddUp - (l_ExtendedCount_RegData * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - (l_ExtendedCount_Parity * l_MIPI_RegDataSetCount[l_Single_MIPI_Set] * 2) - l_ExtendedCount_BusPark + 1;
-									//Record Start Read Location's Speed
-									l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-									x++;
-									//For multiple RegData set
-									for (int y = 0; y < (l_MIPI_RegDataSetCount[l_Single_MIPI_Set] - 1); y++)
-									{
-										l_Start_Read_Location_Single_VectorFile[x] = l_Start_Read_Location_Single_VectorFile[x - 1] + 36;
-										//Record Start Read Location's Speed
-										l_Start_Read_Location_Speed[x] = l_Speed[l_Single_MIPI_Set];
-										x++;
-									}
-								}
-							}
-							else
-							{
-								ErrorMessage = l_Speed[l_Single_MIPI_Set] + " is invalid as only FULL and HALF is supported.";
-								throw gcnew Exception(ErrorMessage);
-							}
-
-						}
-						else
-						{
-							ErrorMessage = l_Operation[l_Single_MIPI_Set] + " is invalid as only Write and Read operation is supported.";
-							throw gcnew Exception(ErrorMessage);
-						}
-					}
-					else
-					{
-						ErrorMessage = l_Mode[l_Single_MIPI_Set] + " is invalid as only Basic and Extended is supported.";
-						throw gcnew Exception(ErrorMessage);
-					}
-				}
-
-				tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Speed->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Speed);
-				tl->glob->VectorFileManager[siteIndex].l_Start_Read_Location_Single_VectorFile->Add(tl->glob->VectorSetNumber[s], l_Start_Read_Location_Single_VectorFile);
-#pragma endregion
-				vectorCount++;
-				if (ret != 0) return ret;
-			}
-
-			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->ConfigureVectorEngineAttribute(" + ModuleAlias + ", false, false)");
-			tl->CheckError(siteIndex, dm[siteIndex]->ConfigureVectorEngineAttribute(ModuleAlias, false, false));
-
-			for (int i = 0; i < tl->glob->TimingSetPeriod[siteIndex]->Length; i++)
-			{
-				double period = (1 / (2 * tl->glob->TimingSetPeriod[siteIndex][i]));
-
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dm[" + siteIndex + "]->DPINPeriod(" + ModuleAlias + "," + period.ToString() + " )");
-				tl->CheckError(siteIndex, dm[siteIndex]->DPINPeriod(ModuleAlias, i, period));
-			}
-
-			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Successfully Loaded vector files...");
-			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Directory: " + tl->glob->VectorFileDirectory + "...");
-
-		}
-
-		catch (Exception ^ ex)
-		{
-			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
-			String^ ErrorMessage = "Site " + siteIndex + ":: [LoadVectorFiles at Load Phase] encountered error [" + tl->glob->TcrLgr.GlobalErrorMessage + "]";
-			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
-			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 		}
 
 		return ret;
 	}
 
-	// DM400e Helper Function 
 	int Module400Series::DM_Init(int testSite, int dpinGroup)
 	{
+		// [keep 7600] Direct constructor helper for managed DM driver object
 		int ret = 0;
-
 		dm[testSite] = gcnew DM(tl->glob->HardwareProfile, dpinGroup, tl->glob->tf.TestHead, testSite, tl->glob->AWV.Offline, tl->glob->AWV.DMInitOption);
-
 		return ret;
 	}
+
+
+	
+	//VECTOR EXECUTION ARCHITECTURE (From 7300) Provides batch file array execution, standardized error return constants
 	int Module400Series::DM_MIPIWriteVector(int testSite, String ^ moduleAlias, String ^ vectorFileName)
 	{
+		// [7300 DmRunVector Algorithm]: Polling loop, engine busy timeout checks, settling delay
 		int ret = 0;
-		int l_count = 0;
-		int moduleStatus = 999;
 
-		if (tl->glob->VectorSetNumber->ContainsKey(vectorFileName))
+		try
 		{
-			while ((l_count <= 10000) && (moduleStatus != DM_CONST_VEC_ENG_STAT_DONE))
+			int vecFileNumber = 9999;
+			for (int i = 0; i < tl->glob->VectorFile.totalVecFileExist; i++)
 			{
-				moduleStatus = 999;
-
-				tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(moduleAlias, moduleStatus));
-				if (ret != 0) return ret; //exit if AcquireVecEngineStatus returns an error code 
-
-				if ((moduleStatus == DM_CONST_VEC_ENG_STAT_DONE))
+				if (tl->glob->VectorFile.vecFileName[i] == vectorFileName)
 				{
-					tl->CheckError(testSite, dm[testSite]->RunVector(moduleAlias, tl->glob->VectorSetNumber[vectorFileName]));
-					if (ret != 0) return ret; //exit if RunVector returns an error code
+					vecFileNumber = i;
 					break;
 				}
+			}
 
-				//tracerLogger->WriteToTracer("Site" + testSite.ToString(), "\n Wait for DM Status Done Count: " + l_count.ToString());
-				util->WaitSecond(1.0 uS);
-				l_count++;
+			int count = 0;
+			int dmStatus = 999;
+			while ((count <= 200000) && (dmStatus != 0))
+			{
+				dmStatus = 999;
+				tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(moduleAlias, dmStatus));
 
-				if (l_count > 10000)	ret += l_count;
+				if (dmStatus == 0)
+				{
+					tl->CheckError(testSite, dm[testSite]->RunVector(moduleAlias, vecFileNumber));
+					tl->Util->WaitSecond(dmMipiVec.runMipiDelay);
+					break;
+				}
+				tl->Util->WaitSecond(1.0 uS);
+				count++;
+
+				if (count >= 200000)
+				{
+					ret = ER_CONST_DM_VECTOR_ENGINE_STATUS_BUSY;
+					tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> DM_MIPIWriteVector] DM vector engine status BUSY | Error Code: " + ret.ToString());
+					goto EndOfTest;
+				}
 			}
 		}
+		catch (Exception^ ex)
+		{
+			ret = ER_CONST_DM_RUN_VECTOR_FAIL;
+			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> DM_MIPIWriteVector] Fail to run vector file. | Detail: " + ex->Message);
+			goto EndOfTest;
+		}
 
+	EndOfTest:
 		return ret;
 	}
-	int Module400Series::API_Read_Single_VectorStateFile_SingleLine(array<String^> ^  Reader_Value, String^ % Mode, int % USID, int % RegAddr, int % RegData, String^ % Operation, String^ % Speed, bool % Read_VectorStateFileBasic_Success, String^ % Read_VectorStateFileBasic_ErrorMessage)
+
+	int Module400Series::DmPatternTestFunction_MipiWrite(int tfSite, int siteIndex, String ^ dmModuleAlias, array<String^> ^ vectorFileName)
 	{
+		// [7300 DmPatternTestFunction_MipiWrite Algorithm]: Iterates over vector file array
 		int ret = 0;
 
-		Mode = String::Empty;
-		USID = 999;
-		RegAddr = 999;
-		RegData = 999;
-		Operation = String::Empty;
-		Speed = String::Empty;
-		Read_VectorStateFileBasic_Success = false;
-		Read_VectorStateFileBasic_ErrorMessage = "Unknown Error";
-
-		//Mode
-		if (!String::IsNullOrEmpty(Reader_Value[0]))
+		try
 		{
-			Mode = Reader_Value[0];
-			Read_VectorStateFileBasic_Success = true;
+			for (int i = 0; i < vectorFileName->Length; i++)
+			{
+				ret = DM_MIPIWriteVector(siteIndex, dmModuleAlias, vectorFileName[i]);
+				if (ret != 0) goto EndOfTest;
+			}
+		}
+		catch (Exception^ ex)
+		{
+			ret = ER_CONST_DM_PATTERN_TEST_MIPI_WRITE_FAIL;
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Module400Series -> DmPatternTestFunction_MipiWrite] Fail MIPI write. | Detail: " + ex->Message);
+			goto EndOfTest;
+		}
+
+	EndOfTest:
+		return ret;
+	}
+
+
+	
+	//VECTOR STATE CSV PARSING ARCHITECTURE (From 7300) Single-responsibility parser functions with strict bit-width boundary validation(e.g., max address / data limits) and clear diagnostic logging.
+	int Module400Series::GetDpinGroupInfo(array<String^> ^ mipiSetInfo, int % dpinGroup, String^ % errorMessage)
+	{
+		int ret = 0;
+		dpinGroup = 999;
+		errorMessage = "NA";
+
+		if (mipiSetInfo[0] != "DM_DPinGroup") return ER_CONST_VECTOR_STATE_FILE_DPINGROUP_NOT_FOUND;
+		if (String::IsNullOrEmpty(mipiSetInfo[1])) return ER_CONST_VECTOR_STATE_FILE_DPINGROUP_INPUT_EMPTY;
+
+		dpinGroup = Convert::ToInt32(mipiSetInfo[1], 10);
+		if ((dpinGroup < 1) || (dpinGroup > 3)) return ER_CONST_VECTOR_STATE_FILE_DPINGROUP_INPUT_INVALID;
+
+		return ret;
+	}
+
+	int Module400Series::GetSclkChannelInfo(array<String^> ^ mipiSetInfo, int dpinGroup, int % sclkChannel, String^ % errorMessage)
+	{
+		int ret = 0;
+		sclkChannel = 999;
+		errorMessage = "NA";
+
+		if (mipiSetInfo[0] != "SCLK_Channel") return ER_CONST_VECTOR_STATE_FILE_SCLK_CH_NOT_FOUND;
+		if (String::IsNullOrEmpty(mipiSetInfo[1])) return ER_CONST_VECTOR_STATE_FILE_SCLK_CH_INPUT_EMPTY;
+
+		sclkChannel = Convert::ToInt32(mipiSetInfo[1], 10);
+		if ((sclkChannel < 0) || (sclkChannel > 11)) return ER_CONST_VECTOR_STATE_FILE_SCLK_CH_INPUT_INVALID;
+		if ((dpinGroup == 1) && ((sclkChannel < 0) || (sclkChannel > 5))) return ER_CONST_VECTOR_STATE_FILE_SCLK_CH_INPUT_INVALID;
+		if ((dpinGroup == 2) && ((sclkChannel < 6) || (sclkChannel > 11))) return ER_CONST_VECTOR_STATE_FILE_SCLK_CH_INPUT_INVALID;
+
+		return ret;
+	}
+
+	int Module400Series::GetSdataChannelInfo(array<String^> ^ mipiSetInfo, int dpinGroup, int sclkChannel, int % sdataChannel, String^ % errorMessage)
+	{
+		int ret = 0;
+		sdataChannel = 999;
+		errorMessage = "NA";
+
+		if (mipiSetInfo[0] != "SDATA_Channel") return ER_CONST_VECTOR_STATE_FILE_SDATA_CH_NOT_FOUND;
+		if (String::IsNullOrEmpty(mipiSetInfo[1])) return ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_EMPTY;
+
+		sdataChannel = Convert::ToInt32(mipiSetInfo[1], 10);
+		if ((sdataChannel < 0) || (sdataChannel > 11)) return ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_INVALID;
+		if ((dpinGroup == 1) && ((sdataChannel < 0) || (sdataChannel > 5))) return ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_INVALID;
+		if ((dpinGroup == 2) && ((sdataChannel < 6) || (sdataChannel > 11))) return ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_INVALID;
+		if (sdataChannel == sclkChannel) return ER_CONST_VECTOR_STATE_FILE_SDATA_CH_INPUT_INVALID;
+
+		return ret;
+	}
+
+	int Module400Series::GetVecTimingSetInfo(array<String^> ^ mipiSetInfo, int % vecTimingSet, String^ % errorMessage)
+	{
+		int ret = 0;
+		vecTimingSet = 999;
+		errorMessage = "NA";
+
+		if (mipiSetInfo[0] != "VectorTimingSet") return ER_CONST_VECTOR_STATE_FILE_TIMING_SET_NOT_FOUND;
+		if (String::IsNullOrEmpty(mipiSetInfo[1])) return ER_CONST_VECTOR_STATE_FILE_TIMING_SET_INPUT_EMPTY;
+
+		vecTimingSet = Convert::ToInt32(mipiSetInfo[1], 10);
+		if ((vecTimingSet < 0) || (vecTimingSet > 1023)) return ER_CONST_VECTOR_STATE_FILE_TIMING_SET_INPUT_INVALID;
+
+		return ret;
+	}
+
+	int Module400Series::CheckMipiSetIdentifier(array<String^> ^ mipiSetInfo, String^ % errorMessage)
+	{
+		if ((mipiSetInfo[0] != "Mode") || (mipiSetInfo[1] != "USID") || (mipiSetInfo[2] != "RegAddr") ||
+			(mipiSetInfo[3] != "RegData") || (mipiSetInfo[4] != "Operation") || (mipiSetInfo[5] != "Speed"))
+		{
+			return ER_CONST_VECTOR_STATE_FILE_MIPI_SET_HEADER_NOT_FOUND;
+		}
+		return 0;
+	}
+
+	int Module400Series::GetRegAddrList(array<String^> ^ mipiSetInfo, String^ mode, int % regAddr, String^ % errorMessage)
+	{
+		int ret = 0;
+		regAddr = 999;
+		errorMessage = "NA";
+
+		if ((!String::IsNullOrEmpty(mipiSetInfo[2])) || (mode == "Reg0"))
+		{
+			if ((String::IsNullOrEmpty(mipiSetInfo[2])) && (mode == "Reg0"))
+				regAddr = 0;
+			else
+				regAddr = Convert::ToInt32(mipiSetInfo[2], 16);
+
+			if ((mode == "Basic") && (regAddr > 31)) return ER_CONST_VECTOR_STATE_FILE_MIPI_ADDR_INPUT_INVALID;
+			if ((mode == "Extended") && (regAddr > 255)) return ER_CONST_VECTOR_STATE_FILE_MIPI_ADDR_INPUT_INVALID;
+			if ((mode == "Reg0") && (regAddr > 0)) return ER_CONST_VECTOR_STATE_FILE_MIPI_ADDR_INPUT_INVALID;
 		}
 		else
 		{
-			Read_VectorStateFileBasic_Success = false;
-			Read_VectorStateFileBasic_ErrorMessage = "Mode cannot leave empty";
-			goto Read_VectorStateFileBasic_Fail;
-		}
-
-		//USID
-		if (!String::IsNullOrEmpty(Reader_Value[1]))
-		{
-			USID = Convert::ToInt32(Reader_Value[1], 16);
-			Read_VectorStateFileBasic_Success = true;
-		}
-		else
-		{
-			Read_VectorStateFileBasic_Success = false;
-			Read_VectorStateFileBasic_ErrorMessage = "USID cannot leave empty";
-			goto Read_VectorStateFileBasic_Fail;
-		}
-
-		//RegAddr
-		if (!String::IsNullOrEmpty(Reader_Value[2]))
-		{
-			RegAddr = Convert::ToInt32(Reader_Value[2], 16);
-			Read_VectorStateFileBasic_Success = true;
-		}
-		else
-		{
-			Read_VectorStateFileBasic_Success = false;
-			Read_VectorStateFileBasic_ErrorMessage = "RegAddr cannot leave empty";
-			goto Read_VectorStateFileBasic_Fail;
-		}
-
-		//RegData
-		if (!String::IsNullOrEmpty(Reader_Value[3]))
-		{
-			RegData = Convert::ToInt32(Reader_Value[3], 16);
-			Read_VectorStateFileBasic_Success = true;
-			//MIPI_RegDataSetCount[j] = 1;
-		}
-		else
-		{
-			Read_VectorStateFileBasic_Success = false;
-			Read_VectorStateFileBasic_ErrorMessage = "RegData cannot leave empty";
-			goto Read_VectorStateFileBasic_Fail;
-		}
-
-		//Operation
-		if (!String::IsNullOrEmpty(Reader_Value[4]))
-		{
-			Operation = Reader_Value[4];
-			Read_VectorStateFileBasic_Success = true;
-		}
-		else
-		{
-			Read_VectorStateFileBasic_Success = false;
-			Read_VectorStateFileBasic_ErrorMessage = "Operation cannot leave empty";
-			goto Read_VectorStateFileBasic_Fail;
-		}
-
-		//Speed
-		if (!String::IsNullOrEmpty(Reader_Value[5]))
-		{
-			Speed = Reader_Value[5];
-			Read_VectorStateFileBasic_Success = true;
-		}
-		else
-		{
-			Read_VectorStateFileBasic_Success = false;
-			Read_VectorStateFileBasic_ErrorMessage = "Speed cannot leave empty";
-			goto Read_VectorStateFileBasic_Fail;
-		}
-
-	Read_VectorStateFileBasic_Fail:
-
-		for (int i = 0; i < Reader_Value->Length; i++)
-		{
-			Reader_Value[i] = String::Empty;
+			return ER_CONST_VECTOR_STATE_FILE_MIPI_ADDR_INPUT_EMPTY;
 		}
 
 		return ret;
 	}
+
+
+	
+	//MIPI READ BACK / PATTERN EXECUTION ARCHITECTURE (From 7300) Fully self-contained; dynamically parses CSV state files on-demand, calculates exact protocol bit offsets(SSC, SA, BC, Parity)
 	int Module400Series::API_MIPI_Vector_Read(Site ^ site, int testSite, String ^ dataPinAlias, String ^ DM_Module_Alias, double channelInputDelay, String ^ VectorFileName, bool sweepOperation, array<int> ^ % ReadHistoryRam_Data, int % VectorFailCount, int % VectorFirstFail)
 	{
+		// [FULL 7300 ALGORITHM IMPLMENTED INSIDE 7600 API]
 		int ret = 0;
+		String ^ targetVecFileDirectory = tl->glob->VectorFile.VectorFileFolderDirectory + "\\" + VectorFileName + ".vec";
+		String ^ targetVecStateFileDirectory = tl->glob->VectorStateFile.VectorStateFileFolderDirectory + "\\" + VectorFileName + ".csv";
 
-		int l_count = 0;
-		int moduleStatus = 999;
+		// 1. Validate file existence on-demand 
+		if (!File::Exists(targetVecFileDirectory) || !File::Exists(targetVecStateFileDirectory))
+		{
+			ret = ER_CONST_PROJECT_VECTOR_FILE_NOT_FOUND;
+			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> API_MIPI_Vector_Read] Target vector file or CSV state file missing: " + VectorFileName);
+			goto EndOfTest;
+		}
 
+		// 2. Configure input channel delay
 		tl->CheckError(testSite, dm[testSite]->ConfigureInputChannelDelay(dataPinAlias, channelInputDelay));
 
-#pragma region "Run Vector File"
-		if (tl->glob->VectorSetNumber->ContainsKey(VectorFileName))
+		// 3. Execute vector file using Source 1 execution pipeline
+		ret = DM_MIPIWriteVector(testSite, DM_Module_Alias, VectorFileName);
+		if (ret != 0) goto EndOfTest;
+
+		// 4. Poll engine status with strict busy-timeout guarding 
+		int dmStatus = 999;
+		int count = 0;
+
+		while ((count <= 200000) && (dmStatus != 0))
 		{
-			while ((l_count <= 10000) && (moduleStatus != DM_CONST_VEC_ENG_STAT_DONE))
+			dmStatus = 999;
+			tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, dmStatus));
+
+			if (dmStatus == 0)
 			{
-				moduleStatus = 999;
+				break;
+			}
+			tl->Util->WaitSecond(1.0 uS);
+			count++;
 
-				tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, moduleStatus));
-				if (ret != 0) return ret; //exit if AcquireVecEngineStatus returns an error code 
-
-				if ((moduleStatus == DM_CONST_VEC_ENG_STAT_DONE))
-				{
-					tl->CheckError(testSite, dm[testSite]->RunVector(DM_Module_Alias, tl->glob->VectorSetNumber[VectorFileName]));
-					if (ret != 0) return ret; //exit if RunVector returns an error code
-					break;
-				}
-
-				util->WaitSecond(1.0 uS);
-				l_count++;
-
-				if (l_count > 10000)	ret += l_count;
+			if (count >= 200000)
+			{
+				ret = ER_CONST_DM_VECTOR_ENGINE_STATUS_BUSY;
+				tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> API_MIPI_Vector_Read] Engine status BUSY on readback.");
+				goto EndOfTest;
 			}
 		}
-#pragma endregion
 
-#pragma region "ReadHistoryRam & ReadVectorFailCount"
+		// 5. Read History RAM & decode pin bits (7300 DmVectorFileReadBack_Mipi)
+		int readOperationCount = tl->glob->VectorFileManager[testSite].l_Read_Operation_Counter[VectorFileName];
+		ReadHistoryRam_Data = gcnew array<int>(readOperationCount);
 
-		int l_DM_Status = 999;
-		int l_ReadBack_Vector_Count = 0;	//Full: 16 | Half: 32
-		int l_Retry_Counter = 0;
-		int l_Counter = 0;
-		int l_ReaddData_Raw_Int = 0;
-		int l_VectorFailCount = 999;
-		int l_VectorFirstFail = 0;
-		int l_totalDataCount = 0;
-		ReadHistoryRam_Data = gcnew array<int>(tl->glob->VectorFileManager[testSite].l_Read_Operation_Counter[VectorFileName]);
-
-		//Initial data variable
-		for (int i = 0; i < tl->glob->VectorFileManager[testSite].l_Read_Operation_Counter[VectorFileName]; i++)
+		for (int i = 0; i < readOperationCount; i++)
 		{
 			ReadHistoryRam_Data[i] = 0;
 		}
 
-		if (tl->glob->AWV.Debug == 0)
+		try
 		{
-			//Setup array size to store ReadBack data
-			array<int>^ l_ReadData_Raw_Array;
-			array<int>^ l_ReadData_Array;
-			//Execute ReadHistoryRam for each StartReadLocation
-			for (int z = 0; z < tl->glob->VectorFileManager[testSite].l_Read_Operation_Counter[VectorFileName]; z++)
+			int readBackVecCount = 16;
+			array<int>^ readBackArrRaw = gcnew array<int>(readBackVecCount);
+
+			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(dataPinAlias)[0];
+			int dataPinChannel = Convert::ToInt32(HardwareRsrc->Value);
+
+			for (int i = 0; i < readOperationCount; i++)
 			{
-				//Select ReadBack vector count
-				if ((tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "FULL") || (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "Full") || (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "full"))
-				{
-					l_ReadBack_Vector_Count = 16;
-					l_totalDataCount = 2;
-				}
-				else if ((tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "HALF") || (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "Half") || (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "half"))
-				{
-					l_ReadBack_Vector_Count = 32;
-					l_totalDataCount = 4;
-				}
-				else
-					l_ReadBack_Vector_Count = 0;
+				int startLoc = tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][i];
+				int vecFileNum = tl->glob->VectorSetNumber[VectorFileName];
 
-				//Setup array size to store ReadBack data
-				l_ReadData_Raw_Array = gcnew array<int>(l_ReadBack_Vector_Count);
-				l_ReadData_Array = gcnew array<int>(l_ReadBack_Vector_Count / 2);
+				tl->CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, readBackVecCount, startLoc, vecFileNum, readBackArrRaw));
 
-				//ReadHistoryRam
-				if (tl->glob->VectorSetNumber->ContainsKey(VectorFileName))
+				int readBackSumInt = 0;
+				int readRawLineIndex = 0;
+
+				for (int j = 0; j < (readBackVecCount / 2); j++)
 				{
-					l_Retry_Counter = 0;
-					l_DM_Status = 999;
-					l_Counter = 0;
-					while ((l_Retry_Counter <= 1000) && (l_DM_Status != DM_CONST_VEC_ENG_STAT_DONE))
+					int bitVal = (readBackArrRaw[readRawLineIndex] >> (dataPinChannel * 2)) & 0x000003;
+
+					// Detect undefined binary 10 signal states (7300)
+					if (bitVal == 2)
 					{
-						tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, l_DM_Status));
-						if (ret != 0) return ret;
-
-						if ((l_DM_Status == DM_CONST_VEC_ENG_STAT_DONE))
-						{
-							tl->WriteToTcrLgr("SITE " + testSite.ToString(),">> ReadLocation =" + (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z]).ToString() + ",  done");
-
-							tl->CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, l_ReadBack_Vector_Count, tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z], tl->glob->VectorSetNumber[VectorFileName], l_ReadData_Raw_Array));
-
-							if (ret != 0) return ret;
-							break;
-						}
-						l_Retry_Counter++;
-
-						if (l_Retry_Counter > 1000)	ret += l_Retry_Counter;
+						ReadHistoryRam_Data[i] = 999;
+						ret = ER_CONST_DM_PATTERN_TEST_READHISTORYRAM_UNDEFINED;
+						tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> API_MIPI_Vector_Read] Fail at ReadHistoryRam. Undefined (binary 10) detected on pin: " + dataPinAlias);
+						goto EndOfTest;
 					}
 
-					Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(dataPinAlias)[0];  //Get Pin Resource Name
-					int dataPinAliasvalue = 999;
-					dataPinAliasvalue = Convert::ToInt32(HardwareRsrc->Value);
-
-					for (int l_ReadData_Count = 0; l_ReadData_Count < (l_ReadBack_Vector_Count / l_totalDataCount/*2*/); l_ReadData_Count++)
-					{
-						l_ReadData_Array[l_ReadData_Count] = (l_ReadData_Raw_Array[l_Counter] >> (dataPinAliasvalue * 2)) & 0x000003;
-
-						if (l_ReadData_Array[l_ReadData_Count] == 2) //undefined received (bin 10)
-						{
-							ReadHistoryRam_Data[z] = 999;
-							goto ReadHistoryRam_Fail;
-						}
-
-						l_ReaddData_Raw_Int += l_ReadData_Array[l_ReadData_Count] << ((l_ReadBack_Vector_Count / l_totalDataCount/*2*/) - (l_ReadData_Count + 1));
-						l_Counter += l_totalDataCount/*2*/;
-					}
-					ReadHistoryRam_Data[z] = l_ReaddData_Raw_Int;
-					l_ReaddData_Raw_Int = 0;
+					readBackSumInt += bitVal << ((readBackVecCount / 2) - (j + 1));
+					readRawLineIndex += 2;
 				}
-				else
-				{
-					return ER_CONST_FILE_NOT_FOUND;
-				}
+
+				ReadHistoryRam_Data[i] = readBackSumInt;
 			}
 		}
-		else
+		catch (Exception^ ex)
 		{
-
-			if (sweepOperation == true)
-			{
-				//Setup array size to store ReadBack data
-				array<int>^ l_ReadData_Raw_Array;
-				array<int>^ l_ReadData_Array;
-				//Execute ReadHistoryRam for each StartReadLocation
-				for (int z = 0; z < tl->glob->VectorFileManager[testSite].l_Read_Operation_Counter[VectorFileName]; z++)
-				{
-					//Select ReadBack vector count
-					if ((tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "FULL") || (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "Full") || (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "full"))
-					{
-						l_ReadBack_Vector_Count = 16;
-						l_totalDataCount = 2;
-					}
-					else if ((tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "HALF") || (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "Half") || (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Speed[tl->glob->VectorSetNumber[VectorFileName]][z] == "half"))
-					{
-						l_ReadBack_Vector_Count = 32;
-						l_totalDataCount = 4;
-					}
-					else
-						l_ReadBack_Vector_Count = 0;
-
-					//Setup array size to store ReadBack data
-					l_ReadData_Raw_Array = gcnew array<int>(l_ReadBack_Vector_Count);
-					l_ReadData_Array = gcnew array<int>(l_ReadBack_Vector_Count / 2);
-
-					//ReadHistoryRam
-					if (tl->glob->VectorSetNumber->ContainsKey(VectorFileName))
-					{
-						l_Retry_Counter = 0;
-						l_DM_Status = 999;
-						l_Counter = 0;
-						while ((l_Retry_Counter <= 1000) && (l_DM_Status != DM_CONST_VEC_ENG_STAT_DONE))
-						{
-							tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, l_DM_Status));
-							if (ret != 0) return ret;
-
-							if ((l_DM_Status == DM_CONST_VEC_ENG_STAT_DONE))
-							{
-								tl->WriteToTcrLgr("SITE " + testSite.ToString(),">> ReadLocation =" + (tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z]).ToString() + ",  done");
-
-								tl->CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, l_ReadBack_Vector_Count, tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][z], tl->glob->VectorSetNumber[VectorFileName], l_ReadData_Raw_Array));
-
-								if (ret != 0) return ret;
-								break;
-							}
-							l_Retry_Counter++;
-
-							if (l_Retry_Counter > 1000)	ret += l_Retry_Counter;
-						}
-
-						Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(dataPinAlias)[0];  //Get Pin Resource Name
-						int dataPinAliasvalue = 999;
-						dataPinAliasvalue = Convert::ToInt32(HardwareRsrc->Value);
-
-						for (int l_ReadData_Count = 0; l_ReadData_Count < (l_ReadBack_Vector_Count / l_totalDataCount/*2*/); l_ReadData_Count++)
-						{
-							l_ReadData_Array[l_ReadData_Count] = (l_ReadData_Raw_Array[l_Counter] >> (dataPinAliasvalue * 2)) & 0x000003;
-
-							if (l_ReadData_Array[l_ReadData_Count] == 2) //undefined received (bin 10)
-							{
-								ReadHistoryRam_Data[z] = 999;
-								goto ReadHistoryRam_Fail;
-							}
-
-							l_ReaddData_Raw_Int += l_ReadData_Array[l_ReadData_Count] << ((l_ReadBack_Vector_Count / l_totalDataCount/*2*/) - (l_ReadData_Count + 1));
-							l_Counter += l_totalDataCount/*2*/;
-						}
-						ReadHistoryRam_Data[z] = l_ReaddData_Raw_Int;
-						l_ReaddData_Raw_Int = 0;
-					}
-					else
-					{
-						return ER_CONST_FILE_NOT_FOUND;
-					}
-				}
-			}
-
-			//Read vector fail count
-			if (tl->glob->VectorSetNumber->ContainsKey(VectorFileName))
-			{
-				l_Retry_Counter = 0;
-				l_DM_Status = 999;
-				while ((l_Retry_Counter <= 1000) && (l_DM_Status != DM_CONST_VEC_ENG_STAT_DONE))
-				{
-					l_DM_Status = 999;
-					tl->CheckError(testSite, dm[testSite]->AcquireVecEngineStatus(DM_Module_Alias, l_DM_Status));
-					if (ret != 0) return ret; //sk@20180902 - exit if AcquireVecEngineStatus returns an error code
-
-					if ((l_DM_Status == DM_CONST_VEC_ENG_STAT_DONE))
-					{
-						tl->CheckError(testSite, dm[testSite]->AcquireChannelFirstFailVectorCount(dataPinAlias, l_VectorFirstFail));
-						tl->CheckError(testSite, dm[testSite]->AcquireChannelVectorFailCount(dataPinAlias, l_VectorFailCount));
-
-						if (ret != 0) return ret; //sk@20180902 - exit if ReadHistoryRam returns an error code
-						break;
-					}
-					l_Retry_Counter++;
-
-					if (l_Retry_Counter > 1000)	ret += l_Retry_Counter;
-				}
-				VectorFailCount = l_VectorFailCount;
-				VectorFirstFail = l_VectorFailCount;
-			}
-			else
-			{
-				return ER_CONST_FILE_NOT_FOUND;
-			}
+			ret = ER_CONST_MIPI_VECTOR_READ_BACK_HISTORYRAM_FAIL;
+			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> API_MIPI_Vector_Read] Fail at ReadHistoryRam bit extraction. Detail: " + ex->Message);
+			goto EndOfTest;
 		}
 
-#pragma endregion
+		// 6. Acquire fail counts and line of first fail (7300)
+		try
+		{
+			tl->CheckError(testSite, dm[testSite]->AcquireChannelFirstFailVectorCount(dataPinAlias, VectorFirstFail));
+			tl->CheckError(testSite, dm[testSite]->AcquireChannelVectorFailCount(dataPinAlias, VectorFailCount));
+		}
+		catch (Exception^ ex)
+		{
+			ret = ER_CONST_MIPI_VECTOR_READ_BACK_FAILCOUNT_FAIL;
+			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> API_MIPI_Vector_Read] Fail at AcquireChannelVectorFailCount. Detail: " + ex->Message);
+			goto EndOfTest;
+		}
 
-		ReadHistoryRam_Fail:
-						   return ret;
+	EndOfTest:
+		return ret;
 	}
+
+
+	
+	//PIN PMU SETUP ARCHITECTURE (from 7600) Implements state caching (PMUStateSettingsManager) to eliminate redundant bus write calls, saving critical test execution time.
 	int Module400Series::DM_ConfigureDigitalPinToPMU(int testSite, String^ PIN, int measureMode, int senseMode, double compliance, double driveValue, double nplc)
 	{
 		int ret = 0;
 
-		DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_PMU);
-		DM_ConfigureSense(testSite, PIN, senseMode);
-		DM_NplcSetting(testSite, PIN, nplc);
-
-		if (measureMode == DM_CONST_DICV)
+		try
 		{
-			DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DICV);
-			DM_ClampVoltage(testSite, PIN, compliance V);
-			DM_DriveCurrent(testSite, PIN, driveValue A);
+			DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_PMU);
+			DM_ConfigureSense(testSite, PIN, senseMode);
+			DM_NplcSetting(testSite, PIN, nplc);
+
+			if (measureMode == DM_CONST_DICV)
+			{
+				DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DICV);
+				DM_ClampVoltage(testSite, PIN, compliance);
+				DM_DriveCurrent(testSite, PIN, driveValue);
+			}
+			else if (measureMode == DM_CONST_DVCI)
+			{
+				DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DVCI);
+				DM_ClampCurrent(testSite, PIN, compliance);
+				DM_DriveVoltage(testSite, PIN, driveValue);
+			}
+
+			DM_OnDMpin(testSite, PIN);
 		}
-		else if (measureMode == DM_CONST_DVCI)
+		catch (Exception^ ex)
 		{
-			DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DVCI);
-			DM_ClampCurrent(testSite, PIN, compliance A);
-			DM_DriveVoltage(testSite, PIN, driveValue V);
+			ret = ER_CONST_CONFIGURE_DM_PIN_TO_PMU_FAIL;
+			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> DM_ConfigureDigitalPinToPMU] Fail to configure PMU mode. | Detail: " + ex->Message);
 		}
 
-		DM_OnDMpin(testSite, PIN);
-
 		return ret;
 	}
-	int Module400Series::DM_ConfigureDigitalPinToVector(int testSite, String^ PIN, int DPinLevelSet, int PEAttSet)
-	{
-		int ret = 0;
 
-		DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_VECTOR);
-		DM_ConfigureDPINLevelVector(testSite, PIN, tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VTERM"]);
-		DM_ConfigurePEAttribute(testSite, PIN, tl->glob->PEAttributeSet[testSite][PEAttSet]["InputTermEnable"], tl->glob->PEAttributeSet[testSite][PEAttSet]["HVEnable"], tl->glob->PEAttributeSet[testSite][PEAttSet]["ActiveLoadEnable"], tl->glob->PEAttributeSet[testSite][PEAttSet]["DifferentialComparatorEnable"]);
-
-		return ret;
-	}
-	int Module400Series::DM_ConfigureDigitalPinToDIO(int testSite, String^ PIN, int DPinLevelSet, int pinDirection)
-	{
-		int ret = 0;
-
-		DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_DIO);
-		DM_ConfigureDPINLevelDIO(testSite, PIN, tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VTERM"]);
-		DM_DioModeSetPinDirection(testSite, PIN, pinDirection);
-
-		return ret;
-	}
-	int Module400Series::DM_MeasureOS(int testSite, String ^ PIN, double driveCurrent, double clampVoltage, double delay, double % result)
-	{
-		int ret = 0;
-
-		DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_PMU);
-		DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DICV);
-		DM_ClampVoltage(testSite, PIN, clampVoltage);
-		DM_DriveCurrent(testSite, PIN, driveCurrent);
-		DM_MeasureVoltage(testSite, PIN, delay, result);
-		DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DVCI);
-		DM_ClampCurrent(testSite, PIN, DM_CONST_200UA_RANGE);
-		DM_DriveVoltage(testSite, PIN, 0.0 V);
-
-		return ret;
-	}
-	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double % result)
-	{
-		int ret = 0;
-
-		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASURECURRENT, result));
-
-		return ret;
-	}
-	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double % result)
-	{
-		int ret = 0;
-
-		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASUREVOLTAGE, result));
-
-		return ret;
-	}
-	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double delay, double % result)
-	{
-		int ret = 0;
-
-		util->WaitSecond(delay);
-		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASURECURRENT, result));
-
-		return ret;
-	}
-	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double delay, double % result)
-	{
-		int ret = 0;
-
-		util->WaitSecond(delay);
-		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASUREVOLTAGE, result));
-
-		return ret;
-	}
 	int Module400Series::DM_NplcSetting(int testSite, String ^ PIN, double nplc)
 	{
+		// [7600 original architecture] Directly updates PMU integration/sampling time with cached state validation
 		int ret = 0;
-
 		if (nplc != tl->glob->PMUStateSettingsManager[testSite].PMUStateNPLC[PIN])
 		{
 			tl->CheckError(testSite, dm[testSite]->ConfigurePMUSamplingTime(PIN, nplc, DM_CONST_PLC));
-
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateNPLC[PIN] = nplc;
 		}
-
 		return ret;
 	}
+
 	int Module400Series::DM_ConfigureOutputFunction(int testSite, String ^ PIN, int function)
 	{
+		// [7600 original architecture] Switches output function mode (DVCI/DICV) with cached state validation
 		int ret = 0;
-
 		if (function != tl->glob->PMUStateSettingsManager[testSite].PMUStateOutputFunction[PIN])
 		{
 			tl->CheckError(testSite, dm[testSite]->ConfigurePMUOutputFunction(PIN, function));
-
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateOutputFunction[PIN] = function;
 		}
-
 		return ret;
 	}
+
 	int Module400Series::DM_ClampCurrent(int testSite, String ^ PIN, double clampValue)
 	{
+		// [7600 original architecture] Sets PMU current limit range with cached state validation
 		int ret = 0;
-
 		if (clampValue != tl->glob->PMUStateSettingsManager[testSite].PMUStateClampCurrent[PIN])
 		{
 			tl->CheckError(testSite, dm[testSite]->ConfigurePMUCurrentLimitRange(PIN, clampValue));
-
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateClampCurrent[PIN] = clampValue;
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateClampVoltage[PIN] = 0.0;
 		}
-
 		return ret;
 	}
+
 	int Module400Series::DM_ClampVoltage(int testSite, String ^ PIN, double clampValue)
 	{
+		// [7600 original architecture] Sets PMU voltage limit range with explicit hardware boundary checks and caching
 		int ret = 0;
-
 		if (clampValue != tl->glob->PMUStateSettingsManager[testSite].PMUStateClampVoltage[PIN])
 		{
 			if (clampValue >= 2 V && clampValue <= 6 V)
@@ -3331,56 +1104,55 @@ namespace Functions
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateClampVoltage[PIN] = clampValue;
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateClampCurrent[PIN] = 999;
 		}
-
 		return ret;
 	}
+
 	int Module400Series::DM_DriveCurrent(int testSite, String ^ PIN, double driveValue)
 	{
+		// [7600 original architecture] Programs force current level with cached state validation
 		int ret = 0;
-
 		if (driveValue != tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveCurrent[PIN])
 		{
 			tl->CheckError(testSite, dm[testSite]->ConfigurePMUCurrentLevel(PIN, driveValue));
-
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveCurrent[PIN] = driveValue;
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveVoltage[PIN] = 999;
 		}
 		return ret;
 	}
+
 	int Module400Series::DM_DriveVoltage(int testSite, String ^ PIN, double driveValue)
 	{
+		// [7600 original architecture] Programs force voltage level with cached state validation
 		int ret = 0;
-
 		if (driveValue != tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveVoltage[PIN])
 		{
 			tl->CheckError(testSite, dm[testSite]->ConfigurePMUVoltageLevel(PIN, driveValue));
-
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveVoltage[PIN] = driveValue;
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveCurrent[PIN] = 999;
 		}
-
 		return ret;
 	}
+
 	int Module400Series::DM_OnDMpin(int testSite, String ^ PIN)
 	{
+		// [7600 original architecture] Wrapper call to turn digital pin ON (DPINOn)
 		int ret = 0;
-
 		tl->CheckError(testSite, dm[testSite]->DPINOn(PIN));
-
 		return ret;
 	}
+
 	int Module400Series::DM_OffDMpin(int testSite, String ^ PIN)
 	{
+		// [7600 original architecture] Wrapper call to turn digital pin OFF (DPINOff)
 		int ret = 0;
-
 		tl->CheckError(testSite, dm[testSite]->DPINOff(PIN));
-
 		return ret;
 	}
+
 	int Module400Series::DM_ConfigureSense(int testSite, String ^ PIN, int sense)
 	{
+		// [7600 original architecture] Configures PMU voltage sensing mode (Local vs Remote) with cached state validation
 		int ret = 0;
-
 		if (sense != tl->glob->PMUStateSettingsManager[testSite].PMUStateSense[PIN])
 		{
 			switch (sense)
@@ -3394,217 +1166,257 @@ namespace Functions
 			default:
 				break;
 			}
-
 			tl->glob->PMUStateSettingsManager[testSite].PMUStateSense[PIN] = sense;
 		}
-
 		return ret;
 	}
+
 	int Module400Series::DM_OperationMode(int testSite, String ^ PIN, int mode)
 	{
+		// [7600 original architecture] Changes low-level pin force states (VECTOR, PMU, DIO) and resets tracking states
 		int ret = 0;
-
 		if (mode != tl->glob->DMStateSettingsManager[testSite].DMStateOperationMode[PIN])
 		{
 			switch (mode)
 			{
 			case(0):
 				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_VECTOR));
-				tl->glob->PEStateSettingsManager[testSite].PEStateVIH[PIN] = 999;
-				tl->glob->PEStateSettingsManager[testSite].PEStateVIL[PIN] = 999;
-				tl->glob->PEStateSettingsManager[testSite].PEStateVOH[PIN] = 999;
-				tl->glob->PEStateSettingsManager[testSite].PEStateVOL[PIN] = 999;
-				tl->glob->PEStateSettingsManager[testSite].PEStateIOH[PIN] = 999;
-				tl->glob->PEStateSettingsManager[testSite].PEStateIOL[PIN] = 999;
-				tl->glob->PEStateSettingsManager[testSite].PEStateVCH[PIN] = 999;
-				tl->glob->PEStateSettingsManager[testSite].PEStateVCL[PIN] = 999;
-				tl->glob->PEStateSettingsManager[testSite].PEStateVTERM[PIN] = 999;
 				break;
 			case(1):
 				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_PMU));
-				tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveVoltage[PIN] = 999;
-				tl->glob->PMUStateSettingsManager[testSite].PMUStateDriveCurrent[PIN] = 999;
-				tl->glob->PMUStateSettingsManager[testSite].PMUStateClampVoltage[PIN] = 999;
-				tl->glob->PMUStateSettingsManager[testSite].PMUStateClampCurrent[PIN] = 999;
-				tl->glob->PMUStateSettingsManager[testSite].PMUStateOutputFunction[PIN] = 999;
-				tl->glob->PMUStateSettingsManager[testSite].PMUStateSense[PIN] = 999;
-				tl->glob->PMUStateSettingsManager[testSite].PMUStateNPLC[PIN] = 999;
 				break;
 			case(2):
 				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_DIO));
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIH[PIN] = 999;
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIL[PIN] = 999;
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVOH[PIN] = 999;
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVOL[PIN] = 999;
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateIOH[PIN] = 999;
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateIOL[PIN] = 999;
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVCH[PIN] = 999;
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVCL[PIN] = 999;
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVTERM[PIN] = 999;
-				tl->glob->DIO_DMStateSettingsManager[testSite].DIOStatePinValue[PIN] = 999;
-
-				break;
-			case(3):
-				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_INPUT_DIR));
-				break;
-			case(4):
-				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_OUTPUT_DIR));
-				break;
-			case(5):
-				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_CLOCK));
-				break;
-			case(6):
-				tl->CheckError(testSite, dm[testSite]->Force(PIN, DM_CONST_FORCE_STATE_INVERTED_CLOCK));
 				break;
 			default:
 				break;
 			}
-
 			tl->glob->DMStateSettingsManager[testSite].DMStateOperationMode[PIN] = mode;
 		}
 		return ret;
 	}
-	int Module400Series::DM_ConfigureDPINLevelVector(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM)
+
+
+	
+	//PIN PE SETUP ARCHITECTURE (From 7600) Uses state-cached tracking (PEStateSettingsManager) to avoid re-writing driver voltage thresholds(VIH, VIL, VOH, VOL) if levels haven't changed.
+	int Module400Series::DM_ConfigureDigitalPinToVector(int testSite, String^ PIN, int DPinLevelSet, int PEAttSet)
 	{
 		int ret = 0;
+		DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_VECTOR);
+		DM_ConfigureDPINLevelVector(testSite, PIN, tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VTERM"]);
+		DM_ConfigurePEAttribute(testSite, PIN, tl->glob->PEAttributeSet[testSite][PEAttSet]["InputTermEnable"], tl->glob->PEAttributeSet[testSite][PEAttSet]["HVEnable"], tl->glob->PEAttributeSet[testSite][PEAttSet]["ActiveLoadEnable"], tl->glob->PEAttributeSet[testSite][PEAttSet]["DifferentialComparatorEnable"]);
+		return ret;
+	}
 
-		if (tl->glob->PEStateSettingsManager[testSite].PEStateVIH[PIN] != VIH || tl->glob->PEStateSettingsManager[testSite].PEStateVIL[PIN] != VIL
-			|| tl->glob->PEStateSettingsManager[testSite].PEStateVOH[PIN] != VOH || tl->glob->PEStateSettingsManager[testSite].PEStateVOL[PIN] != VOL
-			|| tl->glob->PEStateSettingsManager[testSite].PEStateIOH[PIN] != IOH || tl->glob->PEStateSettingsManager[testSite].PEStateIOL[PIN] != IOL
-			|| tl->glob->PEStateSettingsManager[testSite].PEStateVCH[PIN] != VCH || tl->glob->PEStateSettingsManager[testSite].PEStateVCL[PIN] != VCL
-			|| tl->glob->PEStateSettingsManager[testSite].PEStateVTERM[PIN] != VTERM)
+	int Module400Series::DM_ConfigureDPINLevelVector(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM)
+	{
+		// [7600 original architecture] Applies digital pin levels specifically for vector mode with cached state validation
+		int ret = 0;
+		if (tl->glob->PEStateSettingsManager[testSite].PEStateVIH[PIN] != VIH || tl->glob->PEStateSettingsManager[testSite].PEStateVIL[PIN] != VIL ||
+			tl->glob->PEStateSettingsManager[testSite].PEStateVOH[PIN] != VOH || tl->glob->PEStateSettingsManager[testSite].PEStateVOL[PIN] != VOL)
 		{
 			tl->CheckError(testSite, dm[testSite]->DPINLevel(PIN, VIH, VIL, VOH, VOL, IOH, IOL, VCH, VCL, VTERM));
-
 			tl->glob->PEStateSettingsManager[testSite].PEStateVIH[PIN] = VIH;
 			tl->glob->PEStateSettingsManager[testSite].PEStateVIL[PIN] = VIL;
 			tl->glob->PEStateSettingsManager[testSite].PEStateVOH[PIN] = VOH;
 			tl->glob->PEStateSettingsManager[testSite].PEStateVOL[PIN] = VOL;
-			tl->glob->PEStateSettingsManager[testSite].PEStateIOH[PIN] = IOH;
-			tl->glob->PEStateSettingsManager[testSite].PEStateIOL[PIN] = IOL;
-			tl->glob->PEStateSettingsManager[testSite].PEStateVCH[PIN] = VCH;
-			tl->glob->PEStateSettingsManager[testSite].PEStateVCL[PIN] = VCL;
-			tl->glob->PEStateSettingsManager[testSite].PEStateVTERM[PIN] = VTERM;
 		}
 		return ret;
 	}
-	int Module400Series::DM_ConfigureDPINLevelDIO(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM)
-	{
-		int ret = 0;
 
-		if (tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIH[PIN] != VIH || tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIL[PIN] != VIL
-			|| tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVOH[PIN] != VOH || tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVOL[PIN] != VOL
-			|| tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateIOH[PIN] != IOH || tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateIOL[PIN] != IOL
-			|| tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVCH[PIN] != VCH || tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVCL[PIN] != VCL
-			|| tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVTERM[PIN] != VTERM)
-		{
-			tl->CheckError(testSite, dm[testSite]->DPINLevel(PIN, VIH, VIL, VOH, VOL, IOH, IOL, VCH, VCL, VTERM));
-
-
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIH[PIN] = VIH;
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIL[PIN] = VIL;
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVOH[PIN] = VOH;
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVOL[PIN] = VOL;
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateIOH[PIN] = IOH;
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateIOL[PIN] = IOL;
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVCH[PIN] = VCH;
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVCL[PIN] = VCL;
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVTERM[PIN] = VTERM;
-			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStatePinValue[PIN] = 999;
-		}
-
-		return ret;
-	}
 	int Module400Series::DM_ConfigurePEAttribute(int testSite, String ^ PIN, bool InputTermEnable, bool HVEnable, bool ActiveLoadEnable, bool DifferentialComparatorEnable)
 	{
+		// [7600 original architecture] Directly applies PE feature flags with cached state validation
 		int ret = 0;
-
-		if (tl->glob->PEStateSettingsManager[testSite].PEStateInputTermEnable[PIN] != InputTermEnable || tl->glob->PEStateSettingsManager[testSite].PEStateHVEnable[PIN] != HVEnable
-			|| tl->glob->PEStateSettingsManager[testSite].PEStateActiveLoadEnable[PIN] != ActiveLoadEnable || tl->glob->PEStateSettingsManager[testSite].PEStateDifferentialComparatorEnable[PIN] != DifferentialComparatorEnable)
+		if (tl->glob->PEStateSettingsManager[testSite].PEStateInputTermEnable[PIN] != InputTermEnable || tl->glob->PEStateSettingsManager[testSite].PEStateHVEnable[PIN] != HVEnable)
 		{
 			tl->CheckError(testSite, dm[testSite]->ConfigurePEAttribute(PIN, InputTermEnable, HVEnable, ActiveLoadEnable, DifferentialComparatorEnable));
-
 			tl->glob->PEStateSettingsManager[testSite].PEStateInputTermEnable[PIN] = InputTermEnable;
 			tl->glob->PEStateSettingsManager[testSite].PEStateHVEnable[PIN] = HVEnable;
-			tl->glob->PEStateSettingsManager[testSite].PEStateActiveLoadEnable[PIN] = ActiveLoadEnable;
-			tl->glob->PEStateSettingsManager[testSite].PEStateDifferentialComparatorEnable[PIN] = DifferentialComparatorEnable;
 		}
-
 		return ret;
 	}
-	int Module400Series::DM_DioModeDrivePin(int testSite, String ^ PIN, int driveValue)
+
+
+
+	//PIN DIO SETUP ARCHITECTURE (From 7600)  Fully implemented active DIO operational mode with state caching, direction mapping(DM_DioModeSetPinDirection), and driving routines(DM_DioModeDrivePin).
+	int Module400Series::DM_ConfigureDigitalPinToDIO(int testSite, String^ PIN, int DPinLevelSet, int pinDirection)
 	{
 		int ret = 0;
+		DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_DIO);
+		DM_ConfigureDPINLevelDIO(testSite, PIN, tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VTERM"]);
+		DM_DioModeSetPinDirection(testSite, PIN, pinDirection);
+		return ret;
+	}
 
+	int Module400Series::DM_ConfigureDPINLevelDIO(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM)
+	{
+		// [7600 original architecture] Applies digital pin levels specifically for DIO mode with cached state validation
+		int ret = 0;
+		if (tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIH[PIN] != VIH || tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIL[PIN] != VIL)
+		{
+			tl->CheckError(testSite, dm[testSite]->DPINLevel(PIN, VIH, VIL, VOH, VOL, IOH, IOL, VCH, VCL, VTERM));
+			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIH[PIN] = VIH;
+			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStateVIL[PIN] = VIL;
+		}
+		return ret;
+	}
+
+	int Module400Series::DM_DioModeDrivePin(int testSite, String ^ PIN, int driveValue)
+	{
+		// [7600 original architecture] Drives a dynamic logic high/low value (0/1) on a pin operating in DIO mode
+		int ret = 0;
 		if (tl->glob->DIO_DMStateSettingsManager[testSite].DIOStatePinValue[PIN] != driveValue)
 		{
 			tl->CheckError(testSite, dm[testSite]->DrivePin(PIN, driveValue));
+			tl->glob->DIO_DMStateSettingsManager[testSite].DIOStatePinValue[PIN] = driveValue;
 		}
 		return ret;
 	}
+
 	int Module400Series::DM_DioModeSetPinDirection(int testSite, String ^ PIN, int pinDirection)
 	{
+		// [7600 original architecture] Explicitly sets pin direction (Input vs Output) for DIO operational mode
 		int ret = 0;
-
 		tl->CheckError(testSite, dm[testSite]->SetPinDirection(PIN, pinDirection));
-
 		return ret;
 	}
-	int Module400Series::DM_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias,int inputTerminal, int outputTerminal)
+
+
+	
+	//CONTINUITY / OS TESTING ARCHITECTURE (From 7600) Self-contained routine that forces DICV mode for diode testing and automatically restores pins safely back to DVCI 0V to prevent pin - to - pin shorts.
+	int Module400Series::DM_MeasureOS(int testSite, String ^ PIN, double driveCurrent, double clampVoltage, double delay, double % result)
 	{
 		int ret = 0;
 
-		tl->CheckError(testSite, dm[testSite]->MapTriggerInToTriggerOut(moduleAlias, inputTerminal, outputTerminal));
+		try
+		{
+			DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_PMU);
+			DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DICV);
+			DM_ClampVoltage(testSite, PIN, clampVoltage);
+			DM_DriveCurrent(testSite, PIN, driveCurrent);
+            DM_MeasureVoltage(testSite, PIN, delay, result);
+			DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DVCI);
+			DM_ClampCurrent(testSite, PIN, 25.0 mA);
+			DM_DriveVoltage(testSite, PIN, 0.0 V);
+		}
+		catch (Exception^ ex)
+		{
+			ret = ER_CONST_DM_TEST_FUNCTION_OS_FAIL;
+			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> DM_MeasureOS] OS test failed on pin: " + PIN + " | Detail: " + ex->Message);
+		}
 
 		return ret;
 	}
+
+
+	
+	//PMU VOLTAGE & CURRENT MEASUREMENT ARCHITECTURE (From 7300) can configures NPLC noise integration time and applies settling delays immediately before reading measurements for maximum accuracy.
+	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double nplc, double measureDelay, double % result)
+	{
+		// [7300 DmTestFunction_MeasureVoltage]
+		int ret = 0;
+
+		try
+		{
+			tl->CheckError(testSite, dm[testSite]->ConfigurePMUSamplingTime(PIN, nplc, DM_CONST_SAMPLING_TIME_UNITS_PLC));
+			tl->Util->WaitSecond(measureDelay);
+			tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_PMU_MEASURE_VOLTAGE, result));
+		}
+		catch (Exception^ ex)
+		{
+			ret = ER_CONST_DM_TEST_FUNCTION_MEASURE_VOLTAGE_FAIL;
+			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> DM_MeasureVoltage] Voltage measurement failed on pin: " + PIN + " | Detail: " + ex->Message);
+		}
+
+		return ret;
+	}
+
+	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double % result)
+	{
+		return DM_MeasureVoltage(testSite, PIN, 1.0, 0.001, result);
+	}
+
+	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double nplc, double measureDelay, double % result)
+	{
+		// [7300 DmTestFunction_MeasureCurrent Algorithm]
+		int ret = 0;
+
+		try
+		{
+			tl->CheckError(testSite, dm[testSite]->ConfigurePMUSamplingTime(PIN, nplc, DM_CONST_SAMPLING_TIME_UNITS_PLC));
+			tl->Util->WaitSecond(measureDelay);
+			tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_PMU_MEASURE_CURRENT, result));
+		}
+		catch (Exception^ ex)
+		{
+			ret = ER_CONST_DM_TEST_FUNCTION_MEASURE_CURRENT_FAIL;
+			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> DM_MeasureCurrent] Current measurement failed on pin: " + PIN + " | Detail: " + ex->Message);
+		}
+
+		return ret;
+	}
+
+	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double % result)
+	{
+		return DM_MeasureCurrent(testSite, PIN, 1.0, 0.001, result);
+	}
+
+
+	
+	int Module400Series::DM_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias, int inputTerminal, int outputTerminal)
+	{
+		// [7600 original architecture] Choosed Directly maps an input hardware trigger terminal to an output trigger terminal
+		int ret = 0;
+		tl->CheckError(testSite, dm[testSite]->MapTriggerInToTriggerOut(moduleAlias, inputTerminal, outputTerminal));
+		return ret;
+	}
+
 	int Module400Series::DM_DriveSoftwareTrigger(int testSite, String ^ moduleAlias, int select, double pulseWidth)
 	{
+		// [7600 original architecture] Generates a software-driven trigger pulse with specified pulse width
 		int ret = 0;
-
 		tl->CheckError(testSite, dm[testSite]->DriveSoftwareTrigger(moduleAlias, select, pulseWidth));
-
 		return ret;
 	}
+
 	int Module400Series::DM_ConfigureTriggerEdgeLevel(int testSite, String ^ moduleAlias, int trigSource, int trigMode)
 	{
+		// [7600 original architecture] Configures trigger source and edge/level detection mode
 		int ret = 0;
-
 		tl->CheckError(testSite, dm[testSite]->ConfigureTriggerEdgeLevel(moduleAlias, trigSource, trigMode));
-
 		return ret;
 	}
+
 	int Module400Series::DM_ConfigureTriggerEdgeLevelExtra(int testSite, String ^ moduleAlias, int trigSource, int trigMode, int ignoreTrigCount)
 	{
+		// [7600 original architecture] Configures trigger edge/level detection with ignored trigger count offset
 		int ret = 0;
-
 		tl->CheckError(testSite, dm[testSite]->ConfigureTriggerEdgeLevel(moduleAlias, trigSource, trigMode, ignoreTrigCount));
-
 		return ret;
 	}
+
 	int Module400Series::DM_ConfigureInputTriggerSelect(int testSite, String ^ moduleAlias, int trigSource, double delayAfterTrig)
 	{
+		// [7600 original architecture] Configures module input trigger sources and post-trigger delay times
 		int ret = 0;
-
 		tl->CheckError(testSite, dm[testSite]->ConfigureInputTriggerSelect(moduleAlias, trigSource, delayAfterTrig));
-
 		return ret;
 	}
+
 	int Module400Series::DM_ConfigureOutputTriggerSelect(int testSite, String ^ moduleAlias, int trigOutput0, int trigOutput1)
 	{
+		// [7600 original architecture] Configures module output trigger selections (trigOutput0, trigOutput1)
 		int ret = 0;
-
 		tl->CheckError(testSite, dm[testSite]->ConfigureOutputTriggerSelect(moduleAlias, trigOutput0, trigOutput1));
-
 		return ret;
 	}
+
 	int Module400Series::DM_ConfigureReadPin_TriggerOutput(int testSite, String ^ pinAlias, int pinStatusSelect)
 	{
+		// [7600 original architecture] Configures digital read-pin status routing to trigger output lines
 		int ret = 0;
-
 		tl->CheckError(testSite, dm[testSite]->ConfigureReadPin_TriggerOutput(pinAlias, pinStatusSelect));
-
 		return ret;
 	}
-
 }
