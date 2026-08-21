@@ -9195,7 +9195,7 @@ namespace AMB7600SR_TestLibrary_REV2
 	/// <list type="TestParameterCondition">
 	/// <item attribute="name">ServoTolerance</item>
 	/// <item attribute="description">(Optional, Default)Specifies the tolerance value of the Targeted Pout.</item>
-	/// <item attribute="value">10.05</item>
+	/// <item attribute="value">0.05</item>
 	/// <item attribute="prefix">None</item>
 	/// <item attribute="unit"></item>
 	/// <item attribute="datatype">Double</item>
