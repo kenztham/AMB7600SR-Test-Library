@@ -170,6 +170,7 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     <ClCompile Include="AMB7300\IOM400Utility.cpp" />
     <ClCompile Include="AMB7300\KeysightVnaUtility.cpp" />
     <ClCompile Include="AMB7300\TM400Utility.cpp" />
+    <ClCompile Include="AMB7600SR\originalDM400Utility.cpp" />
     <ClCompile Include="Module400Series\AM400eUtility.cpp" />
     <ClCompile Include="AMB7600SR\AMB7600SR.cpp" />
     <ClCompile Include="AMB7600SR\AMSRFUtility.cpp" />
@@ -179,6 +180,7 @@ copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\TestPrograms\SampleProfile\AM
     <ClCompile Include="AMB7600SR\RFSiteConfig.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Module400Series\Module400Series.cpp" />
+    <ClCompile Include="Module400Series\TM400.cpp" />
     <ClCompile Include="Test Function\Files.cpp" />
     <ClCompile Include="Test Function\Globals.cpp" />
     <ClCompile Include="Test Function\techFlow.cpp" />

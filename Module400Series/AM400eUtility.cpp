@@ -54,7 +54,8 @@ namespace Functions
 
 		return moduleAlias;
 	}
-	int Module400Series::InitAmPinAliasPreviousState(Site ^ site, int siteIndex)
+	int Module400Series::InitAmPinAliasPreviousState(Site ^ site, int siteIndex) 
+		//
 	{
 		int ret = 0;
 
@@ -73,7 +74,8 @@ namespace Functions
 
 		return ret;
 	}
-	int Module400Series::InitializeAM400eResource(Site ^site)
+	int Module400Series::InitializeAM400eResource(Site ^site) 
+		//Automatically checks resource planner status, handles multi-site modes, and initializes state tracking variables.
 	{
 		int ret = 0;
 		int initOption = tl->glob->AWV.AMInitOption;
@@ -108,7 +110,7 @@ namespace Functions
 				smu[siteIndex] = gcnew SMU(tl->glob->HardwareProfile, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
 			}
 		}
-
+		m
 		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 		{
 			if (ResourceManagerSett[siteIndex].AM_HardwareStatus)
@@ -174,7 +176,8 @@ namespace Functions
 
 		return ret;
 	}
-	int Module400Series::UninitializeAM400eResource(Site ^site)
+	int Module400Series::UninitializeAM400eResource(Site ^site) 
+	//maintain from (7600) hardware resets alongside module closures, paired with structured try-catch error logging.
 	{
 		int ret = 0;
 		array<array<String^>^>^ moduleAlias = nullptr;
@@ -212,25 +215,9 @@ namespace Functions
 		return ret;
 	}
 
-	//AM400e Helper Function
 	int Module400Series::ConfigureSMU(int testSite, String^ PIN, int Mode, int bandwidth, double compliance, double nplc, double powerLineFreq)
 	{
-		/*****************************************************************************************************
-		** ConfigureSMU
-		**		siteIndex	- This is selected physical site. (Note: UUT offset index for the MultiUUTOffsets
-		**					  project or techFlow sites for Index Parallel project.)
-		**		PinAlias	- This is the pin alias name defined in the amap resource file(*.amap).
-		**		Mode		- This is either AM_CONST_DICV(=1) or AM_CONST_DVCI(=0).
-		**		Bandwidth	- This is the targeted bandwidth (0- Slow, 1-Default, 2-Fast).
-		**		Compliance	- This is the targeted voltage compliance if selected mode = AM_CONST_DICV
-		**					  else current compliance.
-		**		NPLC		- This is the targeted NPLC or sampling time on the specified channel.  For example,
-		**					  if the line frequency is set to 50Hz (period is 20ms), then 1 PLC equals to 20ms.
-		** Descriptions:
-		**		This test method wrapped the SMU configuration in a function to ease the user to configure SMU
-		**		in more proper manner.
-		******************************************************************************************************/
-
+		
 		int ret = 0;
 
 		SMU_NplcSetting(testSite, PIN, nplc);
@@ -255,17 +242,37 @@ namespace Functions
 
 		return ret;
 	}
-	int Module400Series::SMU_MeasureOS(int testSite, String ^ PIN, double driveCurrent, double clampVoltage, double delay,double % result)
+
+	
+	int Module400Series::SmuTestFunction_OS(int testSite, String ^ pinAlias, double nplc, double measureDelay, double % result) 
+		//SmuTestFunction_OS (From 7300) Directly accepts nplc and measureDelay parameters, reading voltage and forcing a 100mA clamp low-voltage safety reset for short testing.
 	{
+		
 		int ret = 0;
 
-		SMU_ConfigureOutputFunction(testSite, PIN, AM_CONST_DICV);
-		SMU_ClampVoltage(testSite, PIN, clampVoltage);		
-		SMU_DriveCurrent(testSite, PIN, driveCurrent);
-		SMU_MeasureVoltage(testSite, PIN,delay, result);
-		SMU_ConfigureOutputFunction(testSite, PIN, AM_CONST_DVCI);
-		SMU_ClampCurrent(testSite, PIN, AM_CONST_100UA_RANGE);
-		SMU_DriveVoltage(testSite, PIN, 0.0 V);
+		try
+		{
+			// Set NPLC and wait for measure delay
+			tl->CheckError(testSite, smu[testSite]->SetNPLC(pinAlias, nplc));
+			util->WaitSecond(measureDelay);
+
+			// Measure Voltage
+			tl->CheckError(testSite, smu[testSite]->ReadVoltage(pinAlias, result));
+
+			// Reconfigure to DVCI and drive low to cater for pin-to-pin short testing (7300 core logic)
+			tl->CheckError(testSite, smu[testSite]->ConfigureOutputFunction(pinAlias, AM_CONST_DVCI));
+			tl->CheckError(testSite, smu[testSite]->ClampCurrent(pinAlias, 100.0 mA));
+			tl->CheckError(testSite, smu[testSite]->DriveVoltage(pinAlias, 0.0 V));
+		}
+		catch (Exception^ ex)
+		{
+			ret = ER_CONST_AM_TEST_FUNCTION_OS_FAIL;
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->CheckError(testSite, ER_CONST_ERRROR_CATCH);
+			String^ ErrorMessage = "[Module400Series -> SmuTestFunction_OS] Fail at OS test. Error Code: " + ret.ToString() + " | Detail: " + ex->Message;
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
+		}
 
 		return ret;
 	}
@@ -290,7 +297,7 @@ namespace Functions
 		int ret = 0;
 
 		util->WaitSecond(delay);
-		tl->CheckError(testSite, smu[testSite]->ReadCurrent(PIN, result));
+		ret = tl->CheckError(testSite, smu[testSite]->ReadCurrent(PIN, result));
 
 		return ret;
 	}

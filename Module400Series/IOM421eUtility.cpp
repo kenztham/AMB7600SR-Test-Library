@@ -1,4 +1,5 @@
-﻿#include "Module400Series.h"
+﻿#include "../Test Method/Methods.h"
+#include "Module400Series.h"
 
 namespace Functions
 {
@@ -230,94 +231,133 @@ namespace Functions
 		return ret;
 	}
 
-	//IOM421e Helper Function
+	
 	int Module400Series::DIO_SetVIO(int testSite, String ^ ModuleAlias, int setting)
 	{
 		int ret = 0;
-
-		if (setting != tl->glob->IOMModuleVIOStateSettingsManager[testSite][ModuleAlias])
+		try
 		{
-			if (setting == 0)
+			if (setting != tl->glob->IOMModuleVIOStateSettingsManager[testSite][ModuleAlias])
 			{
-				tl->CheckError(testSite, dio[testSite]->SetVIO(ModuleAlias, IOM_CONST_OUTPUT_VIO_3_3V));
-			}
-			else if (setting == 1)
-			{
-				tl->CheckError(testSite, dio[testSite]->SetVIO(ModuleAlias, IOM_CONST_OUTPUT_VIO_5_0V));
-			}
-			tl->glob->IOMModuleVIOStateSettingsManager[testSite][ModuleAlias] = setting;
-
-			Resource ^ moduleRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(ModuleAlias)[0];
-			String ^ moduleAddress = moduleRsrc->Hierarchy[0];
-
-			//Reset Port Alias
-			for each (KeyValuePair<String^, int>^ portAlias in ResourceManagerSett[testSite].DIOResourcePortAlias)
-			{
-				Resource ^ portRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(portAlias->Key)[0];
-
-				if (moduleAddress == portRsrc->Hierarchy[0])
+				if (setting == 0)
 				{
-					tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias->Key] = 999;
+					tl->CheckError(testSite, dio[testSite]->SetVIO(ModuleAlias, IOM_CONST_OUTPUT_VIO_3_3V));
 				}
-
-			}
-			//Reset Pin Alias
-			for each (KeyValuePair<String^, int>^ pinAlias in ResourceManagerSett[testSite].DIOResourceAlias)
-			{
-				Resource ^ pinRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinAlias->Key)[0];
-
-				if (moduleAddress == pinRsrc->Hierarchy[0])
+				else if (setting == 1)
 				{
-					tl->glob->IOMPinValStateSettingsManager[testSite][pinAlias->Key] = 999;
+					tl->CheckError(testSite, dio[testSite]->SetVIO(ModuleAlias, IOM_CONST_OUTPUT_VIO_5_0V));
+				}
+				tl->glob->IOMModuleVIOStateSettingsManager[testSite][ModuleAlias] = setting;
+
+				Resource ^ moduleRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(ModuleAlias)[0];
+				String ^ moduleAddress = moduleRsrc->Hierarchy[0];
+
+				//Reset Port Alias
+				for each (KeyValuePair<String^, int>^ portAlias in ResourceManagerSett[testSite].DIOResourcePortAlias)
+				{
+					Resource ^ portRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(portAlias->Key)[0];
+
+					if (moduleAddress == portRsrc->Hierarchy[0])
+					{
+						tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias->Key] = 999;
+					}
+
+				}
+				//Reset Pin Alias
+				for each (KeyValuePair<String^, int>^ pinAlias in ResourceManagerSett[testSite].DIOResourceAlias)
+				{
+					Resource ^ pinRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinAlias->Key)[0];
+
+					if (moduleAddress == pinRsrc->Hierarchy[0])
+					{
+						tl->glob->IOMPinValStateSettingsManager[testSite][pinAlias->Key] = 999;
+					}
 				}
 			}
 		}
+			catch (Exception ^ ex)
+			{
+				ret = ER_CONST_IOMCase_DIOSetModuleVIO;
 
-		return ret;
-	}
+				tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+				tl->CheckError(testSite, ret);
+
+				String^ ErrorMessage = "Module400Series::DIO_SetVIO encountered an error: " + ex->Message + " | Error Code: " + ret.ToString();
+				tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+				tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
+			}
+			return ret;
+		}
+	
 	int Module400Series::DIO_SetPortDirection(int testSite, String ^ portAlias, int dirval)
 	{
 		int ret = 0;
-
-		if (dirval!=tl->glob->IOMPortStateSettingsManager[testSite].PortDirection[portAlias])
+		try
 		{
-			if (dirval == 0)
+			if (dirval != tl->glob->IOMPortStateSettingsManager[testSite].PortDirection[portAlias])
 			{
-				tl->CheckError(testSite, dio[testSite]->SetPortDirection(portAlias, IOM_CONST_PORT_DIRECTION_INPUT));
-			}
-			else if (dirval == 1)
-			{
-				tl->CheckError(testSite, dio[testSite]->SetPortDirection(portAlias, IOM_CONST_PORT_DIRECTION_OUTPUT));
-			}
+				if (dirval == 0)
+				{
+					tl->CheckError(testSite, dio[testSite]->SetPortDirection(portAlias, IOM_CONST_PORT_DIRECTION_INPUT));
+				}
+				else if (dirval == 1)
+				{
+					tl->CheckError(testSite, dio[testSite]->SetPortDirection(portAlias, IOM_CONST_PORT_DIRECTION_OUTPUT));
+				}
 
-			tl->glob->IOMPortStateSettingsManager[testSite].PortDirection[portAlias] = dirval;
+				tl->glob->IOMPortStateSettingsManager[testSite].PortDirection[portAlias] = dirval;
 
+			}
 		}
+		catch (Exception ^ ex)
+		{ 
+			ret = ER_CONST_IOMCase_DIOSetPortDirection;
+
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->CheckError(testSite, ret);
+
+			String^ ErrorMessage = "Module400Series::DIO_SetPortDirection encountered an error: " + ex->Message + " | Error Code: " + ret.ToString();
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
+		}
+
 		return ret;
 	}
 	int Module400Series::DIO_DrivePort(int testSite, String ^ portAlias, int portval)
 	{
 		int ret = 0;
-
-		if (portval != tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias])
-		{
-			tl->CheckError(testSite, dio[testSite]->DrivePort(portAlias, portval));
-			tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias] = portval;
-
-
-			Resource ^ portRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(portAlias)[0];
-			String ^ portAddress = portRsrc->Hierarchy[0];
-
-			//Reset Pin Alias
-			for each (KeyValuePair<String^, int>^ pinAlias in ResourceManagerSett[testSite].DIOResourceAlias)
+		try {
+			if (portval != tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias])
 			{
-				Resource ^ pinRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinAlias->Key)[0];
+				tl->CheckError(testSite, dio[testSite]->DrivePort(portAlias, portval));
+				tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias] = portval;
 
-				if (portAddress == pinRsrc->Hierarchy[0])
+
+				Resource ^ portRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(portAlias)[0];
+				String ^ portAddress = portRsrc->Hierarchy[0];
+
+				//Reset Pin Alias
+				for each (KeyValuePair<String^, int>^ pinAlias in ResourceManagerSett[testSite].DIOResourceAlias)
 				{
-					tl->glob->IOMPinValStateSettingsManager[testSite][pinAlias->Key] = 999;
+					Resource ^ pinRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinAlias->Key)[0];
+
+					if (portAddress == pinRsrc->Hierarchy[0])
+					{
+						tl->glob->IOMPinValStateSettingsManager[testSite][pinAlias->Key] = 999;
+					}
 				}
 			}
+		}
+		catch (Exception ^ex)
+		{
+			ret = ER_CONST_IOMCase_DIODrivePort;
+
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->CheckError(testSite, ret);
+
+			String^ ErrorMessage = "Module400Series::DIO_DrivePort encountered an error: " + ex->Message + " | Error Code: " + ret.ToString();
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
 		}
 
 		return ret;
@@ -325,38 +365,49 @@ namespace Functions
 	int Module400Series::DIO_DrivePin(int testSite, String ^ pinAlias, int pinval)
 	{
 		int ret = 0;
-
-		if (pinval != tl->glob->IOMPinValStateSettingsManager[testSite][pinAlias])
-		{
-			if (pinval == 0)
+		try {
+			if (pinval != tl->glob->IOMPinValStateSettingsManager[testSite][pinAlias])
 			{
-				tl->CheckError(testSite, dio[testSite]->DrivePin(pinAlias, IOM_CONST_PIN_DRIVE_LOW));
-			}
-			else if (pinval == 1)
-			{
-				tl->CheckError(testSite, dio[testSite]->DrivePin(pinAlias, IOM_CONST_PIN_DRIVE_HIGH));
-			}
-
-			tl->glob->IOMPinValStateSettingsManager[testSite][pinAlias] = pinval;
-
-
-			Resource ^ pinRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinAlias)[0];
-			String ^ pinAddress = pinRsrc->Hierarchy[0];
-
-			//Reset Port Alias
-			for each (KeyValuePair<String^, int>^ portAlias in ResourceManagerSett[testSite].DIOResourcePortAlias)
-			{
-				Resource ^ portRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(portAlias->Key)[0];
-
-				if (pinAddress == portRsrc->Hierarchy[0])
+				if (pinval == 0)
 				{
-					tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias->Key] = 999;
+					tl->CheckError(testSite, dio[testSite]->DrivePin(pinAlias, IOM_CONST_PIN_DRIVE_LOW));
+				}
+				else if (pinval == 1)
+				{
+					tl->CheckError(testSite, dio[testSite]->DrivePin(pinAlias, IOM_CONST_PIN_DRIVE_HIGH));
+				}
+
+				tl->glob->IOMPinValStateSettingsManager[testSite][pinAlias] = pinval;
+
+
+				Resource ^ pinRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(pinAlias)[0];
+				String ^ pinAddress = pinRsrc->Hierarchy[0];
+
+				//Reset Port Alias
+				for each (KeyValuePair<String^, int>^ portAlias in ResourceManagerSett[testSite].DIOResourcePortAlias)
+				{
+					Resource ^ portRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(portAlias->Key)[0];
+
+					if (pinAddress == portRsrc->Hierarchy[0])
+					{
+						tl->glob->IOMPortStateSettingsManager[testSite].PortValue[portAlias->Key] = 999;
+					}
+
 				}
 
 			}
-
 		}
+		catch (Exception ^ ex)
+		{ 
+			ret = ER_CONST_IOMCase_DIODrivePin;
 
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->CheckError(testSite, ret);
+
+			String^ ErrorMessage = "Module400Series::DIO_DrivePin encountered an error: " + ex->Message + " | Error Code: " + ret.ToString();
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE " + testSite.ToString(), ErrorMessage);
+		}
 		return ret;
 	}
 

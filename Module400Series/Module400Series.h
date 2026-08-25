@@ -81,6 +81,14 @@ namespace Functions
 
 		MethodsBranch ^ methods;
 
+	public:
+		// Vector State CSV Parsing Architecture
+		int GetDpinGroupInfo(array<String^>^ mipiSetInfo, int% dpinGroup, String^% errorMessage);
+		int GetSclkChannelInfo(array<String^>^ mipiSetInfo, int dpinGroup, int% sclkChannel, String^% errorMessage);
+		int GetSdataChannelInfo(array<String^>^ mipiSetInfo, int dpinGroup, int sclkChannel, int% sdataChannel, String^% errorMessage);
+		int GetVecTimingSetInfo(array<String^>^ mipiSetInfo, int% vecTimingSet, String^% errorMessage);
+		int CheckMipiSetIdentifier(array<String^>^ mipiSetInfo, String^% errorMessage);
+		int GetRegAddrList(array<String^>^ mipiSetInfo, String^ mode, int% regAddr, String^% errorMessage);
 
 #pragma region "Hardware Resource Manager"
 		// Hardware Resource Manager 
@@ -156,7 +164,7 @@ namespace Functions
 		int SMU_ConfigureSMUOutputTriggerPulseWidth(int testSite, String ^ pinAlias, double pulseWidth);
 		int SMU_ConfigureSMUOutputTriggerDuringSource(int testSite, String ^ pinAlias, double level, double range, int mode, int edgeSetting);
 		int SMU_ConfigureOutputTriggerSelect(int testSite, String ^ pinAlias, int triggerOutput, double triggerDelay);
-
+		int Module400Series::DmPatternTestFunction_MipiWrite(int tfSite, int siteIndex, String ^ dmModuleAlias, array<String^> ^ vectorFileName);
 #pragma endregion "AM400e Helper Function"
 
 #pragma region "DM400e Helper Function "
@@ -186,7 +194,7 @@ namespace Functions
 		int DM_ConfigureDPINLevelVector(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM);
 		int DM_ConfigureDPINLevelDIO(int testSite, String ^ PIN, double VIH, double VIL, double VOH, double VOL, double IOH, double IOL, double VCH, double VCL, double VTERM);
 		int DM_ConfigurePEAttribute(int testSite, String ^ PIN, bool InputTermEnable, bool HVEnable, bool ActiveLoadEnable, bool DifferentialComparatorEnable);
-
+		int Module400Series::GetSclkChannelInfo(array<String^> ^ mipiSetInfo, int dpinGroup, int % sclkChannel, String^ % errorMessage);
 		int DM_DioModeDrivePin(int testSite, String ^ PIN, int driveValue);
 		int DM_DioModeSetPinDirection(int testSite, String ^ PIN, int pinDirection);
 		int DM_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias, int inputTerminal, int outputTerminal);
@@ -212,6 +220,15 @@ namespace Functions
 		int VectorFilesInfo(Site ^ site, int siteIndex);
 		int API_Read_Single_VectorStateFile_SingleLine(array<String^> ^  Reader_Value, String^ % Mode, int % USID, int % RegAddr, int % RegData, String^ % Operation, String^ % Speed, bool % Read_VectorStateFileBasic_Success, String^ % Read_VectorStateFileBasic_ErrorMessage);
 		int API_MIPI_Vector_Read(Site ^ site, int testSite, String ^ dataPinAlias, String ^ DM_Module_Alias, double channelInputDelay, String ^ VectorFileName, bool sweepOperation, array<int> ^ % ReadHistoryRam_Data, int % VectorFailCount, int % VectorFirstFail);
+		int Module400Series::GetDpinGroupInfo(array<String^> ^ mipiSetInfo, int % dpinGroup, String^ % errorMessage);
+		int Module400Series::GetSdataChannelInfo(array<String^> ^ mipiSetInfo, int dpinGroup, int sclkChannel, int % sdataChannel, String^ % errorMessage);
+		int Module400Series::GetVecTimingSetInfo(array<String^> ^ mipiSetInfo, int % vecTimingSet, String^ % errorMessage);
+		int Module400Series::CheckMipiSetIdentifier(array<String^> ^ mipiSetInfo, String^ % errorMessage);
+		int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double nplc, double measureDelay, double % result);
+		int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double nplc, double measureDelay, double % result);
+		int Module400Series::SmuTestFunction_OS(int testSite, String ^ pinAlias, double nplc, double measureDelay, double % result);
+		int Module400Series::InitializeTm(String ^ hardwareProfile, int testHead, int tfSite, int siteIndex, bool offline);
+		int Module400Series::UninitializeTm(int tfSite, int siteIndex);
 
 #pragma endregion "DM400e Helper Function "	
 

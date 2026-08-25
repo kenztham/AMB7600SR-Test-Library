@@ -2295,7 +2295,8 @@ namespace Functions
 		{ 
 			int vecFileNumber = 9999;
 			for (int i = 0; i < tl->glob->VectorFile.totalVecFileExist; i++)
-			{GetDpinGroupInfo
+			{
+				GetDpinGroupInfo
 				if (tl->glob->VectorFile.vecFileName[i] == targetVecFileName)
 				{
 					vecFileNumber = i;

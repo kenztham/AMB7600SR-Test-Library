@@ -1,5 +1,5 @@
-﻿#include "../Test Method/Methods.h"
-#include "Module400Series.h"CM_Wait
+#include "../Test Method/Methods.h"
+#include "Module400Series.h"
 
 namespace Functions
 {
@@ -126,7 +126,8 @@ namespace Functions
 					CondNametemp = controlCondition->Name->Split(Separators, System::StringSplitOptions::None);;
 					moduleAliasRunVector[count] = CondNametemp[1];
 					exisAmaptModuleAliasRunVector[count] = false;
-					communicationProtocol[count] = (String^)tf_ControlItem_ConditionCast(controlCondition->Name);
+
+					communicationProtocol[count] = Convert::ToString(((ControlItem ^)site->CurrentFlowItem)->Conditions[controlCondition->Name][siteIndex]->Value);
 					count++;
 				}
 			}
@@ -191,7 +192,7 @@ namespace Functions
 			{
 				if (controlCondition->Name->StartsWith("TimingSet_" + count.ToString()))
 				{
-					tl->glob->TimingSetPeriod[siteIndex][count] = (double)tf_ControlItem_ConditionCast(controlCondition->Name);
+					tl->glob->TimingSetPeriod[siteIndex][count] = Convert::ToDouble(((ControlItem ^)site->CurrentFlowItem)->Conditions[controlCondition->Name][siteIndex]->Value);
 					count++;
 				}
 			}
@@ -303,7 +304,7 @@ namespace Functions
 				for (int j = 0; j < TotalDPinCondition; j++)
 				{
 					DPinConditionVal[i]->Add(DPinCondition[j], 999);
-					DPinConditionVal[i][DPinCondition[j]] = (double)tf_ControlItem_ConditionCast(DPinCondition[j] + "_" + i.ToString());
+					DPinConditionVal[i][DPinCondition[j]] = Convert::ToDouble(((Condition^)ControlConditionCollection[DPinCondition[j] + "_" + i.ToString()])[siteIndex]->Value);
 				}
 
 				tl->glob->DPinLevelSet[siteIndex]->Add(DPinConditionVal[i]);
@@ -419,7 +420,7 @@ namespace Functions
 				for (int j = 0; j < TotalPEAttCondition; j++)
 				{
 					PEAttConditionVal[i]->Add(PEAttCondition[j], 999);
-					PEAttConditionVal[i][PEAttCondition[j]] = (bool)tf_ControlItem_ConditionCast(PEAttCondition[j] + "_" + i.ToString());
+					PEAttConditionVal[i][PEAttCondition[j]] = Convert::ToBoolean(ControlConditionCollection[PEAttCondition[j] + "_" + i.ToString()]->Values[siteIndex]->Value);
 				}
 				tl->glob->PEAttributeSet[siteIndex]->Add(PEAttConditionVal[i]);
 			}
@@ -469,9 +470,9 @@ namespace Functions
 	}
 
 
-	
+
 	//VECTOR LOADING ARCHITECTURE (from 7300) Lightweight and isolated routine that purely allocates hardware memory and loads.vec files.
-	int Module400Series::DMLoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias) 
+	int Module400Series::DMLoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias)
 	{
 		int ret = 0;
 
@@ -508,14 +509,14 @@ namespace Functions
 
 	int Module400Series::LoadVectorFiles(Site ^ site, int siteIndex, String ^ ModuleAlias)
 	{
-		
+
 		return DMLoadVectorFiles(site, siteIndex, ModuleAlias);
 	}
 
 
-	
+
 	//SYSTEM INITIALIZATION from (7600) Integrates directly with test flow conditions (DMCase_DMInit) and multi-site lockdowns
-	int Module400Series::InitializeDM400eResource(Site ^ site) 
+	int Module400Series::InitializeDM400eResource(Site ^ site)
 	{
 		int ret = 0;
 		int count = 0;
@@ -552,11 +553,11 @@ namespace Functions
 
 				for each(Condition ^ controlMethod in testConditionCollection)
 				{
-					if (controlMethod->Name->StartsWith("ControlMethod") && (String^)tf_ControlItem_ConditionCast(controlMethod->Name) == "DMCase_DMInit")
+					if (controlMethod->Name->StartsWith("ControlMethod") && Convert::ToString(controlMethod[site]->Value) == "DMCase_DMInit")
 					{
 						strControlMethod = nullptr;
 						intControlMethod = 0;
-						strControlMethod = (String^)tf_ControlItem_ConditionCast(controlMethod->Name);
+						strControlMethod = Convert::ToString(controlMethod[site]->Value);
 						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
 						methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
@@ -567,7 +568,7 @@ namespace Functions
 
 				if (userDMInit[siteIndex] == false)
 				{
-					DM_Init(siteIndex, 3);
+					DM_Init(siteIndex, 3); //higlighted problem (cannot use 3 side index)
 				}
 
 				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DM[site " + siteIndex + "] initialized");
@@ -632,7 +633,7 @@ namespace Functions
 					{
 						strControlMethod = nullptr;
 						intControlMethod = 0;
-						strControlMethod = (String^)tf_ControlItem_ConditionCast(controlMethod->Name);
+						strControlMethod = Convert::ToString(controlMethod[site]->Value);
 						tl->glob->ErrorInfo[siteIndex].ControlMethodName = strControlMethod;
 						methods->Dictionary_CM->TryGetValue(strControlMethod, intControlMethod);
 
@@ -707,11 +708,11 @@ namespace Functions
 	}
 
 
-	
+
 	//VECTOR EXECUTION ARCHITECTURE (From 7300) Provides batch file array execution, standardized error return constants
 	int Module400Series::DM_MIPIWriteVector(int testSite, String ^ moduleAlias, String ^ vectorFileName)
 	{
-		// [7300 DmRunVector Algorithm]: Polling loop, engine busy timeout checks, settling delay
+		// [7300 DmRunVector Algorithm]
 		int ret = 0;
 
 		try
@@ -736,7 +737,7 @@ namespace Functions
 				if (dmStatus == 0)
 				{
 					tl->CheckError(testSite, dm[testSite]->RunVector(moduleAlias, vecFileNumber));
-					tl->Util->WaitSecond(dmMipiVec.runMipiDelay);
+					tl->Util->WaitSecond(1.0 mS);
 					break;
 				}
 				tl->Util->WaitSecond(1.0 uS);
@@ -786,7 +787,7 @@ namespace Functions
 	}
 
 
-	
+
 	//VECTOR STATE CSV PARSING ARCHITECTURE (From 7300) Single-responsibility parser functions with strict bit-width boundary validation(e.g., max address / data limits) and clear diagnostic logging.
 	int Module400Series::GetDpinGroupInfo(array<String^> ^ mipiSetInfo, int % dpinGroup, String^ % errorMessage)
 	{
@@ -889,7 +890,7 @@ namespace Functions
 	}
 
 
-	
+
 	//MIPI READ BACK / PATTERN EXECUTION ARCHITECTURE (From 7300) Fully self-contained; dynamically parses CSV state files on-demand, calculates exact protocol bit offsets(SSC, SA, BC, Parity)
 	int Module400Series::API_MIPI_Vector_Read(Site ^ site, int testSite, String ^ dataPinAlias, String ^ DM_Module_Alias, double channelInputDelay, String ^ VectorFileName, bool sweepOperation, array<int> ^ % ReadHistoryRam_Data, int % VectorFailCount, int % VectorFirstFail)
 	{
@@ -909,7 +910,7 @@ namespace Functions
 		// 2. Configure input channel delay
 		tl->CheckError(testSite, dm[testSite]->ConfigureInputChannelDelay(dataPinAlias, channelInputDelay));
 
-		// 3. Execute vector file using Source 1 execution pipeline
+		// 3. Execute vector file using 7300 execution pipeline
 		ret = DM_MIPIWriteVector(testSite, DM_Module_Alias, VectorFileName);
 		if (ret != 0) goto EndOfTest;
 
@@ -1009,7 +1010,7 @@ namespace Functions
 	}
 
 
-	
+
 	//PIN PMU SETUP ARCHITECTURE (from 7600) Implements state caching (PMUStateSettingsManager) to eliminate redundant bus write calls, saving critical test execution time.
 	int Module400Series::DM_ConfigureDigitalPinToPMU(int testSite, String^ PIN, int measureMode, int senseMode, double compliance, double driveValue, double nplc)
 	{
@@ -1197,7 +1198,7 @@ namespace Functions
 	}
 
 
-	
+
 	//PIN PE SETUP ARCHITECTURE (From 7600) Uses state-cached tracking (PEStateSettingsManager) to avoid re-writing driver voltage thresholds(VIH, VIL, VOH, VOL) if levels haven't changed.
 	int Module400Series::DM_ConfigureDigitalPinToVector(int testSite, String^ PIN, int DPinLevelSet, int PEAttSet)
 	{
@@ -1283,7 +1284,7 @@ namespace Functions
 	}
 
 
-	
+
 	//CONTINUITY / OS TESTING ARCHITECTURE (From 7600) Self-contained routine that forces DICV mode for diode testing and automatically restores pins safely back to DVCI 0V to prevent pin - to - pin shorts.
 	int Module400Series::DM_MeasureOS(int testSite, String ^ PIN, double driveCurrent, double clampVoltage, double delay, double % result)
 	{
@@ -1295,7 +1296,7 @@ namespace Functions
 			DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DICV);
 			DM_ClampVoltage(testSite, PIN, clampVoltage);
 			DM_DriveCurrent(testSite, PIN, driveCurrent);
-            DM_MeasureVoltage(testSite, PIN, delay, result);
+			DM_MeasureVoltage(testSite, PIN, delay, result);
 			DM_ConfigureOutputFunction(testSite, PIN, DM_CONST_DVCI);
 			DM_ClampCurrent(testSite, PIN, 25.0 mA);
 			DM_DriveVoltage(testSite, PIN, 0.0 V);
@@ -1309,61 +1310,42 @@ namespace Functions
 		return ret;
 	}
 
-
-	
-	//PMU VOLTAGE & CURRENT MEASUREMENT ARCHITECTURE (From 7300) can configures NPLC noise integration time and applies settling delays immediately before reading measurements for maximum accuracy.
-	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double nplc, double measureDelay, double % result)
-	{
-		// [7300 DmTestFunction_MeasureVoltage]
-		int ret = 0;
-
-		try
-		{
-			tl->CheckError(testSite, dm[testSite]->ConfigurePMUSamplingTime(PIN, nplc, DM_CONST_SAMPLING_TIME_UNITS_PLC));
-			tl->Util->WaitSecond(measureDelay);
-			tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_PMU_MEASURE_VOLTAGE, result));
-		}
-		catch (Exception^ ex)
-		{
-			ret = ER_CONST_DM_TEST_FUNCTION_MEASURE_VOLTAGE_FAIL;
-			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> DM_MeasureVoltage] Voltage measurement failed on pin: " + PIN + " | Detail: " + ex->Message);
-		}
-
-		return ret;
-	}
-
-	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double % result)
-	{
-		return DM_MeasureVoltage(testSite, PIN, 1.0, 0.001, result);
-	}
-
-	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double nplc, double measureDelay, double % result)
-	{
-		// [7300 DmTestFunction_MeasureCurrent Algorithm]
-		int ret = 0;
-
-		try
-		{
-			tl->CheckError(testSite, dm[testSite]->ConfigurePMUSamplingTime(PIN, nplc, DM_CONST_SAMPLING_TIME_UNITS_PLC));
-			tl->Util->WaitSecond(measureDelay);
-			tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_PMU_MEASURE_CURRENT, result));
-		}
-		catch (Exception^ ex)
-		{
-			ret = ER_CONST_DM_TEST_FUNCTION_MEASURE_CURRENT_FAIL;
-			tl->WriteToTracerAndFileLogger(testSite, testSite, ERROR, "[Module400Series -> DM_MeasureCurrent] Current measurement failed on pin: " + PIN + " | Detail: " + ex->Message);
-		}
-
-		return ret;
-	}
-
+	//PMU VOLTAGE & CURRENT MEASUREMENT ARCHITECTURE (From 7300) Note we decide to take back the 7600 architecture
 	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double % result)
 	{
-		return DM_MeasureCurrent(testSite, PIN, 1.0, 0.001, result);
+		int ret = 0;
+
+		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASURECURRENT, result));
+
+		return ret;
+	}
+	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double % result)
+	{
+		int ret = 0;
+
+		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASUREVOLTAGE, result));
+
+		return ret;
+	}
+	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double delay, double % result)
+	{
+		int ret = 0;
+
+		util->WaitSecond(delay);
+		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASURECURRENT, result));
+
+		return ret;
+	}
+	int Module400Series::DM_MeasureVoltage(int testSite, String ^ PIN, double delay, double % result)
+	{
+		int ret = 0;
+
+		util->WaitSecond(delay);
+		tl->CheckError(testSite, dm[testSite]->PMUMeasure(PIN, DM_CONST_MEASUREVOLTAGE, result));
+
+		return ret;
 	}
 
-
-	
 	int Module400Series::DM_MapTriggerInToTriggerOut(int testSite, String ^ moduleAlias, int inputTerminal, int outputTerminal)
 	{
 		// [7600 original architecture] Choosed Directly maps an input hardware trigger terminal to an output trigger terminal
