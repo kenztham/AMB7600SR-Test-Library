@@ -5722,12 +5722,12 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (testcond->Name->StartsWith(TM + "CurrentMeasurementPin_"))
+				if (testcond->Name->StartsWith("CurrentMeasurementPin_"))
 				{
 					currentMeasurementCount++;
 				}
 
-				if (testcond->Name->StartsWith(TM + "VoltageMeasurementPin_"))
+				if (testcond->Name->StartsWith("VoltageMeasurementPin_"))
 				{
 					voltageMeasurementCount++;
 				}
@@ -8150,12 +8150,12 @@ namespace Functions
 
 			for each(Condition ^ testcond in testConditionCollection)
 			{
-				if (testcond->Name->StartsWith(TM + "CurrentMeasurementPin_"))
+				if (testcond->Name->StartsWith("CurrentMeasurementPin_"))
 				{
 					currentMeasurementCount++;
 				}
 
-				if (testcond->Name->StartsWith(TM + "VoltageMeasurementPin_"))
+				if (testcond->Name->StartsWith("VoltageMeasurementPin_"))
 				{
 					voltageMeasurementCount++;
 				}

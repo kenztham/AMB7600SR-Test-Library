@@ -1898,11 +1898,11 @@ namespace Functions
 				ErrorMessage = "Test Condition [" + TM + " -> ClampVoltage" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
-			if ((bool)testConditionCollection->ContainsKey("Delay")) {
-				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "Delay");
+			if ((bool)testConditionCollection->ContainsKey("MeasureDelay")) {
+				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "MeasureDelay");
 			}
 			else {
-				ErrorMessage = "Test Condition [" + TM + "-> Delay" + "] is not found.";
+				ErrorMessage = "Test Condition [" + TM + "-> MeasureDelay" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 
@@ -1982,11 +1982,11 @@ namespace Functions
 				throw gcnew Exception(ErrorMessage);
 			}
 
-			if ((bool)testConditionCollection->ContainsKey("Delay")) {
-				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "Delay");
+			if ((bool)testConditionCollection->ContainsKey("MeasureDelay")) {
+				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "MeasureDelay");
 			}
 			else {
-				ErrorMessage = "Test Condition [" + TM + " -> Delay" + "] is not found.";
+				ErrorMessage = "Test Condition [" + TM + " -> MeasureDelay" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
@@ -2072,13 +2072,13 @@ namespace Functions
 				ErrorMessage = "Test Condition [" + TM + " -> PinMeasure" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
-			if ((bool)testConditionCollection->ContainsKey("Delay"))
+			if ((bool)testConditionCollection->ContainsKey("MeasureDelay"))
 			{
-				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "Delay");
+				delay = (double)tf_TestParameter_ConditionCast(testParameterName, "MeasureDelay");
 			}
 			else
 			{
-				ErrorMessage = "Test Condition [" + TM + " -> Delay" + "] is not found.";
+				ErrorMessage = "Test Condition [" + TM + " -> MeasureDelay" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 			//>>>>>>>>>>>>>>>>>>>> Optional <<<<<<<<<<<<<<<<<<<<
