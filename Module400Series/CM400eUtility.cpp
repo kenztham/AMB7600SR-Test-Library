@@ -57,88 +57,103 @@ namespace Functions
 	int Module400Series::InitializeCM400eResource(Site ^ site)
 	{
 		int ret = 0;
-		int initOption = tl->glob->AWV.CMInitOption;
-
-		array<array<String^>^>^ moduleAlias = nullptr;
-		array<int>^ moduleCount = gcnew array<int>(tl->glob->tf.NumberOfSites);
-
-		int count = 0;
-		bool IsModuleAlias = false;
-
-		moduleAlias = gcnew array<array<String^>^>(tl->glob->tf.NumberOfSites);
-
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+		int tfSite = tl->glob->tf.TestSite;
+		try
 		{
-			moduleAlias[siteIndex] = GetCMModuleAlias(site, siteIndex);
-			moduleCount[siteIndex] = moduleAlias[siteIndex]->Length;
+			int initOption = tl->glob->AWV.CMInitOption;
 
-			if (moduleCount[siteIndex] > 0)
+			array<array<String^>^>^ moduleAlias = nullptr;
+			array<int>^ moduleCount = gcnew array<int>(tl->glob->tf.NumberOfSites);
+
+			int count = 0;
+			bool IsModuleAlias = false;
+
+			moduleAlias = gcnew array<array<String^>^>(tl->glob->tf.NumberOfSites);
+
+			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 			{
-				ResourceManagerSett[siteIndex].CM_HardwareStatus = true;
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing CM400e System Resources...");
-			}
-		}
+				moduleAlias[siteIndex] = GetCMModuleAlias(site, siteIndex);
+				moduleCount[siteIndex] = moduleAlias[siteIndex]->Length;
 
-		cm = gcnew array<CM ^>(tl->glob->tf.NumberOfSites);
-
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
-		{
-			if (ResourceManagerSett[siteIndex].CM_HardwareStatus)
-			{
-				cm[siteIndex] = gcnew CM(tl->glob->HardwareProfile, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
-			}
-		}
-
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
-		{
-			if (ResourceManagerSett[siteIndex].CM_HardwareStatus)
-			{
-				for each (String ^ Rsrc in ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->MapNames)
+				if (moduleCount[siteIndex] > 0)
 				{
-					Resource ^ HardwareRsrc = ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->ResolveResource(Rsrc)[0];
-					IsModuleAlias = false;
+					ResourceManagerSett[siteIndex].CM_HardwareStatus = true;
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing CM400e System Resources...");
+				}
+			}
 
-					if ((HardwareRsrc->Hierarchy[0]->StartsWith("CM400") == true || HardwareRsrc->Hierarchy[0]->StartsWith("CM401") == true) &&
-						(ResourceManagerSett[siteIndex].ResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false) &&
-						(ResourceManagerSett[siteIndex].CMResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false))
+			cm = gcnew array<CM ^>(tl->glob->tf.NumberOfSites);
+
+			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+			{
+				if (ResourceManagerSett[siteIndex].CM_HardwareStatus)
+				{
+					cm[siteIndex] = gcnew CM(tl->glob->HardwareProfile, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
+				}
+			}
+
+			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+			{
+				if (ResourceManagerSett[siteIndex].CM_HardwareStatus)
+				{
+					for each (String ^ Rsrc in ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->MapNames)
 					{
-						for (count = 0; count < moduleCount[siteIndex]; count++)
+						Resource ^ HardwareRsrc = ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->ResolveResource(Rsrc)[0];
+						IsModuleAlias = false;
+
+						if ((HardwareRsrc->Hierarchy[0]->StartsWith("CM400") == true || HardwareRsrc->Hierarchy[0]->StartsWith("CM401") == true) &&
+							(ResourceManagerSett[siteIndex].ResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false) &&
+							(ResourceManagerSett[siteIndex].CMResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false))
 						{
-							if (Rsrc == moduleAlias[siteIndex][count])
+							for (count = 0; count < moduleCount[siteIndex]; count++)
 							{
-								IsModuleAlias = true;
+								if (Rsrc == moduleAlias[siteIndex][count])
+								{
+									IsModuleAlias = true;
+								}
 							}
-						}
 
-						if (IsModuleAlias == false)
-						{
-							ResourceManagerSett[siteIndex].CMResourceAlias->Add(Rsrc, 1);
-						}
+							if (IsModuleAlias == false)
+							{
+								ResourceManagerSett[siteIndex].CMResourceAlias->Add(Rsrc, 1);
+							}
 
-						ResourceManagerSett[siteIndex].ResourceAlias->Add(HardwareRsrc->Alias->ToString(), 1);
+							ResourceManagerSett[siteIndex].ResourceAlias->Add(HardwareRsrc->Alias->ToString(), 1);
+						}
 					}
+
+					//Configure module alias only 
+					for (int count = 0; count < moduleCount[siteIndex]; count++)
+					{
+						/* 1. In multi site mode, DLL do lock down resource to prevent other thread from accessing it thus allowing every thread to function properly but it incurs more test time.
+						* 2. In single site mode, DLL do not lock down resource so it incurs lesser test time..
+						*
+						*	0 : DM_CONST_SINGLE_SITE
+						*	1 : DM_CONST_MULTI_SITE*/
+
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing cm[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 1)");
+						tl->CheckError(siteIndex, cm[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], CM_CONST_MULTI_SITE));
+					}
+
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "CM[site " + siteIndex + "] initialized");
 				}
 
-				//Configure module alias only 
-				for (int count = 0; count < moduleCount[siteIndex]; count++)
-				{
-					/* 1. In multi site mode, DLL do lock down resource to prevent other thread from accessing it thus allowing every thread to function properly but it incurs more test time.
-					* 2. In single site mode, DLL do not lock down resource so it incurs lesser test time..
-					*
-					*	0 : DM_CONST_SINGLE_SITE
-					*	1 : DM_CONST_MULTI_SITE*/
-
-					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing cm[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 1)");
-					tl->CheckError(siteIndex, cm[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], CM_CONST_MULTI_SITE));
-				}
-
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "CM[site " + siteIndex + "] initialized");
 			}
-
 		}
-
+		catch (Exception ^ ex)
+		{
+			ret = ER_CONST_INIT_CM_HARDWARE_FAIL;
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->Message;
+			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+			{
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[Load -> InitializeCM400eResource] Fail to initialize CM series hardware. | Error Code: " + ret.ToString() + " | Detail: " + ex->Message);
+				tl->CheckError(siteIndex, ER_CONST_ERROR_CATCH);
+			}
+		}
 		return ret;
 	}
+
+
 	int Module400Series::UninitializeCM400eResource(Site ^ site)
 	{
 		int ret = 0;

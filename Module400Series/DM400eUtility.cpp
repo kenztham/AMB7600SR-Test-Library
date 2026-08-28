@@ -123,15 +123,15 @@ namespace Functions
 			{
 				if (controlCondition->Name->StartsWith("DmModuleVectorMode_"))
 				{
-					CondNametemp = controlCondition->Name->Split(Separators, System::StringSplitOptions::None);;
+					CondNametemp = controlCondition->Name->Split(Separators, System::StringSplitOptions::None);
 					moduleAliasRunVector[count] = CondNametemp[1];
 					exisAmaptModuleAliasRunVector[count] = false;
 
-					communicationProtocol[count] = Convert::ToString(((ControlItem ^)site->CurrentFlowItem)->Conditions[controlCondition->Name][siteIndex]->Value);
+					Condition^ condObj = ControlConditionCollection[controlCondition->Name];
+					communicationProtocol[count] = Convert::ToString(condObj[site]->Value);
 					count++;
 				}
 			}
-
 			for (int i = 0; i < moduleAlias->Length; i++)
 			{
 				for (int j = 0; j < moduleAliasRunVector->Length; j++)
@@ -146,7 +146,7 @@ namespace Functions
 			{
 				if (exisAmaptModuleAliasRunVector[i] == false)
 				{
-					String^ ErrorMessage = " ModuleAlias: " + moduleAliasRunVector[i] + "that Stated at the Test Flow ControlItem Condition is not found in Resource Amap. Please check  DmModuleVectorMode_" + moduleAliasRunVector[i] + ".";
+					String^ ErrorMessage = " ModuleAlias: " + moduleAliasRunVector[i] + "that Stated at the Test Flow ControlItem Condition is not found in Resource Amap. Please check DmModuleVectorMode_" + moduleAliasRunVector[i] + ".";
 					tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
 					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), ErrorMessage);
 				}
@@ -160,10 +160,8 @@ namespace Functions
 			communicationProtocol = gcnew array <String^>(moduleAliasRunVectorCount);
 			RunVector = false;
 		}
-
 		return RunVector;
 	}
-
 	int Module400Series::CastTimingSetPeriodControlItem(Site ^ site, int siteIndex)
 	{
 		// [7600 original architecture] Dynamically parses timing set period control items from Test Flow conditions
@@ -192,7 +190,9 @@ namespace Functions
 			{
 				if (controlCondition->Name->StartsWith("TimingSet_" + count.ToString()))
 				{
-					tl->glob->TimingSetPeriod[siteIndex][count] = Convert::ToDouble(((ControlItem ^)site->CurrentFlowItem)->Conditions[controlCondition->Name][siteIndex]->Value);
+					// Step-by-step extraction fixes C++/CLI syntax parsing and uses the Site handle [site]
+					Condition^ condObj = ControlConditionCollection[controlCondition->Name];
+					tl->glob->TimingSetPeriod[siteIndex][count] = Convert::ToDouble(condObj[site]->Value);
 					count++;
 				}
 			}
@@ -214,7 +214,6 @@ namespace Functions
 
 		return ret;
 	}
-
 	int Module400Series::CastDpinLevelControlItem(Site ^ site, int siteIndex)
 	{
 		// [7600 original architecture] Dynamically casts DPin level conditions (VIH, VIL, VOH, etc.) from Test Flow
@@ -303,8 +302,10 @@ namespace Functions
 			{
 				for (int j = 0; j < TotalDPinCondition; j++)
 				{
+					String^ condName = DPinCondition[j] + "_" + i.ToString();
 					DPinConditionVal[i]->Add(DPinCondition[j], 999);
-					DPinConditionVal[i][DPinCondition[j]] = Convert::ToDouble(((Condition^)ControlConditionCollection[DPinCondition[j] + "_" + i.ToString()])[siteIndex]->Value);
+					Condition^ condObj = (Condition^)ControlConditionCollection[condName];
+					DPinConditionVal[i][DPinCondition[j]] = Convert::ToDouble(condObj[site]->Value);
 				}
 
 				tl->glob->DPinLevelSet[siteIndex]->Add(DPinConditionVal[i]);
@@ -340,7 +341,7 @@ namespace Functions
 		PEAttCondition[1] = "HVEnable";
 		PEAttCondition[2] = "ActiveLoadEnable";
 		PEAttCondition[3] = "DifferentialComparatorEnable";
-
+		
 		try
 		{
 			ConditionCollection ^ ControlConditionCollection = gcnew ConditionCollection();
@@ -419,8 +420,11 @@ namespace Functions
 			{
 				for (int j = 0; j < TotalPEAttCondition; j++)
 				{
-					PEAttConditionVal[i]->Add(PEAttCondition[j], 999);
-					PEAttConditionVal[i][PEAttCondition[j]] = Convert::ToBoolean(ControlConditionCollection[PEAttCondition[j] + "_" + i.ToString()]->Values[siteIndex]->Value);
+					String^ condName = PEAttCondition[j] + "_" + i.ToString();
+					PEAttConditionVal[i]->Add(PEAttCondition[j], false);
+					ControlItem^ ctrlItem = (ControlItem^)site->CurrentFlowItem;
+					Condition^ condObj = ctrlItem->Conditions[condName];
+					PEAttConditionVal[i][PEAttCondition[j]] = Convert::ToBoolean(condObj[site]->Value);
 				}
 				tl->glob->PEAttributeSet[siteIndex]->Add(PEAttConditionVal[i]);
 			}
@@ -468,7 +472,6 @@ namespace Functions
 
 		return ret;
 	}
-
 
 
 	//VECTOR LOADING ARCHITECTURE (from 7300) Lightweight and isolated routine that purely allocates hardware memory and loads.vec files.
@@ -955,10 +958,13 @@ namespace Functions
 			Resource ^ HardwareRsrc = ResourceManagerSett[testSite].RsrcManager[testSite]->ResolveResource(dataPinAlias)[0];
 			int dataPinChannel = Convert::ToInt32(HardwareRsrc->Value);
 
+			int vecFileNum = tl->glob->VectorSetNumber[VectorFileName];
+
 			for (int i = 0; i < readOperationCount; i++)
 			{
-				int startLoc = tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[tl->glob->VectorSetNumber[VectorFileName]][i];
-				int vecFileNum = tl->glob->VectorSetNumber[VectorFileName];
+				// Step-by-step extraction solves C++/CLI indexing ambiguity
+				array<int>^ startLocArr = tl->glob->VectorFileManager[testSite].l_Start_Read_Location_Single_VectorFile[vecFileNum];
+				int startLoc = startLocArr[i];
 
 				tl->CheckError(testSite, dm[testSite]->ReadHistoryRam(DM_Module_Alias, readBackVecCount, startLoc, vecFileNum, readBackArrRaw));
 
@@ -969,7 +975,7 @@ namespace Functions
 				{
 					int bitVal = (readBackArrRaw[readRawLineIndex] >> (dataPinChannel * 2)) & 0x000003;
 
-					// Detect undefined binary 10 signal states (7300)
+					// Detect undefined binary 10 signal states
 					if (bitVal == 2)
 					{
 						ReadHistoryRam_Data[i] = 999;
@@ -1204,8 +1210,30 @@ namespace Functions
 	{
 		int ret = 0;
 		DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_VECTOR);
-		DM_ConfigureDPINLevelVector(testSite, PIN, tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VTERM"]);
-		DM_ConfigurePEAttribute(testSite, PIN, tl->glob->PEAttributeSet[testSite][PEAttSet]["InputTermEnable"], tl->glob->PEAttributeSet[testSite][PEAttSet]["HVEnable"], tl->glob->PEAttributeSet[testSite][PEAttSet]["ActiveLoadEnable"], tl->glob->PEAttributeSet[testSite][PEAttSet]["DifferentialComparatorEnable"]);
+		Dictionary<String^, double>^ dpinMap = tl->glob->DPinLevelSet[testSite][DPinLevelSet];
+		Dictionary<String^, bool>^ peAttMap = tl->glob->PEAttributeSet[testSite][PEAttSet];
+     	DM_ConfigureDPINLevelVector(
+			testSite,
+			PIN,
+			dpinMap["VIH"],
+			dpinMap["VIL"],
+			dpinMap["VOH"],
+			dpinMap["VOL"],
+			dpinMap["IOH"],
+			dpinMap["IOL"],
+			dpinMap["VCH"],
+			dpinMap["VCL"],
+			dpinMap["VTERM"]
+		);
+		DM_ConfigurePEAttribute(
+			testSite,
+			PIN,
+			peAttMap["InputTermEnable"],
+			peAttMap["HVEnable"],
+			peAttMap["ActiveLoadEnable"],
+			peAttMap["DifferentialComparatorEnable"]
+		);
+
 		return ret;
 	}
 
@@ -1245,7 +1273,24 @@ namespace Functions
 	{
 		int ret = 0;
 		DM_OperationMode(testSite, PIN, DM_CONST_FORCE_STATE_DIO);
-		DM_ConfigureDPINLevelDIO(testSite, PIN, tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VIL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["IOL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCH"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VCL"], tl->glob->DPinLevelSet[testSite][DPinLevelSet]["VTERM"]);
+
+		// Local handle extraction resolves C++/CLI indexer parsing
+		Dictionary<String^, double>^ dpinMap = tl->glob->DPinLevelSet[testSite][DPinLevelSet];
+
+		DM_ConfigureDPINLevelDIO(
+			testSite,
+			PIN,
+			dpinMap["VIH"],
+			dpinMap["VIL"],
+			dpinMap["VOH"],
+			dpinMap["VOL"],
+			dpinMap["IOH"],
+			dpinMap["IOL"],
+			dpinMap["VCH"],
+			dpinMap["VCL"],
+			dpinMap["VTERM"]
+		);
+
 		DM_DioModeSetPinDirection(testSite, PIN, pinDirection);
 		return ret;
 	}
@@ -1310,7 +1355,7 @@ namespace Functions
 		return ret;
 	}
 
-	//PMU VOLTAGE & CURRENT MEASUREMENT ARCHITECTURE (From 7300) Note we decide to take back the 7600 architecture
+	//PMU VOLTAGE & CURRENT MEASUREMENT ARCHITECTURE (From 7600)
 	int Module400Series::DM_MeasureCurrent(int testSite, String ^ PIN, double % result)
 	{
 		int ret = 0;

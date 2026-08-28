@@ -94,98 +94,113 @@ namespace Functions
 	int Module400Series::InitializeIOM421eResource(Site ^ site)
 	{
 		int ret = 0;
-		int initOption = tl->glob->AWV.IOMInitOption;
-
-		array<array<String^>^>^ moduleAlias = nullptr;
-		array<int>^ moduleCount = gcnew array<int>(tl->glob->tf.NumberOfSites);
-
-		int count = 0;
-		bool IsModuleAlias = false;
-
-		moduleAlias = gcnew array<array<String^>^>(tl->glob->tf.NumberOfSites);
-
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+		try
 		{
-			moduleAlias[siteIndex] = GetDIOModuleAlias(site, siteIndex);
-			moduleCount[siteIndex] = moduleAlias[siteIndex]->Length;
-			InitIOMModuleAliasPreviousState(site, siteIndex, moduleAlias[siteIndex]);
-			if (moduleCount[siteIndex] > 0)
-			{
-				ResourceManagerSett[siteIndex].DIO_HardwareStatus = true;
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing IOM421e System Resources...");
-			}
-		}
+			int initOption = tl->glob->AWV.IOMInitOption;
 
-		dio = gcnew array<DIO ^>(tl->glob->tf.NumberOfSites);
+			array<array<String^>^>^ moduleAlias = nullptr;
+			array<int>^ moduleCount = gcnew array<int>(tl->glob->tf.NumberOfSites);
 
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
-		{
-			if (ResourceManagerSett[siteIndex].DIO_HardwareStatus)
-			{
-				dio[siteIndex] = gcnew DIO(tl->glob->HardwareProfile, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
-			}
-		}
+			int count = 0;
+			bool IsModuleAlias = false;
 
-		for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
-		{
-			if (ResourceManagerSett[siteIndex].DIO_HardwareStatus)
+			moduleAlias = gcnew array<array<String^>^>(tl->glob->tf.NumberOfSites);
+
+			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
 			{
-				for each (String ^ Rsrc in ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->MapNames)
+				moduleAlias[siteIndex] = GetDIOModuleAlias(site, siteIndex);
+				moduleCount[siteIndex] = moduleAlias[siteIndex]->Length;
+				InitIOMModuleAliasPreviousState(site, siteIndex, moduleAlias[siteIndex]);
+				if (moduleCount[siteIndex] > 0)
 				{
-					Resource ^ HardwareRsrc = ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->ResolveResource(Rsrc)[0];
-					IsModuleAlias = false;
+					ResourceManagerSett[siteIndex].DIO_HardwareStatus = true;
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initializing IOM421e System Resources...");
+				}
+			}
 
-					if ((HardwareRsrc->Hierarchy[0]->StartsWith("IOM421") == true) &&
-						(ResourceManagerSett[siteIndex].ResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false) &&
-						(ResourceManagerSett[siteIndex].DIOResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false))
+			dio = gcnew array<DIO ^>(tl->glob->tf.NumberOfSites);
+
+			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+			{
+				if (ResourceManagerSett[siteIndex].DIO_HardwareStatus)
+				{
+					dio[siteIndex] = gcnew DIO(tl->glob->HardwareProfile, tl->glob->tf.TestHead, siteIndex, tl->glob->AWV.Offline, initOption); //Initialize/reset all HW
+				}
+			}
+
+			for (int siteIndex = 0; siteIndex < tl->glob->tf.NumberOfSites; siteIndex++)
+			{
+				if (ResourceManagerSett[siteIndex].DIO_HardwareStatus)
+				{
+					for each (String ^ Rsrc in ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->MapNames)
 					{
-						for (count = 0; count < moduleCount[siteIndex]; count++)
-						{
-							if (Rsrc == moduleAlias[siteIndex][count])
-							{
-								IsModuleAlias = true;
-							}
-						}
+						Resource ^ HardwareRsrc = ResourceManagerSett[siteIndex].RsrcManager[siteIndex]->ResolveResource(Rsrc)[0];
+						IsModuleAlias = false;
 
-						if (IsModuleAlias == false)
+						if ((HardwareRsrc->Hierarchy[0]->StartsWith("IOM421") == true) &&
+							(ResourceManagerSett[siteIndex].ResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false) &&
+							(ResourceManagerSett[siteIndex].DIOResourceAlias->ContainsKey(HardwareRsrc->Alias->ToString()) == false))
 						{
-							if (HardwareRsrc->Type=="Port")
+							for (count = 0; count < moduleCount[siteIndex]; count++)
 							{
-								ResourceManagerSett[siteIndex].DIOResourcePortAlias->Add(Rsrc, 1);
+								if (Rsrc == moduleAlias[siteIndex][count])
+								{
+									IsModuleAlias = true;
+								}
 							}
-							else if (HardwareRsrc->Type == "Pin")
-							{
-								ResourceManagerSett[siteIndex].DIOResourceAlias->Add(Rsrc, 1);
-							}
-						}
 
-						ResourceManagerSett[siteIndex].ResourceAlias->Add(HardwareRsrc->Alias->ToString(), 1);
+							if (IsModuleAlias == false)
+							{
+								if (HardwareRsrc->Type == "Port")
+								{
+									ResourceManagerSett[siteIndex].DIOResourcePortAlias->Add(Rsrc, 1);
+								}
+								else if (HardwareRsrc->Type == "Pin")
+								{
+									ResourceManagerSett[siteIndex].DIOResourceAlias->Add(Rsrc, 1);
+								}
+							}
+
+							ResourceManagerSett[siteIndex].ResourceAlias->Add(HardwareRsrc->Alias->ToString(), 1);
+						}
 					}
+
+					//Configure module alias only 
+					for (int count = 0; count < moduleCount[siteIndex]; count++)
+					{
+						//tl->WriteToTcrLgr("SITE " + siteIndex.ToString() "Executing dio[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
+						//tl->CheckError(siteIndex, dio[siteIndex]->Reset(moduleAlias[siteIndex][count]));
+
+						/* 1. In multi site mode, DLL do lock down resource to prevent other thread from accessing it thus allowing every thread to function properly but it incurs more test time.
+						* 2. In single site mode, DLL do not lock down resource so it incurs lesser test time..
+						*
+						*	0 : DM_CONST_SINGLE_SITE
+						*	1 : DM_CONST_MULTI_SITE*/
+
+						tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dio[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 1)");
+						tl->CheckError(siteIndex, dio[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], IOM_CONST_MULTI_SITE));
+					}
+
+					InitIOMPortAliasPreviousState(site, siteIndex);
+					InitIOMPinAliasPreviousState(site, siteIndex);
+
+					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DIO[site " + siteIndex + "] initialized");
 				}
 
-				//Configure module alias only 
-				for (int count = 0; count < moduleCount[siteIndex]; count++)
-				{
-					//tl->WriteToTcrLgr("SITE " + siteIndex.ToString() "Executing dio[" + siteIndex + "]->Reset(" + moduleAlias[siteIndex][count] + ")");
-					//tl->CheckError(siteIndex, dio[siteIndex]->Reset(moduleAlias[siteIndex][count]));
-
-					/* 1. In multi site mode, DLL do lock down resource to prevent other thread from accessing it thus allowing every thread to function properly but it incurs more test time.
-					* 2. In single site mode, DLL do not lock down resource so it incurs lesser test time..
-					*
-					*	0 : DM_CONST_SINGLE_SITE
-					*	1 : DM_CONST_MULTI_SITE*/
-
-					tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Executing dio[" + siteIndex + "]->ConfigureMultiSiteMode(" + moduleAlias[siteIndex][count] + ", 1)");
-					tl->CheckError(siteIndex, dio[siteIndex]->ConfigureMultiSiteMode(moduleAlias[siteIndex][count], IOM_CONST_MULTI_SITE));
-				}
-
-				InitIOMPortAliasPreviousState(site, siteIndex);
-				InitIOMPinAliasPreviousState(site, siteIndex);
-
-				tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "DIO[site " + siteIndex + "] initialized");
 			}
-
 		}
+		catch (Exception ^ ex)
+		{
+			ret = ER_INIT_INSTRUMENT_ERROR_OR_INCORRECT_RESOURCE_CONFIG;
+
+			tl->glob->TcrLgr.GlobalErrorMessage = ex->ToString();
+			tl->CheckError(0, ret);
+
+			String^ ErrorMessage = "Module400Series::InitializeIOM421eResource encountered an error: " + ex->Message + " | Error Code: " + ret.ToString();
+			tl->WriteToFileLgr(tl->glob->FileLog.FileNameDebugLog, ErrorMessage);
+			tl->WriteToTcrLgr("SITE 0", ErrorMessage);
+		}
+
 
 		return ret;
 	}

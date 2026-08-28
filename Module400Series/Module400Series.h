@@ -357,7 +357,7 @@ namespace Functions
 * Revision Log
 * $Log: AMB7600SR.h.rca$
 
-* v1.1.0.0 (20/4/2020), Wafiq
+* v1.1.0.0 (20/4/2020), 
 * Separate DC class from RF Test Library.
 
 * v1.0.0.0 (20/4/2020), Jack
