@@ -575,10 +575,16 @@ namespace Functions
 		int i = 0;
 
 		glob->GlobalResult	= gcnew array<Dictionary<String^, Object^>^>(TotalSite);
+		glob->GlobalResultArray	= gcnew array<Dictionary<String^, Object^>^>(TotalSite);
 		glob->TestResults	= gcnew array<array<Object^>^>(TotalSite);
 		for (i = 0; i < glob->GlobalResult->Length; i++)
 		{
 			glob->GlobalResult[i] = gcnew Dictionary<String^, Object^>();
+		}
+
+		for (i = 0; i < glob->GlobalResultArray->Length; i++)
+		{
+			glob->GlobalResultArray[i] = gcnew Dictionary<String^, Object^>();
 		}
 
 		if (glob->AWV.Debug == 1)

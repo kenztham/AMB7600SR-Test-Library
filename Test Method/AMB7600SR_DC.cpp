@@ -2439,51 +2439,95 @@ namespace Functions
 				}
 
 				//Cast the Value according to the Key
-				switch (dataType)
+				Object^ rawValue = tl->glob->GlobalResult[testSite][globalResultKey[i]];
+				if (rawValue->GetType() == double::typeid)
 				{
-				case DataType::Double:
-					GlobalResultValue_Double[i] = (double)tl->glob->GlobalResult[testSite][globalResultKey[i]];
-					break;
-				case DataType::Int32:
-					GlobalResultValue_Int32[i] = (int)tl->glob->GlobalResult[testSite][globalResultKey[i]];
-					break;
-				default:
-					break;
+					GlobalResultValue_Double[i] = (double)rawValue;
+				}
+				else if (rawValue->GetType() == int::typeid)
+				{
+					GlobalResultValue_Int32[i] = (int)rawValue;
+				}
+				else
+				{
+					throw gcnew Exception("Unsupported data type for variable: " + Variable[i] + ". Only scalar Int32 or Double are supported.");
 				}
 			}
 
 			//Replace the variable of the Expression to value(int or double)
 			for (int i = 0; i < VariableCount; i++)
 			{
-				if (expression->Contains(Variable[i]))
+				switch (dataType)
 				{
-					switch (dataType)
-					{
-					case DataType::Double:
-						NewString = GlobalResultValue_Double[i].ToString("f20");
-						break;
-					case DataType::Int32:
-						NewString = GlobalResultValue_Int32[i].ToString("f20");
-						break;
-					default:
-						break;
-					}
-					expression = expression->Replace(Variable[i], NewString);
+				case DataType::Double:
+					NewString = GlobalResultValue_Double[i].ToString("f20");
+					break;
+				case DataType::Int32:
+					NewString = GlobalResultValue_Int32[i].ToString("f20");
+					break;
+				default:
+					break;
 				}
+
+				// This ensures "a" gets replaced, but the "a" in "abs" is ignored
+				String^ pattern = "\\b" + Regex::Escape(Variable[i]) + "\\b";
+				expression = Regex::Replace(expression, pattern, NewString);
 			}
 
-			//Checking any Variable that are not assigned by value on the expression
-			for each(Match ^match in rgx->Matches(expression))
-			{
-				String ^ Value = match->Value;
+			// Remove known math functions from a temporary string to check for stray variables
+			String^ tempCheck = Regex::Replace(expression, "\\b(abs|sqrt|pow|sin|cos|tan)\\b", "", RegexOptions::IgnoreCase);
+			Match^ strayVarMatch = Regex::Match(tempCheck, "\\b[a-zA-Z]+\\b");
 
-				ErrorMessage = "Test Condition [" + TM + "ResultKey_" + Value + "] is not found.";
+			if (strayVarMatch->Success)
+			{
+				ErrorMessage = "Test Condition [" + TM + "ResultKey_" + strayVarMatch->Value + "] is not found or invalid.";
 				throw gcnew Exception(ErrorMessage);
 			}
 
+			// Regex to find the innermost math functions, e.g., "sqrt(16)" or "pow(2,3)"
+			Regex^ mathRegex = gcnew Regex("\\b(abs|sqrt|pow|sin|cos|tan)\\(([^()]+)\\)", RegexOptions::IgnoreCase);
+			Match^ match = mathRegex->Match(expression);
+
+			while (match->Success)
+			{
+				String^ funcName = match->Groups[1]->Value->ToLower();
+				String^ innerExpression = match->Groups[2]->Value;
+				double computedValue = 0.0;
+
+				if (funcName == "pow")
+				{
+					// Handle pow(x,y)
+					array<String^>^ powArgs = innerExpression->Split(',');
+					if (powArgs->Length != 2) throw gcnew Exception("pow() requires two arguments separated by a comma.");
+
+					// Compute base and exponent just in case they are formulas like pow(2+2, 3)
+					double baseVal = Convert::ToDouble(dt->Compute(powArgs[0]->Trim(), ""));
+					double expVal = Convert::ToDouble(dt->Compute(powArgs[1]->Trim(), ""));
+					computedValue = Math::Pow(baseVal, expVal);
+				}
+				else
+				{
+					// Handle single-argument functions
+					// Use dt->Compute to evaluate the inner math first (e.g., '12 + 4' inside 'sqrt(12+4)')
+					double innerResult = Convert::ToDouble(dt->Compute(innerExpression, ""));
+
+					if (funcName == "abs") computedValue = Math::Abs(innerResult);
+					else if (funcName == "sqrt") computedValue = Math::Sqrt(innerResult);
+					else if (funcName == "sin") computedValue = Math::Sin(innerResult);
+					else if (funcName == "cos") computedValue = Math::Cos(innerResult);
+					else if (funcName == "tan") computedValue = Math::Tan(innerResult);
+				}
+
+				// Replace the specific evaluated chunk (e.g., "sqrt(16)") with its result ("4.000")
+				expression = expression->Replace(match->Value, computedValue.ToString("f20"));
+
+				// Search again in case there are nested functions like abs(sqrt(16))
+				match = mathRegex->Match(expression);
+			}
+			
 			//Computation the Expression 
 			Answer = dt->Compute(expression, "");
-
+			
 #pragma endregion "Test"
 
 			//>>>>>>>>>>>>>>>>>>>> Update Test Results <<<<<<<<<<<<<<<<<<<<

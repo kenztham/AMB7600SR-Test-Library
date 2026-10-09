@@ -429,6 +429,7 @@ namespace Functions
 		///////////////////////////////////////////////////////
 		array<array<Object^>^>^ TestResults;
 		array<Dictionary<String ^, Object^>^>^ GlobalResult;// Key:TestItemName Value:Result
+		array<Dictionary<String ^, Object^>^>^ GlobalResultArray;// Key:TestItemName Value:Result
 
 															///////////////////////////////////////////////////////
 															//DataType Result

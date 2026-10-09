@@ -655,14 +655,14 @@ namespace Functions
 
 			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
 
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSG"))
 			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				ConditionInfo = testConditionCollection["ModuleAliasVSG"][site];
 				moduleAlias = (String^)ConditionInfo->Value;
 			}
 			else
 			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSG" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 			if ((bool)testConditionCollection->ContainsKey("ModulationFile"))
@@ -814,14 +814,14 @@ namespace Functions
 			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
 			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
 
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSG"))
 			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				ConditionInfo = testConditionCollection["ModuleAliasVSG"][site];
 				moduleAlias = (String^)ConditionInfo->Value;
 			}
 			else
 			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSG" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 
@@ -882,14 +882,14 @@ namespace Functions
 			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
 
 
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSG"))
 			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				ConditionInfo = testConditionCollection["ModuleAliasVSG"][site];
 				moduleAlias = (String^)ConditionInfo->Value;
 			}
 			else
 			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSG" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 			if ((bool)testConditionCollection->ContainsKey("Enable"))
@@ -979,14 +979,14 @@ namespace Functions
 			//>>>>>>>>>>>>>>>>>>>> Compulsory <<<<<<<<<<<<<<<<<<<<
 			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
 
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSG"))
 			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				ConditionInfo = testConditionCollection["ModuleAliasVSG"][site];
 				moduleAlias = (String^)ConditionInfo->Value;
 			}
 			else
 			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSG" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 			if ((bool)testConditionCollection->ContainsKey("Enable"))
@@ -1077,14 +1077,14 @@ namespace Functions
 			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
 
 
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSA"))
 			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				ConditionInfo = testConditionCollection["ModuleAliasVSA"][site];
 				moduleAlias = (String^)ConditionInfo->Value;
 			}
 			else
 			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSA" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 			if ((bool)testConditionCollection->ContainsKey("Enable"))
@@ -1176,14 +1176,14 @@ namespace Functions
 			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
 
 
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSG"))
 			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				ConditionInfo = testConditionCollection["ModuleAliasVSG"][site];
 				moduleAlias = (String^)ConditionInfo->Value;
 			}
 			else
 			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSG" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 			if ((bool)testConditionCollection->ContainsKey("Enable"))
@@ -1284,14 +1284,14 @@ namespace Functions
 			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
 
 
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSA"))
 			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				ConditionInfo = testConditionCollection["ModuleAliasVSA"][site];
 				moduleAlias = (String^)ConditionInfo->Value;
 			}
 			else
 			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSA" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 			if ((bool)testConditionCollection->ContainsKey("Enable"))
@@ -1397,14 +1397,14 @@ namespace Functions
 
 			ConditionInSite ^ ConditionInfo = gcnew ConditionInSite();
 
-			if ((bool)testConditionCollection->ContainsKey("ModuleAlias"))
+			if ((bool)testConditionCollection->ContainsKey("ModuleAliasVSG"))
 			{
-				ConditionInfo = testConditionCollection["ModuleAlias"][site];
+				ConditionInfo = testConditionCollection["ModuleAliasVSG"][site];
 				moduleAlias = (String^)ConditionInfo->Value;
 			}
 			else
 			{
-				ErrorMessage = "Test Condition [" + CM + "ModuleAlias" + "] is not found.";
+				ErrorMessage = "Test Condition [" + CM + "ModuleAliasVSG" + "] is not found.";
 				throw gcnew Exception(ErrorMessage);
 			}
 
