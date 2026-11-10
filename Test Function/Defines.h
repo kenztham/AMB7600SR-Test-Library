@@ -2242,6 +2242,7 @@ UUTOffset:		Supported.
 
 #pragma region "VNA_TestMethods"
 #define VNACase_VnaDataAnalysis				6101
+#define VNACase_VnaSwTime				6102
 #pragma endregion "VNA_TestMethods"
 
 #pragma region "DC_ErrorCode"
@@ -2483,6 +2484,7 @@ UUTOffset:		Supported.
 #define ER_CONST_I2C_VECTOR_READ_BACK_HISTORYRAM_FAIL					-3234
 #define ER_CONST_I2C_VECTOR_READ_BACK_FAILCOUNT_FAIL					-3235
 #define ER_CONST_DM_RUN_VECTOR_FAIL										-3236
+#define ER_CONST_CONFIGURE_DM_OUTPUT_TRIGGER_FAIL						-3237
 /*
 **	----------------------------------------------------------------------------------------------------
 **	DM Related - VectorStateFile Content Checking (DM400Utility.cpp)
@@ -2591,6 +2593,7 @@ UUTOffset:		Supported.
 #define ER_CONST_CONFIGURE_POWERSWEEP_SETTING_FAIL						-3633
 #define ER_CONST_GET_TOTAL_ACTIVE_CHANNEL_FAIL							-3634
 #define ER_CONST_SET_PORT_MATCHING_CIRCUIT_FAIL							-3635
+#define ER_CONST_SWITCHING_TIME_FETCH_DATA_FAIL							-3636
 /*
 **	----------------------------------------------------------------------------------------------------
 **	Helper Function (AMB7300.cpp)
@@ -2598,6 +2601,7 @@ UUTOffset:		Supported.
 */
 #define ER_CONST_GET_VNA_ACTIVE_CHANNEL_FAIL							-3701
 #define ER_CONST_GET_TEST_PARAMETER_PHASE_TYPE_FAIL						-3702
+#define ER_CONST_UPDATE_CONTROL_STEP_RESULT_TO_DICT_FAIL				-3803
 /*
 **	----------------------------------------------------------------------------------------------------
 **	Update Result (techFlow.cpp)
@@ -2621,6 +2625,8 @@ UUTOffset:		Supported.
 #define ER_CONST_VNAFETCH_CONDITION_NAME_NOT_FOUND						-4006	
 #define ER_CONST_VNADATAANALYSIS_CONDITION_NAME_NOT_FOUND				-4007	
 #define ER_CONST_MATH_CONDITION_NAME_NOT_FOUND							-4008
+#define ER_CONST_DMCONTROL_CONDITION_NAME_NOT_FOUND						-4009	
+#define ER_CONST_VNASWTIME_CONDITION_NAME_NOT_FOUND						-4010	
 /*
 **	----------------------------------------------------------------------------------------------------
 **	Condition Value Related
@@ -2634,6 +2640,7 @@ UUTOffset:		Supported.
 #define ER_CONST_VNAFETCH_CONDITION_VALUE_INPUT_INVALID					-4106	
 #define ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID			-4107	
 #define ER_CONST_MATH_CONDITION_VALUE_INPUT_INVALID						-4108
+#define ER_CONST_VNASWTIME_CONDITION_VALUE_INPUT_INVALID				-4109	
 /*
 **	----------------------------------------------------------------------------------------------------
 **	Other @ TestMethod.cpp
@@ -2721,7 +2728,8 @@ UUTOffset:		Supported.
 #define ConditionCount_VnaConfig										7
 #define ConditionCount_VnaFetch											5
 #define ConditionCount_VnaDataAnalysis									9
-#define ConditionCount_MathTest											3
+#define ConditionCount_MathTest											1
+#define ConditionCount_VnaSwTime										5
 /*
 **	----------------------------------------------------------------------------------------------------
 **	Condition Name ---> DcControl
@@ -2773,6 +2781,16 @@ UUTOffset:		Supported.
 **	----------------------------------------------------------------------------------------------------
 */
 #define PatternTestConditionName_ReturnIndex							"ReturnIndex"
+/*
+**	----------------------------------------------------------------------------------------------------
+**	Condition Name ---> DmControl
+**	----------------------------------------------------------------------------------------------------
+*/
+#define DmControlConditionName_ControlFunction							"ControlFunction"
+#define DmControlConditionName_ControlFunction_							"ControlFunction_"
+#define DmControlConditionName_ModuleAlias								"ModuleAlias"
+#define DmControlConditionName_TriggerOutput0							"TriggerOutput0"
+#define DmControlConditionName_TriggerOutput1							"TriggerOutput1"
 /*
 **	----------------------------------------------------------------------------------------------------
 **	Condition value selection list ---> Math
@@ -2831,12 +2849,26 @@ UUTOffset:		Supported.
 #define VnaDataAnalysisConditionName_OutputType							"OutputType"
 #define VnaDataAnalysisConditionName_OutputFormat						"OutputFormat"
 #define VnaDataAnalysisConditionName_Threshold							"Threshold"
+#define VnaDataAnalysisConditionName_ChannelUse							"ChannelUse"
 #define VnaDataAnalysisConditionName_Power								"Power"
 #define VnaDataAnalysisConditionName_Power_								"Power_"
 #define VnaDataAnalysisConditionName_PowerRangeStart						"PowerRangeStart"
 #define VnaDataAnalysisConditionName_PowerRangeStart_					"PowerRangeStart_"
 #define VnaDataAnalysisConditionName_PowerRangeStop						"PowerRangeStop"
 #define VnaDataAnalysisConditionName_PowerRangeStop_						"PowerRangeStop_"
+#pragma endregion
+
+/*
+**	----------------------------------------------------------------------------------------------------
+**	Condition Name ---> VnaSwTime
+**	----------------------------------------------------------------------------------------------------
+*/
+#define VnaSwTimeConditionName_MeasureType							"MeasureType"
+#define VnaSwTimeConditionName_DMModuleAlias						"DMModuleAlias"
+#define VnaSwTimeConditionName_DMVectorTrigger						"DMVectorTrigger"
+#define VnaSwTimeConditionName_AnalysisSetting						"AnalysisSetting"
+#define VnaSwTimeConditionName_OutputType							"OutputType"
+#define VnaSwTimeConditionName_OutputFormat							"OutputFormat"
 #pragma endregion
 
 #pragma region"AMB7300 Test Libray -> Math Function"
@@ -2848,6 +2880,8 @@ UUTOffset:		Supported.
 #define MathConditionName_Function										"MathFunction"
 #define MathConditionName_TP1											"MathTP1"
 #define MathConditionName_TP2											"MathTP2"
+#define MathConditionName_IncludeOffset									"IncludeOffset"
+#define ResultKey_														"ResultKey_"
 #pragma endregion
 
 #pragma region "AMB7300 Test Library -> Condition Value Selection Definition"
@@ -2870,6 +2904,7 @@ UUTOffset:		Supported.
 #define Cond_ControlFunction_DM_PMU_DICV								"DICV"
 #define Cond_ControlFunction_DM_PE										"PE"
 #define Cond_ControlFunction_DM_DIO										"DIO"
+#define Cond_ControlFunction_DM_ConfigureOutputTrigger					"ConfigureOutputTrigger"
 #define Cond_ControlFunction_IOM_xxx									""
 #define Cond_ControlFunction_ACM_xxx									""
 #define Cond_ControlFunction_TMU_xxx									""
@@ -2930,6 +2965,7 @@ UUTOffset:		Supported.
 #define Cond_SweepType_PowerSweep										"PowerSweep"
 #define Cond_SweepType_GetFromStateFile									"GetFromStateFile"
 #define Cond_SweepType_SharedMemoryTransfer								"SharedMemoryTransfer"
+#define Cond_SweepType_CWTime											"CWTime"
 /* special handle StartFreq, StopFreq, Points, Ifbw, Power, Delay */
 /*
 **	----------------------------------------------------------------------------------------------------
@@ -3169,7 +3205,7 @@ UUTOffset:		Supported.
 #define Cond_SaveSnpData_SNPFormat_dBAngle								"dB_Angle"
 /*
 **	----------------------------------------------------------------------------------------------------
-**	Condition value selection list ---> VnaDataAnalysis
+**	Condition value selection list ---> VnaDataAnalysis & VnaSwTime
 **	----------------------------------------------------------------------------------------------------
 */
 /* special handle TraceIndex */
@@ -3190,12 +3226,16 @@ UUTOffset:		Supported.
 #define Cond_Function_P1dB												"P1dB"
 #define Cond_Function_P1dBTarget										"P1dBTarget"
 #define Cond_Function_SharedMemoryDataP1dB								"SharedMemoryDataP1dB"
+#define Cond_Function_TraceData_Sds										"TraceData_Sds"
+
 // ms Generic
 #define Cond_AnalysisSetting_GenericMS_Enable_SearchRangeOn				"SearchRangeOn"
 #define Cond_AnalysisSetting_GenericMS_Enable_SearchRangeOff			"SearchRangeOff"
+
 // msMinMax
 #define Cond_AnalysisSetting_MS_Type_Maximum							"Max"
 #define Cond_AnalysisSetting_MS_Type_Minimum							"Min"
+
 // msPeak
 #define Cond_AnalysisSetting_MSPeak_Type_SearchPeak						"SearchPeak"
 #define Cond_AnalysisSetting_MSPeak_Type_SearchMaxPeak					"SearchMaxPeak"
@@ -3205,6 +3245,7 @@ UUTOffset:		Supported.
 #define Cond_AnalysisSetting_MSPeak_PeakPolarity_Positive				"Positive"
 #define Cond_AnalysisSetting_MSPeak_PeakPolarity_Negative				"Negative"
 #define Cond_AnalysisSetting_MSPeak_PeakPolarity_Both					"Both"
+
 // msTarget
 #define Cond_AnalysisSetting_MSTarget_Type_SearchTarget					"SearchTarget"
 #define Cond_AnalysisSetting_MSTarget_Type_SearchTargetLeft				"SearchTargetLeft"
@@ -3215,9 +3256,11 @@ UUTOffset:		Supported.
 #define Cond_AnalysisSetting_MSTarget_TargetTransition_Both				"Both"
 #define Cond_AnalysisSetting_MSTarget_Enable_TargetLineOn				"TargetLineOn"
 #define Cond_AnalysisSetting_MSTarget_Enable_TargetLineOff				"TargetLineOff"
+
 // mmStatistics
 #define Cond_AnalysisSetting_MMStatistics_Enable_StatisticsRangeOn		"StatisticsRangeOn"
 #define Cond_AnalysisSetting_MMStatistics_Enable_StatisticsRangeOff		"StatisticsRangeOff"
+
 // mmBwSearch
 #define Cond_AnalysisSetting_MMBwSearch_Type_Bandpass					"Bandpass"
 #define Cond_AnalysisSetting_MMBwSearch_Type_Notch						"Notch"
@@ -3225,12 +3268,31 @@ UUTOffset:		Supported.
 #define Cond_AnalysisSetting_MMBwSearch_SearchRef_Maximum				"Max"
 #define Cond_AnalysisSetting_MMBwSearch_SearchRef_Minimum				"Min"
 #define Cond_AnalysisSetting_MMBwSearch_SearchRef_Peak					"Peak"	// Keysight VNA
+
+// SdsSearch
+#define Cond_AnalysisSetting_TraceData_Sds_SdsSearch					"SdsSearch"
+#define Cond_AnalysisSetting_TraceData_Sds_Sdd22Search					"Sdd22Search"
+#define Cond_AnalysisSetting_TraceData_Sds_AmpImbalance					"AmpImbalance"
+#define Cond_AnalysisSetting_TraceData_Sds_PhaseImbalance				"PhaseImbalance"
+#define Cond_AnalysisSetting_TraceData_Sds_ComRejectRatio				"ComRejectRatio"
+#define Cond_AnalysisSetting_TraceData_Sds_S21Search					"S21Search"
+#define Cond_AnalysisSetting_TraceData_Sds_S11Search					"S11Search"
+
 // P1dB
 #define Cond_AnalysisSetting_P1dB_Pin									"Pin"
 #define Cond_AnalysisSetting_P1dB_Pout									"Pout"
 #define Cond_AnalysisSetting_P1dB_Gain									"Gain"
 /* special handle mmBwSearch_BandwidthValue */
 #define Cond_AnalysisSetting_MMBwSearch_Abs_SearchRef_Condition			"Abs"
+
+// VnaSwTime
+#define Cond_AnalysisSetting_VnaSwTime_Rising							"Rising"
+#define Cond_AnalysisSetting_VnaSwTime_Falling							"Falling"
+#define Cond_AnalysisSetting_VnaSwTime_MovingAvgOn						"MovingAvgOn"
+#define Cond_AnalysisSetting_VnaSwTime_MovingAvgOff						"MovingAvgOff"
+#define Cond_AnalysisSetting_VnaSwTime_SearchLimitOn					"SearchLimitOn"
+#define Cond_AnalysisSetting_VnaSwTime_SearchLimitOff					"SearchLimitOff"
+
 // mmFlatness -- NA
 #define Cond_SmoothingSetting_Enable_SmoOn								"SmoOn"
 #define Cond_SmoothingSetting_Enable_SmoOff								"SmoOff"
@@ -3264,6 +3326,14 @@ UUTOffset:		Supported.
 #define Cond_OutputFormat_SmithGJB_CapInduc								"CapInduc"
 #define Cond_OutputFormat_Power_Watt									"Watt"
 #define Cond_OutputFormat_Power_dBm										"dBm"
+#define Cond_OutputFormat_VnaSwTime_Time								"Time"
+#define Cond_OutputFormat_VnaSwTime_MaxPower							"MaxPower"
+#define Cond_OutputFormat_VnaSwTime_MinPower							"MinPower"
+#define Cond_OutputFormat_VnaSwTime_AvgPower							"AvgPower"
+
+// VnaSwTime
+#define Cond_MeasureType_DM_PXIE9852											"DM+PXIE9852"
+
 #pragma endregion
 
 #pragma region "AMB7300 Test Library -> TestRecipes Phase Name Definition"
@@ -3278,8 +3348,11 @@ UUTOffset:		Supported.
 #define PHASE_CONST_PATTERN_TEST										"PatternTest"
 #define PHASE_CONST_VNA_CONFIG											"VnaConfig"
 #define PHASE_CONST_VNA_FETCH											"VnaFetch"
+#define PHASE_CONST_VNA_SWTIME											"VnaSwTime"
+#define PHASE_CONST_VNA_DATA_STORE										"VnaDataStore"
 #define PHASE_CONST_VNA_DATA_ANALYSIS									"VnaDataAnalysis"
 #define PHASE_CONST_MATH												"Math"
+#define PHASE_CONST_DM_CONTROL											"DmControl"
 #pragma endregion
 
 #pragma region "AMB7300 Test Library -> Warning Message Box Definition"
@@ -3546,6 +3619,7 @@ UUTOffset:		Supported.
 #define Vna_Stimulus_SweepType_LogFreq									"LogFreq"	
 #define Vna_Stimulus_SweepType_Segment									"Segment"	
 #define Vna_Stimulus_SweepType_PowerSweep								"PowerSweep"	
+#define Vna_Stimulus_SweepType_CWTime									"CWTime"	
 #define Vna_SweepType_GetFromStateFile									"GetFromStateFile"	
 #define Vna_SharedMemoryTransfer										"SharedMemoryTransfer"
 #define Vna_SharedMemoryTransfer_PowerSweep								"SharedMemoryTransferPower"
@@ -3819,6 +3893,25 @@ UUTOffset:		Supported.
 /*----------------------------------------------------------------------
 * Revision Log
 * $Log: Defines.h.rca$
+
+*** Version	: v1.0.0.5
+*** Date	: 2 September 2026
+*** PIC		: Xuli & Zhi Kean
+* Updated General constants
+
+*** Version	: v1.0.0.4
+*** Date	: 4 April 2025
+*** PIC		: Tham Zhi Kean
+* Add PowerSweep & P1dB related constants
+* Add HighPwrTest related constants
+* Add PortMatchingX related constants
+
+*** Version	: v1.0.0.3
+*** Date	: 18 February 2025
+*** PIC		: Tham Zhi Kean
+* Add ER_CONST_SHARE_MEMORY_GET_CHANNEL_FREQ_POINT_FAIL
+* Add ER_CONST_PROGRAMDATA_AEM_AMB7300_STATEMAPPINGFILE_CHANNEL_NOT_MATCH
+* Updated Condition Name ---> App-Wide-Variables & Init Program --->>> App-Wide-Variable
 
 *** Version	: v1.0.0.2
 *** Date	: 29 July 2026

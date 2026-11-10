@@ -969,6 +969,7 @@ namespace Functions
 		value struct FlowVariablesProperty
 		{
 			bool AssemblyResolver;								// Set True to perform assembly resolve if the loading of.dll / .exe turns out to be unsucessfull due to different DLL Encryptor used for encryption, else False to by-pass the Assembly Resolve via current domain event handler.
+			bool bypass_HardwareInit;
 		};
 		FlowVariablesProperty FLOWVAR;
 

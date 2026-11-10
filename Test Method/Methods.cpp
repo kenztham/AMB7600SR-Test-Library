@@ -90,6 +90,10 @@ namespace Functions
 		Dictionary_CM->TryAdd("RFCase_WolferSelectPath", RFCase_WolferSelectPath);
 		Dictionary_CM->TryAdd("RFCase_WolferSourcePower", RFCase_WolferSourcePower);
 
+		//RF_VNA_ControlMethods
+		Dictionary_CM->TryAdd("VNACase_VnaConfig", VNACase_VnaConfig);
+		Dictionary_CM->TryAdd("VNACase_VnaFetch", VNACase_VnaFetch);
+
 		for (int siteIndex = 0; siteIndex < totalSite; siteIndex++)
 		{
 			tl->WriteToTcrLgr("SITE " + siteIndex.ToString(), "Initialized Control Methods...");
@@ -105,8 +109,10 @@ namespace Functions
 		Dictionary_TM->TryAdd("DCCase_AMMeasureBurstCurrent", DCCase_AMMeasureBurstCurrent);
 		Dictionary_TM->TryAdd("DCCase_AMMeasureBurstVoltage", DCCase_AMMeasureBurstVoltage);
 		Dictionary_TM->TryAdd("DCCase_DifferentialResult", DCCase_DifferentialResult);
+
 		//DM_TestMethods
 		Dictionary_TM->TryAdd("DMCase_MIPIReadVector", DMCase_MIPIReadVector);
+
 		//RF_CW_TestMethods
 		Dictionary_TM->TryAdd("RFCase_MeasureChannel", RFCase_MeasureChannel);
 		Dictionary_TM->TryAdd("RFCase_MeasureChannelFast", RFCase_MeasureChannelFast);
@@ -128,6 +134,10 @@ namespace Functions
 		Dictionary_TM->TryAdd("RFCase_WlanPowerServo", RFCase_WlanPowerServo);
 		Dictionary_TM->TryAdd("RFCase_WlanResidualEVM", RFCase_WlanResidualEVM);
 		Dictionary_TM->TryAdd("RFCase_WolferMeasureChannel", RFCase_WolferMeasureChannel);
+
+		//RF_VNA_TestMethods
+		Dictionary_TM->TryAdd("VNACase_VnaDataAnalysis", VNACase_VnaDataAnalysis);
+		Dictionary_TM->TryAdd("VNACase_VnaSwTime", VNACase_VnaSwTime);
 
 		for (int siteIndex = 0; siteIndex < totalSite; siteIndex++) 
 		{

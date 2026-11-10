@@ -2,12 +2,14 @@
 Copyright (c) Aemulus Corporation Sdn Bhd
 Title:			AMB7300.cpp
 Purpose:		Contain AMB7300 platform utility functions
-Version:		v1.0.0.5
+Version:		v1.0.0.6
 ----------------------------------------------------------------------*/
 
 
 #include "AMB7300.h"
 #include "../Test Method/Methods.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 namespace Functions
 {
@@ -47,7 +49,6 @@ namespace Functions
 		//timerFilename = "TimingFile_7300_ORI_" + System::DateTime::Now.ToString("yyyyMMddHHmmss");
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester] Execute 'Load' phase. Initialize tester hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester] Execute 'Load' phase. Initialize tester hardware.");
 
 #pragma region "Init AMB7300 VNA Global Object & Variable"
 
@@ -105,7 +106,6 @@ namespace Functions
 		{
 			ret = ER_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGFILE_CONTENT_INVALID;
 			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester] Invalid content inside the '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML + ".xml' file. Target directory: " + sysConfigInfo.localConfigFileDirectory + "." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester] Invalid content inside the '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML + ".xml' file. Target directory: " + sysConfigInfo.localConfigFileDirectory + "." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			goto EndOfTest;
 		}
 
@@ -120,7 +120,6 @@ namespace Functions
 		// Assign project state file name based on test site
 		vnaSetting[0].StateFile = projectStateInfo.localStateFileName;
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester] Project state file to be initialized: " + vnaSetting[0].StateFile + projectStateInfo.stateFileType);
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester] Project state file to be initialized: " + vnaSetting[0].StateFile + projectStateInfo.stateFileType);
 
 		// Get project mapping file info
 		ret = GetProjectMappingInfo(tfSite);
@@ -201,6 +200,10 @@ namespace Functions
 		{
 			ret = InitializeVna(tfSite, siteIndex);
 			if (ret != 0) goto EndOfTest;
+
+			ret =  InitializeExtModule(tfSite, siteIndex);
+			if (ret != 0) goto EndOfTest;
+
 		}
 
 #pragma endregion
@@ -321,7 +324,6 @@ namespace Functions
 			if(tl->glob->tf.ProjectType == int(ProjectType::SingleTFSiteMultiUUTOffsetSharedVNA))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureChannelCoupling_Keysight] . ");
-				tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureChannelCoupling_Keysight] . ");
 				
 				ret = ConfigureChannelCoupling_Keysight(tfSite, siteIndex);
 				if (ret != 0) goto EndOfTest;
@@ -440,7 +442,6 @@ namespace Functions
 
 			MessageBox::Show(additionalMessage, TITLE_CONST_CHANNEL_NUMBER_NOT_MATCH, MessageBoxButtons::OK, MessageBoxIcon::Warning);
 			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeTester] Number of active channel in State file does not match Mapping(.xml) file!");
-			tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, WARNING, "[Load -> InitializeTester] Number of active channel in State file does not match Mapping(.xml) file!");
 			goto EndOfTest;
 		}*/
 
@@ -450,7 +451,6 @@ namespace Functions
 #pragma endregion
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester] Execute 'Load' phase. Initialize tester hardware succeed !!!");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester] Execute 'Load' phase. Initialize tester hardware succeed !!!");
 
 	EndOfTest:
 		return ret;
@@ -470,7 +470,6 @@ namespace Functions
 		int tfSite	= tl->glob->tf.TestSite;
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester] Executing 'Unload' phase. Uninitialize tester hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester] Executing 'Unload' phase. Uninitialize tester hardware.");
 
 #pragma region "Uninit Vna Hardware"
 
@@ -565,7 +564,6 @@ namespace Functions
 #pragma endregion
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester] Executing 'Unload' phase. Uninitialize tester hardware succeed !!!");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester] Executing 'Unload' phase. Uninitialize tester hardware succeed !!!");
 
 	EndOfTest:
 		return ret;
@@ -585,7 +583,6 @@ namespace Functions
 		int tfSite = tl->glob->tf.TestSite;
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[PreProcessing -> PreProcessingTester] Executing 'PreProcessing' Control Item.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[PreProcessing -> PreProcessingTester] Executing 'PreProcessing' Control Item.");
 
 #pragma region "Mutex -> VNA_Lock()"
 		if (tl->glob->AWV.VNA_Mutex_EN == true)
@@ -596,7 +593,6 @@ namespace Functions
 #pragma endregion
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[PreProcessing -> PreProcessingTester] 'PreProcessing' Control Item done !!!");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[PreProcessing -> PreProcessingTester] 'PreProcessing' Control Item done !!!");
 
 	EndOfTest:
 		return ret;
@@ -616,7 +612,6 @@ namespace Functions
 		int tfSite = tl->glob->tf.TestSite;
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[PostProcessing -> PostProcessingTester] Executing 'PostProcessing' Control Item.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[PostProcessing -> PostProcessingTester] Executing 'PostProcessing' Control Item.");
 
 #pragma region "Mutex -> VNA_Unlock()"
 		if (tl->glob->AWV.VNA_Mutex_EN == true)
@@ -721,7 +716,6 @@ namespace Functions
 //#pragma endregion
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[PostProcessing -> PostProcessingTester] 'PostProcessing' Control Item done !!!");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[PostProcessing -> PostProcessingTester] 'PostProcessing' Control Item done !!!");
 
 	EndOfTest:
 		return ret;
@@ -792,7 +786,6 @@ namespace Functions
 		******************************************************************************************************/
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeVnaGlobalResultVariable] Initialize VNA global object & result variable.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeVnaGlobalResultVariable] Initialize VNA global object & result variable.");
 
 #pragma region "Initialize object"
 
@@ -1091,7 +1084,6 @@ namespace Functions
 		******************************************************************************************************/
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] Load AMB7300 system configuration file '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML + ".xml'. Target directory: C:\\ProgramData\\Aemulus\\AMB7300\\" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER + "x.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] Load AMB7300 system configuration file '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML + ".xml'. Target directory: C:\\ProgramData\\Aemulus\\AMB7300\\" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER + "x.");
 
 		// Local variable
 		int ret			= 0;
@@ -1125,12 +1117,10 @@ namespace Functions
 			if (tfSite == 0)
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIG0FOLDER + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIG0FOLDER + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIG0FOLDER + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIG0FOLDER + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			}
 			else
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER + tfSite.ToString() + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER + tfSite.ToString() + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER + tfSite.ToString() + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER + tfSite.ToString() + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			}
 			ret = 0;
 			// Create 'Configx' folder
@@ -1147,12 +1137,10 @@ namespace Functions
 			if (tfSite == 0)
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML ".xml' file does not exist in the '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIG0FOLDER + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML ".xml' file does not exist in the '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIG0FOLDER + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			}
 			else
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML ".xml' file does not exist in the '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER + tfSite.ToString() + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML ".xml' file does not exist in the '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER + tfSite.ToString() + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			}
 			goto EndOfTest;
 		}
@@ -1172,7 +1160,6 @@ namespace Functions
 		{
 			ret = ER_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGFILE_READ_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] Fail to read '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML ".xml' file. Target directory: " + sysConfigInfo.localConfigFileDirectory + "." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] Fail to read '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML ".xml' file. Target directory: " + sysConfigInfo.localConfigFileDirectory + "." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -1217,21 +1204,12 @@ namespace Functions
 																																"\t" + "config serial number: "		+ sysConfigInfo.moduleConfigurationSN					+ "\n" +
 																																"\t" + "config type: "				+ sysConfigInfo.moduleConfigurationType					+ "\n" +
 																																"\t" + "system config: "			+ sysConfigInfo.configurationType);
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> AMB7300ConfigurationFile] AMB7300 VNA system configuration info Site" + tfSite.ToString()		+ ": "		+ "\n" +
-																																"\t" + "config address: "			+ sysConfigInfo.moduleConfigurationAddress				+ "\n" +
-																																"\t" + "config chassis: "			+ sysConfigInfo.moduleConfigurationChassis				+ "\n" +
-																																"\t" + "config name: "				+ sysConfigInfo.moduleConfigurationName					+ "\n" +
-																																"\t" + "config slot: "				+ sysConfigInfo.moduleConfigurationSlot					+ "\n" +
-																																"\t" + "config serial number: "		+ sysConfigInfo.moduleConfigurationSN					+ "\n" +
-																																"\t" + "config type: "				+ sysConfigInfo.moduleConfigurationType					+ "\n" +
-																																"\t" + "system config: "			+ sysConfigInfo.configurationType);
 			}
 		}
 		catch (Exception^ ex)
 		{
 			ret = ER_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGFILE_CONTENT_INVALID;
 			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] Invalid content inside '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML + ".xml' file. Target directory: " + sysConfigInfo.localConfigFileDirectory + "." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetSystemConfigurationFileInfo] Invalid content inside '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_CONFIGXFOLDER_CONFIG_XML + ".xml' file. Target directory: " + sysConfigInfo.localConfigFileDirectory + "." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -1261,7 +1239,6 @@ namespace Functions
 		******************************************************************************************************/
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Load project state file (.sta) and mapping file (.xml). Target directory: C:\\ProgramData\\Aemulus\\AMB7300\\" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + "x.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Load project state file (.sta) and mapping file (.xml). Target directory: C:\\ProgramData\\Aemulus\\AMB7300\\" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + "x.");
 
 		// Local variable
 		int ret					= 0;
@@ -1324,12 +1301,10 @@ namespace Functions
 			if (tfSite == 0)
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			}
 			else
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + tfSite.ToString() + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + tfSite.ToString() + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + tfSite.ToString() + "' folder does not exist in the target directory. A new '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + tfSite.ToString() + "' folder will be generated in the target directory." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			}
 			ret = 0;
 			// Create 'Statex' folder
@@ -1374,7 +1349,6 @@ namespace Functions
 											"Please copy the calibrated project state file and mapping file from the local 'ProgramData\\State' folder to the project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder.", "Local Project State File & Mapping File Not Found");
 					
 						tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Project state file and mapping file does not exist in both local directory : " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATE0 + "and project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder. The generic state file and mapping file has been loaded.");
-						tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Project state file and mapping file does not exist in both local directory : " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATE0 + "and project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder. The generic state file and mapping file has been loaded.");
 					}
 					else
 					{ 
@@ -1386,7 +1360,6 @@ namespace Functions
 											"Please copy the calibrated project state file and mapping file from the local 'ProgramData\\State" + tfSite.ToString() + "' folder to the project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder.", "Local Project State File & Mapping File Not Found");
 					
 						tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Project state file and mapping file does not exist in both local directory : " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATEX + tfSite.ToString() + "and project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder. The generic state file and mapping file has been loaded.");
-						tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Project state file and mapping file does not exist in both local directory : " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATEX + tfSite.ToString() + "and project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder. The generic state file and mapping file has been loaded.");
 					}
 				}
 				// Copy from project 'TestRecipes\\DeviceStateFileTemplate'
@@ -1412,7 +1385,6 @@ namespace Functions
 											"Please UNLOAD the test program and conduct AMB7300 DCS calibration by using this local project state file before any debug activities or run production activities.", "Local Project State File & Mapping File Not Found");
 					
 						tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Project state file and mapping file does not exist in local directory : " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATE0 + ". Copy project state file and mapping file from the project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder to the local " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATE0 + " folder.");
-						tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Project state file and mapping file does not exist in local directory : " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATE0 + ". Copy project state file and mapping file from the project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder to the local " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATE0 + " folder.");
 					}
 					else
 					{ 
@@ -1422,7 +1394,6 @@ namespace Functions
 											"Please UNLOAD the test program and conduct AMB7300 DCS calibration by using this local project state file before any debug activities or run production activities.", "Local Project State File & Mapping File Not Found");
 					
 						tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Project state file and mapping file does not exist in local directory : " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATEX + tfSite.ToString() + ". Copy project state file and mapping file from the project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder to the local " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATEX + tfSite.ToString() + " folder.");
-						tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Project state file and mapping file does not exist in local directory : " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATEX + tfSite.ToString() + ". Copy project state file and mapping file from the project 'TestRecipes\\" + FILENAME_CONST_PROJECT_DEVICESTATEFILETEMPLATE + "' folder to the local " + FOLDER_CONST_PROGRAMDATA_AEM_AMB7300_STATEX + tfSite.ToString() + " folder.");
 					}
 				}
 				// Undefined error
@@ -1430,7 +1401,6 @@ namespace Functions
 				{
 					ret = ER_CONST_PROGRAMDATA_AEM_AMB7300_STATEMAPPINGFILE_INIT_FAIL;
 					tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Fail to initialize project state file and mapping file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-					tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> InitializeProjectStateFileMappingFile] Fail to initialize project state file and mapping file." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 					goto EndOfTest;
 				}
 			}
@@ -1451,7 +1421,6 @@ namespace Functions
 		******************************************************************************************************/
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> GetProjectMappingInfo] Get mapping info from project mapping file (.xml).");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> GetProjectMappingInfo] Get mapping info from project mapping file (.xml).");
 
 		// Local varaible
 		int ret											= 0;
@@ -1483,12 +1452,10 @@ namespace Functions
 			if (tfSite == 0)
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetProjectMappingInfo] Project mapping file (.xml) does not exist in the local '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetProjectMappingInfo] Project mapping file (.xml) does not exist in the local '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			}
 			else
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetProjectMappingInfo] Project mapping file (.xml) does not exist in the local '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + tfSite.ToString() + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetProjectMappingInfo] Project mapping file (.xml) does not exist in the local '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + tfSite.ToString() + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			}
 			goto EndOfTest;
 		}
@@ -1512,12 +1479,10 @@ namespace Functions
 			if (tfSite == 0)
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetProjectMappingInfo] Invalid content inside project mapping file (.xml) in the local '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetProjectMappingInfo] Invalid content inside project mapping file (.xml) in the local '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			}
 			else
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetProjectMappingInfo] Invalid content inside project mapping file (.xml) in the local '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + tfSite.ToString() + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-				tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> InitializeTester -> GetProjectMappingInfo] Invalid content inside project mapping file (.xml) in the local '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATEXFOLDER + tfSite.ToString() + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			}
 			goto EndOfTest;
 		}
@@ -1899,7 +1864,6 @@ namespace Functions
 		{
 			ret = ER_CONST_ASSIGNED_VNASITEINDEX_INVALID;
 			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> Map_siteIndex_To_vnaSiteIndex] Invalid mapped value for VNA site index '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, ERROR, "[Load -> Map_siteIndex_To_vnaSiteIndex] Invalid mapped value for VNA site index '" + FILENAME_CONST_PROGRAMDATA_AEM_AMB7300_STATE0FOLDER + "' folder." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			
 			goto EndOfTest;
 		}
@@ -1928,182 +1892,175 @@ namespace Functions
 		int ret					= 0;
 		int vnaSiteIndexAlias	= 0;
 
-		if (sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
 		{
-			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> CopperMountainVnaUtility -> InitializeVna_CMT] Initialize Copper Mountain VNA hardware.");
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> CopperMountainVnaUtility -> InitializeVna_CMT] Initialize Copper Mountain VNA hardware.");
-
-			if ((tl->glob->tf.ProjectType == int(ProjectType::SingleTFSiteSingleUUTOffset)) || (tl->glob->tf.ProjectType == int(ProjectType::TrueParallelSingleUUTOffset)))
+			if (sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
 			{
-				vnaSiteIndexAlias = tfSite;
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> CopperMountainVnaUtility -> InitializeVna_CMT] Initialize Copper Mountain VNA hardware.");
+
+				if ((tl->glob->tf.ProjectType == int(ProjectType::SingleTFSiteSingleUUTOffset)) || (tl->glob->tf.ProjectType == int(ProjectType::TrueParallelSingleUUTOffset)))
+				{
+					vnaSiteIndexAlias = tfSite;
+				}
+				else if ((tl->glob->tf.ProjectType == int(ProjectType::SingleTFSiteMultiUUTOffset)) || (tl->glob->tf.ProjectType == int(ProjectType::TrueParallelMultiUUTOffset)))
+				{
+					vnaSiteIndexAlias = siteIndex;
+				}
+				else if (tl->glob->tf.ProjectType == int(ProjectType::IndexParallel))
+				{
+					// [Future Enchancement] reserved for index parallel project.
+				}
+
+				// Initialize VNA
+				ret = InitializeVna_CMT(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tfSite, siteIndex, vnaSiteIndexAlias, tl->glob->AWV.Offline);
+				if (ret != 0) goto EndOfTest;
+
+				// Get VNA info
+				tl->CheckError(tfSite, amb7300_NA[siteIndex]->GetDeviceInfo(saveRecallSetting->Model, saveRecallSetting->SerialNumber, saveRecallSetting->FWVersion));
+
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> CopperMountainVnaUtility -> InitializeVna_CMT] Copper Mountain VNA info: " + " \n " +
+					"\t" + "VNA Model: " + saveRecallSetting->Model + " \n " +
+					"\t" + "VNA Serial Number: " + saveRecallSetting->SerialNumber + " \n " +
+					"\t" + "VNA FW Version: " + saveRecallSetting->FWVersion);
+
+				////Check Calibration Validity 
+				//array<int>^ vnaChannel = nullptr;
+				//array<String^>^ calDate = nullptr;
+				//int returnCode = 0;
+
+				//tl->CheckError(tfSite, amb7300_[siteIndex]->amb7300->QueryCalibrationDate(vnaChannel, calDate));
+				//DateTime currentDate = DateTime::Now;	//Get current date time
+
+				//array<String^>^ formattedDate = gcnew array<String^>(0);
+				//array<String^> ^ separatorFull = gcnew array<String^>(1);
+
+				////separate the date and time
+				//separatorFull[0] = " ";
+				//formattedDate = calDate[0]->Split(separatorFull, StringSplitOptions::None);
+
+				//if (formattedDate[0]->Contains("-"))
+				//{
+				//	separatorFull[0] = "-";
+				//}
+				//else if (formattedDate[0]->Contains("/"))
+				//{
+				//	separatorFull[0] = "/";
+				//}
+
+				////separate date in months, days, yeaars
+				//formattedDate = formattedDate[0]->Split(separatorFull, StringSplitOptions::None);
+
+				////check format available
+				//String^ format = nullptr;
+
+				//if (formattedDate[0]->Length == 4)
+				//{
+				//	format = "yyyy" + separatorFull[0] + "MM" + separatorFull[0] + "dd HH:mm:ss";
+				//}
+				//else if (formattedDate[0]->Length == 2 && formattedDate[1]->Length == 2)
+				//{
+				//	if (formattedDate[2]->Length == 4)
+				//		format = "dd" + separatorFull[0] + "MM" + separatorFull[0] + "yyyy HH:mm:ss";
+				//	else if (formattedDate[2]->Length == 2)
+				//		format = "dd" + separatorFull[0] + "MM" + separatorFull[0] + "yy HH:mm:ss";
+				//}
+				//else
+				//{
+				//	if (formattedDate[2]->Length == 4)
+				//		format = "d" + separatorFull[0] + "M" + separatorFull[0] + "yyyy HH:mm:ss";
+				//	else if (formattedDate[2]->Length == 2)
+				//		format = "d" + separatorFull[0] + "M" + separatorFull[0] + "yy HH:mm:ss";
+				//}
+
+				///*if (formattedDate[0]->Length == 4 && separatorFull[0] == "-")
+				//{
+				//	format = "yyyy-MM-dd HH:mm:ss";
+				//}
+				//else if (formattedDate[0]->Length == 4 && separatorFull[0] == "/")
+				//{
+				//	format = "yyyy/MM/dd HH:mm:ss";
+				//}
+				//else if (formattedDate[0]->Length == 2 && formattedDate[1]->Length == 2)
+				//{
+				//	if (separatorFull[0] == "/")
+				//	{
+				//		if (formattedDate[2]->Length == 4)
+				//			format = "dd/MM/yyyy HH:mm:ss";
+				//		else if (formattedDate[2]->Length == 2)
+				//			format = "dd/MM/yy HH:mm:ss";
+				//	}
+				//	else
+				//	{
+				//		if (formattedDate[2]->Length == 4)
+				//			format = "dd-MM-yyyy HH:mm:ss";
+				//		else if (formattedDate[2]->Length == 2)
+				//			format = "dd-MM-yy HH:mm:ss";
+				//	}
+				//}
+				//else
+				//{
+				//	if (separatorFull[0] == "/")
+				//	{
+				//		if (formattedDate[2]->Length == 4)
+				//			format = "d/M/yyyy HH:mm:ss";
+				//		else if (formattedDate[2]->Length == 2)
+				//			format = "d/M/yy HH:mm:ss";
+				//	}
+				//	else
+				//	{
+				//		if (formattedDate[2]->Length == 4)
+				//			format = "d-M-yyyy HH:mm:ss";
+				//		else if (formattedDate[2]->Length == 2)
+				//			format = "d-M-yy HH:mm:ss";
+				//	}
+				//}*/
+
+				////Will conduct Calibration Validity Check if CalibrationValidityDay != 0
+				//if (tl->glob->AWV.CalibrationValidityDay != 0)
+				//{
+				//	for each(String^ date in calDate)
+				//	{
+				//		DateTime formatedCalDate = DateTime::ParseExact(date, format, CultureInfo::InvariantCulture);
+				//		TimeSpan timeDifference = currentDate - formatedCalDate;
+
+				//		//Cal Validity Check
+				//		if (timeDifference.TotalDays > tl->glob->AWV.CalibrationValidityDay)
+				//		{
+				//			MessageBox::Show("Calibration has been Expired! \nLast calibration date time: " + date + "\nPlease conduct calibration of the system!", "Calibration Expried");
+				//			break;
+				//		}
+				//	}
+				//}
 			}
-			else if ((tl->glob->tf.ProjectType == int(ProjectType::SingleTFSiteMultiUUTOffset)) || (tl->glob->tf.ProjectType == int(ProjectType::TrueParallelMultiUUTOffset)))
+			else if (sysConfigInfo.moduleConfigurationName == VnaModel_Keysight_M9804A)
 			{
-				vnaSiteIndexAlias = siteIndex;
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> KeysightVnaUtility -> InitializeVna_Keysight] Initialize Keysight VNA hardware.");
+
+				if ((tl->glob->tf.ProjectType == int(ProjectType::SingleTFSiteSingleUUTOffset)) || (tl->glob->tf.ProjectType == int(ProjectType::TrueParallelSingleUUTOffset)))
+				{
+					vnaSiteIndexAlias = tfSite;
+				}
+				else if ((tl->glob->tf.ProjectType == int(ProjectType::SingleTFSiteMultiUUTOffset)) || (tl->glob->tf.ProjectType == int(ProjectType::TrueParallelMultiUUTOffset)))
+				{
+					vnaSiteIndexAlias = siteIndex;
+				}
+				else if (tl->glob->tf.ProjectType == int(ProjectType::IndexParallel))
+				{
+					// [Future Enchancement] reserved for index parallel project.
+				}
+
+				// Initialize VNA
+				ret = InitializeVna_Keysight(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tfSite, siteIndex, vnaSiteIndexAlias, tl->glob->AWV.Offline);
+				if (ret != 0) goto EndOfTest;
+
+				// Get VNA info
+				tl->CheckError(tfSite, amb7300_NA[siteIndex]->GetDeviceInfo(saveRecallSetting->Model, saveRecallSetting->SerialNumber, saveRecallSetting->FWVersion));
+
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> KeysightVnaUtility -> InitializeVna_Keysight] Keysight VNA info: " + " \n " +
+					"\t" + "VNA Model: " + saveRecallSetting->Model + " \n " +
+					"\t" + "VNA Serial Number: " + saveRecallSetting->SerialNumber + " \n " +
+					"\t" + "VNA FW Version: " + saveRecallSetting->FWVersion);
 			}
-			else if (tl->glob->tf.ProjectType == int(ProjectType::IndexParallel))
-			{
-				// [Future Enchancement] reserved for index parallel project.
-			}
-			
-			// Initialize VNA
-			ret = InitializeVna_CMT(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tfSite, siteIndex, vnaSiteIndexAlias, tl->glob->AWV.Offline);
-			if (ret != 0) goto EndOfTest;
-
-			// Get VNA info
-			tl->CheckError(tfSite, amb7300_NA[siteIndex]->GetDeviceInfo(saveRecallSetting->Model, saveRecallSetting->SerialNumber, saveRecallSetting->FWVersion));
-
-			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> CopperMountainVnaUtility -> InitializeVna_CMT] Copper Mountain VNA info: "  																+ " \n " +
-																																								"\t" + "VNA Model: "			+ saveRecallSetting->Model			+ " \n " +
-																																								"\t" + "VNA Serial Number: "	+ saveRecallSetting->SerialNumber	+ " \n " +
-																																								"\t" + "VNA FW Version: "		+ saveRecallSetting->FWVersion);
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> CopperMountainVnaUtility -> InitializeVna_CMT] Copper Mountain VNA info: "  																+ " \n " +
-																																								"\t" + "VNA Model: "			+ saveRecallSetting->Model			+ " \n " +
-																																								"\t" + "VNA Serial Number: "	+ saveRecallSetting->SerialNumber	+ " \n " +
-																																								"\t" + "VNA FW Version: "		+ saveRecallSetting->FWVersion);
-		
-			////Check Calibration Validity 
-			//array<int>^ vnaChannel = nullptr;
-			//array<String^>^ calDate = nullptr;
-			//int returnCode = 0;
-
-			//tl->CheckError(tfSite, amb7300_[siteIndex]->amb7300->QueryCalibrationDate(vnaChannel, calDate));
-			//DateTime currentDate = DateTime::Now;	//Get current date time
-
-			//array<String^>^ formattedDate = gcnew array<String^>(0);
-			//array<String^> ^ separatorFull = gcnew array<String^>(1);
-
-			////separate the date and time
-			//separatorFull[0] = " ";
-			//formattedDate = calDate[0]->Split(separatorFull, StringSplitOptions::None);
-
-			//if (formattedDate[0]->Contains("-"))
-			//{
-			//	separatorFull[0] = "-";
-			//}
-			//else if (formattedDate[0]->Contains("/"))
-			//{
-			//	separatorFull[0] = "/";
-			//}
-
-			////separate date in months, days, yeaars
-			//formattedDate = formattedDate[0]->Split(separatorFull, StringSplitOptions::None);
-
-			////check format available
-			//String^ format = nullptr;
-
-			//if (formattedDate[0]->Length == 4)
-			//{
-			//	format = "yyyy" + separatorFull[0] + "MM" + separatorFull[0] + "dd HH:mm:ss";
-			//}
-			//else if (formattedDate[0]->Length == 2 && formattedDate[1]->Length == 2)
-			//{
-			//	if (formattedDate[2]->Length == 4)
-			//		format = "dd" + separatorFull[0] + "MM" + separatorFull[0] + "yyyy HH:mm:ss";
-			//	else if (formattedDate[2]->Length == 2)
-			//		format = "dd" + separatorFull[0] + "MM" + separatorFull[0] + "yy HH:mm:ss";
-			//}
-			//else
-			//{
-			//	if (formattedDate[2]->Length == 4)
-			//		format = "d" + separatorFull[0] + "M" + separatorFull[0] + "yyyy HH:mm:ss";
-			//	else if (formattedDate[2]->Length == 2)
-			//		format = "d" + separatorFull[0] + "M" + separatorFull[0] + "yy HH:mm:ss";
-			//}
-
-			///*if (formattedDate[0]->Length == 4 && separatorFull[0] == "-")
-			//{
-			//	format = "yyyy-MM-dd HH:mm:ss";
-			//}
-			//else if (formattedDate[0]->Length == 4 && separatorFull[0] == "/")
-			//{
-			//	format = "yyyy/MM/dd HH:mm:ss";
-			//}
-			//else if (formattedDate[0]->Length == 2 && formattedDate[1]->Length == 2)
-			//{
-			//	if (separatorFull[0] == "/")
-			//	{
-			//		if (formattedDate[2]->Length == 4)
-			//			format = "dd/MM/yyyy HH:mm:ss";
-			//		else if (formattedDate[2]->Length == 2)
-			//			format = "dd/MM/yy HH:mm:ss";
-			//	}
-			//	else
-			//	{
-			//		if (formattedDate[2]->Length == 4)
-			//			format = "dd-MM-yyyy HH:mm:ss";
-			//		else if (formattedDate[2]->Length == 2)
-			//			format = "dd-MM-yy HH:mm:ss";
-			//	}
-			//}
-			//else
-			//{
-			//	if (separatorFull[0] == "/")
-			//	{
-			//		if (formattedDate[2]->Length == 4)
-			//			format = "d/M/yyyy HH:mm:ss";
-			//		else if (formattedDate[2]->Length == 2)
-			//			format = "d/M/yy HH:mm:ss";
-			//	}
-			//	else
-			//	{
-			//		if (formattedDate[2]->Length == 4)
-			//			format = "d-M-yyyy HH:mm:ss";
-			//		else if (formattedDate[2]->Length == 2)
-			//			format = "d-M-yy HH:mm:ss";
-			//	}
-			//}*/
-
-			////Will conduct Calibration Validity Check if CalibrationValidityDay != 0
-			//if (tl->glob->AWV.CalibrationValidityDay != 0)
-			//{
-			//	for each(String^ date in calDate)
-			//	{
-			//		DateTime formatedCalDate = DateTime::ParseExact(date, format, CultureInfo::InvariantCulture);
-			//		TimeSpan timeDifference = currentDate - formatedCalDate;
-
-			//		//Cal Validity Check
-			//		if (timeDifference.TotalDays > tl->glob->AWV.CalibrationValidityDay)
-			//		{
-			//			MessageBox::Show("Calibration has been Expired! \nLast calibration date time: " + date + "\nPlease conduct calibration of the system!", "Calibration Expried");
-			//			break;
-			//		}
-			//	}
-			//}
-		}
-		else if (sysConfigInfo.moduleConfigurationName == VnaModel_Keysight_M9804A)
-		{
-			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> KeysightVnaUtility -> InitializeVna_Keysight] Initialize Keysight VNA hardware.");
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> KeysightVnaUtility -> InitializeVna_Keysight] Initialize Keysight VNA hardware.");
-
-			if ((tl->glob->tf.ProjectType == int(ProjectType::SingleTFSiteSingleUUTOffset)) || (tl->glob->tf.ProjectType == int(ProjectType::TrueParallelSingleUUTOffset)))
-			{
-				vnaSiteIndexAlias = tfSite;
-			}
-			else if ((tl->glob->tf.ProjectType == int(ProjectType::SingleTFSiteMultiUUTOffset)) || (tl->glob->tf.ProjectType == int(ProjectType::TrueParallelMultiUUTOffset)))
-			{
-				vnaSiteIndexAlias = siteIndex;
-			}
-			else if (tl->glob->tf.ProjectType == int(ProjectType::IndexParallel))
-			{
-				// [Future Enchancement] reserved for index parallel project.
-			}
-
-			// Initialize VNA
-			ret = InitializeVna_Keysight(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tfSite, siteIndex, vnaSiteIndexAlias, tl->glob->AWV.Offline);
-			if (ret != 0) goto EndOfTest;
-
-			// Get VNA info
-			tl->CheckError(tfSite, amb7300_NA[siteIndex]->GetDeviceInfo(saveRecallSetting->Model, saveRecallSetting->SerialNumber, saveRecallSetting->FWVersion));
-
-			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> KeysightVnaUtility -> InitializeVna_Keysight] Keysight VNA info: "  																		+ " \n " +
-																																								"\t" + "VNA Model: "			+ saveRecallSetting->Model			+ " \n " +
-																																								"\t" + "VNA Serial Number: "	+ saveRecallSetting->SerialNumber	+ " \n " +
-																																								"\t" + "VNA FW Version: "		+ saveRecallSetting->FWVersion);
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[Load -> InitializeTester -> KeysightVnaUtility -> InitializeVna_Keysight] Keysight VNA info: "  																		+ " \n " +
-																																								"\t" + "VNA Model: "			+ saveRecallSetting->Model			+ " \n " +
-																																								"\t" + "VNA Serial Number: "	+ saveRecallSetting->SerialNumber	+ " \n " +
-																																								"\t" + "VNA FW Version: "		+ saveRecallSetting->FWVersion);
 		}
 
 	EndOfTest:
@@ -2123,23 +2080,24 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		if (sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
 		{
-			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Unload -> UninitializeTester -> CopperMountainVnaUtility -> UninitializeVna_CMT] Uninitialize Copper Mountain VNA hardware.");
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[Unload -> UninitializeTester -> CopperMountainVnaUtility -> UninitializeVna_CMT] Uninitialize Copper Mountain VNA hardware.");
+			if (sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
+			{
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Unload -> UninitializeTester -> CopperMountainVnaUtility -> UninitializeVna_CMT] Uninitialize Copper Mountain VNA hardware.");
 
-			// Uninitialize VNA
-			ret = UninitializeVna_CMT(tfSite, siteIndex);
-			if (ret != 0) goto EndOfTest;
-		}
-		else if (sysConfigInfo.moduleConfigurationName == VnaModel_Keysight_M9804A)
-		{
-			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Unload -> UninitializeTester -> KeysightVnaUtility -> UninitializeVna_Keysight] Uninitialize Keysight VNA hardware.");
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[Unload -> UninitializeTester -> KeysightVnaUtility -> UninitializeVna_Keysight] Uninitialize Keysight VNA hardware.");
+				// Uninitialize VNA
+				ret = UninitializeVna_CMT(tfSite, siteIndex);
+				if (ret != 0) goto EndOfTest;
+			}
+			else if (sysConfigInfo.moduleConfigurationName == VnaModel_Keysight_M9804A)
+			{
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Unload -> UninitializeTester -> KeysightVnaUtility -> UninitializeVna_Keysight] Uninitialize Keysight VNA hardware.");
 
-			// Uninitialize VNA
-			ret = UninitializeVna_Keysight(tfSite, siteIndex);
-			if (ret != 0) goto EndOfTest;
+				// Uninitialize VNA
+				ret = UninitializeVna_Keysight(tfSite, siteIndex);
+				if (ret != 0) goto EndOfTest;
+			}
 		}
 
 	EndOfTest:
@@ -2162,7 +2120,6 @@ namespace Functions
 		if (sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
 		{
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[PostProcessing -> PostProcessingTester -> CopperMountainVnaUtility -> SourceLowVna_CMT] Source Low Copper Mountain VNA hardware.");
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[PostProcessing -> PostProcessingTester -> CopperMountainVnaUtility -> SourceLowVna_CMT] Source Low Copper Mountain VNA hardware.");
 
 			// Source Low VNA
 			ret = SourceLowVna_CMT(tfSite, siteIndex);
@@ -2171,7 +2128,6 @@ namespace Functions
 		else if (sysConfigInfo.moduleConfigurationName == VnaModel_Keysight_M9804A)
 		{
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[PostProcessing -> PostProcessingTester -> KeysightVnaUtility -> SourceLowVna_Keysight] Source Low Keysight VNA hardware.");
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[PostProcessing -> PostProcessingTester -> KeysightVnaUtility -> SourceLowVna_Keysight] Source Low Keysight VNA hardware.");
 
 			// Source Low VNA
 			ret = SourceLowVna_Keysight(tfSite, siteIndex);
@@ -2193,7 +2149,6 @@ namespace Functions
 		******************************************************************************************************/
 
 		tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig] Executing 'VnaConfig' phase.");
-		tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig] Executing 'VnaConfig' phase.");
 
 		// Local variable
 		int ret = 0;
@@ -2205,7 +2160,6 @@ namespace Functions
 				(segmentSetting[vnaSiteIndex].sweepType == Vna_SharedMemoryTransfer))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> CopperMountainVnaUtility -> ConfigureSegmentSetting_CMT] Configure segment setting at the active channel.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> CopperMountainVnaUtility -> ConfigureSegmentSetting_CMT] Configure segment setting at the active channel.");
 				// Configure segment settings on every available channel in mapping file
 				ret = ConfigureSegmentSetting_CMT(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
@@ -2218,7 +2172,6 @@ namespace Functions
 			//}
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> CopperMountainVnaUtility -> ConfigureTriggerSource_CMT] Configure trigger source.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> CopperMountainVnaUtility -> ConfigureTriggerSource_CMT] Configure trigger source.");
 			// Configure trigger source + hold all channel
 			ret = ConfigureTriggerSource_CMT(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
@@ -2230,18 +2183,23 @@ namespace Functions
 				(segmentSetting[vnaSiteIndex].sweepType == Vna_SharedMemoryTransfer))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> KeysightVnaUtility -> ConfigureSegmentSetting_Keysight] Configure segment setting at the active channel.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> KeysightVnaUtility -> ConfigureSegmentSetting_Keysight] Configure segment setting at the active channel.");
 				// Configure segment settings on every available channel in mapping file
 				ret = ConfigureSegmentSetting_Keysight(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
-			if ((segmentSetting[vnaSiteIndex].sweepType == Vna_Stimulus_SweepType_PowerSweep) || // Under development, not support yet
+			else if ((segmentSetting[vnaSiteIndex].sweepType == Vna_Stimulus_SweepType_PowerSweep) || // Under development, not support yet
 				(segmentSetting[vnaSiteIndex].sweepType == Vna_SharedMemoryTransfer_PowerSweep))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> KeysightVnaUtility -> ConfigurePowerSweep_Keysight] Configure power sweep setting at the active channel.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> KeysightVnaUtility -> ConfigurePowerSweep_Keysight] Configure power sweep setting at the active channel.");
 				// Configure segment settings on every available channel in mapping file
 				ret = ConfigurePowerSweepSetting_Keysight(tfSite, vnaSiteIndex);
+				if (ret != 0) goto EndOfTest;
+			}
+			else if ((segmentSetting[vnaSiteIndex].sweepType == Vna_Stimulus_SweepType_CWTime))
+			{
+				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> KeysightVnaUtility -> ConfigureCWTime_Keysight] Configure CW Time sweep setting at the active channel.");
+				// Configure segment settings on every available channel in mapping file
+				ret = ConfigureCWTimeSweepSetting_Keysight(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
 			else if (segmentSetting[vnaSiteIndex].sweepType == Vna_SweepType_GetFromStateFile)
@@ -2250,7 +2208,6 @@ namespace Functions
 
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> KeysightVnaUtility -> ConfigureTriggerSource_Keysight] Configure trigger source.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaConfig -> KeysightVnaUtility -> ConfigureTriggerSource_Keysight] Configure trigger source.");
 			// Configure trigger source + hold all channel
 			//ret = ConfigureTriggerSource_Keysight(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
@@ -2270,7 +2227,6 @@ namespace Functions
 		**		This is a function to execute 'VnaFetch' phase.
 		******************************************************************************************************/
 		tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch] Executing 'VnaFetch' phase.");
-		tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch] Executing 'VnaFetch' phase.");
 
 		// Local variable
 		int ret = 0;
@@ -2278,25 +2234,21 @@ namespace Functions
 		if (sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
 		{
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureMpexPortPairSwitching_CMT] Configure MPEX port pair switching.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureMpexPortPairSwitching_CMT] Configure MPEX port pair switching.");
 			// Configure MPEX port pair switching
 			ret = ConfigureMpexPortPairSwitching_CMT(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 			
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> GetCurrentVnaFetchChannel] Get VNA active channel (Current VnaFetch).");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> GetCurrentVnaFetchChannel] Get VNA active channel (Current VnaFetch).");
 			// Get current vna fetch active channel for generic usage
 			ret = GetCurrentVnaFetchChannel(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureTraces_CMT] Configure trace setting at the active channel.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureTraces_CMT] Configure trace setting at the active channel.");
 			// Configure trace settings at the active channel
 			ret = ConfigureTraces_CMT(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 	
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureAveraging_CMT] Configure averaging setting at the active channel.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureAveraging_CMT] Configure averaging setting at the active channel.");
 			// If required to apply averaging at the active channel
 			ret = ConfigureAveraging_CMT(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
@@ -2305,7 +2257,6 @@ namespace Functions
 				(segmentSetting[vnaSiteIndex].sweepType == Vna_Stimulus_SweepType_Segment))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureActiveChannelAndSingleTrigger_CMT] Configure active channel, arm and wait for data.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureActiveChannelAndSingleTrigger_CMT] Configure active channel, arm and wait for data.");
 				ret = ConfigureActiveChannelAndSingleTrigger_CMT(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
@@ -2313,7 +2264,6 @@ namespace Functions
 				(segmentSetting[vnaSiteIndex].sweepType == Vna_SharedMemoryTransfer))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_CMT] Configure single trigger for GetFromStateFile type.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_CMT] Configure single trigger for GetFromStateFile type.");
 				ret = ConfigureSingleTriggerForGetFromStateFileType_CMT(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
@@ -2323,25 +2273,21 @@ namespace Functions
 			// [Future Enchancement] API not support. 
 			// There is A5, A4 MPEX setup for Keysight VNA.
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureMpexPortPairSwitching_Keysight] Configure MPEX port pair switching.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureMpexPortPairSwitching_Keysight] Configure MPEX port pair switching.");
 			// Configure MPEX port pair switching
 			ret = ConfigureMpexPortPairSwitching_Keysight(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> GetCurrentVnaFetchChannel] Get VNA active channel (Current VnaFetch).");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> GetCurrentVnaFetchChannel] Get VNA active channel (Current VnaFetch).");
 			// Get current vna fetch active channel for generic usage
 			ret = GetCurrentVnaFetchChannel(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 			
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureTraces_Keysight] Configure trace setting at the active channel.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureTraces_Keysight] Configure trace setting at the active channel.");
 			// Configure trace settings at the active channel
 			ret = ConfigureTraces_Keysight(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureAveraging_Keysight] Configure averaging setting at the active channel.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureAveraging_Keysight] Configure averaging setting at the active channel.");
 			// If required to apply averaging at the active channel
 			ret = ConfigureAveraging_Keysight(tfSite, vnaSiteIndex);			
 			if (ret != 0) goto EndOfTest;
@@ -2349,14 +2295,12 @@ namespace Functions
 			if ((segmentSetting[vnaSiteIndex].sweepType == Vna_Stimulus_SweepType_LinearFreq) || (segmentSetting[vnaSiteIndex].sweepType == Vna_Stimulus_SweepType_Segment))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureActiveChannelAndSingleTrigger_Keysight] Configure active channel, arm and wait for data.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureActiveChannelAndSingleTrigger_Keysight] Configure active channel, arm and wait for data.");
 				ret = ConfigureActiveChannelAndSingleTrigger_Keysight(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
 			else if (segmentSetting[vnaSiteIndex].sweepType == Vna_SweepType_GetFromStateFile)
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_Keysight] Configure single trigger for GetFromStateFile type.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_Keysight] Configure single trigger for GetFromStateFile type.");
 				ret = ConfigureSingleTriggerForGetFromStateFileType_Keysight(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
@@ -2364,13 +2308,11 @@ namespace Functions
 			{
 				//SharedMemoryTransfer
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> SharedMemoryTransfer_Initialise] . Initialisation for MemoryMap");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> SharedMemoryTransfer_Initialise] . Initialisation for Memory Map");
 				ret = SharedMemoryTransfer_Initialise(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 
 				//SharedMemoryTransfer
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> SharedMemoryTransfer_FetchData] . Fetch Data from Memory Map");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> SharedMemoryTransfer_FetchData] . Fetch Data from Memory Map");
 				ret = SharedMemoryTransfer_FetchData(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
@@ -2415,12 +2357,10 @@ namespace Functions
 		result	= (double)CONST_INVALID_RESULT;
 
 		tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis] Executing 'VnaDataAnalysis' phase.");
-		tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis] Executing 'VnaDataAnalysis' phase.");
 
 		if (sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
 		{
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> ConfigureSmoothing_CMT] Configure smoothing setting at the active trace.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> ConfigureSmoothing_CMT] Configure smoothing setting at the active trace.");
 			// If required to apply smoothing at the active trace
 			ret = ConfigureSmoothing_CMT(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
@@ -2431,7 +2371,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData_CMT] Get trace format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData_CMT] Get trace format data.");
 					// Get trace format data
 					ret = GetTraceFormatData_CMT(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -2445,7 +2384,6 @@ namespace Functions
 						result = (double)CONST_INVALID_RESULT;
 						ret = ER_CONST_GET_TRACE_FORMAT_DATA_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 				}
@@ -2463,7 +2401,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerSearchFormatData_CMT] Get marker search format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerSearchFormatData_CMT] Get marker search format data.");
 					// Get marker search format data  (min max / peak / target)
 					ret = GetMarkerSearchFormatData_CMT(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -2627,7 +2564,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
 					// Get marker math statistics format data
 					ret = GetMarkerMathFormatData_CMT(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -2664,7 +2600,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
 					// Get marker math bandwidth search format data
 					ret = GetMarkerMathFormatData_CMT(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -2716,7 +2651,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
 					// Get marker math bandwidth search format data
 					ret = GetMarkerMathFormatData_CMT(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -2767,7 +2701,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
 					// Get marker math flatness format data
 					ret = GetMarkerMathFormatData_CMT(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -2804,7 +2737,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerSearchMinMaxRipple_CMT] Get marker search min max ripple data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerSearchMinMaxRipple_CMT] Get marker search min max ripple data.");
 					// Get marker search format data  (min max / peak / target)
 					ret = GetMarkerSearchMinMaxRipple_CMT(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -2960,11 +2892,486 @@ namespace Functions
 					result = (double)CONST_INVALID_RESULT;
 				}
 			}
+			else if (vnaDataAnalysisTPC.function == Cond_Function_TraceData_Sds)
+			{
+				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
+				{
+					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData_CMT] Get trace format data.");
+					// Get trace format data
+					ret = GetTraceFormatData_CMT_Sds(tfSite, vnaSiteIndex);
+					if (ret != 0) goto EndOfTest;
+
+					// Assign data
+					double l_Real = 0.0; //for S21 & S11
+					double l_Imag = 0.0; //for S21 & S11
+					double delta_Real = 0.0;
+					double delta_Imag = 0.0;
+					double normalized = 0.0;
+					double Compare_Value0 = 0.0;
+					double Compare_Value1 = 0.0;
+					int FristCount = 0;
+					if (analysisSetting.TraceData_Sds_SearchRangeEnable[0] == Cond_AnalysisSetting_TraceData_Sds_SdsSearch)
+					{
+
+						if (analysisSetting.TraceData_Sds_SearchType[0] == "Min")
+						{
+
+							for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+							{
+								if ((traceFormatData->freqPoint[vnaSiteIndex, j] >= vnaDataAnalysisTPC.testFreqRangeStart[0]) &&
+									(traceFormatData->freqPoint[vnaSiteIndex, j] <= vnaDataAnalysisTPC.testFreqRangeStop[0]))
+								{
+									delta_Real = traceFormatData->S21Real[vnaSiteIndex, j] - traceFormatData->S21Real2[vnaSiteIndex, j];
+									delta_Imag = traceFormatData->S21Imaginary[vnaSiteIndex, j] - traceFormatData->S21Imaginary2[vnaSiteIndex, j];
+									normalized = (sqrt(delta_Real * delta_Real + delta_Imag * delta_Imag)) / (sqrt(2));
+
+
+									if ((normalized > 0) && (FristCount == 0))
+									{
+										Compare_Value0 = 20 * (std::log10(normalized)); //change to dB
+										FristCount++;
+									}
+									else if (normalized > 0)
+									{
+										Compare_Value1 = 20 * (std::log10(normalized));
+										if (Compare_Value0 <= Compare_Value1)
+										{
+											result = Compare_Value0;
+										}
+										else
+										{
+											Compare_Value0 = Compare_Value1;
+											result = Compare_Value0;
+										}
+									}
+
+								}
+							}
+						}
+						else if (analysisSetting.TraceData_Sds_SearchType[0] == "Max")
+						{
+
+							for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+							{
+								if ((traceFormatData->freqPoint[vnaSiteIndex, j] >= vnaDataAnalysisTPC.testFreqRangeStart[0]) &&
+									(traceFormatData->freqPoint[vnaSiteIndex, j] <= vnaDataAnalysisTPC.testFreqRangeStop[0]))
+								{
+									delta_Real = traceFormatData->S21Real[vnaSiteIndex, j] - traceFormatData->S21Real2[vnaSiteIndex, j];
+									delta_Imag = traceFormatData->S21Imaginary[vnaSiteIndex, j] - traceFormatData->S21Imaginary2[vnaSiteIndex, j];
+									normalized = (std::sqrt(delta_Real * delta_Real + delta_Imag * delta_Imag)) / (std::sqrt(2));
+
+									if ((normalized > 0) && (FristCount == 0))
+									{
+										Compare_Value0 = 20 * (std::log10(normalized)); //change to dB
+										FristCount++;
+									}
+									else if (normalized > 0)
+									{
+										Compare_Value1 = 20 * (std::log10(normalized));
+										if (Compare_Value0 >= Compare_Value1)
+										{
+											result = Compare_Value0;
+										}
+										else
+										{
+											Compare_Value0 = Compare_Value1;
+											result = Compare_Value0;
+										}
+									}
+
+								}
+							}
+						}
+						else if (analysisSetting.TraceData_Sds_SearchType[0] == "FixedFreq")
+						{
+							//test freq <= centerFreq,search from start, test freq > centerFreq,search from stop, 
+							double centerFreq = (traceFormatData->freqPoint[vnaSiteIndex, 0] + traceFormatData->freqPoint[vnaSiteIndex, (traceFormatData->totalFreqPoints - 1)]) / 2;
+							//	double centerFreq = (vnaDataAnalysisTPC.testFreqRangeStart[0] + vnaDataAnalysisTPC.testFreqRangeStop[0]) / 2;
+							if (vnaDataAnalysisTPC.testFreq[0] <= centerFreq)
+							{
+								for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+								{
+									if (traceFormatData->freqPoint[vnaSiteIndex, j] == vnaDataAnalysisTPC.testFreq[0])
+									{
+										delta_Real = traceFormatData->S21Real[vnaSiteIndex, j] - traceFormatData->S21Real2[vnaSiteIndex, j];
+										delta_Imag = traceFormatData->S21Imaginary[vnaSiteIndex, j] - traceFormatData->S21Imaginary2[vnaSiteIndex, j];
+										normalized = (std::sqrt(delta_Real * delta_Real + delta_Imag * delta_Imag)) / (std::sqrt(2));
+										result = 20 * (std::log10(normalized)); //change to dB
+
+									}
+								}
+							}
+							else
+							{
+								for (int j = traceFormatData->totalFreqPoints - 1; j >= 0; j--)
+								{
+									if (traceFormatData->freqPoint[vnaSiteIndex, j] == vnaDataAnalysisTPC.testFreq[0])
+									{
+										delta_Real = traceFormatData->S21Real[vnaSiteIndex, j] - traceFormatData->S21Real2[vnaSiteIndex, j];
+										delta_Imag = traceFormatData->S21Imaginary[vnaSiteIndex, j] - traceFormatData->S21Imaginary2[vnaSiteIndex, j];
+										//normalized = ((delta_Real * delta_Real) + (delta_Imag * delta_Imag)) / (std::sqrt(2));
+										normalized = (std::sqrt(delta_Real * delta_Real + delta_Imag * delta_Imag)) / (std::sqrt(2));
+										result = 20 * (std::log10(normalized)); //change to dB
+
+									}
+								}
+							}
+
+						}
+
+					}
+					else if (analysisSetting.TraceData_Sds_SearchRangeEnable[0] == Cond_AnalysisSetting_TraceData_Sds_Sdd22Search)
+					{
+						if (analysisSetting.TraceData_Sds_SearchType[0] == "Max")
+						{
+
+							for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+							{
+								if ((traceFormatData->freqPoint[vnaSiteIndex, j] >= vnaDataAnalysisTPC.testFreqRangeStart[0]) &&
+									(traceFormatData->freqPoint[vnaSiteIndex, j] <= vnaDataAnalysisTPC.testFreqRangeStop[0]))
+								{
+									//delta_Real = (traceFormatData->S22Real[vnaSiteIndex, j] - traceFormatData->S21Rea23[vnaSiteIndex, j] - traceFormatData->S12Rea23[vnaSiteIndex, j] + traceFormatData->S22Rea13[vnaSiteIndex, j]) / 2;
+									//delta_Imag = (traceFormatData->S22Imaginary[vnaSiteIndex, j] - traceFormatData->S21Imaginary4[vnaSiteIndex, j] - traceFormatData->S12Imaginary4[vnaSiteIndex, j] + traceFormatData->S22Imaginary3[vnaSiteIndex, j]) / 2;
+									delta_Real = (traceFormatData->S11Real[vnaSiteIndex, j] - traceFormatData->S21Real[vnaSiteIndex, j] - traceFormatData->S12Real[vnaSiteIndex, j] + traceFormatData->S22Real[vnaSiteIndex, j])/2 ;
+									delta_Imag = (traceFormatData->S11Imaginary[vnaSiteIndex, j] - traceFormatData->S21Imaginary[vnaSiteIndex, j] - traceFormatData->S12Imaginary[vnaSiteIndex, j] + traceFormatData->S22Imaginary[vnaSiteIndex, j])/2 ;
+									//normalized = (sqrt(delta_Real * delta_Real + delta_Imag * delta_Imag)) / 2;
+									normalized = (sqrt(delta_Real * delta_Real + delta_Imag * delta_Imag));
+
+									if ((normalized > 0) && (FristCount == 0))
+									{
+										Compare_Value0 = 20 * log10(normalized); //change to dB
+										FristCount++;
+									}
+									else if (normalized > 0)
+									{
+										Compare_Value1 = 20 * log10(normalized);
+										if (Compare_Value0 >= Compare_Value1)
+										{
+											result = Compare_Value0;
+										}
+										else
+										{
+											Compare_Value0 = Compare_Value1;
+											result = Compare_Value0;
+										}
+									}
+
+								}
+							}
+						}
+
+					}
+					else if (analysisSetting.TraceData_Sds_SearchRangeEnable[0] == Cond_AnalysisSetting_TraceData_Sds_AmpImbalance)
+					{
+						if (analysisSetting.TraceData_Sds_SearchType[0] == "Max")
+						{
+
+							for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+							{
+								if ((traceFormatData->freqPoint[vnaSiteIndex, j] >= vnaDataAnalysisTPC.testFreqRangeStart[0]) &&
+									(traceFormatData->freqPoint[vnaSiteIndex, j] <= vnaDataAnalysisTPC.testFreqRangeStop[0]))
+								{
+									//delta_Real = traceFormatData->S21Real[vnaSiteIndex, j] - traceFormatData->S21Real2[vnaSiteIndex, j];
+									//delta_Imag = traceFormatData->S21Imaginary[vnaSiteIndex, j] - traceFormatData->S21Imaginary2[vnaSiteIndex, j];
+									//normalized = sqrt(delta_Real * delta_Real + delta_Imag * delta_Imag);
+
+									// 一次性计算幅度不平衡度，直接赋给 normalized,normalized = fabs( 20 * log10( sqrt( S21_real² + S21_imag² ) )-20 * log10(sqrt(S31_real² + S31_imag²)) );
+									normalized = fabs(20 * log10(sqrt(traceFormatData->S21Real[vnaSiteIndex, j] * traceFormatData->S21Real[vnaSiteIndex, j]
+										+ traceFormatData->S21Imaginary[vnaSiteIndex, j] * traceFormatData->S21Imaginary[vnaSiteIndex, j]))
+										- 20 * log10(sqrt(traceFormatData->S21Real2[vnaSiteIndex, j] * traceFormatData->S21Real2[vnaSiteIndex, j]
+											+ traceFormatData->S21Imaginary2[vnaSiteIndex, j] * traceFormatData->S21Imaginary2[vnaSiteIndex, j])));
+
+
+									if ((normalized > 0) && (FristCount == 0))
+									{
+										//Compare_Value0 = abs(20 * log10(normalized)); //change to dB
+										Compare_Value0 = normalized;
+										FristCount++;
+									}
+									else if (normalized > 0)
+									{
+										//Compare_Value1 = abs(20 * log10(normalized));
+										Compare_Value1 = normalized;
+										if (Compare_Value0 >= Compare_Value1)
+										{
+											result = Compare_Value0;
+										}
+										else
+										{
+											Compare_Value0 = Compare_Value1;
+											result = Compare_Value0;
+										}
+									}
+
+								}
+							}
+						}
+					}
+					else if (analysisSetting.TraceData_Sds_SearchRangeEnable[0] == Cond_AnalysisSetting_TraceData_Sds_PhaseImbalance)
+					{
+						double Phase_Angle_S21 = 0.0;
+						double Phase_Angle_S31 = 0.0;
+						double Angle_S21_Pre = 0.0;
+						double Angle_S31_Pre = 0.0;
+						double UnwrapAngle_S21 = 0.0;
+						double UnwrapAngle_S31 = 0.0;
+						double Diff_S21 = 0.0;
+						double Diff_S31 = 0.0;
+						if (analysisSetting.TraceData_Sds_SearchType[0] == "Max")
+						{
+
+							for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+							{
+								if ((traceFormatData->freqPoint[vnaSiteIndex, j] >= vnaDataAnalysisTPC.testFreqRangeStart[0]) &&
+									(traceFormatData->freqPoint[vnaSiteIndex, j] <= vnaDataAnalysisTPC.testFreqRangeStop[0]))
+								{
+									//change to Phase Angle
+									Phase_Angle_S21 = (atan2(traceFormatData->S21Imaginary[vnaSiteIndex, j], traceFormatData->S21Real[vnaSiteIndex, j])) * 180 / M_PI;
+									Phase_Angle_S31 = (atan2(traceFormatData->S21Imaginary2[vnaSiteIndex, j], traceFormatData->S21Real2[vnaSiteIndex, j])) * 180 / M_PI;
+									//unwrap angle
+									if (FristCount == 0)
+									{
+										Angle_S21_Pre = Phase_Angle_S21;
+										Angle_S31_Pre = Phase_Angle_S31;
+
+									}
+									else
+									{
+										Diff_S21 = Phase_Angle_S21 - Angle_S21_Pre;
+										Diff_S31 = Phase_Angle_S31 - Angle_S31_Pre;
+										if (Diff_S21 > 180)
+										{
+											Phase_Angle_S21 -= 360;
+										}
+										else if (Diff_S21 < -180)
+										{
+											Phase_Angle_S21 += 360;
+										}
+
+										if (Diff_S31 > 180)
+										{
+											Phase_Angle_S31 -= 360;
+										}
+										else if (Diff_S31 < -180)
+										{
+											Phase_Angle_S31 += 360;
+										}
+										//set Pre value
+										Angle_S21_Pre = Phase_Angle_S21;
+										Angle_S31_Pre = Phase_Angle_S31;
+									}
+
+									// calculat Max Value
+									if (FristCount == 0)
+									{
+										//Compare_Value0 = 180 - abs(Phase_Angle_S21 - Phase_Angle_S31);
+										Compare_Value0 = abs(Phase_Angle_S21 - Phase_Angle_S31 - 180);
+										FristCount++;
+									}
+									else
+									{
+										Compare_Value1 = abs(Phase_Angle_S21 - Phase_Angle_S31 - 180);
+										if (Compare_Value0 >= Compare_Value1)
+										{
+											result = Compare_Value0;
+										}
+										else
+										{
+											Compare_Value0 = Compare_Value1;
+											result = Compare_Value0;
+										}
+									}
+
+
+								}
+							}
+						}
+					}
+					else if (analysisSetting.TraceData_Sds_SearchRangeEnable[0] == Cond_AnalysisSetting_TraceData_Sds_ComRejectRatio)
+					{
+
+						double add_normalized = 0.0;
+						double add_Real = 0.0;
+						double add_Imag = 0.0;
+						double dB_Value = 0.0;
+						double add_dB_Value = 0.0;
+
+						if (analysisSetting.TraceData_Sds_SearchType[0] == "Min")
+						{
+							for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+							{
+								if ((traceFormatData->freqPoint[vnaSiteIndex, j] >= vnaDataAnalysisTPC.testFreqRangeStart[0]) &&
+									(traceFormatData->freqPoint[vnaSiteIndex, j] <= vnaDataAnalysisTPC.testFreqRangeStop[0]))
+								{
+									delta_Real = traceFormatData->S21Real[vnaSiteIndex, j] - traceFormatData->S21Real2[vnaSiteIndex, j];
+									delta_Imag = traceFormatData->S21Imaginary[vnaSiteIndex, j] - traceFormatData->S21Imaginary2[vnaSiteIndex, j];
+									normalized = (sqrt(delta_Real * delta_Real + delta_Imag * delta_Imag)) / (sqrt(2));
+									dB_Value = 20 * log10(normalized);
+
+									add_Real = traceFormatData->S21Real[vnaSiteIndex, j] + traceFormatData->S21Real2[vnaSiteIndex, j];
+									add_Imag = traceFormatData->S21Imaginary[vnaSiteIndex, j] + traceFormatData->S21Imaginary2[vnaSiteIndex, j];
+									add_normalized = (sqrt(add_Real * add_Real + add_Imag * add_Imag)) / (sqrt(2));
+									add_dB_Value = 20 * log10(add_normalized);
+
+									if ((normalized > 0) && (FristCount == 0))
+									{
+										Compare_Value0 = abs(dB_Value - add_dB_Value);
+										FristCount++;
+									}
+									else if (normalized > 0)
+									{
+										Compare_Value1 = abs(dB_Value - add_dB_Value);
+										if (Compare_Value0 <= Compare_Value1)
+										{
+											result = Compare_Value0;
+										}
+										else
+										{
+											Compare_Value0 = Compare_Value1;
+											result = Compare_Value0;
+										}
+									}
+
+								}
+							}
+						}
+
+					}
+					else if (analysisSetting.TraceData_Sds_SearchRangeEnable[0] == Cond_AnalysisSetting_TraceData_Sds_S21Search)
+					{
+
+						if (analysisSetting.TraceData_Sds_SearchType[0] == "FixedFreq")
+						{
+							double	incidentPower_dBm = 0.0 dBm;
+							//test freq <= centerFreq,search from start, test freq > centerFreq,search from stop, 
+							double centerFreq = (traceFormatData->freqPoint[vnaSiteIndex, 0] + traceFormatData->freqPoint[vnaSiteIndex, (traceFormatData->totalFreqPoints - 1)]) / 2;
+							//	double centerFreq = (vnaDataAnalysisTPC.testFreqRangeStart[0] + vnaDataAnalysisTPC.testFreqRangeStop[0]) / 2;
+							if (vnaDataAnalysisTPC.testFreq[0] <= centerFreq)
+							{
+								for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+								{
+									if (traceFormatData->freqPoint[vnaSiteIndex, j] == vnaDataAnalysisTPC.testFreq[0])
+									{
+										l_Real = traceFormatData->S21Real[vnaSiteIndex, j];
+										l_Imag = traceFormatData->S21Imaginary[vnaSiteIndex, j];
+										normalized = sqrt(l_Real * l_Real + l_Imag * l_Imag);
+										result = 20 * (log10(normalized)); //change to dB
+
+									}
+								}
+							}
+							else
+							{
+								for (int j = traceFormatData->totalFreqPoints - 1; j >= 0; j--)
+								{
+									if (traceFormatData->freqPoint[vnaSiteIndex, j] == vnaDataAnalysisTPC.testFreq[0])
+									{
+										l_Real = traceFormatData->S21Real[vnaSiteIndex, j];
+										l_Imag = traceFormatData->S21Imaginary[vnaSiteIndex, j];
+										normalized = sqrt(l_Real * l_Real + l_Imag * l_Imag);
+										result = 20 * (log10(normalized)); //change to dB
+
+									}
+								}
+							}
+
+						}
+
+					}
+					else if (analysisSetting.TraceData_Sds_SearchRangeEnable[0] == Cond_AnalysisSetting_TraceData_Sds_S11Search)
+					{
+
+						if (analysisSetting.TraceData_Sds_SearchType[0] == "Max")
+						{
+
+							for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+							{
+								if ((traceFormatData->freqPoint[vnaSiteIndex, j] >= vnaDataAnalysisTPC.testFreqRangeStart[0]) &&
+									(traceFormatData->freqPoint[vnaSiteIndex, j] <= vnaDataAnalysisTPC.testFreqRangeStop[0]))
+								{
+									l_Real = traceFormatData->S11Real[vnaSiteIndex, j];
+									l_Imag = traceFormatData->S11Imaginary[vnaSiteIndex, j];
+									normalized = sqrt(l_Real * l_Real + l_Imag * l_Imag);
+
+
+									if ((normalized > 0) && (FristCount == 0))
+									{
+										Compare_Value0 = 20 * (log10(normalized)); //change to dB
+										FristCount++;
+									}
+									else if (normalized > 0)
+									{
+										Compare_Value1 = 20 * (log10(normalized));
+										if (Compare_Value0 >= Compare_Value1)
+										{
+											result = Compare_Value0;
+										}
+										else
+										{
+											Compare_Value0 = Compare_Value1;
+											result = Compare_Value0;
+										}
+									}
+
+								}
+							}
+						}
+						else if (analysisSetting.TraceData_Sds_SearchType[0] == "Min")
+						{
+
+							for (int j = 0; j < traceFormatData->totalFreqPoints; j++)
+							{
+								if ((traceFormatData->freqPoint[vnaSiteIndex, j] >= vnaDataAnalysisTPC.testFreqRangeStart[0]) &&
+									(traceFormatData->freqPoint[vnaSiteIndex, j] <= vnaDataAnalysisTPC.testFreqRangeStop[0]))
+								{
+									l_Real = traceFormatData->S11Real[vnaSiteIndex, j];
+									l_Imag = traceFormatData->S11Imaginary[vnaSiteIndex, j];
+									normalized = sqrt(l_Real * l_Real + l_Imag * l_Imag);
+
+
+									if ((normalized > 0) && (FristCount == 0))
+									{
+										Compare_Value0 = 20 * (log10(normalized)); //change to dB
+										FristCount++;
+									}
+									else if (normalized > 0)
+									{
+										Compare_Value1 = 20 * (log10(normalized));
+										if (Compare_Value0 <= Compare_Value1)
+										{
+											result = Compare_Value0;
+										}
+										else
+										{
+											Compare_Value0 = Compare_Value1;
+											result = Compare_Value0;
+										}
+									}
+
+								}
+							}
+						}
+
+					}
+
+					// If target test freq does not exists in the segment range
+					if (result == (double)CONST_INVALID_RESULT)
+					{
+						result = (double)CONST_INVALID_RESULT;
+						ret = ER_CONST_GET_TRACE_FORMAT_DATA_FAIL;
+						tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+						goto EndOfTest;
+					}
+				}
+				else
+				{
+					result = (double)CONST_INVALID_RESULT;
+				}
+			}
 		}
 		else if (sysConfigInfo.moduleConfigurationName == VnaModel_Keysight_M9804A)
 		{
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> ConfigureSmoothing_Keysight] Configure smoothing setting at the active trace.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> ConfigureSmoothing_Keysight] Configure smoothing setting at the active trace.");
 			// If required to apply smoothing at the active trace
 			ret = ConfigureSmoothing_Keysight(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
@@ -2975,7 +3382,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetTraceFormatData_Keysight] Get trace format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetTraceFormatData_Keysight] Get trace format data.");
 					// Get trace format data
 					ret = GetTraceFormatData_Keysight(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -2989,7 +3395,6 @@ namespace Functions
 						result = (double)CONST_INVALID_RESULT;
 						ret = ER_CONST_GET_TRACE_FORMAT_DATA_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[VnaDataAnalysis -> KeysightVnaUtility -> GetTraceFormatData_Keysight] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[VnaDataAnalysis -> KeysightVnaUtility -> GetTraceFormatData_Keysight] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 				}
@@ -3003,7 +3408,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight] Get marker search format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight] Get marker search format data.");
 					// Get marker search format data  (min max / peak / target)
 					ret = GetMarkerSearchFormatData_Keysight(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -3167,7 +3571,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
 					// Get marker math statistics format data
 					ret = GetMarkerMathFormatData_Keysight(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -3203,7 +3606,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
 					// Get marker math bandwidth search format data
 					ret = GetMarkerMathFormatData_Keysight(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -3254,7 +3656,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
 					// Get marker math flatness format data
 					ret = GetMarkerMathFormatData_Keysight(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -3290,7 +3691,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Get marker search min max ripple data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Get marker search min max ripple data.");
 					// Get marker search format data  (min max / peak / target)
 					ret = GetMarkerSearchMinMaxRipple_Keysight(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -3451,7 +3851,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_GetMinMax] Get MinMax data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_GetMinMax] Get MinMax data.");
 					//SharedMemoryTransfer
 					ret = SharedMemoryTransfer_DataAnalysis(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -3615,7 +4014,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryDataTarget] Get Target data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryDataTarget] Get Target data.");
 					//SharedMemoryTransfer
 					ret = SharedMemoryTransfer_DataAnalysis(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -3780,7 +4178,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryDataBWSearch] Get BWSearch data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryDataBWSearch Get BWSearch data.");
 					//SharedMemoryTransfer
 					ret = SharedMemoryTransfer_DataAnalysis(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -3832,7 +4229,6 @@ namespace Functions
 				if (vnaSetting[vnaSiteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_MinMaxRipple] Shared Memory min max ripple data.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_MinMaxRipple] Shared Memory search min max ripple data.");
 					// SharedMemory search format data  (min max / peak / target)
 					ret = SharedMemoryTransfer_MinMaxRipple(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -4245,7 +4641,6 @@ namespace Functions
 					saveRecallSetting->touchstoneFilePath = saveRecallSetting->touchstoneFolder + "\\" + snpFileName;
 
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[CopperMountainVnaUtility -> SaveTraceDataToTouchstoneFile_CMT] Save trace data to touchstone file.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[CopperMountainVnaUtility -> SaveTraceDataToTouchstoneFile_CMT] Save trace data to touchstone file.");
 					ret = SaveTraceDataToTouchstoneFile_CMT(tfSite, vnaSiteIndex);
 				}
 			}
@@ -4426,7 +4821,6 @@ namespace Functions
 					saveRecallSetting->touchstoneFilePath = saveRecallSetting->touchstoneFolder + "\\" + snpFileName;
 
 					tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[KeysightVnaUtility -> SaveTraceDataToTouchstoneFile_Keysight] Save trace data to touchstone file.");
-					tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[KeysightVnaUtility -> SaveTraceDataToTouchstoneFile_Keysight] Save trace data to touchstone file.");
 					ret = SaveTraceDataToTouchstoneFile_Keysight(tfSite, vnaSiteIndex);
 					if (ret != 0) goto EndOfTest;
 				}
@@ -4435,6 +4829,731 @@ namespace Functions
 
 	EndOfTest:
 		return ret;
+	}
+
+	int AMB7300TestLibrary::VnaSwTime(int tfSite, int vnaSiteIndex, double % result)
+	{
+		int ret = 0;
+		result	= (double)CONST_INVALID_RESULT;
+
+		tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaSwTime] Executing 'VnaSwTime' phase.");
+
+		if (sysConfigInfo.moduleConfigurationName == VnaModel_Keysight_M9804A)
+		{
+			if (vnaSwTimeTPC.measureType == Cond_MeasureType_DM_PXIE9852)
+			{
+				bool IsDone0 = false;
+				int c_as = 0;
+
+				try
+				{
+					if (!tl->glob->AWV.Offline)
+					{
+						pXIe9852_Info->aitask0->Start();
+
+						ret = DmRunVector(tfSite, tfSite, vnaSwTimeTPC.dmModuleAlias, vnaSwTimeTPC.dmVectorTrigger);
+						if (ret != 0)
+						{
+							pXIe9852_Info->aitask0->Stop();
+							goto EndOfTest;
+						}
+
+						while (!IsDone0)
+						{
+							if (pXIe9852_Info->aitask0->AvailableSamples >= pXIe9852_Info->sampleNumber) IsDone0 = true;
+							c_as++;
+							if (c_as >= 10) IsDone0 = true;
+						}
+
+						if (c_as < 10)
+						{
+							pXIe9852_Info->aitask0->ReadData(pXIe9852_Info->readValue0, 5000 mS);
+
+							// Separate Port 1 (readValueSite0)
+							int sampleCount = 0;
+							for (int i = 0; i < pXIe9852_Info->readValue0->Length; i += 2)
+							{
+								pXIe9852_Info->readValueSite0[sampleCount] = pXIe9852_Info->readValue0[i];
+								sampleCount++;
+							}
+
+							if (sampleCount > 0)
+							{
+								// 1. Lookup Table (mV to dBm)
+								cli::array<double, 2>^ lookupTable = gcnew cli::array<double, 2> {
+									{ 354.00, 5.0 }, { 391.23,   0.0 }, { 406.25,  -1.0 },
+									{ 420.41,  -2.0 }, { 436.27,  -3.0 }, { 454.83,  -4.0 },
+									{ 464.60,  -4.5 }, { 474.12,  -5.0 }, { 581.18, -10.0 },
+									{ 805.30, -20.0 }, { 1028.68, -30.0 }, { 1255.00, -40.0 },
+									{ 1358.76, -45.0 }, { 1457.76, -50.0 }
+								};
+								int tableRows = lookupTable->GetLength(0);
+
+								// 2. Convert Voltage to dBm Array
+								cli::array<double>^ dbmArray = gcnew cli::array<double>(sampleCount);
+								double max_dBm = -9999.0;
+								double min_dBm = 9999.0;
+								double sumVoltage = 0.0;
+
+								for (int count = 0; count < sampleCount; count++)
+								{
+									double vol_mV = pXIe9852_Info->readValueSite0[count] * 1000.0;
+									sumVoltage += pXIe9852_Info->readValueSite0[count];
+									double curr_dBm = 0.0;
+
+									if (vol_mV <= lookupTable[0, 0]) curr_dBm = lookupTable[0, 1];
+									else if (vol_mV >= lookupTable[tableRows - 1, 0]) curr_dBm = lookupTable[tableRows - 1, 1];
+									else
+									{
+										for (int r = 0; r < tableRows - 1; r++)
+										{
+											if (vol_mV >= lookupTable[r, 0] && vol_mV <= lookupTable[r + 1, 0])
+											{
+												double p0 = lookupTable[r, 1];
+												double p1 = lookupTable[r + 1, 1];
+												curr_dBm = p0 + (vol_mV - lookupTable[r, 0]) * (p1 - p0) / (lookupTable[r + 1, 0] - lookupTable[r, 0]);
+												break;
+											}
+										}
+									}
+									dbmArray[count] = curr_dBm;
+									if (curr_dBm > max_dBm) max_dBm = curr_dBm;
+									if (curr_dBm < min_dBm) min_dBm = curr_dBm;
+								}
+
+								// 3. Process Requested Output Format
+								if (vnaSwTimeTPC.outputFormat == Cond_OutputFormat_VnaSwTime_Time)
+								{
+									int edge = (vnaSwTimeTPC.vnaSwTime_TriggerEdge == Cond_AnalysisSetting_VnaSwTime_Rising) ? 1 : 0;
+									double dummyInit = 0.0, dummySettle = 0.0;
+									double triggerDelay = 0.0; // Update with real digitizer delay if available
+
+									if (vnaSwTimeTPC.vnaSwTime_MovingAvgState == Cond_AnalysisSetting_VnaSwTime_MovingAvgOn)
+									{
+										if (vnaSwTimeTPC.vnaSwTime_SearchLimitState == Cond_AnalysisSetting_VnaSwTime_SearchLimitOn)
+										{
+											result = CalculateSwTime_WithMA(dbmArray, edge, true, vnaSwTimeTPC.vnaSwTime_SearchLimitLevel, pXIe9852_Info->sampleRate, triggerDelay, dummyInit, dummySettle);
+										}
+										else if (vnaSwTimeTPC.vnaSwTime_SearchLimitState == Cond_AnalysisSetting_VnaSwTime_SearchLimitOff)
+										{
+											result = CalculateSwTime_WithMA(dbmArray, edge, false, vnaSwTimeTPC.vnaSwTime_SearchLimitLevel, pXIe9852_Info->sampleRate, triggerDelay, dummyInit, dummySettle);
+										}
+									}
+									else if (vnaSwTimeTPC.vnaSwTime_MovingAvgState == Cond_AnalysisSetting_VnaSwTime_MovingAvgOff)
+									{
+										if (vnaSwTimeTPC.vnaSwTime_SearchLimitState == Cond_AnalysisSetting_VnaSwTime_SearchLimitOn)
+										{
+											result = CalculateSwTime_NoMA(dbmArray, edge, true, vnaSwTimeTPC.vnaSwTime_SearchLimitLevel, pXIe9852_Info->sampleRate, triggerDelay, dummyInit, dummySettle);
+										}
+										else if (vnaSwTimeTPC.vnaSwTime_SearchLimitState == Cond_AnalysisSetting_VnaSwTime_SearchLimitOff)
+										{
+											result = CalculateSwTime_NoMA(dbmArray, edge, false, vnaSwTimeTPC.vnaSwTime_SearchLimitLevel, pXIe9852_Info->sampleRate, triggerDelay, dummyInit, dummySettle);
+										}
+									}
+								}
+								else if (vnaSwTimeTPC.outputFormat == Cond_OutputFormat_VnaSwTime_MaxPower) result = max_dBm;
+								else if (vnaSwTimeTPC.outputFormat == Cond_OutputFormat_VnaSwTime_MinPower) result = min_dBm;
+								else if (vnaSwTimeTPC.outputFormat == Cond_OutputFormat_VnaSwTime_AvgPower)
+								{
+									// Average using the linear voltage
+									double avgVoltagemV = (sumVoltage / sampleCount) * 1000.0;
+									if (avgVoltagemV <= lookupTable[0, 0]) result = lookupTable[0, 1];
+									else if (avgVoltagemV >= lookupTable[tableRows - 1, 0]) result = lookupTable[tableRows - 1, 1];
+									else
+									{
+										for (int r = 0; r < tableRows - 1; r++)
+										{
+											if (avgVoltagemV >= lookupTable[r, 0] && avgVoltagemV <= lookupTable[r + 1, 0])
+											{
+												result = lookupTable[r, 1] + (avgVoltagemV - lookupTable[r, 0]) * (lookupTable[r + 1, 1] - lookupTable[r, 1]) / (lookupTable[r + 1, 0] - lookupTable[r, 0]);
+												break;
+											}
+										}
+									}
+								}
+							}
+						}
+						pXIe9852_Info->aitask0->Stop();
+					}
+					else
+					{
+
+						// Read the dummy debug file and extract CH1 samples.
+						// File layout: line0=CH1, line1=CH2, line2=CH1, line3=CH2, ...
+						String^ csvPath = Environment::GetFolderPath(Environment::SpecialFolder::UserProfile) + "\\Downloads\\DebugFile.csv";
+						array<String^>^ allLines = File::ReadAllLines(csvPath);
+
+						int sampleCount = allLines->Length / 2; // interleaved CH1/CH2 -> half are CH1
+						pXIe9852_Info->readValueSite0 = gcnew array<double>(sampleCount);
+
+						for (int i = 0; i < sampleCount; i++)
+						{
+							// index i*2 = CH1 sample, i*2+1 = CH2 (skipped, mirrors the online i+=2 extraction)
+							pXIe9852_Info->readValueSite0[i] = Double::Parse(
+								allLines[i * 2],
+								System::Globalization::CultureInfo::InvariantCulture);
+						}
+						if (sampleCount > 0)
+						{
+							// 1. Lookup Table (mV to dBm)
+							cli::array<double, 2>^ lookupTable = gcnew cli::array<double, 2> {
+								{ 354.00, 5.0 }, { 391.23,   0.0 }, { 406.25,  -1.0 },
+								{ 420.41,  -2.0 }, { 436.27,  -3.0 }, { 454.83,  -4.0 },
+								{ 464.60,  -4.5 }, { 474.12,  -5.0 }, { 581.18, -10.0 },
+								{ 805.30, -20.0 }, { 1028.68, -30.0 }, { 1255.00, -40.0 },
+								{ 1358.76, -45.0 }, { 1457.76, -50.0 }
+							};
+							int tableRows = lookupTable->GetLength(0);
+
+							// 2. Convert Voltage to dBm Array
+							cli::array<double>^ dbmArray = gcnew cli::array<double>(sampleCount);
+							double max_dBm = -9999.0;
+							double min_dBm = 9999.0;
+							double sumVoltage = 0.0;
+
+							for (int count = 0; count < sampleCount; count++)
+							{
+								double vol_mV = pXIe9852_Info->readValueSite0[count] * 1000.0;
+								sumVoltage += pXIe9852_Info->readValueSite0[count];
+								double curr_dBm = 0.0;
+
+								if (vol_mV <= lookupTable[0, 0]) curr_dBm = lookupTable[0, 1];
+								else if (vol_mV >= lookupTable[tableRows - 1, 0]) curr_dBm = lookupTable[tableRows - 1, 1];
+								else
+								{
+									for (int r = 0; r < tableRows - 1; r++)
+									{
+										if (vol_mV >= lookupTable[r, 0] && vol_mV <= lookupTable[r + 1, 0])
+										{
+											double p0 = lookupTable[r, 1];
+											double p1 = lookupTable[r + 1, 1];
+											curr_dBm = p0 + (vol_mV - lookupTable[r, 0]) * (p1 - p0) / (lookupTable[r + 1, 0] - lookupTable[r, 0]);
+											break;
+										}
+									}
+								}
+								dbmArray[count] = curr_dBm;
+								if (curr_dBm > max_dBm) max_dBm = curr_dBm;
+								if (curr_dBm < min_dBm) min_dBm = curr_dBm;
+							}
+
+							// 3. Process Requested Output Format
+							if (vnaSwTimeTPC.outputFormat == Cond_OutputFormat_VnaSwTime_Time)
+							{
+								int edge = (vnaSwTimeTPC.vnaSwTime_TriggerEdge == Cond_AnalysisSetting_VnaSwTime_Rising) ? 1 : 0;
+								double dummyInit = 0.0, dummySettle = 0.0;
+								double triggerDelay = 0.0; // Update with real digitizer delay if available
+								double dummy_sampleRate = 1 MHz;
+								if (vnaSwTimeTPC.vnaSwTime_MovingAvgState == Cond_AnalysisSetting_VnaSwTime_MovingAvgOn)
+								{
+									if (vnaSwTimeTPC.vnaSwTime_SearchLimitState == Cond_AnalysisSetting_VnaSwTime_SearchLimitOn)
+									{
+										result = CalculateSwTime_WithMA(dbmArray, edge, true, vnaSwTimeTPC.vnaSwTime_SearchLimitLevel, pXIe9852_Info->sampleRate, triggerDelay, dummyInit, dummySettle);
+									}
+									else if (vnaSwTimeTPC.vnaSwTime_SearchLimitState == Cond_AnalysisSetting_VnaSwTime_SearchLimitOff)
+									{
+										result = CalculateSwTime_WithMA(dbmArray, edge, false, vnaSwTimeTPC.vnaSwTime_SearchLimitLevel, pXIe9852_Info->sampleRate, triggerDelay, dummyInit, dummySettle);
+									}
+								}
+								else if (vnaSwTimeTPC.vnaSwTime_MovingAvgState == Cond_AnalysisSetting_VnaSwTime_MovingAvgOff)
+								{
+									if (vnaSwTimeTPC.vnaSwTime_SearchLimitState == Cond_AnalysisSetting_VnaSwTime_SearchLimitOn)
+									{
+										result = CalculateSwTime_NoMA(dbmArray, edge, true, vnaSwTimeTPC.vnaSwTime_SearchLimitLevel, pXIe9852_Info->sampleRate, triggerDelay, dummyInit, dummySettle);
+									}
+									else if (vnaSwTimeTPC.vnaSwTime_SearchLimitState == Cond_AnalysisSetting_VnaSwTime_SearchLimitOff)
+									{
+										result = CalculateSwTime_NoMA(dbmArray, edge, false, vnaSwTimeTPC.vnaSwTime_SearchLimitLevel, pXIe9852_Info->sampleRate, triggerDelay, dummyInit, dummySettle);
+									}
+								}
+							}
+							else if (vnaSwTimeTPC.outputFormat == Cond_OutputFormat_VnaSwTime_MaxPower) result = max_dBm;
+							else if (vnaSwTimeTPC.outputFormat == Cond_OutputFormat_VnaSwTime_MinPower) result = min_dBm;
+							else if (vnaSwTimeTPC.outputFormat == Cond_OutputFormat_VnaSwTime_AvgPower)
+							{
+								// Average using the linear voltage
+								double avgVoltagemV = (sumVoltage / sampleCount) * 1000.0;
+								if (avgVoltagemV <= lookupTable[0, 0]) result = lookupTable[0, 1];
+								else if (avgVoltagemV >= lookupTable[tableRows - 1, 0]) result = lookupTable[tableRows - 1, 1];
+								else
+								{
+									for (int r = 0; r < tableRows - 1; r++)
+									{
+										if (avgVoltagemV >= lookupTable[r, 0] && avgVoltagemV <= lookupTable[r + 1, 0])
+										{
+											result = lookupTable[r, 1] + (avgVoltagemV - lookupTable[r, 0]) * (lookupTable[r + 1, 1] - lookupTable[r, 1]) / (lookupTable[r + 1, 0] - lookupTable[r, 0]);
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				catch (Exception^ ex)
+				{
+					if (pXIe9852_Info->aitask0 != nullptr) pXIe9852_Info->aitask0->Stop();
+					throw gcnew Aemulus::Hardware::AlarmException ("VnaSwTime test error", ex);
+				}
+			}
+		}
+
+	EndOfTest:
+		return ret;
+	}
+	double AMB7300TestLibrary::CalculateSwTime_WithMA(cli::array<double>^ dbmArray, int rise_h_fall_l, bool limitEnabled, double limitLevel, double sampleRate, double digitizerTriggerDelay, double %powerInit, double %powerSettle)
+	{
+		double timing = CONST_INVALID_RESULT;
+		int sampleNum = dbmArray->Length;
+
+		cli::array<double>^ pData_Watt = gcnew cli::array<double>(sampleNum);
+		cli::array<double>^ pData_MA = gcnew cli::array<double>(sampleNum);
+
+		// Convert dBm directly to Watts for smoothing
+		for (int i = 0; i < sampleNum; i++)
+		{
+			pData_Watt[i] = 1e-3 * Math::Pow(10, dbmArray[i] / 10.0);
+		}
+		double limitLevel_watt = 1e-3 * Math::Pow(10, limitLevel / 10.0);
+
+		// Moving Average logic
+		int factor = 20; 
+		int delta = 0;
+
+		for (int i = 0; i < sampleNum; i++)
+		{
+			if (i < factor / 2)
+			{
+				delta = factor / 2 - i;
+
+				if (i != 0) 
+				{
+					for (int idx = i - 1; idx >= i - (factor / 2) + delta; idx--) 
+					{
+						pData_MA[i] += pData_Watt[idx];
+					}
+				}
+
+				for (int idx = i + 1; idx <= i + factor / 2 + delta; idx++) 
+				{
+					pData_MA[i] += pData_Watt[idx];
+				}
+
+				pData_MA[i] = (pData_MA[i] + pData_Watt[i]) / (factor + 1);
+			}
+			else if (i + factor / 2 > sampleNum - 1)
+			{
+				delta = factor / 2 + i - (sampleNum - 1);
+
+				for (int idx = i - 1; idx >= i - (factor / 2) - delta; idx--) 
+				{
+					pData_MA[i] += pData_Watt[idx];
+				}
+
+				if (i != sampleNum - 1) 
+				{
+					for (int idx = i + 1; idx <= i + factor / 2 - delta; idx++) 
+					{
+						pData_MA[i] += pData_Watt[idx];
+					}
+				}
+
+				pData_MA[i] = (pData_MA[i] + pData_Watt[i]) / (factor + 1);
+			}
+			else
+			{
+				for (int idx = i - 1; idx >= i - factor / 2; idx--) 
+				{
+					pData_MA[i] += pData_Watt[idx];
+				}
+
+				for (int idx = i + 1; idx <= i + factor / 2; idx++) 
+				{
+					pData_MA[i] += pData_Watt[idx];
+				}
+
+				pData_MA[i] = (pData_MA[i] + pData_Watt[i]) / (factor + 1);
+			}
+		}
+
+		// Get initiate power and settled power
+		//HARDCODED to get first 10 and last 10 samples averaage for init and settled power
+		int pCount = 0;
+		double pInit = 0.0;
+		double pSettle = 0.0;
+		double pDynamicRange = 0.0;
+		double power_at_threshold = 0.0;
+		double pStart = 0.0;
+
+		if (rise_h_fall_l == 0) // Falling edge
+		{
+			for (int i = 0; i < 10 && i < sampleNum; i++) 
+			{ 
+				pInit += pData_MA[i]; 
+				pCount++; 
+			}
+
+			pInit /= pCount; 
+			pCount = 0;
+
+			for (int i = sampleNum - 1; i > sampleNum - 10 && i >= 0; i--) 
+			{ 
+				pSettle += pData_MA[i]; 
+				pCount++; 
+			}
+
+			pSettle /= pCount;
+
+			pDynamicRange = pInit - pSettle;
+			pStart = pInit - (0.1 * pDynamicRange);
+			power_at_threshold = pSettle + (0.1 * pDynamicRange);
+		}
+		else // Rising edge
+		{
+			for (int i = 0; i < 10 && i < sampleNum; i++) 
+			{ 
+				pInit += pData_MA[i]; 
+				pCount++; 
+			}
+
+			pInit /= pCount; 
+			pCount = 0;
+
+			for (int i = sampleNum - 1; i > sampleNum - 10 && i >= 0; i--) 
+			{ 
+				pSettle += pData_MA[i]; 
+				pCount++; 
+			}
+
+			pSettle /= pCount;
+
+			pDynamicRange = pSettle - pInit;
+			pStart = pInit; 
+			power_at_threshold = pSettle - (0.1 * pDynamicRange);
+		}
+
+		powerInit = pInit;
+		powerSettle = pSettle;
+
+		// Threshold evaluation
+		int iStart = 0;
+		int count = 0;
+		int resultCounter = 0;
+
+		if (rise_h_fall_l == 1) // Rising
+		{
+			int pStartConsecutiveFound = 3;
+			int pStartConsecutiveCount = 0;
+			int consecutiveFound = 1;
+
+			if (limitEnabled)
+			{
+				for (int i = 0; i < sampleNum; i++)
+				{
+					if (pData_Watt[i] > limitLevel_watt)
+					{ 
+						break;
+					}
+					else 
+					{
+						return -999;
+					}
+				}
+			}
+
+			for (int i = 0; i < sampleNum; i++)
+			{
+				if (pData_MA[i] > pStart) 
+				{
+					pStartConsecutiveCount++;
+
+					if (pStartConsecutiveCount == pStartConsecutiveFound) 
+					{ 
+						iStart = i - pStartConsecutiveCount; 
+						break; 
+					}
+				} 
+				else 
+				{
+					pStartConsecutiveCount = 0;
+				}
+			}
+
+			for (int i = 0; i < sampleNum; i++)
+			{
+				if (pData_MA[i] > power_at_threshold) 
+				{
+					count++;
+					resultCounter = Math::Max(resultCounter, count);
+
+					if (resultCounter >= consecutiveFound) 
+					{
+						timing = ((i - iStart) - consecutiveFound) * (1.0 / sampleRate) + digitizerTriggerDelay;
+						break;
+					}
+				} 
+				else 
+				{
+					count = 0;
+				}
+			}
+		}
+		else // Falling
+		{
+			int pStartConsecutiveFound = 3;
+			int pStartConsecutiveCount = 0;
+			int consecutiveFound = 3;
+
+			if (limitEnabled)
+			{
+				for (int i = 0; i < sampleNum; i++)
+				{
+					if (pData_Watt[i] < limitLevel_watt)
+					{ 
+						break;
+					}
+					else 
+					{
+						return -999;
+					}
+				}
+			}
+
+			for (int i = sampleNum - 1; i > 1; i--)
+			{
+				if (pData_MA[i] > pStart) 
+				{
+					pStartConsecutiveCount++;
+
+					if (pStartConsecutiveCount == pStartConsecutiveFound) 
+					{ 
+						iStart = i + pStartConsecutiveCount; 
+						break; 
+					}
+				} 
+				else 
+				{
+					pStartConsecutiveCount = 0;
+				}
+			}
+
+			for (int i = sampleNum - 1; i > 1; i--)
+			{
+				if (pData_MA[i] > power_at_threshold) 
+				{
+					count++;
+					resultCounter = Math::Max(resultCounter, count);
+
+					if (resultCounter >= consecutiveFound) 
+					{
+						timing = ((i + consecutiveFound) - iStart) * (1.0 / sampleRate) + digitizerTriggerDelay;
+						break;
+					}
+				} 
+				else 
+				{
+					count = 0;
+				}
+			}
+		}
+
+		return timing;
+	}
+	double AMB7300TestLibrary::CalculateSwTime_NoMA(cli::array<double>^ dbmArray, int rise_h_fall_l, bool limitEnabled, double limitLevel, double sampleRate, double digitizerTriggerDelay, double %powerInit, double %powerSettle)
+	{
+		double timing = CONST_INVALID_RESULT;
+		int sampleNum = dbmArray->Length;
+		cli::array<double>^ pData_Watt = gcnew cli::array<double>(sampleNum);
+
+		// Convert dBm directly to Watts (NO moving average applied)
+		for (int i = 0; i < sampleNum; i++)
+		{
+			pData_Watt[i] = 1e-3 * Math::Pow(10, dbmArray[i] / 10.0);
+		}
+		double limitLevel_watt = 1e-3 * Math::Pow(10, limitLevel / 10.0);
+
+		// Get initiate power and settled power straight from raw Watts
+		//HARDCODED to get first 10 and last 10 samples averaage for init and settled power
+		int pCount = 0;
+		double pInit = 0.0;
+		double pSettle = 0.0;
+		double pDynamicRange = 0.0;
+		double power_at_threshold = 0.0;
+		double pStart = 0.0;
+
+		if (rise_h_fall_l == 0) // Falling edge
+		{
+			for (int i = 0; i < 10 && i < sampleNum; i++) 
+			{ 
+				pInit += pData_Watt[i]; 
+				pCount++; 
+			}
+
+			pInit /= pCount; 
+			pCount = 0;
+
+			for (int i = sampleNum - 1; i > sampleNum - 10 && i >= 0; i--) 
+			{ 
+				pSettle += pData_Watt[i]; 
+				pCount++; 
+			}
+
+			pSettle /= pCount;
+
+			pDynamicRange = pInit - pSettle;
+			pStart = pInit - (0.1 * pDynamicRange);
+			power_at_threshold = pSettle + (0.1 * pDynamicRange);
+		}
+		else // Rising edge
+		{
+			for (int i = 0; i < 10 && i < sampleNum; i++) 
+			{ 
+				pInit += pData_Watt[i]; 
+				pCount++; 
+			}
+
+			pInit /= pCount; 
+			pCount = 0;
+
+			for (int i = sampleNum - 1; i > sampleNum - 10 && i >= 0; i--) 
+			{ 
+				pSettle += pData_Watt[i]; 
+				pCount++; 
+			}
+
+			pSettle /= pCount;
+
+			pDynamicRange = pSettle - pInit;
+			pStart = pInit; 
+			power_at_threshold = pSettle - (0.1 * pDynamicRange);
+		}
+
+		powerInit = pInit;
+		powerSettle = pSettle;
+
+		// Threshold evaluation directly on pData_Watt
+		int iStart = 0;
+		int count = 0;
+		int resultCounter = 0;
+
+		if (rise_h_fall_l == 1) // Rising
+		{
+			int pStartConsecutiveFound = 3;
+			int pStartConsecutiveCount = 0;
+			int consecutiveFound = 1;
+
+			if (limitEnabled)
+			{
+				for (int i = 0; i < sampleNum; i++)
+				{
+					if (pData_Watt[i] > limitLevel_watt)
+					{ 
+						break;
+					}
+					else 
+					{
+						return -999;
+					}
+				}
+			}
+
+			for (int i = 0; i < sampleNum; i++)
+			{
+				if (pData_Watt[i] > pStart) 
+				{
+					pStartConsecutiveCount++;
+
+					if (pStartConsecutiveCount == pStartConsecutiveFound) 
+					{ 
+						iStart = i - pStartConsecutiveCount; 
+						break; 
+					}
+				} 
+				else 
+				{
+					pStartConsecutiveCount = 0;
+				}
+			}
+
+			for (int i = 0; i < sampleNum; i++)
+			{
+				if (pData_Watt[i] > power_at_threshold) 
+				{
+					count++;
+					resultCounter = Math::Max(resultCounter, count);
+
+					if (resultCounter >= consecutiveFound) 
+					{
+						timing = ((i - iStart) - consecutiveFound) * (1.0 / sampleRate) + digitizerTriggerDelay;
+						break;
+					}
+				} 
+				else 
+				{
+					count = 0;
+				}
+			}
+		}
+		else // Falling
+		{
+			int pStartConsecutiveFound = 3;
+			int pStartConsecutiveCount = 0;
+			int consecutiveFound = 3;
+
+			if (limitEnabled)
+			{
+				for (int i = 0; i < sampleNum; i++)
+				{
+					if (pData_Watt[i] < limitLevel_watt)
+					{ 
+						break;
+					}
+					else 
+					{
+						return -999;
+					}
+				}
+			}
+
+			for (int i = sampleNum - 1; i > 1; i--)
+			{
+				if (pData_Watt[i] > pStart) 
+				{
+					pStartConsecutiveCount++;
+
+					if (pStartConsecutiveCount == pStartConsecutiveFound) 
+					{ 
+						iStart = i + pStartConsecutiveCount; 
+						break; 
+					}
+				} 
+				else 
+				{
+					pStartConsecutiveCount = 0;
+				}
+			}
+
+			for (int i = sampleNum - 1; i > 1; i--)
+			{
+				if (pData_Watt[i] > power_at_threshold) 
+				{
+					count++;
+					resultCounter = Math::Max(resultCounter, count);
+
+					if (resultCounter >= consecutiveFound) 
+					{
+						timing = ((i + consecutiveFound) - iStart) * (1.0 / sampleRate) + digitizerTriggerDelay;
+						break;
+					}
+				} 
+				else 
+				{
+					count = 0;
+				}
+			}
+		}
+
+		return timing;
 	}
 
 	int AMB7300TestLibrary::VnaFetch_TrueParallel(int tfSite, int vnaSiteIndex)
@@ -4448,7 +5567,6 @@ namespace Functions
 		**		This is a function to execute 'VnaFetch' phase.
 		******************************************************************************************************/
 		tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch] Executing 'VnaFetch' phase.");
-		tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch] Executing 'VnaFetch' phase.");
 
 		// Local variable
 		int ret = 0;
@@ -4469,25 +5587,21 @@ namespace Functions
 		if (sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
 		{
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureMpexPortPairSwitching_CMT] Configure MPEX port pair switching.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureMpexPortPairSwitching_CMT] Configure MPEX port pair switching.");
 			// Configure MPEX port pair switching
 			ret = ConfigureMpexPortPairSwitching_CMT(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> GetCurrentVnaFetchChannel] Get VNA active channel (Current VnaFetch).");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> GetCurrentVnaFetchChannel] Get VNA active channel (Current VnaFetch).");
 			// Get current vna fetch active channel for generic usage
 			ret = GetCurrentVnaFetchChannel(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureTraces_CMT] Configure trace setting at the active channel.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureTraces_CMT] Configure trace setting at the active channel.");
 			// Configure trace settings at the active channel
 			ret = ConfigureTraces_CMT(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureAveraging_CMT] Configure averaging setting at the active channel.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureAveraging_CMT] Configure averaging setting at the active channel.");
 			// If required to apply averaging at the active channel
 			ret = ConfigureAveraging_CMT(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
@@ -4497,7 +5611,6 @@ namespace Functions
 				(segmentSetting[first_active_site].sweepType == Vna_Stimulus_SweepType_Segment))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureActiveChannelAndSingleTrigger_CMT] Configure active channel, arm and wait for data.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureActiveChannelAndSingleTrigger_CMT] Configure active channel, arm and wait for data.");
 				ret = ConfigureActiveChannelAndSingleTrigger_CMT(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
@@ -4505,7 +5618,6 @@ namespace Functions
 				(segmentSetting[first_active_site].sweepType == Vna_SharedMemoryTransfer))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_CMT] Configure single trigger for GetFromStateFile type.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> CopperMountainVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_CMT] Configure single trigger for GetFromStateFile type.");
 				ret = ConfigureSingleTriggerForGetFromStateFileType_CMT(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
@@ -4515,25 +5627,21 @@ namespace Functions
 			// [Future Enchancement] API not support. 
 			// There is A5, A4 MPEX setup for Keysight VNA.
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureMpexPortPairSwitching_Keysight] Configure MPEX port pair switching.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureMpexPortPairSwitching_Keysight] Configure MPEX port pair switching.");
 			// Configure MPEX port pair switching
 			ret = ConfigureMpexPortPairSwitching_Keysight(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> GetCurrentVnaFetchChannel] Get VNA active channel (Current VnaFetch).");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> GetCurrentVnaFetchChannel] Get VNA active channel (Current VnaFetch).");
 			// Get current vna fetch active channel for generic usage
 			ret = GetCurrentVnaFetchChannel(tfSite, vnaSiteIndex); //Do Nothing here for SMT
 			if (ret != 0) goto EndOfTest;
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureTraces_Keysight] Configure trace setting at the active channel.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureTraces_Keysight] Configure trace setting at the active channel.");
 			// Configure trace settings at the active channel
 			ret = ConfigureTraces_Keysight(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
 
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureAveraging_Keysight] Configure averaging setting at the active channel.");
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureAveraging_Keysight] Configure averaging setting at the active channel.");
 			// If required to apply averaging at the active channel
 			ret = ConfigureAveraging_Keysight(tfSite, vnaSiteIndex);
 			if (ret != 0) goto EndOfTest;
@@ -4543,7 +5651,6 @@ namespace Functions
 				(segmentSetting[first_active_site].sweepType == Vna_Stimulus_SweepType_Segment))
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureActiveChannelAndSingleTrigger_Keysight] Configure active channel, arm and wait for data.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureActiveChannelAndSingleTrigger_Keysight] Configure active channel, arm and wait for data.");
 				ret = ConfigureActiveChannelAndSingleTrigger_Keysight(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
@@ -4551,7 +5658,6 @@ namespace Functions
 				(segmentSetting[first_active_site].sweepType == Vna_Stimulus_SweepType_PowerSweep)) // Under development, not support yet
 			{
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_Keysight] Configure single trigger for GetFromStateFile type.");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> ConfigureSingleTriggerForGetFromStateFileType_Keysight] Configure single trigger for GetFromStateFile type.");
 				ret = ConfigureSingleTriggerForGetFromStateFileType_Keysight(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
@@ -4560,13 +5666,11 @@ namespace Functions
 			{
 				//SharedMemoryTransfer
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> SharedMemoryTransfer_Initialise] . Initialisation for MemoryMap");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> SharedMemoryTransfer_Initialise] . Initialisation for Memory Map");
 				ret = SharedMemoryTransfer_Initialise(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 
 				//SharedMemoryTransfer
 				tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> SharedMemoryTransfer_FetchData] . Fetch Data from Memory Map");
-				tl->WriteToFileLogger(tfSite, vnaSiteIndex, INFO, "[VnaFetch -> KeysightVnaUtility -> SharedMemoryTransfer_FetchData] . Fetch Data from Memory Map");
 				ret = SharedMemoryTransfer_FetchData_TrueParallel(tfSite, vnaSiteIndex);
 				if (ret != 0) goto EndOfTest;
 			}
@@ -4611,12 +5715,10 @@ namespace Functions
 		result = (double)CONST_INVALID_RESULT;
 
 		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis] Executing 'VnaDataAnalysis' phase.");
-		tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis] Executing 'VnaDataAnalysis' phase.");
 
 		if (sysConfigInfo.moduleConfigurationName == VnaModel_CMT_SC5090)
 		{
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> ConfigureSmoothing_CMT] Configure smoothing setting at the active trace.");
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> ConfigureSmoothing_CMT] Configure smoothing setting at the active trace.");
 			// If required to apply smoothing at the active trace
 			ret = ConfigureSmoothing_CMT(tfSite, siteIndex);
 			if (ret != 0) goto EndOfTest;
@@ -4627,7 +5729,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData_CMT] Get trace format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData_CMT] Get trace format data.");
 					// Get trace format data
 					ret = GetTraceFormatData_CMT(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -4641,7 +5742,6 @@ namespace Functions
 						result = (double)CONST_INVALID_RESULT;
 						ret = ER_CONST_GET_TRACE_FORMAT_DATA_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetTraceFormatData] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 				}
@@ -4659,7 +5759,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerSearchFormatData_CMT] Get marker search format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerSearchFormatData_CMT] Get marker search format data.");
 					// Get marker search format data  (min max / peak / target)
 					ret = GetMarkerSearchFormatData_CMT(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -4823,7 +5922,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
 					// Get marker math statistics format data
 					ret = GetMarkerMathFormatData_CMT(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -4860,7 +5958,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
 					// Get marker math bandwidth search format data
 					ret = GetMarkerMathFormatData_CMT(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -4912,7 +6009,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
 					// Get marker math bandwidth search format data
 					ret = GetMarkerMathFormatData_CMT(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -4963,7 +6059,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerMathFormatData_CMT] Get marker math format data.");
 					// Get marker math flatness format data
 					ret = GetMarkerMathFormatData_CMT(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5000,7 +6095,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerSearchMinMaxRipple_CMT] Get marker search min max ripple data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> CopperMountainVnaUtility -> GetMarkerSearchMinMaxRipple_CMT] Get marker search min max ripple data.");
 					// Get marker search format data  (min max / peak / target)
 					ret = GetMarkerSearchMinMaxRipple_CMT(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5160,7 +6254,6 @@ namespace Functions
 		else if (sysConfigInfo.moduleConfigurationName == VnaModel_Keysight_M9804A)
 		{
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> ConfigureSmoothing_Keysight] Configure smoothing setting at the active trace.");
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> ConfigureSmoothing_Keysight] Configure smoothing setting at the active trace.");
 			// If required to apply smoothing at the active trace
 			ret = ConfigureSmoothing_Keysight(tfSite, siteIndex);
 			if (ret != 0) goto EndOfTest;
@@ -5171,7 +6264,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetTraceFormatData_Keysight] Get trace format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetTraceFormatData_Keysight] Get trace format data.");
 					// Get trace format data
 					ret = GetTraceFormatData_Keysight(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5185,7 +6277,6 @@ namespace Functions
 						result = (double)CONST_INVALID_RESULT;
 						ret = ER_CONST_GET_TRACE_FORMAT_DATA_FAIL;
 						tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[VnaDataAnalysis -> KeysightVnaUtility -> GetTraceFormatData_Keysight] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-						tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[VnaDataAnalysis -> KeysightVnaUtility -> GetTraceFormatData_Keysight] Target test frequency does not exist in the trace format data." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 						goto EndOfTest;
 					}
 				}
@@ -5202,7 +6293,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight] Get marker search format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchFormatData_Keysight] Get marker search format data.");
 					// Get marker search format data  (min max / peak / target)
 					ret = GetMarkerSearchFormatData_Keysight(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5366,7 +6456,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
 					// Get marker math statistics format data
 					ret = GetMarkerMathFormatData_Keysight(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5402,7 +6491,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
 					// Get marker math bandwidth search format data
 					ret = GetMarkerMathFormatData_Keysight(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5453,7 +6541,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerMathFormatData_Keysight] Get marker math format data.");
 					// Get marker math flatness format data
 					ret = GetMarkerMathFormatData_Keysight(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5489,7 +6576,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Get marker search min max ripple data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Get marker search min max ripple data.");
 					// Get marker search format data  (min max / peak / target)
 					ret = GetMarkerSearchMinMaxRipple_Keysight(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5653,7 +6739,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Get marker search min max ripple data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> GetMarkerSearchMinMaxRipple_Keysight] Get marker search min max ripple data.");
 					// Get marker search format data  (min max / peak / target)
 					ret = GetMarkerCompressionSearchData_Keysight(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5808,7 +6893,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_GetMinMax] Get MinMax data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_GetMinMax] Get MinMax data.");
 					//SharedMemoryTransfer
 					ret = SharedMemoryTransfer_DataAnalysis_TrueParallel(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -5972,7 +7056,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryDataTarget] Get Target data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryDataTarget] Get Target data.");
 					//SharedMemoryTransfer
 					ret = SharedMemoryTransfer_DataAnalysis_TrueParallel(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -6137,7 +7220,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryDataBWSearch] Get BWSearch data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryDataBWSearch Get BWSearch data.");
 					//SharedMemoryTransfer
 					ret = SharedMemoryTransfer_DataAnalysis_TrueParallel(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -6189,7 +7271,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_MinMaxRipple] Shared Memory min max ripple data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_MinMaxRipple] Shared Memory search min max ripple data.");
 					// SharedMemory search format data  (min max / peak / target)
 					ret = SharedMemoryTransfer_MinMaxRipple_TrueParallel(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -6351,7 +7432,6 @@ namespace Functions
 				if (vnaSetting[siteIndex].vna_traceFormat[vnaDataAnalysisTPC.traceIndex - 1] != Vna_Format_Reset)
 				{
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_GetMinMax] Get MinMax data.");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[VnaDataAnalysis -> KeysightVnaUtility -> SharedMemoryTransfer_GetMinMax] Get MinMax data.");
 					//SharedMemoryTransfer
 					ret = SharedMemoryTransfer_DataAnalysis_TrueParallel(tfSite, siteIndex);
 					if (ret != 0) goto EndOfTest;
@@ -6516,7 +7596,153 @@ namespace Functions
 	EndOfTest:
 		return ret;
 	}
-	
+
+	// Log Detector & Digitizer (For switching time test)
+	int AMB7300TestLibrary::InitializeExtModule(int tfSite, int siteIndex)
+	{
+		/*****************************************************************************************************
+		** InitializeExtModule
+		**		tfSite		- This is techFlow site index.
+		**		siteIndex	- This is VNA object index, normally start from 0.
+		**
+		** Descriptions:
+		**		This is a function to initialize external hardware.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret					= 0;
+
+		double g_SINAD;
+		g_SINAD = 0.0;
+
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			//tracerLogger->WriteToTracer(MainTracer, "JY9852 Init...");
+			double sampleNumber_double;
+			pXIe9852_Info = gcnew PXIe9852_Info();
+
+			//pXIe9852_Info->sampleRate = (double)(tf_FlowStep_ConditionCast("sampleRate"));
+			//pXIe9852_Info->sampleNumber_double = (double)(tf_FlowStep_ConditionCast("sampleNumber"));
+			pXIe9852_Info->sampleNumber = (int)sampleNumber_double;
+
+			pXIe9852_Info->readValue0 = gcnew array<double>(pXIe9852_Info->sampleNumber * 2);
+			pXIe9852_Info->readValue1 = gcnew array<double>(pXIe9852_Info->sampleNumber * 2);
+
+			pXIe9852_Info->readValueSite0 = gcnew array<double>(pXIe9852_Info->sampleNumber);
+			pXIe9852_Info->readValueSite1 = gcnew array<double>(pXIe9852_Info->sampleNumber);
+
+			pXIe9852_Info->Power_dBmSite0 = gcnew array<double>(pXIe9852_Info->sampleNumber / 2);
+			pXIe9852_Info->Power_dBmSite1 = gcnew array<double>(pXIe9852_Info->sampleNumber / 2);
+
+			pXIe9852_Info->Power_dBmSite0_Avg = gcnew array<double>(pXIe9852_Info->sampleNumber / 2);
+			pXIe9852_Info->Power_dBmSite1_Avg = gcnew array<double>(pXIe9852_Info->sampleNumber / 2);
+
+			pXIe9852_Info->slotNo = gcnew array<int>(1);//2
+
+			//pXIe9852_Info->slotNo[0] = (int)(tf_FlowStep_ConditionCast("JY69852"));
+
+			double Vrange = 2;
+
+			//	for (int testSite = testSiteStart; testSite < totalSite; testSite++)
+			{
+				if (!tl->glob->AWV.Offline)
+				{
+					//if (testSite == 0) //0
+					{
+
+						pXIe9852_Info->aitask0 = gcnew JYPXIe69852AITask(pXIe9852_Info->slotNo[0]);
+						pXIe9852_Info->aitask0->AddChannel(0, -Vrange, Vrange, AICoupling::DC, AIImpedance::ImpedanceHigh);//Impedance50Ohm
+						pXIe9852_Info->aitask0->AddChannel(1, -Vrange, Vrange, AICoupling::DC, AIImpedance::ImpedanceHigh);//JYPXIe69852::AIImpedance::ImpedanceHigh
+						pXIe9852_Info->aitask0->Mode = AIMode::Finite;//SFP: Sample Mode
+						pXIe9852_Info->aitask0->SampleRate = pXIe9852_Info->sampleRate;
+						pXIe9852_Info->aitask0->SamplesToAcquire = pXIe9852_Info->sampleNumber;
+						pXIe9852_Info->aitask0->Trigger->Mode = AITriggerMode::Start;//SFP:Trigger Mode???
+						pXIe9852_Info->aitask0->Trigger->Type = AITriggerType::Software;//SFP:Trigger Source
+						pXIe9852_Info->aitask0->Trigger->ReTriggerCount = -1;//SFP:Re-Trigger/Re-Trigger Count
+						pXIe9852_Info->aitask0->Trigger->ReTriggerFrequency = 1;
+						pXIe9852_Info->aitask0->Start();
+						pXIe9852_Info->aitask0->SendSoftwareTrigger();
+
+						bool IsDone0 = false;
+						while (!IsDone0)
+						{
+							//util->WaitSecond(1 mS);
+
+							if (pXIe9852_Info->aitask0->AvailableSamples >= pXIe9852_Info->sampleNumber)
+							{
+								IsDone0 = true;
+							}
+						}
+
+						pXIe9852_Info->aitask0->ReadData(pXIe9852_Info->readValue0, 5000 mS);//-1
+
+						int j = 0;
+
+						for (int i = 0; i < pXIe9852_Info->readValue0->Length; i++)
+						{
+							if (i % 2 == 0)
+							{
+								pXIe9852_Info->readValueSite0[j] = pXIe9852_Info->readValue0[i]; //readValueSite0
+							}
+							else
+							{
+								pXIe9852_Info->readValueSite1[j] = pXIe9852_Info->readValue0[i]; //readValueSite1
+								j++;
+							}
+						}
+
+						//if (debug)
+						{
+							//PrintWaveformToFile(testSite, "digitizer_V_load", readValueSite0);
+						}
+
+						pXIe9852_Info->aitask0->Stop();
+
+						pXIe9852_Info->aitask0->Trigger->Mode = AITriggerMode::Start;//SFP:Trigger Mode???
+						pXIe9852_Info->aitask0->Trigger->Type = AITriggerType::Digital;// use external trigger 
+						pXIe9852_Info->aitask0->Trigger->Digital->Edge = AIDigitalTriggerEdge::Rising;
+						pXIe9852_Info->aitask0->Trigger->Digital->Source = AIDigitalTriggerSource::TRGIN;
+
+						pXIe9852_Info->aitask0->Trigger->ReTriggerCount = 0;//SFP:Re-Trigger/Re-Trigger Count  -1
+						pXIe9852_Info->aitask0->Trigger->ReTriggerFrequency = 0;
+						pXIe9852_Info->aitask0->Trigger->PreTriggerSamples = 100;
+						//	aitask0->Start();
+					}
+				}
+			}
+		}
+
+	EndOfTest:
+		return ret;
+	}
+	int AMB7300TestLibrary::UninitializeExtModule(int tfSite, int siteIndex)
+	{
+		/*****************************************************************************************************
+		** UninitializeExtModule
+		**		tfSite		- This is techFlow site index.
+		**		siteIndex	- This is VNA object index, normally start from 0.
+		**
+		** Descriptions:
+		**		This is a function to uninitialize external hardware.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			if (pXIe9852_Info->aitask0 != nullptr)
+			{
+				pXIe9852_Info->aitask0->Stop();
+				//pXIe9852_Info->aitask0->RemoveChannel(-1);
+
+			}
+		}
+
+	EndOfTest:
+		return ret;
+	}
+
 	/*
 	**	----------------------------------------------------------------------------------------------------
 	**	VnaDataAnalysis -> Trace Data Helper functions
@@ -6713,7 +7939,6 @@ namespace Functions
 		{
 			ret = ER_CONST_GET_VNA_ACTIVE_CHANNEL_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, vnaSiteIndex, ERROR, "[VnaFetch -> GetCurrentVnaFetchChannel] Fail to get VNA active channel (Current VnaFetch)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
-			tl->WriteToFileLogger(tfSite, vnaSiteIndex, ERROR, "[VnaFetch -> GetCurrentVnaFetchChannel] Fail to get VNA active channel (Current VnaFetch)." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: " + ex->Message);
 			goto EndOfTest;
 		}
 
@@ -6730,37 +7955,187 @@ namespace Functions
 	{
 		// Local variable
 		int ret = 0;
+
+		Object^Answer;
+		DataTable ^ dt = gcnew DataTable();
+		Regex ^ rgx = gcnew Regex("[a-zA-Z]");
+		//DataType dataType = ((TestItem^)site->FlowItems[site->CurrentFlowItem->Name])->TestParameters[testParameterName]->DataType;
+		String ^ NewString = nullptr;
+
+		double OffsetFactor = 0;
+
 		result = (double)CONST_INVALID_RESULT;
+		String ^ Identifier = nullptr;
 
 		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[Math] Executing 'Math' phase.");
-		tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[Math] Executing 'Math' phase.");
 
-		double resTP1 = (double)tl->glob->TestProperty[siteIndex].TestResults[MathTPC.mathTP1];
-		double resTP2 = (double)tl->glob->TestProperty[siteIndex].TestResults[MathTPC.mathTP2];
-		
-		if (MathTPC.mathFunction == Cond_TestFunction_Add)
+#pragma region "Old Method (Obsolete)"
+		//double resTP1 = (double)tl->glob->TestProperty[siteIndex].TestResults[MathTPC.mathTP1];
+		//double resTP2 = (double)tl->glob->TestProperty[siteIndex].TestResults[MathTPC.mathTP2];
+		//
+		//if (MathTPC.mathFunction == Cond_TestFunction_Add)
+		//{
+		//	result = resTP1 + resTP2;
+		//}
+		//else if (MathTPC.mathFunction == Cond_TestFunction_Subtract)
+		//{
+		//	result = resTP1 - resTP2;
+		//}
+		//else if (MathTPC.mathFunction == Cond_TestFunction_AbsAdd)
+		//{
+		//	result = System::Math::Abs(resTP1 + resTP2);
+		//}
+		//else if (MathTPC.mathFunction == Cond_TestFunction_AbsSubtract)
+		//{
+		//	result = System::Math::Abs(resTP1 - resTP2);
+		//}
+#pragma endregion
+
+
+		//Checking and Casting
+		for (int i = 0; i < MathTPC.VariableCount; i++)
 		{
-			result = resTP1 + resTP2;
-		}
-		else if (MathTPC.mathFunction == Cond_TestFunction_Subtract)
-		{
-			result = resTP1 - resTP2;
-		}
-		else if (MathTPC.mathFunction == Cond_TestFunction_AbsAdd)
-		{
-			result = System::Math::Abs(resTP1 + resTP2);
-		}
-		else if (MathTPC.mathFunction == Cond_TestFunction_AbsSubtract)
-		{
-			result = System::Math::Abs(resTP1 - resTP2);
+			//Checking the availablity of the key inside the Dictionary
+
+			Identifier = MathTPC.globalResultKey[i] + "_S" + siteIndex;
+
+			if (!tl->glob->TestProperty[siteIndex].TestResults->ContainsKey(Identifier))
+			{
+				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, "ResultKey_" + MathTPC.Variable[i] + " = " + MathTPC.globalResultKey[i]);
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "Test Condition [ ResultKey_" + MathTPC.Variable[i] + " = " + MathTPC.globalResultKey[i] + "] is not found. Make sure the provided value is in the {TestItem}_{TestParameter} format.");
+				goto EndOfTest;
+			}
+
+			//Cast the Value according to the Key
+			//switch (dataType)
+			//{
+			//case DataType::Double:
+				MathTPC.GlobalResultValue_Double[i] = (double)tl->glob->TestProperty[siteIndex].TestResults[Identifier];
+
+				if (MathTPC.IncludeOffset == true)
+				{
+					OffsetFactor = tl->GetFixedOffsetValue(tfSite, siteIndex, Identifier);
+					MathTPC.GlobalResultValue_Double[i] += OffsetFactor; 
+				}
+			//	break;
+			//case DataType::Int32:
+			//	MathTPC.GlobalResultValue_Int32[i] = (int)tltl->glob->TestProperty[siteIndex].TestResults[MathTPC.globalResultKey[i]];
+			//	break;
+			//default:
+			//	break;
+			//}
 		}
 
+		//Replace the variable of the Expression to value(int or double)
+		for (int i = 0; i < MathTPC.VariableCount; i++)
+		{
+			if (MathTPC.mathFunction->Contains(MathTPC.Variable[i]))
+			{
+				//switch (dataType)
+				//{
+				//case DataType::Double:
+					NewString = MathTPC.GlobalResultValue_Double[i].ToString("f20");
+				//	break;
+				//case DataType::Int32:
+				//	NewString = MathTPC.GlobalResultValue_Int32[i].ToString("f20");
+				//	break;
+				//default:
+				//	break;
+				//}
+
+				// This ensures "a" gets replaced, but the "a" in "abs" is ignored
+				String^ pattern = "\\b" + Regex::Escape(MathTPC.Variable[i]) + "\\b";
+
+				MathTPC.mathFunction = MathTPC.mathFunction->Replace(MathTPC.Variable[i], NewString);
+			}
+			else
+			{
+				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, "ResultKey_" + MathTPC.Variable[i]);
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "Test Condition [ ResultKey_" + MathTPC.Variable[i] + "] is not found but stated in Math Equation. Make sure the provided condition is added.");
+				goto EndOfTest;
+			}
+		}
+
+		//Checking any Variable that are not assigned by value on the expression
+		String^ tempCheck = Regex::Replace(MathTPC.mathFunction, "\\b(abs|sqrt|pow|sin|cos|tan)\\b", "", RegexOptions::IgnoreCase);
+		Match^ strayVarMatch = Regex::Match(tempCheck, "\\b[a-zA-Z]+\\b");
+		if (strayVarMatch->Success)
+		{
+			String ^ Value = strayVarMatch->Value;
+			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_CONDITION_NAME_NOT_FOUND, "ResultKey_" + Value );
+			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "Test Condition [ ResultKey_" + Value + "] is not found or invalid.");
+			ret = -1;
+			goto EndOfTest;
+		}
+
+		// Evaluate Math functions, powers, and inner parentheses inside-out
+		bool expressionChanged = true;
+		while (expressionChanged)
+		{
+			expressionChanged = false;
+
+			// STEP 1: Handle Power Operator '^' (e.g., "5.0^2.0")
+			// This safely finds a number (base), a caret, and a number (exponent).
+			// The negative lookbehind (?<!\d\s*) ensures we don't mistakenly steal a subtraction sign.
+			Regex^ powerRegex = gcnew Regex("(?<!\\d\\s*)([+-]?\\d+(?:\\.\\d+)?)\\s*\\^\\s*([+-]?\\d+(?:\\.\\d+)?)");
+			Match^ powerMatch = powerRegex->Match(MathTPC.mathFunction);
+
+			if (powerMatch->Success)
+			{
+				double baseVal = Convert::ToDouble(powerMatch->Groups[1]->Value);
+				double expVal = Convert::ToDouble(powerMatch->Groups[2]->Value);
+				double computedValue = Math::Pow(baseVal, expVal);
+
+				MathTPC.mathFunction = MathTPC.mathFunction->Replace(powerMatch->Value, computedValue.ToString("f20"));
+				expressionChanged = true;
+				continue; // Restart loop to handle chained powers or precedence
+			}
+
+			// STEP 2: Look for innermost Math functions (pow is removed, handled by Step 1)
+			Regex^ mathRegex = gcnew Regex("\\b(abs|sqrt|sin|cos|tan)\\(([^()]+)\\)", RegexOptions::IgnoreCase);
+			Match^ match = mathRegex->Match(MathTPC.mathFunction);
+
+			if (match->Success)
+			{
+				String^ funcName = match->Groups[1]->Value->ToLower();
+				String^ innerExpression = match->Groups[2]->Value;
+				double computedValue = 0.0;
+
+				// Compute the basic math inside the function argument first
+				double innerResult = Convert::ToDouble(dt->Compute(innerExpression, ""));
+
+				if (funcName == "abs") computedValue = Math::Abs(innerResult);
+				else if (funcName == "sqrt") computedValue = Math::Sqrt(innerResult);
+				else if (funcName == "sin") computedValue = Math::Sin(innerResult);
+				else if (funcName == "cos") computedValue = Math::Cos(innerResult);
+				else if (funcName == "tan") computedValue = Math::Tan(innerResult);
+
+				MathTPC.mathFunction = MathTPC.mathFunction->Replace(match->Value, computedValue.ToString("f20"));
+				expressionChanged = true;
+				continue;
+			}
+
+			// STEP 3: Resolve innermost basic arithmetic parentheses
+			Regex^ parenRegex = gcnew Regex("\\(([^()]+)\\)");
+			Match^ parenMatch = parenRegex->Match(MathTPC.mathFunction);
+
+			if (parenMatch->Success)
+			{
+				double innerResult = Convert::ToDouble(dt->Compute(parenMatch->Groups[1]->Value, ""));
+				MathTPC.mathFunction = MathTPC.mathFunction->Replace(parenMatch->Value, innerResult.ToString("f20"));
+				expressionChanged = true;
+			}
+		}
+
+		// Final Computation of the Expression
+		Answer = dt->Compute(MathTPC.mathFunction, "");
+		result = Convert::ToDouble(Answer);
 
 	EndOfTest:
 		if (ret != 0) result = (double)CONST_INVALID_RESULT;
 		return ret;
 	}
-	
+
 	/*
 	**	----------------------------------------------------------------------------------------------------
 	**	CM400 Series Operation
@@ -6781,7 +8156,6 @@ namespace Functions
 		int ret = 0;
 
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> CM400Utility -> InitializeCmSeriesResource] Initialize CM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> CM400Utility -> InitializeCmSeriesResource] Initialize CM series hardware.");
 
 		// Initialize CM
 		ret = InitializeCm(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tl->glob->tf.TestSite, siteIndex, tl->glob->AWV.Offline);
@@ -6805,7 +8179,6 @@ namespace Functions
 		int ret = 0;
 	
 		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> CM400Utility -> UninitializeCmSeriesResource] Uninitialize CM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> CM400Utility -> UninitializeCmSeriesResource] Uninitialize CM series hardware.");
 
 		// Uninitialize CM
 		ret = UninitializeCm(tfSite, siteIndex);
@@ -6834,13 +8207,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> AM400Utility -> InitializeAmSeriesResource] Initialize AM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> AM400Utility -> InitializeAmSeriesResource] Initialize AM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> AM400Utility -> InitializeAmSeriesResource] Initialize AM series hardware.");
 
-		// Initialize AM
-		ret = InitializeSmu(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tfSite, siteIndex, tl->glob->AWV.Offline);
-		if (ret != 0) goto EndOfTest;
-
+			// Initialize AM
+			ret = InitializeSmu(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tfSite, siteIndex, tl->glob->AWV.Offline);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -6859,12 +8233,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> AM400Utility -> UninitializeAmSeriesResource] Uninitialize AM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> AM400Utility -> UninitializeAmSeriesResource] Uninitialize AM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> AM400Utility -> UninitializeAmSeriesResource] Uninitialize AM series hardware.");
 
-		// Uninitialize AM
-		ret = UninitializeSmu(tfSite, siteIndex);
-		if (ret != 0) goto EndOfTest;
+			// Uninitialize AM
+			ret = UninitializeSmu(tfSite, siteIndex);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -6889,12 +8265,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> DM400Utility -> InitializeDmSeriesResource] Initialize DM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> DM400Utility -> InitializeDmSeriesResource] Initialize DM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> DM400Utility -> InitializeDmSeriesResource] Initialize DM series hardware.");
 
-		// Initialize DM
-		ret = InitializeDm(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tl->glob->tf.TestSite, siteIndex, tl->glob->AWV.Offline);
-		if (ret != 0) goto EndOfTest;
+			// Initialize DM
+			ret = InitializeDm(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tl->glob->tf.TestSite, siteIndex, tl->glob->AWV.Offline);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -6913,12 +8291,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> DM400Utility -> UninitializeDmSeriesResource] Uninitialize DM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> DM400Utility -> UninitializeDmSeriesResource] Uninitialize DM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> DM400Utility -> UninitializeDmSeriesResource] Uninitialize DM series hardware.");
 
-		// Uninitialize DM
-		ret = UninitializeDm(tfSite, siteIndex);
-		if (ret != 0) goto EndOfTest;
+			// Uninitialize DM
+			ret = UninitializeDm(tfSite, siteIndex);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -6943,12 +8323,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> IOM400Utility -> InitializeIomSeriesResource] Initialize IOM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> IOM400Utility -> InitializeIomSeriesResource] Initialize IOM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> IOM400Utility -> InitializeIomSeriesResource] Initialize IOM series hardware.");
 
-		// Initialize IOM
-		ret = InitializeIom(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tl->glob->tf.TestSite, siteIndex, tl->glob->AWV.Offline);
-		if (ret != 0) goto EndOfTest;
+			// Initialize IOM
+			ret = InitializeIom(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tl->glob->tf.TestSite, siteIndex, tl->glob->AWV.Offline);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -6967,12 +8349,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> IOM400Utility -> UninitializeIomSeriesResource] Uninitialize IOM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> IOM400Utility -> UninitializeIomSeriesResource] Uninitialize IOM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> IOM400Utility -> UninitializeIomSeriesResource] Uninitialize IOM series hardware.");
 
-		// Uninitialize IOM
-		ret = UninitializeIom(tfSite, siteIndex);
-		if (ret != 0) goto EndOfTest;
+			// Uninitialize IOM
+			ret = UninitializeIom(tfSite, siteIndex);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -6997,12 +8381,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> ACM400Utility -> InitializeAcmSeriesResource] Initialize ACM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> ACM400Utility -> InitializeAcmSeriesResource] Initialize ACM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> ACM400Utility -> InitializeAcmSeriesResource] Initialize ACM series hardware.");
 
-		// Initialize ACM
-		ret = InitializeAcm(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tl->glob->tf.TestSite, siteIndex, tl->glob->AWV.Offline);
-		if (ret != 0) goto EndOfTest;
+			// Initialize ACM
+			ret = InitializeAcm(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tl->glob->tf.TestSite, siteIndex, tl->glob->AWV.Offline);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -7021,12 +8407,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> ACM400Utility -> UninitializeAcmSeriesResource] Uninitialize ACM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> ACM400Utility -> UninitializeAcmSeriesResource] Uninitialize ACM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> ACM400Utility -> UninitializeAcmSeriesResource] Uninitialize ACM series hardware.");
 
-		// Uninitialize ACM
-		ret = UninitializeAcm(tfSite, siteIndex);
-		if (ret != 0) goto EndOfTest;
+			// Uninitialize ACM
+			ret = UninitializeAcm(tfSite, siteIndex);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -7051,12 +8439,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> TM400Utility -> InitializeTmSeriesResource] Initialize TM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> TM400Utility -> InitializeTmSeriesResource] Initialize TM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Load -> InitializeTester -> TM400Utility -> InitializeTmSeriesResource] Initialize TM series hardware.");
 
-		// Initialize TM
-		ret = InitializeTm(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tl->glob->tf.TestSite, siteIndex, tl->glob->AWV.Offline);
-		if (ret != 0) goto EndOfTest;
+			// Initialize TM
+			ret = InitializeTm(tl->glob->HardwareProfile, tl->glob->tf.TestHead, tl->glob->tf.TestSite, siteIndex, tl->glob->AWV.Offline);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -7075,12 +8465,14 @@ namespace Functions
 		// Local variable
 		int ret = 0;
 
-		tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> TM400Utility -> UninitializeTmSeriesResource] Uninitialize TM series hardware.");
-		tl->WriteToFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> TM400Utility -> UninitializeTmSeriesResource] Uninitialize TM series hardware.");
+		if (!tl->glob->FLOWVAR.bypass_HardwareInit)
+		{
+			tl->WriteToTracerAndFileLogger(tfSite, tl->glob->TcrLgr.tracerMainTab, INFO, "[Unload -> UninitializeTester -> TM400Utility -> UninitializeTmSeriesResource] Uninitialize TM series hardware.");
 
-		// Uninitialize TM
-		ret = UninitializeTm(tfSite, siteIndex);
-		if (ret != 0) goto EndOfTest;
+			// Uninitialize TM
+			ret = UninitializeTm(tfSite, siteIndex);
+			if (ret != 0) goto EndOfTest;
+		}
 
 	EndOfTest:
 		return ret;
@@ -7106,7 +8498,6 @@ namespace Functions
 		int ret = 0;
 
 		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[DcControl] Executing 'DcControl' phase.");
-		tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcControl] Executing 'DcControl' phase.");
 
 		for (int i = 0; i < DcControlCSC.module->Length; i++)
 		{
@@ -7125,13 +8516,6 @@ namespace Functions
 															DcControlCSC.delay[i]);
 				if (ret != 0) goto EndOfTest;
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[DcControl -> AM400Utility -> ConfigurePinSmu] Module: "			+ "AM"												+ " | " + 
-																												"PinAlias: "		+ DcControlCSC.pinAlias[i]							+ " | " +
-																												"ControlFunction: "	+ DcControlCSC.controlFunction[i]					+ " | " +
-																												"NPLC: "			+ DcControlCSC.nplc[i].ToString()					+ " | " +
-																												"VoltageLevel: "	+ DcControlCSC.voltageLevel[i].ToString()	+ "V"	+ " | "	+
-																												"CurrentLevel: "	+ DcControlCSC.currentLevel[i].ToString()	+ "A"	+ " | " +
-																												"Delay: "			+ DcControlCSC.delay[i].ToString()			+ "sec");
-				tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcControl -> AM400Utility -> ConfigurePinSmu] Module: "			+ "AM"												+ " | " + 
 																												"PinAlias: "		+ DcControlCSC.pinAlias[i]							+ " | " +
 																												"ControlFunction: "	+ DcControlCSC.controlFunction[i]					+ " | " +
 																												"NPLC: "			+ DcControlCSC.nplc[i].ToString()					+ " | " +
@@ -7159,13 +8543,6 @@ namespace Functions
 																													"VoltageLevel: "	+ DcControlCSC.voltageLevel[i].ToString()	+ "V"	+ " | "	+
 																													"CurrentLevel: "	+ DcControlCSC.currentLevel[i].ToString()	+ "A"	+ " | " +
 																													"Delay: "			+ DcControlCSC.delay[i].ToString()			+ "sec");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcControl -> DM400Utility -> ConfigurePinDm] Module: "				+ "DM"												+ " | " +
-																													"PinAlias: "		+ DcControlCSC.pinAlias[i]							+ " | " +
-																													"ControlFunction: "	+ DcControlCSC.controlFunction[i]					+ " | " +
-																													"NPLC: "			+ DcControlCSC.nplc[i].ToString()					+ " | " +
-																													"VoltageLevel: "	+ DcControlCSC.voltageLevel[i].ToString()	+ "V"	+ " | "	+
-																													"CurrentLevel: "	+ DcControlCSC.currentLevel[i].ToString()	+ "A"	+ " | " +
-																													"Delay: "			+ DcControlCSC.delay[i].ToString()			+ "sec");
 				}
 				else if (DcControlCSC.controlFunction[i] == Cond_ControlFunction_DM_PE)
 				{
@@ -7178,22 +8555,6 @@ namespace Functions
 																DcControlCSC.delay[i]);
 					if (ret != 0) goto EndOfTest;
 					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[DcControl -> DM400Utility -> ConfigurePinDm] Module: "			+ "DM"															+ " | " + 
-																													"PinAlias: "		+ DcControlCSC.pinAlias[i]										+ " | " +
-																													"ControlFunction: "	+ DcControlCSC.controlFunction[i]								+ " | " +
-																													"NPLC: "			+ "NA"															+ " | " +
-																													"VoltageLevel: "	+ "NA"															+ " | "	+
-																													"CurrentLevel: "	+ "NA"															+ " | " +
-																													"Delay: "			+ DcControlCSC.delay[i].ToString()						+ "sec" + " | " +
-																													"VIH: "				+ DcControlCSC.voltageLevel[i].ToString()				+ "V"	+ " | " +
-																													"VIL: "				+ "0.0V"														+ " | " +
-																													"VOH: "				+ ((DcControlCSC.voltageLevel[i]/2.0)-0.1).ToString()	+ "V"	+ " | " +
-																													"VOL: "				+ ((DcControlCSC.voltageLevel[i]/2.0)-0.1).ToString()	+ "V"	+ " | " +
-																													"IOH: "				+ "0.0A"														+ " | " +
-																													"IOL: "				+ "0.0A"														+ " | " +
-																													"VCH: "				+ "0.0V"														+ " | " +
-																													"VCL: "				+ "0.0V"														+ " | " +
-																													"VIH: "				+ (DcControlCSC.voltageLevel[i]/2.0).ToString()			+ "V");
-					tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcControl -> DM400Utility -> ConfigurePinDm] Module: "				+ "DM"															+ " | " +
 																													"PinAlias: "		+ DcControlCSC.pinAlias[i]										+ " | " +
 																													"ControlFunction: "	+ DcControlCSC.controlFunction[i]								+ " | " +
 																													"NPLC: "			+ "NA"															+ " | " +
@@ -7249,7 +8610,6 @@ namespace Functions
 		result	= (double)CONST_INVALID_RESULT;
 
 		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[DcTest] Executing 'DcTest' phase.");
-		tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcTest] Executing 'DcTest' phase.");
 
 		if (DcTestTPC.module == Cond_Module_CM)
 		{
@@ -7266,11 +8626,6 @@ namespace Functions
 																												"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
 																												"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
 																												"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
-				tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcTest -> AM400Utility -> SmuTestFunction_OS] Module: "			+ "AM"								+ " | " + 
-																												"PinAlias: "		+ DcTestTPC.pinAlias				+ " | " +
-																												"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
-																												"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
-																												"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
 			}
 			else if (DcTestTPC.testFunction == Cond_TestFunction_MeasureCurrent)
 			{
@@ -7281,22 +8636,12 @@ namespace Functions
 																															"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
 																															"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
 																															"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
-				tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcTest -> AM400Utility -> SmuTestFunction_MeasureCurrent] Module: "			+ "AM"								+ " | " + 
-																															"PinAlias: "		+ DcTestTPC.pinAlias				+ " | " +
-																															"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
-																															"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
-																															"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
 			}
 			else if (DcTestTPC.testFunction == Cond_TestFunction_MeasureVoltage)
 			{
 				ret = SmuTestFunction_MeasureVoltage(tfSite, siteIndex, DcTestTPC.pinAlias, DcTestTPC.nplc, DcTestTPC.measureDelay, result);
 				if (ret != 0) goto EndOfTest;
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[DcTest -> AM400Utility -> SmuTestFunction_MeasureVoltage] Module: "			+ "AM"								+ " | " + 
-																															"PinAlias: "		+ DcTestTPC.pinAlias				+ " | " +
-																															"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
-																															"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
-																															"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
-				tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcTest -> AM400Utility -> SmuTestFunction_MeasureVoltage] Module: "			+ "AM"								+ " | " + 
 																															"PinAlias: "		+ DcTestTPC.pinAlias				+ " | " +
 																															"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
 																															"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
@@ -7314,11 +8659,6 @@ namespace Functions
 																												"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
 																												"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
 																												"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
-				tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcTest -> DM400Utility -> DmTestFunction_OS] Module: "				+ "DM"								+ " | " + 
-																												"PinAlias: "		+ DcTestTPC.pinAlias				+ " | " +
-																												"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
-																												"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
-																												"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
 			}
 			else if (DcTestTPC.testFunction == Cond_TestFunction_MeasureCurrent)
 			{
@@ -7329,22 +8669,12 @@ namespace Functions
 																															"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
 																															"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
 																															"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
-				tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcTest -> DM400Utility -> DmTestFunction_MeasureCurrent] Module: "				+ "DM"								+ " | " + 
-																															"PinAlias: "		+ DcTestTPC.pinAlias				+ " | " +
-																															"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
-																															"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
-																															"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
 			}
 			else if (DcTestTPC.testFunction == Cond_TestFunction_MeasureVoltage)
 			{
 				ret = DmTestFunction_MeasureVoltage(tfSite, siteIndex, DcTestTPC.pinAlias, DcTestTPC.nplc, DcTestTPC.measureDelay, result);
 				if (ret != 0) goto EndOfTest;
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[DcTest -> DM400Utility -> DmTestFunction_MeasureVoltage] Module: "			+ "DM"								+ " | " + 
-																															"PinAlias: "		+ DcTestTPC.pinAlias				+ " | " +
-																															"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
-																															"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
-																															"MeasureDelay: "	+ DcTestTPC.measureDelay.ToString()	+ "sec");
-				tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[DcTest -> DM400Utility -> DmTestFunction_MeasureVoltage] Module: "				+ "DM"								+ " | " + 
 																															"PinAlias: "		+ DcTestTPC.pinAlias				+ " | " +
 																															"TestFunction: "	+ DcTestTPC.testFunction			+ " | " +
 																															"NPLC: "			+ DcTestTPC.nplc.ToString()			+ " | " +
@@ -7390,7 +8720,6 @@ namespace Functions
 		int ret = 0;
 
 		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[PatternControl] Executing 'PatternControl' phase.");
-		tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[PatternControl] Executing 'PatternControl' phase.");
 
 		// Get active module alias
 		String ^ activeDmModuleAlias = String::Empty;
@@ -7414,15 +8743,6 @@ namespace Functions
 		if ((PatternControlCSC.controlFunction == Cond_ControlFunction_MipiWrite) || (PatternControlCSC.controlFunction == Cond_ControlFunction_MipiRead))
 		{
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[PatternControl -> DM400Utility -> ConfigureDmVectorEngine_Mipi] ControlFunction: "		+ PatternControlCSC.controlFunction									+ " | " +
-																															"isMultiVecToOneResult: "	+ PatternControlCSC.isMultiVecToOneResult.ToString()				+ " | " +
-																															"isOneVecToMultiResult: "	+ PatternControlCSC.isOneVecToMultiResult.ToString()				+ " | "	+
-																															"sclkPinAlias: "			+ PatternControlCSC.sclkPinAlias									+ " | " +
-																															"sdataPinAlias: "			+ PatternControlCSC.sdataPinAlias									+ " | " +
-																															"MipiFreq: "				+ PatternControlCSC.userMipiFreq.ToString()			+ "Hz"			+ " | " +
-																															"DmTerminationVoltage: "	+ PatternControlCSC.userVth.ToString()				+ "V"			+ " | " +
-																															"DmInputChDelay: "			+ PatternControlCSC.userDmInputChDelay.ToString()	+ "ClockCycle"	+ " | " +
-																															"RunVectorDelay: "			+ PatternControlCSC.runVectorDelay.ToString()		+ "sec");
-			tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[PatternControl -> DM400Utility -> ConfigureDmVectorEngine_Mipi] ControlFunction: "			+ PatternControlCSC.controlFunction									+ " | " +
 																															"isMultiVecToOneResult: "	+ PatternControlCSC.isMultiVecToOneResult.ToString()				+ " | " +
 																															"isOneVecToMultiResult: "	+ PatternControlCSC.isOneVecToMultiResult.ToString()				+ " | "	+
 																															"sclkPinAlias: "			+ PatternControlCSC.sclkPinAlias									+ " | " +
@@ -7602,7 +8922,6 @@ namespace Functions
 		result	= (int)CONST_INVALID_RESULT;
 
 		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[PatternTest] Executing 'PatternTest' phase.");
-		tl->WriteToFileLogger(tfSite, siteIndex, INFO, "[PatternTest] Executing 'PatternTest' phase.");
 
 		// Check whether 'ReturnIndex' fulfill total vector's read back count inside the current vector file
 		if (PatternTestTPC.returnIndex >= PatternControlGlobalResultVariable.totalVecReadCount)
@@ -7611,7 +8930,6 @@ namespace Functions
 			String ^ additionalMessage = "'ReturnIndex' must not exceed the total vector's read back count inside the target vector file that has been executed.";
 			ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, PatternTestConditionName_ReturnIndex, additionalMessage);
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "[PatternTest condition value verification] 'ReturnIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString());
-			tl->WriteToFileLogger(tfSite, siteIndex, WARNING, "[PatternTest condition value verification] 'ReturnIndex' condition value invalid." + " | " + "Error Code: " + ret.ToString());
 			return ret;
 		}
 
@@ -7772,6 +9090,44 @@ namespace Functions
 
 	/*
 	**	----------------------------------------------------------------------------------------------------
+	**	DM Operation
+	**	----------------------------------------------------------------------------------------------------
+	*/
+	int AMB7300TestLibrary::DmControl(int tfSite, int siteIndex)
+	{
+		/*****************************************************************************************************
+		** DmControl
+		**		tfSite		- This is techFlow site index.
+		**		siteIndex	- This is DM resource object index, normally start from 0.
+		**
+		** Descriptions:
+		**		This is a function to execute 'DmControl' phase.
+		******************************************************************************************************/
+
+		// Local variable
+		int ret = 0;
+
+		tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[DmControl] Executing 'DmControl' phase.");
+
+		for (int i = 0; i < DmControlCSC.moduleAlias->Length; i++) //Iterate count based on size of first condition
+		{
+			if ((DmControlCSC.controlFunction == Cond_ControlFunction_DM_ConfigureOutputTrigger))
+			{ 
+				// Configure DM pin
+				ret = DmConfigureDmOutputTrigger(tfSite, siteIndex,DmControlCSC.moduleAlias[i],
+					DmControlCSC.outputTrigger0[i],
+					DmControlCSC.outputTrigger1[i]);
+				if (ret != 0) goto EndOfTest;
+				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, INFO, "[DmControl -> DM400Utility -> DmConfigureDmOutputTrigger]");
+			}
+		}
+
+	EndOfTest:
+		return ret;
+	}
+
+	/*
+	**	----------------------------------------------------------------------------------------------------
 	**	Other Utilities
 	**	----------------------------------------------------------------------------------------------------
 	*/
@@ -7794,7 +9150,9 @@ namespace Functions
 		int countDcTest				= 0;
 		int countPatternTest		= 0;
 		int countVnaDataAnalysis	= 0;
+		int countVnaSwTime	= 0;
 		int countMathTest			= 0;
+		int Debug			= 0;
 
 		array<ConditionCollection^> ^ conditionCollection = gcnew array <ConditionCollection^>(tl->glob->tf.NumberOfTestSites);
 		Condition ^ condition;
@@ -7828,13 +9186,25 @@ namespace Functions
 			{
 				countVnaDataAnalysis++;
 			}
-			else if ((condition->Name == (MathConditionName_Function))			||
-					 (condition->Name->Contains(MathConditionName_TP1))			||
-					 (condition->Name->Contains(MathConditionName_TP2)))
+			if ((condition->Name->Contains(VnaSwTimeConditionName_MeasureType))		||
+				(condition->Name == (VnaSwTimeConditionName_DMModuleAlias))			||
+				(condition->Name->Contains(VnaSwTimeConditionName_DMVectorTrigger))	||
+				(condition->Name->Contains(VnaSwTimeConditionName_AnalysisSetting))	||
+				(condition->Name->Contains(VnaSwTimeConditionName_OutputType))				||
+				(condition->Name->Contains(VnaSwTimeConditionName_OutputFormat)))
+			{
+				countVnaSwTime++;
+			}
+			else if ((condition->Name == (MathConditionName_Function)))//			||
+					//(condition->Name->Contains(MathConditionName_TP1))			||
+					//(condition->Name->Contains(MathConditionName_TP2)))
 			{
 				countMathTest++;
 			}
-
+			else if ((condition->Name == "Debug"))
+			{
+				Debug++;
+			}
 		}
 
 		// DcTest
@@ -7856,10 +9226,21 @@ namespace Functions
 		// VnaDataAnalysis
 		else if ((countDcTest == 0)				&&
 				(countPatternTest == 0)			&&
+				(countVnaDataAnalysis != 0)		&&
 				(countVnaDataAnalysis % 3 == 0)	&&
 				(countMathTest == 0))
 		{
 			currentPhase = PHASE_CONST_VNA_DATA_ANALYSIS;
+		}
+		// VnaSwTime
+		else if (((countDcTest == 0)				&&
+			(countPatternTest == 0)			&&
+			(countVnaDataAnalysis == 0)	&&
+			(countVnaSwTime == ConditionCount_VnaSwTime)	&&
+			(countMathTest == 0)) ||
+			(countVnaSwTime == ConditionCount_VnaSwTime + 1)) //debugging
+		{
+			currentPhase = PHASE_CONST_VNA_SWTIME;
 		}
 		//Math
 		else if ((countDcTest == 0)				&&
@@ -7869,12 +9250,15 @@ namespace Functions
 		{
 			currentPhase = PHASE_CONST_MATH;
 		}
+		else if (Debug == 1)
+		{
+			currentPhase = "Debug";
+		}
 		else
 		{
 			currentPhase = "Invalid_Phase";
 			ret = ER_CONST_GET_TEST_PARAMETER_PHASE_TYPE_FAIL;
 			tl->WriteToTracerAndFileLogger(tfSite, siteIndex, ERROR, "[AMB7300 -> IdentifyTestParameterPhaseType] Fail to identify test parameter phase type." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
-			tl->WriteToFileLogger(tfSite, siteIndex, ERROR, "[AMB7300 -> IdentifyTestParameterPhaseType] Fail to identify test parameter phase type." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 			goto EndOfTest;
 		}
 
@@ -8101,6 +9485,13 @@ namespace Functions
 /*----------------------------------------------------------------------
 * Revision Log
 * &Log: AMB7300.cpp.rca&
+
+*** Version	: v1.0.0.6
+*** Date	: 2 September 2026
+*** PIC		: Xuli & Zhi Kean
+* Commented calibration date check in InitializeVna
+* Updated SmaveToTouchstoneFile CustLotId value
+* Added supprot for PXI9852 module switching time test
 
 *** Version	: v1.0.0.5
 *** Date	: 4 April 2025

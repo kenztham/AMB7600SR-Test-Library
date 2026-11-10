@@ -2,7 +2,7 @@
 Copyright (c) Aemulus Corporation Sdn Bhd
 Title:			AMB7300.h
 Purpose:		Declare all AMB7300 test library functions
-Version:		v1.0.0.4
+Version:		v1.0.0.5
 ----------------------------------------------------------------------*/
 
 
@@ -31,6 +31,7 @@ Version:		v1.0.0.4
 using namespace System;
 using namespace System::Reflection;
 using namespace System::Xml;
+using namespace System::Data;
 using namespace System::Runtime::Remoting;
 using namespace System::Globalization;
 using namespace System::Threading::Tasks;
@@ -40,6 +41,8 @@ using namespace Aemulus::Hardware;
 using namespace Aemulus::Configuration;
 using namespace Aemulus::Configuration::AMB7300;
 using namespace Aemulus::Tech::Flow::ProductionSystem;
+
+using namespace JYPXIe69852;
 
 namespace Functions
 {
@@ -195,6 +198,21 @@ namespace Functions
 			int returnIndex;
 		};
 		TestParameterCondition_PatternTest PatternTestTPC;
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	Control Step Condition -> 'DmControl'
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		value struct ControlStepCondition_DmControl
+		{
+			String^ controlFunction;
+			array<String^> ^ moduleAlias;
+			array<String^> ^ pinAlias;
+			array<int> ^ outputTrigger0;
+			array<int> ^ outputTrigger1;
+		};
+		ControlStepCondition_DmControl DmControlCSC;
 
 		/*
 		**	----------------------------------------------------------------------------------------------------
@@ -963,6 +981,31 @@ namespace Functions
 
 		/*
 		**	----------------------------------------------------------------------------------------------------
+		**	Test Parameter Condition -> 'VnaSwTime'
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		value struct VnaSwTimeTestParameterCondition
+		{
+			String ^ measureType;
+
+			String ^ dmModuleAlias;
+			String ^ dmVectorTrigger;
+
+			String ^ analysisSetting;
+			String ^ vnaSwTime_TriggerEdge;
+			String ^ vnaSwTime_MovingAvgState;
+			String ^ vnaSwTime_SearchLimitState;
+			double vnaSwTime_SearchLimitLevel;
+
+			String ^ outputType;
+			String ^ outputFormat;
+
+			bool saveSnpData;
+		};
+		VnaSwTimeTestParameterCondition vnaSwTimeTPC;
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
 		**	Test Parameter Condition -> 'VnaDataAnalysis' -> 'AnalysisSetting'
 		**	----------------------------------------------------------------------------------------------------
 		*/
@@ -1012,6 +1055,10 @@ namespace Functions
 			array<String^> ^ SharedMemoryDataBWSearch_Condition;
 
 			//--  NA for mmFlatness
+
+			//  TraceData_Sds
+			array<String^> ^ TraceData_Sds_SearchRangeEnable;
+			array<String^> ^ TraceData_Sds_SearchType;
 		};
 		VnaDataAnalysisTestParameterConditionAnalysisSetting analysisSetting;
 
@@ -1027,6 +1074,13 @@ namespace Functions
 		};
 		VnaDataAnalysisTestParameterConditionSmoothingSettings smoothingSettings;
 
+		value struct VnaDataAnalysisTestParameterConditionChannelUse
+		{
+			String ^ ChannelUseFristChannel;
+			String^ ChannelUseSecondChannel;
+		};
+		VnaDataAnalysisTestParameterConditionChannelUse ChannelUseTPC;
+
 		/*
 		**	----------------------------------------------------------------------------------------------------
 		**	Test Parameter Condition -> 'Math'
@@ -1037,9 +1091,47 @@ namespace Functions
 			String ^ mathFunction;
 			String ^ mathTP1;
 			String ^ mathTP2;
+
+			int VariableCount = 0;
+
+			array<String^>^ Variable = nullptr;
+			array<String^>^ globalResultKey = nullptr;
+			array<int>^ GlobalResultValue_Int32 = nullptr;
+			array<double>^ GlobalResultValue_Double = nullptr;
+			bool IncludeOffset = true;
 		};
 		TestParameterCondition_Math MathTPC;
 
+		//External Digitizer
+		value struct PXIe9852_Info
+		{
+			JYPXIe69852AITask ^ aitask0;
+			//		JYPXIe69852AITask ^ aitask1;
+
+			array<int> ^ slotNo;
+			double sampleRate;
+			double sampleNumber_double;
+			int sampleNumber;
+			array<double> ^ readValue0;
+			array<double> ^ readValue1;
+			array<double> ^ Power_dBmSite0;
+			array<double> ^ Power_dBmSite1;
+			array<double> ^ Power_dBmSite2;
+			array<double> ^ Power_dBmSite3;
+			array<double> ^ Power_dBmSite0_Avg;
+			array<double> ^ Power_dBmSite1_Avg;
+			array<double> ^ Power_dBmSite2_Avg;
+			array<double> ^ Power_dBmSite3_Avg;
+			array<double> ^ readValueSite0;
+			array<double> ^ readValueSite1;
+			array<double> ^ readValueSite2;
+			array<double> ^ readValueSite3;
+			double deltaF;
+			double g_SINAD;
+			array<String^, 2> ^ NF_data; //debug
+			int NF_counter; //debug
+		};
+		PXIe9852_Info^ pXIe9852_Info;
 #pragma endregion "Value struct"
 
 #pragma region "Reference struct"
@@ -1234,6 +1326,51 @@ namespace Functions
 			array<double, 2> ^ S21Imaginary_Temp;
 			array<double, 2> ^ S22Real_Temp;
 			array<double, 2> ^ S22Imaginary_Temp;
+
+			// The Second Channel <<< Total number of frequency points of the SegmentSetting. For array size usage. 
+			// Returned
+			array<double> ^ XAxis2;						// Generic API returned
+			array<double> ^ realRaw2;					// Generic API returned
+			array<double> ^ imaginaryRaw2;				// Generic API returned
+			array<double, 2> ^ freqPoint2;				// Data storage
+
+			array<double> ^ XAxis3;						// Generic API returned
+			array<double> ^ realRaw3;					// Generic API returned
+			array<double> ^ imaginaryRaw3;				// Generic API returned
+			array<double, 2> ^ freqPoint3;				// Data storage
+
+			array<double> ^ XAxis4;						// Generic API returned
+			array<double> ^ realRaw4;					// Generic API returned
+			array<double> ^ imaginaryRaw4;				// Generic API returned
+			array<double, 2> ^ freqPoint4;				// Data storage
+
+/////////// To store temporary results when doing S3P or S4P
+			array<double, 2> ^ S11Real2;
+			array<double, 2> ^ S11Imaginary2;
+			array<double, 2> ^ S21Real2;
+			array<double, 2> ^ S21Imaginary2;
+			array<double, 2> ^ S12Real2;
+			array<double, 2> ^ S12Imaginary2;
+			array<double, 2> ^ S22Real2;
+			array<double, 2> ^ S22Imaginary2;
+
+			array<double, 2> ^ S11Rea13;
+			array<double, 2> ^ S11Imaginary3;
+			array<double, 2> ^ S21Rea13;
+			array<double, 2> ^ S21Imaginary3;
+			array<double, 2> ^ S12Rea13;
+			array<double, 2> ^ S12Imaginary3;
+			array<double, 2> ^ S22Rea13;
+			array<double, 2> ^ S22Imaginary3;
+
+			array<double, 2> ^ S11Rea23;
+			array<double, 2> ^ S11Imaginary4;
+			array<double, 2> ^ S21Rea23;
+			array<double, 2> ^ S21Imaginary4;
+			array<double, 2> ^ S12Rea23;
+			array<double, 2> ^ S12Imaginary4;
+			array<double, 2> ^ S22Rea23;
+			array<double, 2> ^ S22Imaginary4;
 
 			// True when using Single Measurement Different Traces, else No Duplicate Measurement at different trace. 
 			bool isSMDT;
@@ -1494,6 +1631,7 @@ namespace Functions
 			int configType;
 			array<String^>^ validParams;
 		};
+
 #pragma endregion "Reference struct"
 
 #pragma region "AMB7300.cpp"
@@ -1556,6 +1694,14 @@ namespace Functions
 		int SaveToTouchstoneFile(Site ^ site, int tfSite, int vnaSiteIndex);
 		int VnaFetch_TrueParallel(int tfSite, int vnaSiteIndex);
 		int VnaDataAnalysis_TrueParallel(int tfSite, int vnaSiteIndex, double % result);
+
+		int VnaSwTime(int tfSite, int vnaSiteIndex, double % result);
+		double CalculateSwTime_WithMA(array<double>^ dbmArray, int rise_h_fall_l, bool limitEnabled, double limitLevel, double sampleRate, double digitizerTriggerDelay, double %powerInit, double %powerSettle);
+		double CalculateSwTime_NoMA(array<double>^ dbmArray, int rise_h_fall_l, bool limitEnabled, double limitLevel, double sampleRate, double digitizerTriggerDelay, double %powerInit, double %powerSettle);
+
+		// Log Detector & Digitizer (for switching time)
+		int InitializeExtModule(int tfSite, int siteIndex);
+		int UninitializeExtModule(int tfSite, int siteIndex);
 
 		/*
 		**	----------------------------------------------------------------------------------------------------
@@ -1635,6 +1781,13 @@ namespace Functions
 		*/
 		int PatternControl(int tfSite, int siteIndex);
 		int PatternTest(int tfSite, int siteIndex, int % result, String^ % resultMessage);
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	DM Operation
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int DmControl(int tfSite, int siteIndex);
 
 		/*
 		**	----------------------------------------------------------------------------------------------------
@@ -1731,6 +1884,8 @@ namespace Functions
 		*/
 		int SaveTraceDataToTouchstoneFile_CMT(int tfSite, int vnaSiteIndex);
 
+		int GetTraceFormatData_CMT_Sds(int tfSite, int vnaSiteIndex);
+
 #pragma endregion "CopperMountainVnaUtility.cpp"
 
 #pragma region "KeysightVnaUtility.cpp"
@@ -1779,6 +1934,13 @@ namespace Functions
 		**	----------------------------------------------------------------------------------------------------
 		*/
 		int ConfigurePowerSweepSetting_Keysight(int tfSite, int vnaSiteIndex);
+
+		/*
+		**	----------------------------------------------------------------------------------------------------
+		**	APIs : CW Time Sweep Settings [Sweep->Sweep Type->CW Time Sweep]
+		**	----------------------------------------------------------------------------------------------------
+		*/
+		int ConfigureCWTimeSweepSetting_Keysight(int tfSite, int vnaSiteIndex);
 
 		/*
 		**	----------------------------------------------------------------------------------------------------
@@ -1903,6 +2065,7 @@ namespace Functions
 		int DmConfigurePinToPeMode(int tfSite, int siteIndex, String ^ dmModuleAlias, String ^ dmPinAlias, bool isEnableInputTermination, bool isEnableHv, bool isEnableActiveLoad, bool isEnableDiffComparator, bool isEnableTrigger, bool isEnableContinuous, double vih, double vil, double voh, double vol, double ioh, double iol, double vch, double vcl, double vth);
 		int DmConfigurePinToPmuMode(int tfSite, int siteIndex, String ^ dmPinAlias, String ^ forceMode, bool isEnableInputTermination, bool isEnableHv, bool isEnableActiveLoad, bool isEnableDiffComparator, double currentLevel, double voltageLevel, double nplc);
 		int DmConfigurePinToDioMode(int tfSite, int siteIndex, String ^ dmPinAlias);
+		int DmConfigureDmOutputTrigger(int tfSite, int siteIndex, String ^ dmModuleAlias, int triggerOutput0, int triggerOutput1);
 
 		/*
 		**	----------------------------------------------------------------------------------------------------
@@ -2074,6 +2237,11 @@ namespace Functions
 /*----------------------------------------------------------------------
 * Revision Log
 * $Log: AMB7300.h.rca$
+
+*** Version	: v1.0.0.5
+*** Date	: 2 September 2026
+*** PIC		: Xuli 
+* Add Channel_Sparam_TraceNo_Info & Trace_Format_List
 
 *** Version	: v1.0.0.4
 *** Date	: 4 April 2025

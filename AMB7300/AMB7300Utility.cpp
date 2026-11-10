@@ -3,7 +3,7 @@ Copyright (c) Aemulus Corporation Sdn Bhd
 Title:			AMB7300Utility.cpp
 Purpose:		Contain flow item condition value casting
 				Contain flow item condition name & value validation
-Version:		v1.0.0.10
+Version:		v1.0.0.11
 ----------------------------------------------------------------------*/
 
 
@@ -1450,7 +1450,36 @@ namespace Functions
 					return ret;
 				}
 			}
+			//TraceData_Sds
+			else if (vnaDataAnalysisTPC.function == Cond_Function_TraceData_Sds)
+			{
+				arrStr2 = gcnew array<String^>(0);
+				arrStr2 = arrStr[i]->Split(separator2, StringSplitOptions::None);
 
+				// Validate condition value input --> 'AnalysisSetting -> msMinMax'
+				//	ret = ValidateConditionValueInput_VnaDataAnalysis(tfSite, siteIndex, VnaDataAnalysisConditionName_AnalysisSetting, arrStr2);
+				if (ret != 0) goto EndOfTest;
+
+				analysisSetting.TraceData_Sds_SearchRangeEnable = gcnew array<String^>(vnaDataAnalysisTPC.overallTestFreqCount);
+				analysisSetting.TraceData_Sds_SearchType = gcnew array<String^>(vnaDataAnalysisTPC.overallTestFreqCount);
+				// msMinMax parameter: SearchRangeEnable (SearchRangeOn | SearchRangeOff), SearchType (Max | Min)
+				if (arrStr2->Length == 2)
+				{
+					analysisSetting.TraceData_Sds_SearchRangeEnable[index] = arrStr2[0];
+					analysisSetting.TraceData_Sds_SearchType[index] = arrStr2[1];
+				}
+				else
+				{
+					ret = ER_CONST_VNADATAANALYSIS_CONDITION_VALUE_INPUT_INVALID;
+					String ^ additionalMessage = "'AnalysisSetting' for 'msMinMax' function contain 2x parameter which is differentiate by '/'." + "\n" +
+						"1st parameter: Enable marker search range." + "\n" +
+						"2nd parameter: Select marker search type." + "\n" +
+						"Example: SearchRangeOn/Max --> meaning enable marker search range, searching for maximum value.";
+					ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaDataAnalysisConditionName_AnalysisSetting, additionalMessage);
+					tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaDataAnalysis' condition value verification] 'AnalysisSetting' condition value for 'msMinMax' mode is invalid. It should contain 2x value parameter, which is differentiate by a '/' symbol." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
+					return ret;
+				}
+			}
 			index++;
 		}
 		index = 0;
@@ -1603,7 +1632,8 @@ namespace Functions
 				(conditionValueRaw[0] != Cond_SweepType_Segment) &&
 				(conditionValueRaw[0] != Cond_SweepType_PowerSweep) &&
 				(conditionValueRaw[0] != Cond_SweepType_GetFromStateFile) &&
-				(conditionValueRaw[0] != Cond_SweepType_SharedMemoryTransfer))
+				(conditionValueRaw[0] != Cond_SweepType_SharedMemoryTransfer) &&
+				(conditionValueRaw[0] != Cond_SweepType_CWTime))
 			{
 				ret = ER_CONST_VNACONFIG_CONDITION_VALUE_INPUT_INVALID;
 				String ^ additionalMessage = "'SweepType' available settings: " + "\n" +
@@ -1612,7 +1642,8 @@ namespace Functions
 					"-> Segment" + "\n" +
 					"-> PowerSweep" + "\n" +
 					"-> GetFromStateFile" + "\n" +
-					"-> SharedMemoryTransfer";
+					"-> SharedMemoryTransfer"+ "\n" +
+					"-> CWTime";
 				ShowMessageBox(tfSite, siteIndex, TITLE_CONST_INVALID_CONDITION_INPUT_VALUE, VnaConfigConditionName_SweepType, additionalMessage);
 				tl->WriteToTracerAndFileLogger(tfSite, siteIndex, WARNING, "['VnaConfig' condition value verification] 'SweepType' condition value invalid." + " | " + "Error Code: " + ret.ToString() + " | " + "Detail: ");
 				return ret;
@@ -5262,6 +5293,12 @@ namespace Functions
 /*----------------------------------------------------------------------
 * Revision Log
 * &Log: AMB7300Utility.cpp.rca&
+
+*** Version	: v1.0.0.11
+*** Date	: 2 September 2026
+*** PIC		: Xuli & Zhi Kean
+* Updated TestLib_ControlStep_VnaConfig_CastCondition for segmentSetting[siteIndex].totalPoint
+* Added support for DmControl -> ConfigureOutputTrigger for SW time test
 
 *** Version : v1.0.0.10
 *** Date	: 4 April 2025
