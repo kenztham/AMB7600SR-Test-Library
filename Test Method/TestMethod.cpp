@@ -10906,6 +10906,65 @@ namespace AMB7600SR_TestLibrary_REV2
 	}
 #pragma endregion "VNACase Test Step.xml"
 
+#pragma region "Misc Test Step.xml"
+
+	/*
+	**	----------------------------------------------------------------------------------------------------
+	**	Test Parameter: ResultDisplay only test steps
+	**	----------------------------------------------------------------------------------------------------
+	*/
+#pragma region ".xml file -> Test Parameter -> ResulDisplay only"
+
+	/// <summary> ResultDisplay
+	/// <list type="TestItem" name="TestLib_TestParameter_ResultDisplay" category="ResultDisplay" group="Items" conditiontype="splitbysemicoloncomma" methodname="seq_TestMethod">
+	/// <item attribute="name">ResultDisplay_TestItemName</item>
+	/// <item attribute="displayas">ResultDisplay_TestItemName</item>
+	/// <item attribute="description">This is 'ResultDisplay' item with the combination of test item and test parameter, which is to execute test function and return result to test parameter.</item>
+	/// <list type="TestParameter" name="TestLib_TestParameter_ResultDisplay" category="ResultDisplay" group="Items">
+	/// <item attribute="name">Pout_0</item>
+	/// <item attribute="displayas">Pout_0</item>
+	/// <item attribute="description">ResultDisplay</item>
+	/// <item attribute="datatype">Double</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit">dB</item>
+	/// <item attribute="evalmode">Between_IncludeMinAndMax</item>
+	/// <item attribute="lolimit">-999</item>
+	/// <item attribute="lolimitprefix">None</item>
+	/// <item attribute="hilimit">999</item>        
+	/// <item attribute="hilimitprefix">None</item>
+	/// <list type="TestParameterCondition">
+	/// <item attribute="name">ResultDisplay</item>
+	/// <item attribute="description">Specifies the result to display from previous measurement.</item>
+	/// <item attribute="value">Gain</item>
+	/// <item attribute="prefix">None</item>
+	/// <item attribute="unit"></item>
+	/// <item attribute="datatype">String</item>
+	/// </list>
+	/// </list>
+	/// </list>
+	/// </summary>
+	/// <param name="site">This is techFlow site object.</param>
+
+#pragma endregion
+	int TestProgram::TestLib_TestParameter_ResultDisplay(Site ^ site)
+	{
+		/* 
+		** Dummy test parameter function.
+		** To generate Project Library's test parameter item, and let techFlow3 user to drag into the test recipes editor.
+		** Only applicable for techFlow3 user (using test recipes editor).
+		** It will link to the all-in-one generic Test Method --> seq_TestMethod() 
+		*/
+
+		// Local variable
+		int ret = 0;
+
+		ret = seq_TestMethod(site);
+		if (ret != 0) goto EndOfTest;
+
+	EndOfTest:
+		return ret;
+	}
+#pragma endregion "Misc Test Step.xml"
 }
 
 
@@ -10913,6 +10972,10 @@ namespace AMB7600SR_TestLibrary_REV2
 * Revision Log
 * &Log: MethodName.cpp.rca&
 
+*** Version	:v1.0.0.3
+*** Date	: 24 November 2026
+*** PIC		:Tham Zhi Kean
+* Add handling for ResultDisplay only test step
 
 *** Version	:v1.0.0.2
 *** Date	: 5 August 2026
